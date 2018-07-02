@@ -10,7 +10,4 @@ start:
 start-client:
 	@docker exec -ti red-tetris yarn client-dev
 
-yarn-build:
-	@docker run --init --rm -p 3004:3004 -p 8080:8080 -v ${PWD}:/app red-tetris-run yarn build
-
-.PHONY: build install start start-client yarn-build
+.PHONY: build install start start-client
