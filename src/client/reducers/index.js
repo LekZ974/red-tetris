@@ -1,5 +1,5 @@
-import alert from './alert'
-export default alert
+import reducer from './reducer'
+export default reducer
 
 
 

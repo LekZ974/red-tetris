@@ -13,13 +13,22 @@
     "coverage": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require babel-core/register mocha "
   },
   "dependencies": {
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
-    "react-redux": "^4.4.5",
-    "redux": "^3.5.2",
+    "emotion": "^9.2.4",
+    "object.omit": "^3.0.0",
+    "preact-emotion": "^9.2.4",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-emotion": "^9.2.3",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "recompose": "^0.27.1",
+    "redux": "^4.0.0",
+    "redux-form": "^7.4.2",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.0.1",
-    "socket.io": "^1.4.6"
+    "redux-thunk": "^2.3.0",
+    "socket.io": "^1.4.6",
+    "styled-system": "^2.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.7.7",
@@ -39,6 +48,7 @@
     "eslint-plugin-react": "^5.2.2",
     "mocha": "^2.4.5",
     "nyc": "^6.4.4",
+    "redux-devtools-extension": "^2.13.5",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.14.1",
