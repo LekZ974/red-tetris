@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { compose } from 'recompose'
-import {Input, Error} from "../../components/block";
+import {Input, Error, Button} from "../../components/block";
 
 const HomeForm = ({ handleSubmit, error, submitting }) => (
 <form>
@@ -16,6 +16,7 @@ const HomeForm = ({ handleSubmit, error, submitting }) => (
     component={Input}
   />
   <Error />
+  <Button size={'large'} fullWidth to='/new-game'>Go</Button>
 </form>
 )
 export default compose(
