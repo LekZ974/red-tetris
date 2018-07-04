@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link is display 1`] = `
+<a
+  className="css-e3676l"
+  color="blue"
+>
+  Facebook
+</a>
+`;
