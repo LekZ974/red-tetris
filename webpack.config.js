@@ -8,6 +8,11 @@ module.exports = {
     filename: 'bundle.js'
   },
 
+  devServer: {
+    compress: true,
+    disableHostCheck: true,
+  },
+
   module: {
     loaders: [{
       test: /\.js$/,
