@@ -1,13 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {Box} from '../components/block'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom'
 import Home from './view/Home'
+import Room from './view/Room'
+
+
+const getConfirmation = (message, callback) => {
+  const allowTransition = window.confirm(message)
+  callback(allowTransition)
+}
 
 const App = () => (
   <Box>
-    <Router>
-      <Route path="/" component={Home}/>
+    <Router getUserConfirmation={getConfirmation} hashType={'noslash'} basename={'/'}>
+      <Box>
+        <Route exact path="/" component={Home}/>
+        <Route path="/:room" component={Room}/>
+      </Box>
     </Router>
   </Box>
 )
