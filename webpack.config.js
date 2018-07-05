@@ -13,6 +13,10 @@ module.exports = {
     disableHostCheck: true,
   },
 
+  watchOptions: {
+    poll: true
+  },
+
   module: {
     loaders: [{
       test: /\.js$/,
