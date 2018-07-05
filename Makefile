@@ -10,4 +10,10 @@ start:
 start-client:
 	@docker exec -ti red-tetris yarn client-dev
 
-.PHONY: build install start start-client
+test:
+	@docker exec -ti red-tetris yarn test
+
+test-coverage:
+	@docker exec -ti red-tetris yarn test -u --coverage
+
+.PHONY: build install start start-client test test-coverage
