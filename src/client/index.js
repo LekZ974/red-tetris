@@ -8,20 +8,28 @@ import { Provider } from 'react-redux'
 import {storeStateMiddleWare} from './middleware/storeStateMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
+import { createBrowserHistory } from 'history'
+import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
 import {alert} from './actions/alert'
 
 const initialState = {}
 
-const middlewares = [thunk, storeStateMiddleWare]
+const history = createBrowserHistory()
+
+const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history)]
+
+const enhancedReducer = connectRouter(history)(reducer)
 
 const composeFn =
   composeWithDevTools // a modifier si va en production
 
-const store = composeFn(applyMiddleware(...middlewares))(createStore)(reducer)
+const store = composeFn(applyMiddleware(...middlewares))(createStore)(enhancedReducer)
 
 ReactDom.render((
   <Provider store={store}>
-    <App/>
+    <ConnectedRouter history={history}>
+      <App/>
+    </ConnectedRouter>
   </Provider>
 ), document.getElementById('tetris'))
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import AbstractView from './base/AbstractView'
 import { Box, Input, Card, Error } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { Link, Route } from 'react-router-dom';
