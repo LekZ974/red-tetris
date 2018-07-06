@@ -7,7 +7,6 @@ import { propTypes, space } from 'styled-system'
 import { Link } from 'react-router-dom'
 
 const size = props => {
-  console.log(props)
   switch (props.size) {
     case 'small':
       return {
