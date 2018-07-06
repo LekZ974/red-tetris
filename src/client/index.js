@@ -5,10 +5,11 @@ import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { Provider } from 'react-redux'
-import {storeStateMiddleWare} from './middleware/storeStateMiddleWare'
+import storeStateMiddleWare from './middleware/storeStateMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
 import { createBrowserHistory } from 'history'
+import {withRouter} from 'react-router'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
 import {alert} from './actions/alert'
 
@@ -25,10 +26,12 @@ const composeFn =
 
 const store = composeFn(applyMiddleware(...middlewares))(createStore)(enhancedReducer)
 
+const NonBlockApp = withRouter(App)
+
 ReactDom.render((
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App/>
+      <NonBlockApp/>
     </ConnectedRouter>
   </Provider>
 ), document.getElementById('tetris'))

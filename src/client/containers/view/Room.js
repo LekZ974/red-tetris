@@ -3,7 +3,6 @@ import { Box, Card } from '../../components/block'
 import { Route } from 'react-router-dom';
 
 const Room = ({ match, props }) => {
-  console.log(props)
   return(
     <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
       <Card flex={1} width={'40em'}>

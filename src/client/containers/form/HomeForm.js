@@ -4,21 +4,19 @@ import { compose } from 'recompose'
 import {Input, Error, Button} from "../../components/block";
 import {login} from "../../actions/user";
 
-const onSubmit = values => console.log(values)
+const onSubmit = (data, dispatch) => dispatch(login(data))
 
-const HomeForm = ({ handleSubmit, error, submitting }) => (
+const HomeForm = ({ handleSubmit }) => (
 <form onSubmit={handleSubmit(onSubmit)}>
   <Field
     placeholder='Your name'
     name='name'
     component={Input}
-    type={'text'}
   />
   <Field
     placeholder={'Your Party\'s name or select one in the list'}
     name='room'
     component={Input}
-    type={'text'}
   />
   <Error />
   <Button type={'submit'} size={'large'} fullWidth to='/new-game'>Go</Button>
@@ -26,6 +24,6 @@ const HomeForm = ({ handleSubmit, error, submitting }) => (
 )
 export default compose(
   reduxForm({
-    form: 'HomeForm'
+    form: 'LogForm'
   })
 )(HomeForm)
