@@ -16,7 +16,6 @@ export default ({ dispatch }) => next => action => {
 
   return apiCall
     .then(payload => {
-      console.log('TUTU')
       if (globalLoading) dispatch({ type: 'REQUEST', status: 'success' })
       next({ payload, type, status: 'success' })
       if (thenFn) thenFn(dispatch)
