@@ -4,6 +4,7 @@ import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import {getRooms} from "../../actions/rooms";
+import {Redirect} from 'react-router'
 
 class Home extends React.Component {
   constructor(props) {
@@ -37,6 +38,11 @@ class Home extends React.Component {
         </li>
       )
     })
+    console.log('trst', this.props)
+    if(this.props.user.connected === true){
+      console.log('CONNECTED')
+      return (<Redirect push={true} to={'/' +this.props.user.roomName + '/' + this.props.user.userName}/>)
+    }
     return (
     <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
         <Box flex={1}>
