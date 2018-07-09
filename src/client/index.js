@@ -11,7 +11,9 @@ import App from './containers/app'
 import { createBrowserHistory } from 'history'
 import {withRouter} from 'react-router'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
+import { persistStore, persistReducer } from 'redux-persist'
 import {alert} from './actions/alert'
+import storage from "redux-persist/lib/storage";
 
 const initialState = {}
 
@@ -19,12 +21,21 @@ const history = createBrowserHistory()
 
 const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history)]
 
-const enhancedReducer = connectRouter(history)(reducer)
+const persistConfig = {
+  key: 'root',
+  storage
+}
+
+const enhancedReducer = connectRouter(history)(persistReducer(persistConfig, reducer))
 
 const composeFn =
   composeWithDevTools // a modifier si va en production
 
 const store = composeFn(applyMiddleware(...middlewares))(createStore)(enhancedReducer)
+
+const persistor = persistStore(store)
+
+export { store, persistor, history }
 
 const NonBlockApp = withRouter(App)
 
