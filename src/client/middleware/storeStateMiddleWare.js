@@ -13,7 +13,6 @@ export default ({ dispatch }) => next => action => {
   if (globalLoading) dispatch({ type: 'REQUEST' })
   next({ type })
 
-
   return apiCall
     .then(payload => {
       if (globalLoading) dispatch({ type: 'REQUEST', status: 'success' })
