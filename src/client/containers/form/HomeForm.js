@@ -27,29 +27,3 @@ const HomeForm = ({ handleSubmit }) => (
 export default reduxForm({
     form: 'LogForm'
 })(HomeForm)
-
-// class HomeForm extends Component {
-//     constructor(props){
-//       super(props)
-//       this.handleChange = this.handleChange.bind(this)
-//       this.state = {
-//         name: '',
-//         room: ''
-//       }
-//     }
-//
-//     handleChange(){
-//       console.log('Hello')
-//     }
-//     render(){
-//       return (
-//         <form>
-//           <input/>
-//           <input/>
-//           <button onClick={this.props.onClik(this.state.name, this.state.room)}/>
-//         </form>
-//       )
-//     }
-// }
-//
-// export default HomeForm

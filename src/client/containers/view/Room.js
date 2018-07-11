@@ -22,7 +22,6 @@ const FakeSpectre = [
 ]
 
 const Room = ({ user, match, props }) => {
-  console.log('USER',user);
   return(
     <Box flex flexDirection='column' align='stretch'>
       <Header/>
