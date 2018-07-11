@@ -38,9 +38,7 @@ class Home extends React.Component {
         </li>
       )
     })
-    console.log('trst', this.props)
     if(this.props.user.connected === true){
-      console.log('CONNECTED')
       return (<Redirect push={true} to={'/' +this.props.user.roomName + '/' + this.props.user.userName}/>)
     }
     return (

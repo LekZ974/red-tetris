@@ -7,7 +7,7 @@ class ApiMock {
       id: Math.random().toString(36).substring(2, 15),
       userName: user.name,
       roomName: user.room,
-      connected:true,
+      connected: true,
       role: 'master',
       thenFn: dispatch => {dispatch(push(`/#${user.room}/${user.name}`))},
       catchFn: e => {

@@ -5,7 +5,7 @@ const initialState = {
   userName: '',
   roomName: '',
   role: '',
-  connnected: false,
+  connected: false,
   payload: {}
 }
 
@@ -29,6 +29,9 @@ export default function UserReducer (state = initialState, action = {}) {
       return state
     }
     default:
+      if (action.payload && action.payload.user) {
+        action.payload.user.connected = false
+      }
       return state
   }
 }
