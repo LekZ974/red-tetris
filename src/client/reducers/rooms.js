@@ -16,7 +16,11 @@ export default function RoomsReducer (state = initialState, action = {}) {
           isLoading: false
         }
       }
-      return state
+      return {
+        ...state,
+        status: 'pending',
+        isLoading: true
+      }
     }
     default:
       return state

@@ -46,9 +46,9 @@ class Home extends React.Component {
         <Box flex={1}>
           <HomeForm props={{...this.props}}/>
         </Box>
-        <Card flex={1} width={'40em'}>
+        <Card flex={1} width={'40em'} center>
           <LoadingContainer
-            isLoading={isLoading && (!roomsList || !roomsList.length)}
+            isLoading={isLoading && (!roomsList || !roomsList.length) }
             isEmpty={!roomsList || !roomsList.length}
             emptyLabel='Pas de parties en cours'
           >
