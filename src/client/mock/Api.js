@@ -44,6 +44,21 @@ class ApiMock {
           name: 'Party3',
           owner: 'TUTU'
         },
+        {
+          id: 4,
+          name: 'PartyA',
+          owner: 'Alex'
+        },
+        {
+          id: 5,
+          name: 'PartyB',
+          owner: 'TOTO'
+        },
+        {
+          id: 6,
+          name: 'PartyC',
+          owner: 'TUTU'
+        },
       ]
     })
   }
