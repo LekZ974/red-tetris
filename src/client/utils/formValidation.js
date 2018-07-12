@@ -1,0 +1,43 @@
+const isEmpty = value => value === undefined || value === null || value === ''
+
+export function required (value) {
+  if (isEmpty(value)) {
+    return 'Ce champ est requis'
+  }
+}
+
+export function minLength (min) {
+  return value => {
+    if (!isEmpty(value) && value.length < min) {
+      return `Ce champ doit contenir au moins ${min} caractères`
+    }
+  }
+}
+
+export function maxLength (max) {
+  return value => {
+    if (!isEmpty(value) && value.length > max) {
+      return `Ce champ doit contenir au plus ${max} caractères`
+    }
+  }
+}
+
+export function match (field) {
+  return (value, data) => {
+    if (data) {
+      if (value !== data[field]) {
+        return 'Do not match'
+      }
+    }
+  }
+}
+
+export function doNotMatch (field) {
+  return (value, data) => {
+    if (data) {
+      if (value === data[field]) {
+        return 'Ces champs ne peuvent pas être identiques'
+      }
+    }
+  }
+}

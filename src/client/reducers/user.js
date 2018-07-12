@@ -1,41 +1,36 @@
-import { USER_SIGN_UP, USER_LOGIN } from '../actions/user'
+import { USER_LOGIN } from '../actions/user'
 
-const initialState = {}
+const initialState = {
+  id: '',
+  userName: '',
+  roomName: '',
+  role: '',
+  connected: false,
+  payload: {}
+}
 
 export default function UserReducer (state = initialState, action = {}) {
+
+  console.log(action)
   switch (action.type) {
-    case USER_SIGN_UP: {
-      if (action.status === 'success') {
-        const { id, name, role } = action.payload
-        return {
-          ...state,
-          [action.payload.id]: {
-            id,
-            name,
-            role,
-            selected: true
-          }
-        }
-      }
-      return state
-    }
     case USER_LOGIN: {
       if (action.status === 'success') {
-        const accounts = {
-          ...action.payload.accounts,
-          [Object.keys(action.payload.accounts)[0]]: {
-            selected: true,
-            ...action.payload.accounts[Object.keys(action.payload.accounts)[0]]
-          }
-        }
+        const { id, userName, roomName, role , connected} = action.payload
         return {
           ...state,
-          ...accounts
+          id,
+          userName,
+          roomName,
+          role,
+          connected
         }
       }
       return state
     }
     default:
+      if (action.payload && action.payload.user) {
+        action.payload.user.connected = false
+      }
       return state
   }
 }

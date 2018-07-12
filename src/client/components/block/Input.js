@@ -50,13 +50,17 @@ const InputText = styled('input')`
   ${borders} ${space};
 `
 
-const Input = ({ error, help, ...props }) => (
+const Input = ({input, type, error, help, ...props}) => {
+  return (
   <Box mb={3} flex flexDirection='column'>
-    <InputText {...props} />
+    <InputText
+      { ...input }
+      { ...props }
+    />
     {(error || !help) && <Error error={error} />}
     {!error && help && <Help text={help} />}
-  </Box>
-)
+  </Box>)
+}
 
 Input.displayName = 'Input'
 Input.propTypes = {

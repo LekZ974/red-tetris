@@ -1,35 +1,15 @@
 import { push } from 'connected-react-router'
 import { SubmissionError } from 'redux-form'
+import Api from '../mock/Api'
 
-export const USER_SIGN_UP = 'user/SIGN_UP'
-export const USER_LOGIN = 'user/LOGIN'
-
-const initialState = {
-  id: '',
-  name: '',
-  role: '',
-}
-
-export const signUp = user => ({
-  type: USER_SIGN_UP,
-  globalLoading: true,
-  apiCall: Api.signUp(user),
-  catchFn: e => {
-    throw new SubmissionError({
-      _error: e.message && e.message,
-      ...e
-    })
-  }
-})
+export const USER_LOGIN = 'user/USER_LOGIN'
 
 export const login = user => ({
   type: USER_LOGIN,
-  globalLoading: true,
   apiCall: Api.login(user),
-  thenFn: dispatch => {
-    dispatch(push('/'))
-  },
+  thenFn: dispatch => dispatch(push(`/#${user.room}/${user.name}`)),
   catchFn: e => {
+    console.log(e)
     throw new SubmissionError(e)
   }
 })

@@ -1,55 +1,68 @@
 import React from 'react'
-import { Box, Input, Card, Error } from '../../components/block'
+import { Box, Card, LoadingContainer } from '../../components/block'
 import HomeForm from '../form/HomeForm'
-import { Link, Route } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import {getRooms} from "../../actions/rooms";
+import {Redirect} from 'react-router'
 
-const Home = () => {
-
-  const roomsData = [  //mock des room
-    {
-      id: 1,
-      name: 'Party1',
-    },
-    {
-      id: 2,
-      name: 'Party2',
-    },
-    {
-      id: 3,
-      name: 'Party3',
-    },
-  ]
-
-  const userData = {
-    id: 1,
-    name: 'Alex'
+class Home extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      roomName: this.props.user.roomName,
+      userName: this.props.user.userName,
+    }
   }
 
-  let linkList = roomsData.map( (room) => {
-    return(
-      <li key={room.id}>
-        <Box fontSize={30}>
-          <Link to={`${room.name}/${userData.name}`}>
+  componentDidMount () {
+    const { dispatch} = this.props
+    dispatch(getRooms())
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({roomName: nextProps.user.roomName, userName: nextProps.user.userName})
+  }
+
+  addToRoomState(roomName, state) {
+    this.setState({...state, roomName: roomName})
+  }
+
+  render () {
+    const { roomsList, isLoading } = this.props
+    let linkList = roomsList.map((room) => {
+      return(
+        <li key={room.id} onClick={this.addToRoomState.bind(this, room.name, this.state)}>
+          <Box fontSize={30}>
             {room.name}
-          </Link>
-        </Box>
-      </li>
-    )
-
-  })
-
-  return (
+          </Box>
+        </li>
+      )
+    })
+    if(this.props.user.connected === true){
+      return (<Redirect push={true} to={'/' +this.props.user.roomName + '/' + this.props.user.userName}/>)
+    }
+    return (
     <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
-      <Box flex={1}>
-        <HomeForm/>
-      </Box>
-      <Card flex={1} width={'40em'}>
-        <Box fontSize={30}>
-          <ul>{linkList}</ul>
+        <Box flex={1}>
+          <HomeForm props={{...this.props}}/>
         </Box>
-      </Card>
-    </Box>
-  )
+        <Card flex={1} width={'40em'} center>
+          <LoadingContainer
+            isLoading={isLoading && (!roomsList || !roomsList.length) }
+            isEmpty={!roomsList || !roomsList.length}
+            emptyLabel='Pas de parties en cours'
+          >
+          <Box fontSize={30}>
+            <ul>{linkList}</ul>
+          </Box>
+          </LoadingContainer>
+        </Card>
+      </Box>
+    )
+  }
 }
-
-export default Home
+export default connect(({ user, rooms }) => ({
+  user: user,
+  roomsList: rooms.items,
+  isLoading: rooms.isLoading
+}))(Home)
