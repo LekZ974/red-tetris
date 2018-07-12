@@ -7,16 +7,16 @@ import PlayGround from '../../components/Room/PlayGround'
 
 const FakeSpectre = [
   {
-    name:"Helene",
-    gameSpectre:"Helene Spectre",
+    name:"Jennifer",
+    gameSpectre:[2,12,14,8,8,3,9,15,8,8],
   },
   {
-    name:"Helene",
-    gameSpectre:"Helene Spectre",
+    name:"Alenxande",
+    gameSpectre:[3,16,13,6,0,3,9,17,5,8],
   },
   {
-    name:"Helene",
-    gameSpectre:"Helene Spectre",
+    name:"Graziella",
+    gameSpectre:[2,16,14,5,3,3,9,17,8,8]
   }
 ]
 
