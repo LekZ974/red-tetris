@@ -7,7 +7,11 @@ class RoomInfo extends Component {
 
     render(){
       return(
-        <div>RoomInfo</div>
+        <div>
+          <h3 style={{textAlign:"center"}}>Room Info</h3>
+          <p>Parties en cours</p>
+          <p>Parties terminées</p>
+        </div>
       )
     }
 }
