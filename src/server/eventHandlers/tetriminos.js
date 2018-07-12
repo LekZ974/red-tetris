@@ -6,8 +6,12 @@ const randomNumber = function(min, max) {
 
 const getShape = function() {
     let i = randomNumber(0, shapes.length - 1)
+	let shape = {
+		shape: []
+	}
 
-    console.log('i = ', i)
+	shape.shape = shapes[i]
+	return shape
 }
 
 export default getShape 
