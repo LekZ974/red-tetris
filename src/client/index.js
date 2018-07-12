@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { Provider } from 'react-redux'
 import storeStateMiddleWare from './middleware/storeStateMiddleWare'
@@ -12,7 +11,6 @@ import { createBrowserHistory } from 'history'
 import {withRouter} from 'react-router'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
 import { persistStore, persistReducer } from 'redux-persist'
-import {alert} from './actions/alert'
 import storage from "redux-persist/lib/storage";
 
 const initialState = {}
@@ -46,5 +44,3 @@ ReactDom.render((
     </ConnectedRouter>
   </Provider>
 ), document.getElementById('tetris'))
-
-store.dispatch(alert('Soon, will be here a fantastic Tetris ...'))

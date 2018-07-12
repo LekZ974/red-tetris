@@ -14,7 +14,17 @@ class ApiMock {
         throw new SubmissionError(e)
       }
     }
-    return Promise.resolve({status: 200, ...data})
+    if (data.userName && data.roomName) {
+      return Promise.resolve({status: 200, ...data})
+        .catch(error => {
+          reject({ _error: error.message })
+        })
+    }
+    return Promise.reject({status: 404})
+      .catch(error => {
+        reject({ _error: error.message })
+      })
+
   }
   getRooms() {
     return Promise.resolve({

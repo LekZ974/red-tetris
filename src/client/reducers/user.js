@@ -11,6 +11,7 @@ const initialState = {
 
 export default function UserReducer (state = initialState, action = {}) {
 
+  console.log(action)
   switch (action.type) {
     case USER_LOGIN: {
       if (action.status === 'success') {

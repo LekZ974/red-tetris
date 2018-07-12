@@ -6,10 +6,10 @@ export const USER_LOGIN = 'user/USER_LOGIN'
 
 export const login = user => ({
   type: USER_LOGIN,
-  globalLoading: false,
   apiCall: Api.login(user),
   thenFn: dispatch => dispatch(push(`/#${user.room}/${user.name}`)),
   catchFn: e => {
+    console.log(e)
     throw new SubmissionError(e)
   }
 })
