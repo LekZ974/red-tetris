@@ -1,8 +1,8 @@
 import Api from '../mock/Api'
 
-export const ROOMS_LIST = 'rooms/ROOMS_LIST'
+export const GET_ROOMS = 'rooms/GET_ROOMS'
 
 export const getRooms = () => ({
-  type: ROOMS_LIST,
+  type: GET_ROOMS,
   apiCall: Api.getRooms(),
 })

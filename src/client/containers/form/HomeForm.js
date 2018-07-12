@@ -1,4 +1,4 @@
-import React , {Component}from 'react'
+import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
 import {login} from "../../actions/user";

@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { Provider } from 'react-redux'
 import storeStateMiddleWare from './middleware/storeStateMiddleWare'
+import socketMiddleWare from './middleware/socketMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
 import { createBrowserHistory } from 'history'
@@ -12,16 +13,21 @@ import {withRouter} from 'react-router'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from "redux-persist/lib/storage";
+import params from "../../params"
+import io from 'socket.io-client'
 
 const initialState = {}
 
+const socket = io.connect(params.server.url);
+
 const history = createBrowserHistory()
 
-const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history)]
+const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history), socketMiddleWare(socket)]
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  blacklist: ['rooms']
 }
 
 const enhancedReducer = connectRouter(history)(persistReducer(persistConfig, reducer))
