@@ -19,10 +19,10 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (client) => {
-    console.log('client has connected ', routes.GET_SHAPE)
-    client.on(routes.GET_SHAPE, () => {
+    console.log('client has connected ')
+    client.on(routes.REQUEST_SHAPE, (userID) => {
         console.log('getting shape: ')
-        getShape()
+        client.emit(routes.EMITTED_SHAPE, getShape(userID))
     })
     client.on('disconnect', () => {
         console.log('user is disconnecting')
