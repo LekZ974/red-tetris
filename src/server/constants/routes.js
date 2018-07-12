@@ -1,5 +1,6 @@
 const routing = { 
-    GET_SHAPE: 'getShape'
+    REQUEST_SHAPE: 'requestShape',
+    EMITTED_SHAPE: 'emittedShape'
 }
 
 export default routing
