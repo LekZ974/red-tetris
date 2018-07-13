@@ -7,15 +7,18 @@
     "eslint": "eslint src",
     "client-dist": "NODE_ENV=production webpack --progress --colors",
     "client-dev": "webpack-dev-server --colors --hot --inline --host 0.0.0.0 --port 8080",
-    "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
+    "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/index.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
     "test": "jest",
     "coverage": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require babel-core/register mocha "
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "color": "^3.0.0",
     "connected-react-router": "^4.3.0",
     "emotion": "^9.2.4",
+    "express": "^4.16.3",
+    "http": "^0.0.0",
     "object.omit": "^3.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
@@ -32,7 +35,8 @@
     "redux-mock-store": "^1.5.3",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "socket.io": "^1.4.6",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "styled-system": "^2.3.2"
   },
   "devDependencies": {
