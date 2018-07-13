@@ -9,18 +9,17 @@ const initialState = {
 export default function RoomsReducer (state = initialState, action = {}) {
   switch (action.type) {
     case GET_ROOMS: {
-      if (action.status === 'success') {
+      if (action.status === 'success'){
+        console.log("REDUCER ROOMS", action)
         return {
           ...state,
-          items: action.payload.rooms,
+          items: action.payload,
           isLoading: false
+        }}
+        return {
+          ...state,
+          isLoading: true
         }
-      }
-      return {
-        ...state,
-        status: 'pending',
-        isLoading: true
-      }
     }
     default:
       return state

@@ -19,10 +19,43 @@ app.get('/', (req, res) => {
     res.send('Hello World')
 })
 
+
 io.on('connection', (client) => {
-    console.log('client has connected ')
+  console.log('client has connected ')
 	let player = new Player('123', client.id)
-	console.log('socket id = ', player.getSocketID())
+  client.emit('GET_ROOMS', [
+    {
+      id: 1,
+      name: 'Party1',
+      owner: 'Alex'
+    },
+    {
+      id: 2,
+      name: 'Party2',
+      owner: 'TOTO'
+    },
+    {
+      id: 3,
+      name: 'Party3',
+      owner: 'TUTU'
+    },
+    {
+      id: 4,
+      name: 'PartyA',
+      owner: 'Alex'
+    },
+    {
+      id: 5,
+      name: 'PartyB',
+      owner: 'TOTO'
+    },
+    {
+      id: 6,
+      name: 'PartyC',
+      owner: 'TUTU'
+    },
+  ]);
+  console.log('socket id = ', player.getSocketID())
     client.on(routes.REQUEST_SHAPE, (userID) => {
         console.log('getting shape ')
         client.emit(routes.EMITTED_SHAPE, getShape(userID))

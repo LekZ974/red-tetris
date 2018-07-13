@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import {getRooms} from "../../actions/rooms";
 import {Redirect} from 'react-router'
+import {store} from "../../index";
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Home extends React.Component {
     dispatch(getRooms())
   }
   componentWillReceiveProps(nextProps) {
+    console.log("STORE GET STATE", store.getState())
     this.setState({roomName: nextProps.user.roomName, userName: nextProps.user.userName})
   }
 
@@ -29,6 +31,7 @@ class Home extends React.Component {
 
   render () {
     const { roomsList, isLoading } = this.props
+    console.log("ROOMLIST : ", roomsList)
     let linkList = roomsList.map((room) => {
       return(
         <li key={room.id} onClick={this.addToRoomState.bind(this, room.name, this.state)}>

@@ -2,7 +2,7 @@ import Api from '../mock/Api'
 
 export const GET_ROOMS = 'rooms/GET_ROOMS'
 
-export const getRooms = () => ({
+export const getRooms = (rooms) => ({
   type: GET_ROOMS,
-  apiCall: Api.getRooms(),
+  payload: rooms,
 })
