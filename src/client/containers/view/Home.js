@@ -19,7 +19,6 @@ class Home extends React.Component {
 
   render () {
     const { roomsList, isLoading } = this.props
-    console.lo("ROOMLIST : ", isLoading)
     let linkList = roomsList.map((room) => {
       return(
         <li key={room.id}>
