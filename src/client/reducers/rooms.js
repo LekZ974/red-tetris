@@ -10,7 +10,6 @@ export default function RoomsReducer (state = initialState, action = {}) {
   switch (action.type) {
     case GET_ROOMS: {
       if (action.status === 'success'){
-        console.log("REDUCER ROOMS", action)
         return {
           ...state,
           items: action.payload,

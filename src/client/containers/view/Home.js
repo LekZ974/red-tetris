@@ -10,31 +10,19 @@ import {store} from "../../index";
 class Home extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      roomName: this.props.user.roomName,
-      userName: this.props.user.userName,
-    }
   }
 
   componentDidMount () {
     const { dispatch} = this.props
     dispatch(getRooms())
   }
-  componentWillReceiveProps(nextProps) {
-    console.log("STORE GET STATE", store.getState())
-    this.setState({roomName: nextProps.user.roomName, userName: nextProps.user.userName})
-  }
-
-  addToRoomState(roomName, state) {
-    this.setState({...state, roomName: roomName})
-  }
 
   render () {
     const { roomsList, isLoading } = this.props
-    console.log("ROOMLIST : ", roomsList)
+    console.lo("ROOMLIST : ", isLoading)
     let linkList = roomsList.map((room) => {
       return(
-        <li key={room.id} onClick={this.addToRoomState.bind(this, room.name, this.state)}>
+        <li key={room.id}>
           <Box fontSize={30}>
             {room.name}
           </Box>

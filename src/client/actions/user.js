@@ -9,7 +9,6 @@ export const login = user => ({
   apiCall: Api.login(user),
   thenFn: dispatch => dispatch(push(`/#${user.room}/${user.name}`)),
   catchFn: e => {
-    console.log(e)
     throw new SubmissionError(e)
   }
 })
