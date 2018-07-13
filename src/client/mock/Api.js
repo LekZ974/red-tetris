@@ -6,10 +6,10 @@ class ApiMock {
     let data = {
       id: Math.random().toString(36).substring(2, 15),
       userName: user.name,
-      roomName: user.room,
+      gameName: user.game,
       connected: true,
       role: 'master',
-      thenFn: dispatch => {dispatch(push(`/#${user.room}/${user.name}`))},
+      thenFn: dispatch => {dispatch(push(`/#${user.game}/${user.name}`))},
       catchFn: e => {
         throw new SubmissionError(e)
       }

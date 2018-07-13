@@ -27,7 +27,7 @@ const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history), soc
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['rooms']
+  blacklist: ['games']
 }
 
 const enhancedReducer = connectRouter(history)(persistReducer(persistConfig, reducer))

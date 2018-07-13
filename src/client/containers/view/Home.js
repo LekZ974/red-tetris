@@ -3,7 +3,7 @@ import { Box, Card, LoadingContainer } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
-import {getRooms} from "../../actions/rooms";
+import {getGames} from "../../actions/games";
 import {Redirect} from 'react-router'
 import {store} from "../../index";
 
@@ -14,22 +14,22 @@ class Home extends React.Component {
 
   componentDidMount () {
     const { dispatch} = this.props
-    dispatch(getRooms())
+    dispatch(getGames())
   }
 
   render () {
-    const { roomsList, isLoading } = this.props
-    let linkList = roomsList.map((room) => {
+    const { gamesList, isLoading } = this.props
+    let linkList = gamesList.map((game) => {
       return(
-        <li key={room.id}>
+        <li key={game.id}>
           <Box fontSize={30}>
-            {room.name}
+            {game.name}
           </Box>
         </li>
       )
     })
     if(this.props.user.connected === true){
-      return (<Redirect push={true} to={'/' +this.props.user.roomName + '/' + this.props.user.userName}/>)
+      return (<Redirect push={true} to={'/' +this.props.user.gameName + '/' + this.props.user.userName}/>)
     }
     return (
     <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
@@ -38,8 +38,8 @@ class Home extends React.Component {
         </Box>
         <Card flex={1} width={'40em'} center>
           <LoadingContainer
-            isLoading={isLoading && (!roomsList || !roomsList.length) }
-            isEmpty={!roomsList || !roomsList.length}
+            isLoading={isLoading && (!gamesList || !gamesList.length) }
+            isEmpty={!gamesList || !gamesList.length}
             emptyLabel='Pas de parties en cours'
           >
           <Box fontSize={30}>
@@ -51,8 +51,8 @@ class Home extends React.Component {
     )
   }
 }
-export default connect(({ user, rooms }) => ({
+export default connect(({ user, games }) => ({
   user: user,
-  roomsList: rooms.items,
-  isLoading: rooms.isLoading
+  gamesList: games.items,
+  isLoading: games.isLoading
 }))(Home)

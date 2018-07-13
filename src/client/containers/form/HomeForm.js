@@ -17,7 +17,7 @@ const HomeForm = ({ handleSubmit, error }) => (
   <Error error={error} />
   <Field
     placeholder={'Your Party\'s name or select one in the list'}
-    name='room'
+    name='game'
     component={Input}
     validate={[required]}
   />

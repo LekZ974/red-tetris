@@ -1,4 +1,4 @@
-import {GET_ROOMS, getRooms} from "../actions/rooms";
+import {GET_GAMES} from "../actions/games";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -7,8 +7,8 @@ const socketMiddleware = socket => ({dispatch}) => {
   return next => action => {
     if (socket) {
       switch (action.type) {
-        case GET_ROOMS : {
-          socket.on('GET_ROOMS', (payload) => {
+        case GET_GAMES : {
+          socket.on('GET_GAMES', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
         }

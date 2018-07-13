@@ -1,4 +1,4 @@
-import {GET_ROOMS} from '../actions/rooms'
+import {GET_GAMES} from '../actions/games'
 
 const initialState = {
   items: [],
@@ -6,9 +6,9 @@ const initialState = {
   payload: {}
 }
 
-export default function RoomsReducer (state = initialState, action = {}) {
+export default function GamesReducer (state = initialState, action = {}) {
   switch (action.type) {
-    case GET_ROOMS: {
+    case GET_GAMES: {
       if (action.status === 'success'){
         return {
           ...state,
