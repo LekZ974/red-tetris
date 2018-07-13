@@ -15,7 +15,10 @@ export const move = (e) => {
     }
     case "ArrowLeft":
       return {
-        type: TETRIMINOS_MOVE_LEFT
+        type: TETRIMINOS_MOVE_LEFT,
+        payload:{
+          test:'lala'
+        }
       }
     case "ArrowDown":
       return {

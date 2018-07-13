@@ -165,6 +165,7 @@ const Tetriminos = (props) =>{
             (piece = <Square
                     posX={props.posX}
                     posY={props.posY}
+
                   />
             )
             break
@@ -240,7 +241,7 @@ class PlayGround extends Component {
     render(){
 
       const {tetriData} = this.props
-      console.log(tetriData)
+      console.log('tetriData', tetriData)
       // console.log("state", this.state)
       return(
         <div>
@@ -250,8 +251,8 @@ class PlayGround extends Component {
           <div className="tetris flex-container" style={flexContenaire}>
               <Tetriminos
                 type={'l'}
-                rot={0}
-                posX={this.state.tetriminosPosX}
+                rot={90}
+                posX={tetriData.tetriminosPosX}
                 posY={this.state.tetriminosPosY <= 0 ? this.state.tetriminosPosY : 0}
               />
             </div>
