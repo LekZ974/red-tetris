@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import {store} from "../../index"
+import {move} from "../../actions/tetriminos"
+import {connect} from "react-redux";
 
 
 const commandes = ()=>{
@@ -140,7 +143,7 @@ const tetrisTOrange = {
   justifyContent: 'center',
 }
 const subBlock = (color, posX, posY) =>{
-  console.log('position',posX, posY)
+  // console.log('position',posX, posY)
   const position = posX +'px ,' + posY   +'px'
   return({
       border: '1px solid #fff',
@@ -204,7 +207,6 @@ const Tetriminos = (props) =>{
 class PlayGround extends Component {
     constructor(props){
       super(props)
-      this.handleKeyDown = this.handleKeyDown.bind(this)
       this.state = {
         tetriminosPosY:-480,
         tetriminosPosX:0
@@ -213,14 +215,22 @@ class PlayGround extends Component {
 
     handleKeyDown(e){
       console.log('handleKeyDown',e)
+      store.dispatch(move(e))
     }
     componentDidMount(e) {
-      console.log('handleKeyDown',e)
+
+      window.addEventListener("keyup", this.handleKeyDown);
+
+      console.log("STATE", store.getState())
 
       this.timerID = setInterval(
         () => this.setState({tetriminosPosY: this.state.tetriminosPosY + 48}),
         1000
       );
+    }
+
+    componentWillMount() {
+      window.removeEventListener("keyup", this.handleKeyDown);
     }
 
     componentWillUnmount() {
@@ -229,7 +239,9 @@ class PlayGround extends Component {
 
     render(){
 
-      console.log("state", this.state)
+      const {tetriData} = this.props
+      console.log(tetriData)
+      // console.log("state", this.state)
       return(
         <div>
           <h3 style={{textAlign:"center"}}>PlayGround</h3>
@@ -237,7 +249,6 @@ class PlayGround extends Component {
 
           <div className="tetris flex-container" style={flexContenaire}>
               <Tetriminos
-                onKeyPress={this.handleKeyDown}
                 type={'l'}
                 rot={0}
                 posX={this.state.tetriminosPosX}
@@ -250,4 +261,6 @@ class PlayGround extends Component {
     }
 }
 
-export default PlayGround
+export default connect(({ tetriminos }) => ({
+  tetriData: tetriminos
+}))(PlayGround)
