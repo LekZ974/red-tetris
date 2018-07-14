@@ -8,25 +8,28 @@ export default class Piece {
 		return this.shape
 	}
 
-	rotateShape(matrix) {
-		let rotated = matrix[0].map((col, c) => {
-			return matrix.map((row, r) => {
-				return matrix[r][c]
-			})
-		})
+	flip(matrix) {
+        let newMatrix = matrix[0].map((col, i) => {
+            return matrix.map((row) => {
+                return row[i]
+            })
+        })
 
-		return rotated
+        return newMatrix
 	}
 
-	rotate(deg, matrix) {
-		let i = 0;
-		let tmp = matrix
+    reverse(matrix) {
+        return this.flip(matrix.reverse())
+    }
 
-		while (i <= deg) {
-			tmp = this.rotateShape(tmp)
+	rotate(matrix, degree) {
+		let i = 0;
+		let rotated = [...matrix]
+
+		while (i < degree) {
+			rotated = this.reverse(rotated)
 			i += 90
 		}
-		return tmp
-			
+		return rotated
 	}
 }
