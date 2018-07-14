@@ -2,7 +2,6 @@ export default class Piece {
 	constructor(shape) {
 		this.shape = shape
 		this.rotation = [0, 90, 180, 270]
-		this.transpose = ['none', 'left-right', 'up-down']
 	}
 
 	getShape() {
