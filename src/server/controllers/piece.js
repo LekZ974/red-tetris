@@ -40,4 +40,8 @@ export default class Piece {
 
         return this.rotation[index]
     }
+
+    getShapeToEmit() {
+        return this.rotate(this.randRotation())
+    }
 }
