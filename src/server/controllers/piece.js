@@ -32,4 +32,12 @@ export default class Piece {
 		}
 		return rotated
 	}
+
+    randRotation() {
+        let min = 0
+        let max = this.rotation.length - 1
+        let index = Math.floor(Math.random() * (max -min + 1))
+
+        return this.rotation[index]
+    }
 }
