@@ -22,9 +22,9 @@ export default class Piece {
         return this.flip(matrix.reverse())
     }
 
-	rotate(matrix, degree) {
+	rotate(degree) {
 		let i = 0;
-		let rotated = [...matrix]
+		let rotated = [...this.shape]
 
 		while (i < degree) {
 			rotated = this.reverse(rotated)
