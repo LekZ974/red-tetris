@@ -16,4 +16,7 @@ test:
 test-coverage:
 	@docker exec -ti red-tetris yarn test --coverage
 
+test-server:
+	@docker exec -ti red-tetris yarn test -- tests/server
+
 .PHONY: build install start start-client test test-coverage
