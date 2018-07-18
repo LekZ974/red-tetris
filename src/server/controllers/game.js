@@ -1,5 +1,5 @@
 export default class Game {
-    constuctor(shapes) {
+    constructor(shapes) {
         this.shapes = shapes
         this.master = null
         this.challenger = null
