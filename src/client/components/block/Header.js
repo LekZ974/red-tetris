@@ -38,7 +38,7 @@ const Header = ({ dispatch, history, user }) => (
                 <br />
               </span>
             )}
-            {user.roomName}
+            {user.gameName}
           </Text>
         </Box>
         <Clickable

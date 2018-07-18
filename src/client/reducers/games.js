@@ -14,11 +14,19 @@ export default function GamesReducer (state = initialState, action = {}) {
           ...state,
           items: action.payload,
           isLoading: false
-        }}
+        }
+      }
+      if (!action.payload) {
         return {
           ...state,
-          isLoading: true
+          items: [],
+          isLoading: false
         }
+      }
+      return {
+        ...state,
+        isLoading: true
+      }
     }
     default:
       return state

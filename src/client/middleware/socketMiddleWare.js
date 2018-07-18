@@ -12,6 +12,9 @@ const socketMiddleware = socket => ({dispatch}) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
         }
+        default: {
+          return next(action)
+        }
       }
     }
   }
