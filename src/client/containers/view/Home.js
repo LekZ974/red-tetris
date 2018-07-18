@@ -2,10 +2,8 @@ import React from 'react'
 import { Box, Card, LoadingContainer } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom';
 import {getGames} from "../../actions/games";
-import {Redirect} from 'react-router'
-import {store} from "../../index";
+import {Redirect} from 'react-router-dom'
 
 class Home extends React.Component {
   constructor(props) {

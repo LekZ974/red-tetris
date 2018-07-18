@@ -9,7 +9,7 @@ import socketMiddleWare from './middleware/socketMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
 import { createBrowserHistory } from 'history'
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router-dom'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from "redux-persist/lib/storage";

@@ -14,7 +14,7 @@ class ApiMock {
         throw new SubmissionError(e)
       }
     }
-    if (data.userName && data.roomName) {
+    if (data.userName && data.gameName) {
       return Promise.resolve({status: 200, ...data})
         .catch(error => {
           reject({ _error: error.message })

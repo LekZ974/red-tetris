@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { logout } from '../../actions/user'
-import { persistor } from '../../index'
+// import { persistor } from '../../index'
 import { Box, Container, Text, Clickable } from './'
 
 const Header = ({ dispatch, history, user }) => (
@@ -44,7 +44,7 @@ const Header = ({ dispatch, history, user }) => (
         <Clickable
           color='red'
           onClick={() => {
-            persistor.purge()
+            // persistor.purge()
             // dispatch(logout())
             history.push('/')
           }}

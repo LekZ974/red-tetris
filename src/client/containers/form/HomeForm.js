@@ -26,5 +26,5 @@ const HomeForm = ({ handleSubmit, error }) => (
 </form>
 )
 export default reduxForm({
-    form: 'LogForm'
+    form: 'HomeForm'
 })(HomeForm)
