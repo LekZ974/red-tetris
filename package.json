@@ -62,6 +62,7 @@
     "eslint": "^4.0.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-react": "^7.10.0",
+    "jest-matcher-one-of": "^0.1.2",
     "jest": "^23.4.1",
     "nyc": "^6.4.4",
     "react-test-renderer": "^16.4.1",

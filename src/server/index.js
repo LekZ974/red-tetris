@@ -12,6 +12,8 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const port = params.server.port
 
+var onlineUsers = []
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
@@ -22,11 +24,12 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (client) => {
-  console.log('client has connected ')
-	let player = new Player('123', client.id)
-  let games = new Games(client.id)
-  client.emit('GET_GAMES', games.getGames())
-  console.log('socket id = ', player.getSocketID())
+    console.log('client has connected ')
+	client.on(routes.LOGIN, (userInfo) => {
+		let player = new Player(userInfo.id, client.id)
+
+		onlineUsers.push(player)
+	})
     client.on(routes.REQUEST_SHAPE, (userID) => {
         console.log('getting shape ')
         client.emit(routes.EMITTED_SHAPE, getShape(userID))
