@@ -57,8 +57,8 @@ const Input = ({input, type, error, help, ...props}) => {
       { ...input }
       { ...props }
     />
-    {(error || !help) && <Error error={error} />}
-    {!error && help && <Help text={help} />}
+    {(props.meta.error || !help) && <Error error={props.meta.error} />}
+    {!props.meta.error && help && <Help text={help} />}
   </Box>)
 }
 

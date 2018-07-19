@@ -2,27 +2,26 @@ import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
 import {login} from "../../actions/user";
-import {maxLength, minLength, required} from "../../utils/formValidation"
+import {doNotMatch, maxLength, maxLength15, minLength, minLength3, required} from "../../utils/formValidation"
 
 const onSubmit = (data, dispatch) => dispatch(login(data))
 
-const HomeForm = ({ handleSubmit, error }) => (
+const HomeForm = ({ handleSubmit, error, submitting }) => (
 <form id={'homeForm'} onSubmit={handleSubmit(onSubmit)}>
   <Field
     placeholder='Your name'
     name='name'
     component={Input}
-    validate={[required]}
+    validate={[required, minLength3, maxLength15]}
   />
-  <Error error={error} />
   <Field
     placeholder={'Your Party\'s name or select one in the list'}
     name='game'
     component={Input}
-    validate={[required]}
+    validate={[required, minLength3, maxLength15]}
   />
-  <Error error={error} />
-  <Button type={'submit'} size={'large'} fullWidth to='/new-game'>Go</Button>
+  {console.log("SUBMITTING", submitting)}
+  <Button type={'submit'} disabled={submitting} size={'large'} fullWidth to='/new-game'>Go</Button>
 </form>
 )
 export default reduxForm({
