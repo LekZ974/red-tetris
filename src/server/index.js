@@ -35,9 +35,12 @@ io.on('connection', (client) => {
 
         activeGames.push(game)
     })
-    client.on(routes.REQUEST_SHAPE, (userID) => {
+    client.on(routes.REQUEST_SHAPE, (gameId) => {
         console.log('getting shape ')
-        client.emit(routes.EMITTED_SHAPE, getShape(userID))
+        const game = findGame(gameId, activeGames)
+        let index = randNumber(0, game.shapes.length - 1)
+
+        client.emit(routes.EMITTED_SHAPE, game.shapes[index].getShapeToEmit())
     })
     client.on('disconnect', () => {
         console.log('user is disconnecting')
