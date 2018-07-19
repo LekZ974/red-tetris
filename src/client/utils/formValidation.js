@@ -22,16 +22,6 @@ export function maxLength (max) {
   }
 }
 
-export function match (field) {
-  return (value, data) => {
-    if (data) {
-      if (value !== data[field]) {
-        return 'Do not match'
-      }
-    }
-  }
-}
-
 export function doNotMatch (field) {
   return (value, data) => {
     if (data) {

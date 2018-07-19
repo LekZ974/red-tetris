@@ -2,12 +2,12 @@ import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
 import {login} from "../../actions/user";
-import {required} from "../../utils/formValidation"
+import {maxLength, minLength, required} from "../../utils/formValidation"
 
 const onSubmit = (data, dispatch) => dispatch(login(data))
 
 const HomeForm = ({ handleSubmit, error }) => (
-<form onSubmit={handleSubmit(onSubmit)}>
+<form id={'homeForm'} onSubmit={handleSubmit(onSubmit)}>
   <Field
     placeholder='Your name'
     name='name'

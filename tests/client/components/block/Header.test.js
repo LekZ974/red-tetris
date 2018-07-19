@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import React from 'react'
 import { shallow } from 'enzyme'
-import ConnectedHome, {Home} from '../../../../src/client/containers/view/Home'
+import Header from '../../../../src/client/components/block/Header'
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -14,31 +14,24 @@ const user = {
   gameName: 'GAMENAME',
   role: 'RoleOfUser',
 }
-const games = {
-  items: [
-    {
-      id: 1,
-      name: 'Game1'
-    },
-    {
-      id: 2,
-      name: 'Game2'
-    },
-  ],
-  isLoading: false
+
+const history = {
+  location: {
+    pathname: "A/PATH/NAME"
+  }
 }
 
 const initialState = {
   user,
-  games
+  history
 }
 
 
-describe('>>>>HOME - REACT-REDUX (Shallow + passing the {store} directly', () => {
+describe('>>>>HEADER - REACT-REDUX (Shallow + passing the {store} directly', () => {
   let wrapper;
   beforeEach(() => {
     const store = mockStore(initialState)
-    wrapper = shallow(<ConnectedHome store={store}/>).dive()
+    wrapper = shallow(<Header store={store}/>)
   })
   it('renders without crashing', () => {
     expect(wrapper.length).to.equal(1)
