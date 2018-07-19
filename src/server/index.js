@@ -5,6 +5,7 @@ import params from '../../params'
 import routes from './constants/routes'
 import getShape from './eventHandlers/tetriminos'
 import Player from './controllers/player'
+import Games from './controllers/games'
 
 const app = express()
 const server = require('http').createServer(app)
@@ -19,10 +20,13 @@ app.get('/', (req, res) => {
     res.send('Hello World')
 })
 
+
 io.on('connection', (client) => {
-    console.log('client has connected ')
+  console.log('client has connected ')
 	let player = new Player('123', client.id)
-	console.log('socket id = ', player.getSocketID())
+  let games = new Games(client.id)
+  client.emit('GET_GAMES', games.getGames())
+  console.log('socket id = ', player.getSocketID())
     client.on(routes.REQUEST_SHAPE, (userID) => {
         console.log('getting shape ')
         client.emit(routes.EMITTED_SHAPE, getShape(userID))

@@ -7,9 +7,9 @@ import HomeForm from '../../../../src/client/containers/form/HomeForm'
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-const store = configureStore([
-  thunk,
-])();
+// const store = configureStore([
+//   thunk,
+// ])();
 
 describe('<Home />', () => {
   it('renders without crashing', () => {

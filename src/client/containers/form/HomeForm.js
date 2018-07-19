@@ -1,4 +1,4 @@
-import React , {Component}from 'react'
+import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
 import {login} from "../../actions/user";
@@ -17,7 +17,7 @@ const HomeForm = ({ handleSubmit, error }) => (
   <Error error={error} />
   <Field
     placeholder={'Your Party\'s name or select one in the list'}
-    name='room'
+    name='game'
     component={Input}
     validate={[required]}
   />
@@ -26,5 +26,5 @@ const HomeForm = ({ handleSubmit, error }) => (
 </form>
 )
 export default reduxForm({
-    form: 'LogForm'
+    form: 'HomeForm'
 })(HomeForm)
