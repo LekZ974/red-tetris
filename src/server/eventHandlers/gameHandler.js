@@ -43,6 +43,7 @@ const randNumber = function(min, max) {
 }
 
 export {
+	findPlayer,
 	findGame,
 	createGame,
 	randNumber
