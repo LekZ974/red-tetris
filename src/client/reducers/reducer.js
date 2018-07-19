@@ -3,11 +3,11 @@ import { reducer as formReducer } from 'redux-form'
 
 import alert from './alert'
 import user from './user'
-import rooms from './rooms'
+import games from './games'
 
 const appReducer = combineReducers({
   user,
-  rooms,
+  games,
   alert,
   form: formReducer
 })
