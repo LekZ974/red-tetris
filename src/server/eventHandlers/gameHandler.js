@@ -38,7 +38,12 @@ const createGame = function(socketId, users) {
 	return game
 }
 
+const randNumber = function(min, max) {
+	return Math.floor(Math.random() * (max -min + 1))
+}
+
 export {
 	findGame,
-	createGame
+	createGame,
+	randNumber
 }
