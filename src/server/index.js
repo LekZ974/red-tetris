@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import params from '../../params'
 import routes from './constants/routes'
 import getShape from './eventHandlers/tetriminos'
+import { findGame, createGame } from './eventHandlers/gameHandler'
 import Player from './controllers/player'
 import Games from './controllers/games'
 
@@ -13,6 +14,7 @@ const io = require('socket.io')(server)
 const port = params.server.port
 
 var onlineUsers = []
+var activeGames = []
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -30,6 +32,11 @@ io.on('connection', (client) => {
 
 		onlineUsers.push(player)
 	})
+    client.on(routes.CREATE_GAME, () => {
+        let game = createGame(client.id, onlineUsers)
+
+        activeGames.push(game)
+    })
     client.on(routes.REQUEST_SHAPE, (userID) => {
         console.log('getting shape ')
         client.emit(routes.EMITTED_SHAPE, getShape(userID))
