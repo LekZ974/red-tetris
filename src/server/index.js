@@ -3,10 +3,8 @@ import bodyParser from 'body-parser'
 
 import params from '../../params'
 import routes from './constants/routes'
-import getShape from './eventHandlers/tetriminos'
 import { findGame, createGame } from './eventHandlers/gameHandler'
 import Player from './controllers/player'
-import Games from './controllers/games'
 
 const app = express()
 const server = require('http').createServer(app)
