@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 
 import params from '../../params'
 import routes from './constants/routes'
-import * from './eventHandlers/gameHandler'
+import * as gameHandler from './eventHandlers/gameHandler'
 import Player from './controllers/player'
 
 const app = express()
@@ -35,15 +35,15 @@ io.on('connection', (client) => {
         activeGames.push(game)
     })
     client.on(routes.JOIN_GAME, (gameId) => {
-        const challenger = findPlayer(client.id, onlineUsers)
-        let game = findGame(gameId, activeGames)
+        const challenger = gameHandler.findPlayer(client.id, onlineUsers)
+        let game = gameHandler.findGame(gameId, activeGames)
 
         game.setChallenger(challenger)
     })
     client.on(routes.REQUEST_SHAPE, (gameId) => {
         console.log('getting shape ')
-        const game = findGame(gameId, activeGames)
-        let index = randNumber(0, game.shapes.length - 1)
+        const game = gameHandler.findGame(gameId, activeGames)
+        let index = gameHandler.randNumber(0, game.shapes.length - 1)
 
         client.emit(routes.EMITTED_SHAPE, game.shapes[index].getShapeToEmit())
     })
