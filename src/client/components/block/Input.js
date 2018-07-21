@@ -57,8 +57,8 @@ const Input = ({input, type, error, help, ...props}) => {
       { ...input }
       { ...props }
     />
-    {(props.meta.error || !help) && <Error error={props.meta.error} />}
-    {!props.meta.error && help && <Help text={help} />}
+    {(error || !help) && <Error error={error} />}
+    {!error && help && <Help text={help} />}
   </Box>)
 }
 
@@ -69,7 +69,6 @@ Input.propTypes = {
   ...propTypes.borders,
   ...propTypes.space
 }
-
 Input.defaultProps = {
   theme: defaultTheme
 }

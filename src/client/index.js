@@ -22,7 +22,7 @@ const socket = io.connect(params.server.url);
 
 const history = createBrowserHistory()
 
-const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history), socketMiddleWare(socket)]
+const middlewares = [thunk, routerMiddleware(history), socketMiddleWare(socket)]
 
 const persistConfig = {
   key: 'root',

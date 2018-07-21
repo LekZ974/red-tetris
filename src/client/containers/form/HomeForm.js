@@ -2,7 +2,7 @@ import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
 import {login} from "../../actions/user";
-import {doNotMatch, maxLength, maxLength15, minLength, minLength3, required} from "../../utils/formValidation"
+import {maxLength15, minLength3, required} from "../../utils/formValidation"
 
 const onSubmit = (data, dispatch) => dispatch(login(data))
 
@@ -20,7 +20,6 @@ const HomeForm = ({ handleSubmit, error, submitting }) => (
     component={Input}
     validate={[required, minLength3, maxLength15]}
   />
-  {console.log("SUBMITTING", submitting)}
   <Button type={'submit'} disabled={submitting} size={'large'} fullWidth to='/new-game'>Go</Button>
 </form>
 )
