@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Card, Header } from '../../components/block'
+import { Box, Card } from '../../components/block'
 import { Route } from 'react-router-dom';
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
@@ -24,7 +24,6 @@ const FakeSpectre = [
 const Room = ({ user, match, props }) => {
   return(
     <Box flex flexDirection='column' align='stretch'>
-      <Header/>
       <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
         <Card flex={1} width={'40em'}>
           <RoomInfo />
