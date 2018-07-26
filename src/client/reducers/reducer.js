@@ -5,14 +5,12 @@ import alert from './alert'
 import user from './user'
 import rooms from './rooms'
 import tetriminos from './tetriminos'
-import playground from './playground'
 
 const appReducer = combineReducers({
   user,
   rooms,
   alert,
   tetriminos,
-  playground,
   form: formReducer
 })
 
