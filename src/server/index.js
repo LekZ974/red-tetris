@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import params from '../../params'
 import routes from './constants/routes'
 import * as gameHandler from './eventHandlers/gameHandler'
+import * as idHandler from './eventHandlers/idHandler'
 import Player from './controllers/player'
 
 const app = express()
@@ -13,6 +14,7 @@ const port = params.server.port
 
 var onlineUsers = []
 var activeGames = []
+var nsp = io.of('/game')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -23,16 +25,24 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (client) => {
-    console.log('client has connected ')
 	client.on(routes.LOGIN, (userInfo) => {
 		let player = new Player(userInfo.id, client.id)
 
 		onlineUsers.push(player)
 	})
-    client.on(routes.CREATE_GAME, () => {
-        let game = createGame(client.id, onlineUsers)
+    client.on(routes.CREATE_GAME, (gameName) => {
+        const gameId = idHandler.createId(gameName)
+        const id = gameHandler.findGame(gameId, activeGames)
 
-        activeGames.push(game)
+         if (id !== undefined) {
+            io.to(client.id).emit(routes.GAME_EXISTS, 'KO')
+        } else {
+            let game = gameHandler.createGame(client.id, onlineUsers)
+
+            game.setRoomInfo(gameId, gameName)
+            activeGames.push(game)
+            io.to(client.id).emit(routes.GAME_EXISTS, 'OK')
+        }
     })
     client.on(routes.JOIN_GAME, (gameId) => {
         const challenger = gameHandler.findPlayer(client.id, onlineUsers)
