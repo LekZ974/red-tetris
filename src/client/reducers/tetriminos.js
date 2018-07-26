@@ -1,10 +1,12 @@
-import { TETRIMINOS_MOVE_DOWN, TETRIMINOS_MOVE_LEFT, TETRIMINOS_MOVE_RIGHT, TETRIMINOS_MOVE_UP } from '../actions/tetriminos'
+import {
+  TETRIMINOS_MOVE_DOWN, TETRIMINOS_MOVE_LEFT, TETRIMINOS_MOVE_RIGHT, TETRIMINOS_MOVE_UP,
+  TETRIMINOS_TICK
+} from '../actions/tetriminos'
 
 const initialState = {
   tetriminosPosX: 0,
   tetriminosPosY: -480,
   rot: 0,
-  payload: {},
 }
 
 export default function TetriminosReducer(state = initialState, action = {}) {
@@ -12,6 +14,7 @@ export default function TetriminosReducer(state = initialState, action = {}) {
   const newState = Object.assign({}, state)
   console.log('newstate', newState)
   switch (action.type) {
+  case TETRIMINOS_TICK:
   case TETRIMINOS_MOVE_DOWN: {
     console.log(action)
     newState.tetriminosPosY = newState.tetriminosPosY + 48

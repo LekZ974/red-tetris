@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { store } from '../../index'
-import { move } from '../../actions/tetriminos'
+import {move, tetriminosTick} from '../../actions/tetriminos'
 import { button } from '../../actions/playground'
 
 import { connect } from 'react-redux';
@@ -192,63 +192,108 @@ const Tetriminos = (props) => {
 
 }
 
-class PlayGround extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      tetriminosPosY: -480,
-      tetriminosPosX: 0,
-    }
-  }
-
-  handleKeyDown(e) {
-    console.log('handleKeyDown', e)
-    store.dispatch(move(e))
-  }
-  componentDidMount(e) {
-
-    window.addEventListener('keyup', this.handleKeyDown)
-
-    console.log('STATE', store.getState())
-
-    this.timerID = setInterval(
-      () => this.setState({ tetriminosPosY: this.state.tetriminosPosY + 48 }),
-      1000
-    );
-  }
-
-  componentWillMount() {
-    window.removeEventListener('keyup', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-  render() {
-
-    const { tetriData } = this.props
-    console.log('tetriData', tetriData)
-
-    // console.log("state", this.state)
-    return (
-      <div>
-        <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
-
-        <div className='tetris flex-container' style={flexContenaire}>
-          <Tetriminos
-            posX={tetriData.tetriminosPosX}
-            posY={tetriData.tetriminosPosY <= 0 ? tetriData.tetriminosPosY : 0}
-            rot={tetriData.rot}
-            type={'l'}
-          />
-        </div>
-        <button onClick={store.dispatch(this.handleKeyDown)}>Hello</button>
-        {commandes()}
-      </div>
-    )
-  }
+function handleKeyUp(e) {
+  store.dispatch(move(e))
 }
 
-export default connect(({ tetriminos }) => ({
+function start(e){
+
+  console.log('innerHTML',e.target.innerHTML)
+  store.dispatch(button(e))
+}
+
+
+const PlayGround = (props) =>{
+  console.log('STATE', store.getState())
+  console.log('props', props)
+  const { tetriData, status } = props
+  console.log('tetriData', tetriData)
+
+
+  if(status.status){
+    window.setInterval(store.dispatch(tetriminosTick()),1000000000 )
+  }
+  const buttonValue = status.start === true ? 'Start' : 'Pause'
+  return(
+    <div>
+      <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
+
+      <div className='tetris flex-container' style={flexContenaire}>
+        <Tetriminos
+          posX={tetriData.tetriminosPosX}
+          posY={tetriData.tetriminosPosY <= 0 ? tetriData.tetriminosPosY : 0}
+          rot={tetriData.rot}
+          type={'l'}
+        />
+      </div>
+      <button onClick={ start }>{buttonValue}</button>
+      {commandes()}
+    </div>
+  )
+}
+
+window.addEventListener('keyup', handleKeyUp )
+
+
+
+// class PlayGround extends Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       tetriminosPosY: -480,
+//       tetriminosPosX: 0,
+//     }
+//   }
+//
+//   handleKeyDown(e) {
+//     console.log('handleKeyDown', e)
+//     store.dispatch(move(e))
+//   }
+//   componentDidMount(e) {
+//
+//     window.addEventListener('keyup', this.handleKeyDown)
+//
+//     console.log('STATE', store.getState())
+//
+//     this.timerID = setInterval(
+//       () => this.setState({ tetriminosPosY: this.state.tetriminosPosY + 48 }),
+//       1000
+//     );
+//   }
+//
+//   componentWillMount() {
+//     window.removeEventListener('keyup', this.handleKeyDown);
+//   }
+//
+//   componentWillUnmount() {
+//     clearInterval(this.timerID);
+//   }
+//   render() {
+//
+//     const { tetriData } = this.props
+//     console.log('tetriData', tetriData)
+//
+//     // console.log("state", this.state)
+//     return (
+//       <div>
+//         <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
+//
+//         <div className='tetris flex-container' style={flexContenaire}>
+//           <Tetriminos
+//             posX={tetriData.tetriminosPosX}
+//             posY={tetriData.tetriminosPosY <= 0 ? tetriData.tetriminosPosY : 0}
+//             rot={tetriData.rot}
+//             type={'l'}
+//           />
+//         </div>
+//         <button onClick={store.dispatch(this.handleKeyDown)}>Hello</button>
+//         {commandes()}
+//       </div>
+//     )
+//   }
+// }
+
+export default connect(({ tetriminos, playground }) => ({
   tetriData: tetriminos,
+  status: playground
 }))(PlayGround)

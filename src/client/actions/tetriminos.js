@@ -5,6 +5,7 @@ export const TETRIMINOS_MOVE_RIGHT = 'tetriminos/TETRIMINOS_MOVE_RIGHT'
 export const TETRIMINOS_MOVE_DOWN = 'tetriminos/TETRIMINOS_MOVE_DOWN'
 export const TETRIMINOS_MOVE_UP = 'tetriminos/TETRIMINOS_MOVE_UP'
 export const UNKNOW_KEY = 'tetriminos/UNKNOW_KEY'
+export const TETRIMINOS_TICK = 'tetriminos/TETRIMINOS_TICK'
 
 export const move = (e) => {
   switch (e.key) {
@@ -32,5 +33,12 @@ export const move = (e) => {
       return {
         type: TETRIMINOS_MOVE_UP
       }
+  }
+}
+
+export const tetriminosTick = () =>{
+  console.log('Dans tick')
+  return{
+    type: TETRIMINOS_TICK,
   }
 }

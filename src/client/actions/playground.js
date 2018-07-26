@@ -6,16 +6,16 @@ export const GAME_ERROR = 'playground/GAME_ERROR'
 
 
 export const button = (e) => {
-  switch (e){
-    case'start':
-      return {
-        type: GAME_START
-      }
-    case'pause':
+  switch (e.target.innerHTML){
+    case'Start':
       return {
         type: GAME_PAUSE
       }
-    case 'stop':
+    case'Pause':
+      return {
+        type: GAME_START
+      }
+    case 'Stop':
       return {
         type: GAME_STOP
       }
@@ -25,3 +25,4 @@ export const button = (e) => {
     }
   }
 }
+

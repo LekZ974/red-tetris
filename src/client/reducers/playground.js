@@ -7,10 +7,11 @@ const initialState = {
 
 export default function PlaygroundReducer(state = initialState, action = {}) {
   const newState = Object.assign({}, state)
-
+  console.log('HELLO', state)
   switch (action.type) {
   case GAME_START: {
     newState.start = true
+    console.log('newsState playground', newState)
     return {
       ...newState,
       payload: action,
@@ -19,6 +20,7 @@ export default function PlaygroundReducer(state = initialState, action = {}) {
   }
   case GAME_PAUSE: {
     newState.start = false
+    console.log('newsState playground pause', newState)
     return {
       ...newState,
       payload: action,
