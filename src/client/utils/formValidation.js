@@ -14,20 +14,13 @@ export function minLength (min) {
   }
 }
 
+export const maxLength15 = maxLength(15);
+export const minLength3 = minLength(3);
+
 export function maxLength (max) {
   return value => {
     if (!isEmpty(value) && value.length > max) {
       return `Ce champ doit contenir au plus ${max} caractères`
-    }
-  }
-}
-
-export function match (field) {
-  return (value, data) => {
-    if (data) {
-      if (value !== data[field]) {
-        return 'Do not match'
-      }
     }
   }
 }

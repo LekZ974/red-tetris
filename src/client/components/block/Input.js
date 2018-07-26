@@ -69,7 +69,6 @@ Input.propTypes = {
   ...propTypes.borders,
   ...propTypes.space
 }
-
 Input.defaultProps = {
   theme: defaultTheme
 }

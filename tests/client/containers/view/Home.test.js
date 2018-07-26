@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import React from 'react'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import ConnectedHome, {Home} from '../../../../src/client/containers/view/Home'
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -12,10 +12,19 @@ const mockStore = configureStore([
 const user = {
   userName: 'USERNAME',
   gameName: 'GAMENAME',
-  role: 'RoleOfUser'
+  role: 'RoleOfUser',
 }
 const games = {
-  items: [],
+  items: [
+    {
+      id: 1,
+      name: 'Game1'
+    },
+    {
+      id: 2,
+      name: 'Game2'
+    },
+  ],
   isLoading: false
 }
 
