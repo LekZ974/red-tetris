@@ -5,6 +5,7 @@ import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
+import {gameStatus} from "../../actions/game";
 
 const FakeSpectre = [
   {
@@ -21,9 +22,10 @@ const FakeSpectre = [
   }
 ]
 
-const Room = ({ user, match, props }) => {
+const Room = ({ user, game, match, props }) => {
   return(
     <Box flex flexDirection='column' align='stretch'>
+      {console.log(game)}
       <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
         <Card flex={1} width={'40em'}>
           <RoomInfo />
@@ -40,7 +42,8 @@ const Room = ({ user, match, props }) => {
   )
 };
 
-export default connect(({ user }) => ({
+export default connect(({ user, game }) => ({
   user: user,
+  game: game
 }))(Room)
 

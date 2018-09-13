@@ -10,3 +10,4 @@ yarn.lock
 coverage/**
 **/__snapshots__/*
 src/server/mock
+params.js
