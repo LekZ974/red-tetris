@@ -5,14 +5,28 @@ import {
 import {windowTick} from "../components/Room/PlayGround";
 
 
-
-
+const playGroundArray =
+  [
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0},
+  ]
+const piece = [0,0,0]
 const initialState = {
   tetriminosPosX: 0,
   tetriminosPosY: -480,
   rot: 0,
   start: false,
   stop: false,
+  playgroundRow:playGroundArray,
+  piece:
 }
 
 const resetState = {
