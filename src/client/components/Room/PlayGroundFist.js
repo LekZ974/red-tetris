@@ -204,23 +204,6 @@ function start(e){
   store.dispatch(button(e))
 }
 
-function addTetriminos(array, tetriminos){
-    const pos = {
-        X:0,
-        Y:5
-    }
-
-    if(tetriminos === 1){
-        if(array[pos.X + 1][pos.Y + 1] === 0){
-            array[pos.X + 1][pos.Y + 1] = 1
-       }
-    }
-   
-
-    
-    return array
-}
-
 function resetButton(){
   console.log('reset')
   store.dispatch(reset())
@@ -229,29 +212,21 @@ const PlayGround = (props) =>{
   console.log('STATE', store.getState())
   console.log('props', props)
   const { tetriData} = props
-  console.log('=============', tetriData)
+  console.log('tetriDatatyhrjkndlm;s;', tetriData)
 
   const buttonValue = tetriData.start === true ? 'Pause' : 'Start'
-  
- 
-
-      addTetriminos(tetriData.playground, 1)
-      const array = tetriData.playground.map((row) =>{
-        return(<div>{row}</div>)
-    });
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
 
-        {array}
-      {/* <div className='tetris flex-container' style={flexContenaire}>
+      <div className='tetris flex-container' style={flexContenaire}>
         <Tetriminos
           posX={tetriData.tetriminosPosX}
           posY={tetriData.tetriminosPosY <= 0 ? tetriData.tetriminosPosY : 0}
           rot={tetriData.rot}
           type={'l'}
         />
-      </div> */}
+      </div>
       <button onClick={ start }>{buttonValue}</button>
       <button onClick={ resetButton }>Reset</button>
       {commandes()}
@@ -259,8 +234,8 @@ const PlayGround = (props) =>{
   )
 }
 
-// window.addEventListener('keydown', handleKeyUp )
-// export const windowTick = window.setInterval(()=>{store.dispatch(tetriminosTick())} ,1000 )
+window.addEventListener('keydown', handleKeyUp )
+export const windowTick = window.setInterval(()=>{store.dispatch(tetriminosTick())} ,1000 )
 
 
 export default connect(({ tetriminos}) => ({

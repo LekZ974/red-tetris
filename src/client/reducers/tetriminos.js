@@ -7,26 +7,27 @@ import {windowTick} from "../components/Room/PlayGround";
 
 const playGroundArray =
   [
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,]
   ]
 const piece = [0,0,0]
 const initialState = {
   tetriminosPosX: 0,
   tetriminosPosY: -480,
   rot: 0,
+  test:'alpha',
   start: false,
   stop: false,
-  playgroundRow:playGroundArray,
-  piece:
+  playground:playGroundArray,
+  piece:null
 }
 
 const resetState = {
@@ -36,21 +37,21 @@ const resetState = {
 }
 
 export default function TetriminosReducer(state = initialState, action = {}) {
-  console.log('dans reducer', state)
+  console.log('dans reducer*************************', state)
   const newState = Object.assign({}, state)
 
   switch (action.type) {
   case TETRIMINOS_TICK:{
-    if(newState.start === true){
-      newState.tetriminosPosY = newState.tetriminosPosY + 48
-    }
+    // if(newState.start === true){
+    //   newState.tetriminosPosY = newState.tetriminosPosY + 48
+    // }
     return {
       ...newState,
       payload: action,
     }
   }
   case TETRIMINOS_MOVE_DOWN: {
-    console.log(action)
+    // console.log(action)
     if(newState.start === true) {
       newState.tetriminosPosY = newState.tetriminosPosY + 48
     }
@@ -60,7 +61,7 @@ export default function TetriminosReducer(state = initialState, action = {}) {
     }
   }
   case TETRIMINOS_MOVE_LEFT: {
-    console.log(action)
+    // console.log(action)
     if(newState.start === true) {
       newState.tetriminosPosX = newState.tetriminosPosX - 48
     }
