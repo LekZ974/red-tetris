@@ -43,3 +43,7 @@ test('randNumber', () => {
     expect(value).toBeGreaterThanOrEqual(0)
     expect(value).toBeLessThanOrEqual(10)
 })
+
+test('initBoard', () => {
+    expect(gameHandler.initBoard()).toMatchSnapshot()
+})

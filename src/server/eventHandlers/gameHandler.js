@@ -1,4 +1,5 @@
 import shapes from '../constants/shapes'
+import board from '../constants/board'
 
 import Piece from '../controllers/piece'
 import Game from '../controllers/game'
@@ -42,9 +43,24 @@ const randNumber = function(min, max) {
 	return Math.floor(Math.random() * (max -min + 1))
 }
 
+const initBoard = function() {
+	let grid = new Array(board.LENGTH)
+
+	for (let i = 0; i < grid.length; i++) {
+		grid[i] = new Array(board.WIDTH)
+	}
+	for (let i = 0; i < grid.length; i++) {
+		for(let j = 0; j < grid[i].length; j++) {
+			grid[i][j] = 0
+		}
+	}
+	return grid
+}
+
 export {
 	findPlayer,
 	findGame,
 	createGame,
-	randNumber
+	randNumber,
+	initBoard
 }
