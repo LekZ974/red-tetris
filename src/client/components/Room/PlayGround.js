@@ -1,51 +1,39 @@
 import React, { Component } from 'react'
 
-
-const commandes = ()=>{
-  return(
-    <div style={{border:'1px, solid blue', backgroundColor:'skyblue'}}>
-      <h4 style={{textAlign:'center'}}>Commandes</h4>
-       Rotation<br/> Barre d'espace <br/>
-      Fleches deplacement<br/>
-    </div>
-  )
-}
-class Tetriminos extends Component{
-  constructor(props){
-    super(props)
-  }
-  render(){
-    // var s = {
-    //   left: (this.props.col-1) * 25 + 'px',
-    //   top: (this.props.row-1) * 25 + 'px',
-    //   backgroundColor:'red'
-    // };
-    return (<div style={{height:'20px', width:'20px', backgroundColor:'red', marginTop: this.props.pos +'px'}}> </div>)
-  }
-}
+import {GridBlock} from '../block'
+import {connect} from "react-redux";
+import {tetriStep} from "../../actions/tetrimino";
 
 class PlayGround extends Component {
     constructor(props){
       super(props)
       this.state = {
-        tetriminosPos:10
-      }
+        tetriminosPos:10,
+      };
+      this.intervalStep = null
     }
 
     render(){
+      const {game, dispatch} = this.props
+
+      if (game.start) {
+        this.intervalStep = setInterval(() => dispatch(tetriStep()), 1000)
+      } else {
+        clearInterval(this.intervalStep)
+      }
 
       return(
         <div>PlayGround
-
             <div>
-              <Tetriminos
+              <GridBlock
                 pos={this.state.tetriminosPos}
               />
             </div>
-          {commandes()}
         </div>
       )
     }
 }
 
-export default PlayGround
+export default connect(({game}) => ({
+  game: game,
+}))(PlayGround)

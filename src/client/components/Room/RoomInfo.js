@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {Button} from '../block'
 import {gameStatus} from '../../actions/game'
 import {tetriStep} from '../../actions/tetrimino'
 
@@ -25,6 +24,7 @@ class RoomInfo extends Component {
           <div>RoomInfo</div>
           <button onClick={changeGameFlow}>{buttonValue}</button>
           <button onClick={changeGameFlow}>Stop</button>
+          {console.log('GAME',game)}
         </div>
       )
     }

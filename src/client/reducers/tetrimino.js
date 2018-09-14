@@ -10,8 +10,8 @@ const initialState = {
 export default function TetriminoReducer (state = initialState, action = {}) {
   switch (action.type) {
     case TETRI_STEP: {
-      console.log('TETRI',action.type)
       step += 1;
+      console.log('TETRI',action.type, step)
       return {
         ...state,
         items: action.payload,

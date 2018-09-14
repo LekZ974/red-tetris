@@ -1,4 +1,4 @@
-import {GAME_STATUS} from '../actions/game'
+import {GAME_STATUS, GAME_FLOW} from '../actions/game'
 
 const initialState = {
   items: [],
@@ -36,7 +36,11 @@ export default function GameReducer (state = initialState, action = {}) {
             start:false
           }
         }
+        default: return state
       }
+    }
+    case GAME_FLOW: {
+      return {...state}
     }
     default:
       return state

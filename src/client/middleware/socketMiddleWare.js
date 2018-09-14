@@ -15,19 +15,24 @@ const socketMiddleware = socket => ({dispatch}) => {
             console.log('GETGAMES', payload)
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
+          break;
         }
         case GAME_STATUS : {
-          console.log('Action', action)
-          socket.on('GAME_STATUS', (payload) => {
-            console.log('GAMESTATUS', payload)
+          socket.emit('GAME_STATUS', (payload) => {
+            console.log('GAME_STATUS', payload)
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
+          break;
         }
         default: {
-          return next(action)
+          console.log('Action', action, action.thenFn)
+          console.log('Next', next)
+          break;
         }
       }
+      if (thenFn) thenFn(dispatch)
     }
+    return next(action)
   }
 }
 
