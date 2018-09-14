@@ -50,6 +50,19 @@ io.on('connection', (client) => {
 
         game.setChallenger(challenger)
     })
+    client.on(routes.START_GAME, (gameName) => {
+        const gameId = idHandler.getGameId(gameName)
+        let game = gameHandler.findGame(gameId, activeGames)
+
+        /*if (game.waitingForPlayers()) {
+            io.to(client.id).emit('gameStarted', 'KO')
+            return
+        }*/
+        game.boardMaster = gameHandler.initBoard()
+        game.boardChallenger = gameHandler.initBoard()
+        io.to(game.master.socketID).emit('gameStarted', game.boardMaster)
+        //io.to(game.challenger.socketID).emit('gameStarted', game.boardChallenger)
+    })
     client.on(routes.REQUEST_SHAPE, (gameId) => {
         console.log('getting shape ')
         const game = gameHandler.findGame(gameId, activeGames)
