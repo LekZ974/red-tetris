@@ -6,6 +6,8 @@ export default class Game {
         this.roomID = ''
         this.roomName = ''
         this.gameStarted = false
+        this.boardMaster = null
+        this.boardChallenger = null
     }
 
     setRoomInfo(id, name) {
