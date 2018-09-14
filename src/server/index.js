@@ -31,7 +31,7 @@ io.on('connection', (client) => {
 		onlineUsers.push(player)
 	})
     client.on(routes.CREATE_GAME, (gameName) => {
-        const gameId = idHandler.createId(gameName)
+        const gameId = idHandler.getGameId(gameName)
         const id = gameHandler.findGame(gameId, activeGames)
 
          if (id !== undefined) {
