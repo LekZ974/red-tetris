@@ -1,15 +1,17 @@
-import {GAME_STATUS, GAME_FLOW} from '../actions/game'
+import {EMIT_GAME_STATUS, GAME_FLOW, EMIT_GAME_PIECES} from '../actions/game'
 
 const initialState = {
   items: [],
   gameIsStarted: false,
   start: false,
-  stop: false
+  stop: false,
+  gamePieces: []
 }
 
 export default function GameReducer (state = initialState, action = {}) {
+  console.log('GAME REDUCER',action)
   switch (action.type) {
-    case GAME_STATUS: {
+    case EMIT_GAME_STATUS: {
       switch (action.gameStatus) {
         case 'Start': {
           return {
@@ -28,16 +30,13 @@ export default function GameReducer (state = initialState, action = {}) {
           }
         }
         case 'Stop': {
-          return {
-            ...state,
-            items: action.payload,
-            gameIsStarted: false,
-            stop: true,
-            start:false
-          }
+          return initialState
         }
         default: return state
       }
+    }
+    case EMIT_GAME_PIECES: {
+      return state
     }
     case GAME_FLOW: {
       return {...state}

@@ -1,21 +1,23 @@
 import {TETRI_STEP} from '../actions/tetrimino'
 
-let step = 0
-
 const initialState = {
   items: [],
-  step: step
+  pieceId: 0,
+  pieceStep: 0,
 }
 
 export default function TetriminoReducer (state = initialState, action = {}) {
+  console.log('TETRI REDUCER',action)
   switch (action.type) {
     case TETRI_STEP: {
-      step += 1;
-      console.log('TETRI',action.type, step)
-      return {
-        ...state,
-        items: action.payload,
-        step: step
+      if (!action.game.gameIsStarted) {
+        return initialState
+      } else {
+        return {
+          ...state,
+          items: action.payload,
+          pieceStep: state.pieceStep + 1
+        }
       }
     }
     default:

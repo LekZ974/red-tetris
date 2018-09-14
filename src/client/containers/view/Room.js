@@ -25,7 +25,6 @@ const FakeSpectre = [
 const Room = ({ user, game, match, props }) => {
   return(
     <Box flex flexDirection='column' align='stretch'>
-      {console.log(game)}
       <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
         <Card flex={1} width={'40em'}>
           <RoomInfo />

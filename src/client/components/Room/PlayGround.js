@@ -17,9 +17,10 @@ class PlayGround extends Component {
       const {game, dispatch} = this.props
 
       if (game.start) {
-        this.intervalStep = setInterval(() => dispatch(tetriStep()), 1000)
+        this.intervalStep = setInterval(() => dispatch(tetriStep(game)), 1000)
       } else {
         clearInterval(this.intervalStep)
+        dispatch(tetriStep(game))
       }
 
       return(

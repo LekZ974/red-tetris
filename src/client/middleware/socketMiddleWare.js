@@ -1,5 +1,5 @@
 import {GET_GAMES} from "../actions/games";
-import {GAME_STATUS} from "../actions/game";
+import {EMIT_GAME_STATUS, EMIT_GAME_PIECES} from "../actions/game";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -12,21 +12,26 @@ const socketMiddleware = socket => ({dispatch}) => {
       switch (action.type) {
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
-            console.log('GETGAMES', payload)
+            console.log('SOCKET ON GETGAMES', payload)
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
           break;
         }
-        case GAME_STATUS : {
-          socket.emit('GAME_STATUS', (payload) => {
-            console.log('GAME_STATUS', payload)
+        case EMIT_GAME_STATUS : {
+          console.log('EMIT_GAME_STATUS', action)
+          socket.emit('EMIT_GAME_STATUS', (payload) => {
+            return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
+          })
+          break;
+        }
+        case EMIT_GAME_PIECES : {
+          socket.emit('EMIT_GAME_PIECES', (payload) => {
+            console.log('EMIT_GAME_PIECES', payload)
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
           break;
         }
         default: {
-          console.log('Action', action, action.thenFn)
-          console.log('Next', next)
           break;
         }
       }
