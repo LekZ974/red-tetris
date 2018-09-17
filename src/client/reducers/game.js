@@ -4,14 +4,18 @@ const initialState = {
   items: [],
   gameIsStarted: false,
   start: false,
-  stop: false,
+  pause: false,
   gamePieces: []
 }
 
 export default function GameReducer (state = initialState, action = {}) {
   console.log('GAME REDUCER',action)
+  if (!action.payload) {
+    action.payload = [];
+  }
   switch (action.type) {
     case EMIT_GAME_STATUS: {
+      console.log('ACTION GAME', action.game)
       switch (action.gameStatus) {
         case 'Start': {
           return {
@@ -19,14 +23,16 @@ export default function GameReducer (state = initialState, action = {}) {
             items: action.payload,
             start: true,
             gameIsStarted: true,
-            stop: false
+            pause: false
           }
         }
         case 'Pause': {
           return {
             ...state,
             items: action.payload,
-            start: false
+            start: false,
+            pause: true,
+            gameIsStarted: true,
           }
         }
         case 'Stop': {
@@ -39,7 +45,7 @@ export default function GameReducer (state = initialState, action = {}) {
       return state
     }
     case GAME_FLOW: {
-      return {...state}
+      return state
     }
     default:
       return state
