@@ -4,7 +4,16 @@ import {move, reset, tetriminosTick, button} from '../../actions/tetriminos'
 
 
 import { connect } from 'react-redux';
-
+/**
+ * Forme 
+ *  1 O
+ * 2 I
+ * 3 T
+ * 4 L
+ * 5 J
+ * 6 Z
+ * 7 S
+ */
 const commandes = () => (
   <div style={{ border: '1px, solid blue' }}>
     <h5 style={{ textAlign: 'center' }}>Commandes</h5>
@@ -203,7 +212,77 @@ function start(e){
   windowTick
   store.dispatch(button(e))
 }
+function checkNextPos(sharp, pos, array, step){
 
+  let A = null
+  let B = null
+  let C = null
+  let D = null
+
+    switch(sharp):{
+      case '1':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X ][pos.Y + step]
+        D = array[pos.X ][pos.Y + 1 + step]
+        break
+      }
+      case '2':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X + step + 2][pos.Y]
+        D = array[pos.X + step + 3][pos.Y]
+        break
+      }
+      case '3':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X ][pos.Y + step]
+        D = array[pos.X ][pos.Y + 1 + step]
+        break
+      }
+      case '4':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X ][pos.Y + step]
+        D = array[pos.X ][pos.Y + 1 + step]
+        break
+      }
+      case '5':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X ][pos.Y + step]
+        D = array[pos.X ][pos.Y + 1 + step]
+        break
+      }
+      case '6':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X ][pos.Y + step]
+        D = array[pos.X ][pos.Y + 1 + step]
+        break
+      }
+      case '7':{
+        A = array[pos.X + step][pos.Y]
+        B = array[pos.X + step + 1][pos.Y]
+        C = array[pos.X ][pos.Y + step]
+        D = array[pos.X ][pos.Y + 1 + step]
+        break
+      }
+      default:{
+        break
+      }
+    }
+
+    if(A === 0 && B === 0
+      && C === 0 && D === 0){
+        return true
+      }
+    return false
+}
+function setNextPos(sharp, pos, array){
+
+}
 function addTetriminos(array, tetriminos){
     const pos = {
         X:0,
