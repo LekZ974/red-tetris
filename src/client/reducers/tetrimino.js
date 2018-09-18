@@ -7,7 +7,6 @@ const initialState = {
 }
 
 export default function TetriminoReducer (state = initialState, action = {}) {
-  console.log('TETRI REDUCER',action)
   if (!action.payload) {
     action.payload = []
   }

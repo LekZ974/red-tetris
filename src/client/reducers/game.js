@@ -9,13 +9,11 @@ const initialState = {
 }
 
 export default function GameReducer (state = initialState, action = {}) {
-  console.log('GAME REDUCER',action)
   if (!action.payload) {
     action.payload = [];
   }
   switch (action.type) {
     case EMIT_GAME_STATUS: {
-      console.log('ACTION GAME', action.game)
       switch (action.gameStatus) {
         case 'Start': {
           return {

@@ -12,13 +12,11 @@ const socketMiddleware = socket => ({dispatch}) => {
       switch (action.type) {
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
-            console.log('SOCKET ON GETGAMES', payload)
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
           break;
         }
         case EMIT_GAME_STATUS : {
-          console.log('EMIT_GAME_STATUS', action)
           socket.emit('EMIT_GAME_STATUS', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
@@ -26,7 +24,6 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_GAME_PIECES : {
           socket.emit('EMIT_GAME_PIECES', (payload) => {
-            console.log('EMIT_GAME_PIECES', payload)
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
           break;
