@@ -32,6 +32,44 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       }
     }
     case TETRI_ACTION: {
+      switch (action.action) {
+        case 'ArrowUp': {
+          if (3 === state.rotate) {
+            state.rotate = -1
+          }
+          return {
+            ...state,
+            rotate: state.rotate + 1
+          }
+        }
+        case 'ArrowDown': {
+          if (0 === state.rotate) {
+            state.rotate = 4
+          }
+          return {
+            ...state,
+            rotate: state.rotate - 1
+          }
+        }
+        case 'ArrowLeft': {
+          return {
+            ...state,
+            coords: {
+              ...state.coords,
+              posX: state.coords.posX - 1
+            }
+          }
+        }
+        case 'ArrowRight': {
+          return {
+            ...state,
+            coords: {
+              ...state.coords,
+              posX: state.coords.posX + 1
+            }
+          }
+        }
+      }
       return {
         ...state,
       }

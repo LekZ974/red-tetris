@@ -46,7 +46,7 @@ class Room extends React.Component {
   handleKeyDown(e) {
     const {dispatch} = this.props
     e.preventDefault()
-    dispatch(tetriAction(e))
+    dispatch(tetriAction(e.code))
   }
 
   render() {

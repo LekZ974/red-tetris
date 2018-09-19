@@ -5,7 +5,7 @@ export const tetriStep = game => ({
   type: TETRI_STEP,
   game: game
 })
-export const tetriAction = game => ({
+export const tetriAction = action => ({
   type: TETRI_ACTION,
-  game: game
+  action: action
 })
