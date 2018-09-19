@@ -7,6 +7,7 @@ import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
 import {gameStatus} from "../../actions/game";
 import {login} from "../../actions/user";
+import {tetriAction} from "../../actions/tetrimino";
 
 const FakeSpectre = [
   {
@@ -26,16 +27,31 @@ const FakeSpectre = [
 class Room extends React.Component {
   constructor(props) {
     super(props)
-    const {user, game, match, dispatch} = this.props
+    const {match, dispatch} = this.props
     dispatch(login({
       userName: match.params.user,
       gameName: match.params.room
     }))
+    this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown(e) {
+    const {dispatch} = this.props
+    e.preventDefault()
+    dispatch(tetriAction(e))
+  }
 
   render() {
-    const {user, game, match, dispatch} = this.props
+    const {user, game, match} = this.props
+
 
     return (
       <Box flex flexDirection='column' align='stretch'>

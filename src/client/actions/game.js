@@ -1,4 +1,4 @@
-import {tetriStep} from "./tetrimino";
+import {tetriAction} from "./tetrimino";
 
 export const EMIT_GAME_STATUS = 'game/EMIT_GAME_STATUS'
 export const GAME_FLOW = 'game/GAME_FLOW'
@@ -16,7 +16,10 @@ export const emitGameStatus = (status, game) => ({
 
 export const gameFlow = (action) => ({
   type: GAME_FLOW,
-  gameAction: action
+  gameAction: action,
+  thenFn: dispatch => {
+    dispatch(tetriAction(action))
+  }
 })
 
 export const emitGamePieces = roomName => ({

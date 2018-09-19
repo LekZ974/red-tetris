@@ -4,7 +4,6 @@ import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
 import {getGames} from "../../actions/games";
 import {init} from "../../actions/user";
-import {Redirect} from 'react-router-dom'
 
 class Home extends React.Component {
   constructor(props) {
@@ -34,7 +33,7 @@ class Home extends React.Component {
       window.location.reload()
     }
     return (
-    <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
+      <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
         <Box flex={1}>
           <HomeForm props={{...this.props}}/>
         </Box>

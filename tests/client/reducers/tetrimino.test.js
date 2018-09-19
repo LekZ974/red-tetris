@@ -9,6 +9,11 @@ describe('game reducer', () => {
           items: [],
           pieceId: 0,
           pieceStep: 0,
+          coords: {
+            posX:0,
+            posY:0
+          },
+          rotate:0,
         }
       )
     }
@@ -22,12 +27,22 @@ describe('game reducer', () => {
       items: [],
       pieceId: 0,
       pieceStep: 0,
+      coords: {
+        posX:0,
+        posY:0
+      },
+      rotate:0,
     })
     expect(
       reducer({
           items: [],
           pieceId: 0,
           pieceStep: 4,
+          coords: {
+            posX:0,
+            posY:0
+          },
+          rotate:0,
         }
         ,{
           type: TETRI_STEP,
@@ -38,6 +53,11 @@ describe('game reducer', () => {
         items: [],
         pieceId: 0,
         pieceStep: 5,
+        coords: {
+          posX:0,
+          posY:1
+        },
+        rotate:0,
       }
     )
     expect(
@@ -45,6 +65,11 @@ describe('game reducer', () => {
           items: [],
           pieceId: 0,
           pieceStep: 3,
+          coords: {
+            posX:0,
+            posY:0
+          },
+          rotate:0,
         }
         ,{
           type: TETRI_STEP,
@@ -55,6 +80,11 @@ describe('game reducer', () => {
         items: [],
         pieceId: 0,
         pieceStep: 0,
+        coords: {
+          posX:0,
+          posY:0
+        },
+        rotate:0,
       }
     )
   })

@@ -2,11 +2,11 @@ import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
 import {maxLength15, minLength3, required} from "../../utils/formValidation"
-import {history} from "../../index";
-import {login, connect} from "../../actions/user"
+import {connect} from "../../actions/user"
+import { push } from 'connected-react-router'
 
 const onSubmit = (data, dispatch) => {
-  history.push(`/#${data.gameName}/${data.userName}`)
+  dispatch(push(`/#${data.gameName}/${data.userName}`))
   dispatch(connect(data))
 }
 

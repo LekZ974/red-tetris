@@ -10,7 +10,13 @@ const mockStore = configureStore([
 ]);
 
 const game = {
-  items: ['something', "an other thing"]
+  items: ['something', "an other thing"],
+  start: true
+}
+
+const user = {
+  userName: "USER",
+  gameName: "GAME"
 }
 
 const initialState = {
@@ -22,7 +28,7 @@ describe('>>>>PLAYGROUND - REACT-REDUX (Shallow + passing the {store} directly',
   let wrapper;
   beforeEach(() => {
     const store = mockStore(initialState)
-    wrapper = shallow(<ConnectedRoomInfo store={store}/>).dive()
+    wrapper = shallow(<ConnectedRoomInfo user={user} game={game} store={store}/>).dive()
   })
   it('renders without crashing', () => {
     expect(wrapper.length).to.equal(1)
