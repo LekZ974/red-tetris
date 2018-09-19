@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {emitGameStatus} from '../../actions/game'
-import {tetriStep} from '../../actions/tetrimino'
 
 
 class RoomInfo extends Component {
@@ -10,7 +9,7 @@ class RoomInfo extends Component {
     }
 
     render(){
-      const {game, dispatch} = this.props
+      const {game, user, dispatch} = this.props
 
       function changeGameFlow(e) {
         const status = e.target.innerHTML
@@ -22,6 +21,8 @@ class RoomInfo extends Component {
       return(
         <div>
           <div>RoomInfo</div>
+          <h1>PLAYER:{user.userName}</h1>
+          <h1>ROOM:{user.gameName}</h1>
           <button onClick={changeGameFlow}>{buttonValue}</button>
           <button onClick={changeGameFlow}>Stop</button>
         </div>
@@ -29,6 +30,5 @@ class RoomInfo extends Component {
     }
 }
 
-export default connect(({game}) => ({
-  game: game,
+export default connect(() => ({
 }))(RoomInfo)

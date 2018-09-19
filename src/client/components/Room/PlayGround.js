@@ -35,6 +35,5 @@ class PlayGround extends Component {
     }
 }
 
-export default connect(({game}) => ({
-  game: game,
+export default connect(() => ({
 }))(PlayGround)

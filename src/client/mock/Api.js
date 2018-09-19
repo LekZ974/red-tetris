@@ -5,14 +5,10 @@ class ApiMock {
   login(user) {
     let data = {
       id: Math.random().toString(36).substring(2, 15),
-      userName: user.name,
-      gameName: user.game,
+      userName: user.userName,
+      gameName: user.gameName,
       connected: true,
       role: 'master',
-      thenFn: dispatch => {dispatch(push(`/#${user.game}/${user.name}`))},
-      catchFn: e => {
-        throw new SubmissionError(e)
-      }
     }
     if (data.userName && data.gameName) {
       return Promise.resolve({status: 200, ...data})

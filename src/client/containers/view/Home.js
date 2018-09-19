@@ -3,11 +3,14 @@ import { Box, Card, LoadingContainer } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
 import {getGames} from "../../actions/games";
+import {init} from "../../actions/user";
 import {Redirect} from 'react-router-dom'
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
+    const { dispatch} = this.props
+    dispatch(init())
   }
 
   componentDidMount () {
@@ -16,7 +19,8 @@ class Home extends React.Component {
   }
 
   render () {
-    const { gamesList, isLoading } = this.props
+    const { user, gamesList, isLoading } = this.props
+
     let linkList = gamesList.map((game) => {
       return(
         <li key={game.id}>
@@ -26,8 +30,8 @@ class Home extends React.Component {
         </li>
       )
     })
-    if(this.props.user.connected === true){
-      return (<Redirect push={true} to={'/' +this.props.user.gameName + '/' + this.props.user.userName}/>)
+    if(user.connected === true){
+      window.location.reload()
     }
     return (
     <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
