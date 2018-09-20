@@ -1,4 +1,4 @@
-import {USER_INIT, USER_LOGIN, USER_CONNECT} from '../actions/user'
+import {USER_INIT, USER_LOGIN, USER_CONNECT} from '../../actions/user'
 
 const initialState = {
   id: '',

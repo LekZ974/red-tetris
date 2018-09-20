@@ -1,4 +1,4 @@
-import reducer from '../../../src/client/reducers/user'
+import reducer from '../../../src/client/reducers/user/user'
 import {USER_LOGIN} from '../../../src/client/actions/user'
 
 

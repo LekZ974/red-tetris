@@ -1,5 +1,6 @@
-import reducer from '../../../src/client/reducers/games'
+import reducer from '../../../src/client/reducers/games/games'
 import {GET_GAMES} from '../../../src/client/actions/games'
+import {reducerGetGames} from '../../../src/client/reducers/games/functions'
 
 
 describe('game reducer', () => {
@@ -17,7 +18,7 @@ describe('game reducer', () => {
       reducer([],{
         type: GET_GAMES,
         payload: 'Run the tests'
-      })).toEqual({"isLoading": true})
+      })).toEqual(reducerGetGames)
     expect(
       reducer({
           items: [],
@@ -27,11 +28,7 @@ describe('game reducer', () => {
           type: GET_GAMES,
           payload: {'something': 'run the tests'},
           status: 'success'
-        })).toEqual({
-        items: {'something': 'run the tests'},
-        isLoading: false,
-      }
-    )
+        })).toEqual(reducerGetGames)
     expect(
       reducer({
           items: [],
@@ -41,10 +38,6 @@ describe('game reducer', () => {
           type: GET_GAMES,
           payload: 'a string',
           status: 'success'
-        })).toEqual({
-        items: 'a string',
-        isLoading: false,
-      }
-    )
+        })).toEqual(reducerGetGames)
   })
 })

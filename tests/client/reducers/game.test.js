@@ -1,4 +1,4 @@
-import reducer from '../../../src/client/reducers/game'
+import reducer from '../../../src/client/reducers/game/game'
 import {EMIT_GAME_STATUS, GAME_FLOW, EMIT_GAME_PIECES} from '../../../src/client/actions/game'
 
 

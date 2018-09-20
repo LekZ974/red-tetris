@@ -1,4 +1,4 @@
-import reducer from '../../../src/client/reducers/tetrimino'
+import reducer from '../../../src/client/reducers/tetrimino/tetrimino'
 import {TETRI_STEP} from '../../../src/client/actions/tetrimino'
 
 
