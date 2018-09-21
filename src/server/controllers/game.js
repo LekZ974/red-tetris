@@ -8,6 +8,10 @@ export default class Game {
         this.gameStarted = false
         this.boardMaster = null
         this.boardChallenger = null
+        this.shapeOrder = {
+            shapes: [],
+            requestId: null
+        }
     }
 
     setRoomInfo(id, name) {
