@@ -64,11 +64,10 @@ io.on('connection', (client) => {
         //io.to(game.challenger.socketID).emit('gameStarted', game.boardChallenger)
     })
     client.on(routes.REQUEST_SHAPE, (gameId) => {
-        console.log('getting shape ')
-        const game = gameHandler.findGame(gameId, activeGames)
-        let index = gameHandler.randNumber(0, game.shapes.length - 1)
-
-        client.emit(routes.EMITTED_SHAPE, game.shapes[index].getShapeToEmit())
+        let game = gameHandler.findGame(gameId, activeGames)
+        let shape = gameHandler.getShape(game, client.id)
+		
+        io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
     })
     client.on('disconnect', () => {
         console.log('user is disconnecting')
