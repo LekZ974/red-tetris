@@ -57,10 +57,38 @@ const initBoard = function() {
 	return grid
 }
 
+const getShape = function(game, clientId) {
+	let index = randNumber(0, game.shapes.length - 1)
+
+	if (game.shapeOrder.shapes.length === 0) {
+		let shape = game.shapes[index].getShapeToEmit()
+
+		game.shapeOrder.shapes.push(shape)
+		game.shapeOrder.requestId = clientId
+		return shape
+	} else {
+		let shape
+
+		if (game.shapeOrder.requestId != clientId) {
+			shape = game.shapeOrder.shapes[0]
+			
+			game.shapeOrder.shapes.shift()
+			game.shapeOrder.requestId = null
+		} else {
+			shape = game.shapes[index].getShapeToEmit()
+
+			game.shapeOrder.shapes.push(shape)
+			game.shapeOrder.requsteId = clientId
+		}
+		return shape
+	}
+}
+
 export {
 	findPlayer,
 	findGame,
 	createGame,
 	randNumber,
-	initBoard
+	initBoard,
+	getShape
 }
