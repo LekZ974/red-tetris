@@ -9,7 +9,7 @@ const socketMiddleware = socket => ({dispatch}) => {
     const { type, thenFn} = action
 
     if (socket) {
-      switch (action.type) {
+      switch (type) {
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)

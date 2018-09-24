@@ -61,14 +61,14 @@ class Room extends React.Component {
   }
 
   render() {
-    const {user, game, match} = this.props
+    const {user, game, match, dispatch} = this.props
     this.intervalStep()
 
     return (
       <Box flex flexDirection='column' align='stretch'>
         <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
           <Card flex={1} width={'40em'}>
-            <RoomInfo user={user} game={game}/>
+            <RoomInfo user={user} game={game} dispatch={dispatch}/>
           </Card>
           <Card flex={1} width={'40em'}>
             <PlayGround game={game} tetrimino={20}/>
