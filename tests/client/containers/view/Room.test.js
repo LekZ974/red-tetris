@@ -15,8 +15,13 @@ const user = {
   role: 'RoleOfUser'
 }
 
+const game = {
+  start: true
+}
+
 const initialState = {
   user,
+  game,
 }
 
 

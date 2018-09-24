@@ -6,6 +6,7 @@ import routes from './constants/routes'
 import getShape from './eventHandlers/tetriminos'
 import Player from './controllers/player'
 import Games from './controllers/games'
+import {GAME_STATUS} from "../client/actions/game";
 
 const app = express()
 const server = require('http').createServer(app)

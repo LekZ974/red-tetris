@@ -1,18 +1,36 @@
 import { expect } from 'chai'
 import React from 'react'
 import { shallow } from 'enzyme'
-import renderer from 'react-test-renderer';
-import RoomInfo from '../../../../src/client/components/Room/RoomInfo'
+import ConnectedRoomInfo, {RoomInfo} from '../../../../src/client/components/Room/RoomInfo'
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
-describe('>>>>ROOMINFO', () => {
-  it('renders without crashing', () => {
-    const wrapper = shallow(<RoomInfo/>)
+const mockStore = configureStore([
+  thunk,
+]);
+
+const game = {
+  items: ['something', "an other thing"],
+  start: true
+}
+
+const user = {
+  userName: "USER",
+  gameName: "GAME"
+}
+
+const initialState = {
+  game
+}
+
+
+describe('>>>>PLAYGROUND - REACT-REDUX (Shallow + passing the {store} directly', () => {
+  let wrapper;
+  beforeEach(() => {
+    const store = mockStore(initialState)
+    wrapper = shallow(<ConnectedRoomInfo user={user} game={game} store={store}/>)
   })
-  it('RoomInfo display', () => {
-    const component = renderer.create(
-      <RoomInfo/>,
-    );
-    let tree = component.toJSON();
-    expect(tree).to.matchSnapshot();
-  });
+  it('renders without crashing', () => {
+    expect(wrapper.length).to.equal(1)
+  })
 })
