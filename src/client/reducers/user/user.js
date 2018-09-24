@@ -6,6 +6,7 @@ const initialState = {
   gameName: '',
   role: '',
   connected: false,
+  grid: [],
   payload: {}
 }
 
@@ -20,14 +21,15 @@ export default function UserReducer (state = initialState, action = {}) {
     }
     case USER_LOGIN: {
       if (action.status === 'success') {
-        const { id, userName, gameName, role , connected} = action.payload
+        const { id, userName, gameName, role , connected, grid} = action.payload
         return {
           ...state,
           id,
           userName,
           gameName,
           role,
-          connected
+          connected,
+          grid
         }
       }
       return state

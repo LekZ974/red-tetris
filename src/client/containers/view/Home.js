@@ -20,7 +20,7 @@ class Home extends React.Component {
   render () {
     const { user, gamesList, isLoading } = this.props
 
-    let linkList = gamesList.map((game) => {
+    let linkList = gamesList ? gamesList.map((game) => {
       return(
         <li key={game.id}>
           <Box fontSize={30}>
@@ -28,7 +28,7 @@ class Home extends React.Component {
           </Box>
         </li>
       )
-    })
+    }) : null
     if(user.connected === true){
       window.location.reload()
     }

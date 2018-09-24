@@ -1,5 +1,4 @@
 import reducer from '../../../src/client/reducers/user/user'
-import {USER_LOGIN} from '../../../src/client/actions/user'
 
 
 describe('game reducer', () => {
@@ -11,6 +10,7 @@ describe('game reducer', () => {
           gameName: '',
           role: '',
           connected: false,
+          grid: [],
           payload: {}
         }
       )

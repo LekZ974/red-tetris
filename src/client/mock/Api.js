@@ -1,5 +1,5 @@
-import {push} from "connected-react-router";
-import {SubmissionError} from "redux-form";
+import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
+import {PIECES_NUM} from "../../common/pieces";
 
 class ApiMock {
   login(user) {
@@ -9,6 +9,7 @@ class ApiMock {
       gameName: user.gameName,
       connected: true,
       role: 'master',
+      grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
     }
     if (data.userName && data.gameName) {
       return Promise.resolve({status: 200, ...data})

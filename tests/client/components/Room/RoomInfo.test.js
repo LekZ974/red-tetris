@@ -28,7 +28,7 @@ describe('>>>>PLAYGROUND - REACT-REDUX (Shallow + passing the {store} directly',
   let wrapper;
   beforeEach(() => {
     const store = mockStore(initialState)
-    wrapper = shallow(<ConnectedRoomInfo user={user} game={game} store={store}/>).dive()
+    wrapper = shallow(<ConnectedRoomInfo user={user} game={game} store={store}/>)
   })
   it('renders without crashing', () => {
     expect(wrapper.length).to.equal(1)

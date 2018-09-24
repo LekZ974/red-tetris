@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
 import {emitGameStatus} from '../../actions/game'
 
 
@@ -30,5 +29,4 @@ class RoomInfo extends Component {
     }
 }
 
-export default connect(() => ({
-}))(RoomInfo)
+export default RoomInfo
