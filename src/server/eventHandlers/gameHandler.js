@@ -21,6 +21,20 @@ const findGame = function(gameId, allGames) {
 	return game
 }
 
+const findGameBySocketId = function(clientId, allGames) {
+	const game = allGames.find((id) => {
+		if (id.master != null) {
+			if (id.master.socketID == clientId)
+				return id
+		}
+		if (id.challenger != null) {
+			if (id.challenger.socketID == clientId)
+				return id
+		}
+	})
+	return game
+}
+
 const initShapes = function() {
 	let shapeArray = []
 
@@ -87,6 +101,7 @@ const getShape = function(game, clientId) {
 export {
 	findPlayer,
 	findGame,
+	findGameBySocketId,
 	createGame,
 	randNumber,
 	initBoard,
