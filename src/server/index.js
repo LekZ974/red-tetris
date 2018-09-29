@@ -44,8 +44,9 @@ io.on('connection', (client) => {
             io.to(client.id).emit(routes.GAME_EXISTS, 'OK')
         }
     })
-    client.on(routes.JOIN_GAME, (gameId) => {
+    client.on(routes.JOIN_GAME, (gameName) => {
         const challenger = gameHandler.findPlayer(client.id, onlineUsers)
+        const gameId = idHandler.getGameId(gameName)
         let game = gameHandler.findGame(gameId, activeGames)
 
         game.setChallenger(challenger)
