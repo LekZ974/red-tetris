@@ -16,14 +16,26 @@ const playGroundArray =
     [0,0,0,0,0,0,0,0,0,0,],
     [0,0,0,0,0,0,0,0,0,0,],
     [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,0,],
     [0,0,0,0,0,0,0,0,0,0,]
   ]
 const piece = [0,0,0]
 const initialState = {
-  tetriminosPosX: 0,
-  tetriminosPosY: -480,
+  tetriminosPosX: 5,
+  tetriminosPosY: 0,
   rot: 0,
   test:'alpha',
+  prevPosX:null,
+  prevPosY:null,
   start: false,
   stop: false,
   playground:playGroundArray,
@@ -31,20 +43,24 @@ const initialState = {
 }
 
 const resetState = {
-  tetriminosPosX: 0,
-  tetriminosPosY: -480,
+  tetriminosPosX: 5,
+  tetriminosPosY: 0,
+  prevPosX:null,
+  prevPosY:null,
   rot: 0,
+  playground:playGroundArray,
+
 }
 
 export default function TetriminosReducer(state = initialState, action = {}) {
-  console.log('dans reducer*************************', state)
   const newState = Object.assign({}, state)
-
+  newState.prevPosX = newState.tetriminosPosX
+  newState.prevPosY = newState.tetriminosPosY
   switch (action.type) {
   case TETRIMINOS_TICK:{
-    // if(newState.start === true){
-    //   newState.tetriminosPosY = newState.tetriminosPosY + 48
-    // }
+  //if(newState.start === true){
+       newState.tetriminosPosY = newState.tetriminosPosY + 1
+  //   }  
     return {
       ...newState,
       payload: action,
@@ -52,9 +68,10 @@ export default function TetriminosReducer(state = initialState, action = {}) {
   }
   case TETRIMINOS_MOVE_DOWN: {
     // console.log(action)
-    if(newState.start === true) {
-      newState.tetriminosPosY = newState.tetriminosPosY + 48
-    }
+    //if(newState.start === true) {
+
+      newState.tetriminosPosY = newState.tetriminosPosY < 20 ?  newState.tetriminosPosY + 1 : newState.tetriminosPosY
+      // }
     return {
       ...newState,
       payload: action,
@@ -62,18 +79,22 @@ export default function TetriminosReducer(state = initialState, action = {}) {
   }
   case TETRIMINOS_MOVE_LEFT: {
     // console.log(action)
-    if(newState.start === true) {
-      newState.tetriminosPosX = newState.tetriminosPosX - 48
-    }
+   // if(newState.start === true) {
+    newState.tetriminosPosX = newState.tetriminosPosX >  0 ? newState.tetriminosPosX - 1 : newState.tetriminosPosX
+   // }
     return {
       ...newState,
       payload: action,
     }
   }
   case TETRIMINOS_MOVE_RIGHT: {
-    if(newState.start === true) {
-      newState.tetriminosPosX = newState.tetriminosPosX + 48
-    }
+   // if(newState.start === true) {
+      //newState.tetriminosPosX = newState.tetriminosPosX + 1
+      console.log('PosX',  newState.tetriminosPosX )
+      newState.tetriminosPosX = newState.tetriminosPosX < 10 ?  newState.tetriminosPosX + 1 : newState.tetriminosPosX
+      console.log('PosX',  newState.tetriminosPosX )
+
+  //  }
     return {
       ...newState,
       payload: action,

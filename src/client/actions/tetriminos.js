@@ -37,30 +37,36 @@ export const button = (e) => {
 }
 
 export const move = (e) => {
+  console.log('move', e.key)
   switch (e.key) {
-    default: {
-      return {
-        type: UNKNOW_KEY
-      }
-    }
+   
     case "ArrowLeft":
+    console.log('left')
       return {
         type: TETRIMINOS_MOVE_LEFT,
         payload:{
           test:'lala'
         }
       }
-    case "ArrowDown":
+    case "ArrowDown":    
+    console.log('down')
       return {
         type: TETRIMINOS_MOVE_DOWN
       }
     case "ArrowRight":
+    console.log('right')
       return {
         type: TETRIMINOS_MOVE_RIGHT
       }
     case "ArrowUp":
+    console.log('up')
       return {
         type: TETRIMINOS_MOVE_UP
+      }
+      default: {
+        return {
+          type: UNKNOW_KEY
+        }
       }
   }
 }
