@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom'
 import Home from './view/Home'
 import Room from './view/Room'
 
@@ -12,10 +12,10 @@ const getConfirmation = (message, callback) => {
 
 const App = () => (
   <Router getUserConfirmation={getConfirmation} hashType={'noslash'} basename={'/'}>
-    <Switch>
+    <div>
       <Route exact path="/" component={Home}/>
       <Route path="/:room/:user" component={Room}/>
-    </Switch>
+    </div>
   </Router>
 )
 
