@@ -6,6 +6,7 @@ import routes from './constants/routes'
 import * as gameHandler from './eventHandlers/gameHandler'
 import * as idHandler from './eventHandlers/idHandler'
 import Player from './controllers/player'
+import Piece from './controllers/piece'
 
 const app = express()
 const server = require('http').createServer(app)
@@ -68,6 +69,16 @@ io.on('connection', (client) => {
         let shape = gameHandler.getShape(game, client.id)
 		
         io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
+    })
+    client.on(routes.ROTATE_SHAPE, (shape, degrees) => {
+        let rotatedShape = null
+
+        if(shape !== null && degrees !== null) {
+            let piece  = new Piece(shape)
+
+            rotatedShape = piece.rotateShape(degrees)
+        }
+        io.to(client.id).emit(routes.ROTATED_SHAPE, rotatedShape)
     })
     client.on('disconnect', () => {
         console.log('user is disconnecting')
