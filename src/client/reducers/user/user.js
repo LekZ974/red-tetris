@@ -2,7 +2,7 @@ import {USER_INIT, USER_LOGIN, USER_CONNECT} from '../../actions/user'
 
 const initialState = {
   id: '',
-  userName: '',
+  name: '',
   gameName: '',
   role: '',
   connected: false,
@@ -21,11 +21,11 @@ export default function UserReducer (state = initialState, action = {}) {
     }
     case USER_LOGIN: {
       if (action.status === 'success') {
-        const { id, userName, gameName, role , connected, grid} = action.payload
+        const { id, name, gameName, role , connected, grid} = action.payload
         return {
           ...state,
           id,
-          userName,
+          name,
           gameName,
           role,
           connected,

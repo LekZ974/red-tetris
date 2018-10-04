@@ -20,7 +20,7 @@ class RoomInfo extends Component {
       return(
         <div>
           <div>RoomInfo</div>
-          <h1>PLAYER:{user.userName}</h1>
+          <h1>PLAYER:{user.name}</h1>
           <h1>ROOM:{user.gameName}</h1>
           <button onClick={changeGameFlow}>{buttonValue}</button>
           <button onClick={changeGameFlow}>Stop</button>

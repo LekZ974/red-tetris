@@ -1,5 +1,6 @@
 import {GET_GAMES} from "../actions/games";
-import {EMIT_GAME_STATUS, EMIT_GAME_PIECES} from "../actions/game";
+import {EMIT_GAME_STATUS, EMIT_GAME_PIECES, EMIT_CREATE_GAME} from "../actions/game";
+import {USER_LOGIN} from "../actions/user";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -16,8 +17,12 @@ const socketMiddleware = socket => ({dispatch}) => {
           })
           break;
         }
+        case EMIT_CREATE_GAME : {
+          if( action.game ) socket.emit('createGame', action.game.gameName)
+          break;
+        }
         case EMIT_GAME_STATUS : {
-          socket.emit('EMIT_GAME_STATUS', (payload) => {
+          socket.emit('GAME_STATUS', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
           break;

@@ -66,7 +66,7 @@ io.on('connection', (client) => {
     client.on(routes.REQUEST_SHAPE, () => {
         let game = gameHandler.findGameBySocketId(client.id, activeGames)
         let shape = gameHandler.getShape(game, client.id)
-		
+
         io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
     })
     client.on('disconnect', () => {
