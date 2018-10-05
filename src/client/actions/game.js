@@ -23,11 +23,8 @@ export const emitCreateGame = (gameData) => ({
 export const gameFlow = (action) => ({
   type: GAME_FLOW,
   gameAction: action,
-  thenFn: dispatch => {
-    dispatch(tetriAction(action))
-  }
 })
 
-export const emitGamePieces = roomName => ({
+export const emitGamePieces = () => ({
   type: EMIT_GAME_PIECES,
 })

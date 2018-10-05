@@ -19,6 +19,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_CREATE_GAME : {
           if( action.game ) socket.emit('createGame', action.game.gameName)
+          socket.on('gameExists', (data) => console.log(data))
           break;
         }
         case EMIT_GAME_STATUS : {
@@ -28,9 +29,8 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case EMIT_GAME_PIECES : {
-          socket.emit('EMIT_GAME_PIECES', (payload) => {
-            return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
-          })
+          socket.emit('requestShape')
+          socket.on('emittedShape', (data) => console.log(data))
           break;
         }
         default: {
