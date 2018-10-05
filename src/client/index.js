@@ -13,6 +13,8 @@ import {withRouter} from 'react-router-dom'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
 import params from "../../params"
 import io from 'socket.io-client'
+import {eventHandler} from "./utils/eventHandler";
+import {ticking} from "./utils/tickingHandler";
 
 const initialState = {}
 
@@ -40,3 +42,6 @@ ReactDom.render((
     </ConnectedRouter>
   </Provider>
 ), document.getElementById('tetris'))
+
+window.addEventListener('keydown', e => eventHandler(e), false);
+ticking();
