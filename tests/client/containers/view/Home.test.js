@@ -1,23 +1,37 @@
 import { expect } from 'chai'
 import React from 'react'
-import { shallow } from 'enzyme'
-
-import Home from '../../../../src/client/containers/view/Home'
-import HomeForm from '../../../../src/client/containers/form/HomeForm'
+import { shallow, mount } from 'enzyme'
+import ConnectedHome, {Home} from '../../../../src/client/containers/view/Home'
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-const store = configureStore([
+const mockStore = configureStore([
   thunk,
-])();
+]);
 
-describe('<Home />', () => {
-  it('renders without crashing', () => {
-    // const wrapper = shallow(<Home store={store}/>).dive()
+const user = {
+  userName: 'USERNAME',
+  gameName: 'GAMENAME',
+  role: 'RoleOfUser'
+}
+const games = {
+  items: [],
+  isLoading: false
+}
+
+const initialState = {
+  user,
+  games
+}
+
+
+describe('>>>>HOME - REACT-REDUX (Shallow + passing the {store} directly', () => {
+  let wrapper;
+  beforeEach(() => {
+    const store = mockStore(initialState)
+    wrapper = shallow(<ConnectedHome store={store}/>).dive()
   })
-  it('contains a home form', () => {
-    // const wrapper = shallow(<Home />)
-    //
-    // expect(wrapper).to.contain(<HomeForm/>)
+  it('renders without crashing', () => {
+    expect(wrapper.length).to.equal(1)
   })
 })

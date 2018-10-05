@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {Box} from '../components/block'
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './view/Home'
 import Room from './view/Room'
 
@@ -12,14 +11,12 @@ const getConfirmation = (message, callback) => {
 }
 
 const App = () => (
-  <Box>
-    <Router getUserConfirmation={getConfirmation} hashType={'noslash'} basename={'/'}>
-      <Box>
-        <Route exact path="/" component={Home}/>
-        <Route path="/:room" component={Room}/>
-      </Box>
-    </Router>
-  </Box>
+  <Router getUserConfirmation={getConfirmation} hashType={'noslash'} basename={'/'}>
+    <Switch>
+      <Route exact path="/" component={Home}/>
+      <Route path="/:room/:user" component={Room}/>
+    </Switch>
+  </Router>
 )
 
 const mapStateToProps = (state) => {
@@ -27,6 +24,7 @@ const mapStateToProps = (state) => {
     message: state.message
   }
 }
+
 export default connect(mapStateToProps, null)(App)
 
 

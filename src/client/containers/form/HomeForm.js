@@ -1,10 +1,16 @@
-import React , {Component}from 'react'
+import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
-import {login} from "../../actions/user";
+import {login, sendNameToServe} from "../../actions/user";
 import {required} from "../../utils/formValidation"
+import { socket }  from "../../index"
 
-const onSubmit = (data, dispatch) => dispatch(login(data))
+const onSubmit = (data, dispatch) => {
+  // console.log('data', data)
+
+  // dispatch(sendNameToServe(data.game))
+  dispatch(login(data))
+}
 
 const HomeForm = ({ handleSubmit, error }) => (
 <form onSubmit={handleSubmit(onSubmit)}>
@@ -17,7 +23,7 @@ const HomeForm = ({ handleSubmit, error }) => (
   <Error error={error} />
   <Field
     placeholder={'Your Party\'s name or select one in the list'}
-    name='room'
+    name='game'
     component={Input}
     validate={[required]}
   />
@@ -26,5 +32,5 @@ const HomeForm = ({ handleSubmit, error }) => (
 </form>
 )
 export default reduxForm({
-    form: 'LogForm'
+    form: 'HomeForm'
 })(HomeForm)

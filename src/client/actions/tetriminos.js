@@ -1,5 +1,5 @@
 import Api from '../mock/Api'
-
+import { socket } from '../index'
 export const TETRIMINOS_MOVE_LEFT = 'tetriminos/TETRIMINOS_MOVE_LEFT'
 export const TETRIMINOS_MOVE_RIGHT = 'tetriminos/TETRIMINOS_MOVE_RIGHT'
 export const TETRIMINOS_MOVE_DOWN = 'tetriminos/TETRIMINOS_MOVE_DOWN'
@@ -11,11 +11,26 @@ export const GAME_START = 'tetriminos/GAME_START'
 export const GAME_PAUSE = 'tetriminos/GAME_PAUSE'
 export const GAME_STOP = 'tetriminos/GAME_STOP'
 export const GAME_ERROR = 'tetriminos/GAME_ERROR'
+export const TETRIMINOS_COLLISION = 'tetriminos/TETRIMINOS_COLLISION'
 
+export const requestShape = () =>{
+  console.log('Dans resquestShape')
+  console.log('dadns requestshape')
+  socket.on('requestShape', (shape) =>{
+    console.log('Shape', shape)
+  })
+  console.log('SOCKET')
+}
+export const collision = (isCollision) =>{
 
+    return {
+      type:TETRIMINOS_COLLISION,
+      payload:{ isCollision}
+    }
+} 
 
 export const button = (e) => {
-  console.log('DANS BUTTON===========================')
+
   switch (e.target.innerHTML){
     case'Start':
       return {
