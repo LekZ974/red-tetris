@@ -11,10 +11,10 @@ import App from './containers/app'
 import { createBrowserHistory } from 'history'
 import {withRouter} from 'react-router-dom'
 import { ConnectedRouter, routerMiddleware, connectRouter } from 'connected-react-router'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from "redux-persist/lib/storage";
 import params from "../../params"
 import io from 'socket.io-client'
+import {eventHandler} from "./utils/eventHandler";
+import {ticking} from "./utils/tickingHandler";
 
 const initialState = {}
 
@@ -24,22 +24,14 @@ const history = createBrowserHistory()
 
 const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history), socketMiddleWare(socket)]
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: ['games']
-}
-
-const enhancedReducer = connectRouter(history)(persistReducer(persistConfig, reducer))
+const enhancedReducer = connectRouter(history)(reducer)
 
 const composeFn =
   composeWithDevTools // a modifier si va en production
 
 const store = composeFn(applyMiddleware(...middlewares))(createStore)(enhancedReducer)
 
-const persistor = persistStore(store)
-
-export { store, persistor, history }
+export { store, history }
 
 const NonBlockApp = withRouter(App)
 
@@ -50,3 +42,6 @@ ReactDom.render((
     </ConnectedRouter>
   </Provider>
 ), document.getElementById('tetris'))
+
+window.addEventListener('keydown', e => eventHandler(e), false);
+ticking();

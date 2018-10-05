@@ -2,20 +2,21 @@ import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 
 import alert from './alert'
-import user from './user'
-import tetriminos from './tetriminos'
-import games from './games'
+import user from './user/user'
+import games from './games/games'
+import game from './game/game'
+import tetrimino from './tetrimino/tetrimino'
 
 const appReducer = combineReducers({
   user,
   games,
   alert,
-  tetriminos,
+  game,
+  tetrimino,
   form: formReducer
 })
 
 const rootReducer = (state, action) => {
-
   return appReducer(state, action)
 }
 

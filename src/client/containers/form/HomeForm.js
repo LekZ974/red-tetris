@@ -1,34 +1,30 @@
 import React , {Component} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Input, Error, Button} from "../../components/block";
-import {login, sendNameToServe} from "../../actions/user";
-import {required} from "../../utils/formValidation"
-import { socket }  from "../../index"
+import {maxLength15, minLength3, required} from "../../utils/formValidation"
+import {connect} from "../../actions/user"
+import { push } from 'connected-react-router'
 
 const onSubmit = (data, dispatch) => {
-  // console.log('data', data)
-
-  // dispatch(sendNameToServe(data.game))
-  dispatch(login(data))
+  dispatch(push(`/#${data.gameName}/${data.userName}`))
+  dispatch(connect(data))
 }
 
-const HomeForm = ({ handleSubmit, error }) => (
-<form onSubmit={handleSubmit(onSubmit)}>
+const HomeForm = ({ handleSubmit, error, submitting }) => (
+<form id={'homeForm'} onSubmit={handleSubmit(onSubmit)}>
   <Field
     placeholder='Your name'
-    name='name'
+    name='userName'
     component={Input}
-    validate={[required]}
+    validate={[required, minLength3, maxLength15]}
   />
-  <Error error={error} />
   <Field
     placeholder={'Your Party\'s name or select one in the list'}
-    name='game'
+    name='gameName'
     component={Input}
-    validate={[required]}
+    validate={[required, minLength3, maxLength15]}
   />
-  <Error error={error} />
-  <Button type={'submit'} size={'large'} fullWidth to='/new-game'>Go</Button>
+  <Button type={'submit'} disabled={submitting} size={'large'} fullWidth to='/new-game'>Go</Button>
 </form>
 )
 export default reduxForm({

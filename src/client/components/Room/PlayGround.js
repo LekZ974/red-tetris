@@ -79,7 +79,6 @@ function placePiece(array, sharp, pos, tetriNumber){
       if(sharp[i][j] === tetriNumber){
         array[pos.Y + j][pos.X + i] = tetriNumber
       }
-  
     }
   }
  

@@ -1,22 +1,45 @@
 import {GET_GAMES} from "../actions/games";
+import {EMIT_GAME_STATUS, EMIT_GAME_PIECES, EMIT_CREATE_GAME} from "../actions/game";
+import {USER_LOGIN} from "../actions/user";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
     socket.on('action', dispatch)
   }
   return next => action => {
+    const { type, thenFn} = action
+
     if (socket) {
-      switch (action.type) {
+      switch (type) {
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
+          break;
+        }
+        case EMIT_CREATE_GAME : {
+          if( action.game ) socket.emit('createGame', action.game.gameName)
+          socket.on('gameExists', (data) => console.log(data))
+          break;
+        }
+        case EMIT_GAME_STATUS : {
+          socket.emit('GAME_STATUS', (payload) => {
+            return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
+          })
+          break;
+        }
+        case EMIT_GAME_PIECES : {
+          socket.emit('requestShape')
+          socket.on('emittedShape', (data) => console.log(data))
+          break;
         }
         default: {
-          return next(action)
+          break;
         }
       }
+      if (thenFn) thenFn(dispatch)
     }
+    return next(action)
   }
 }
 

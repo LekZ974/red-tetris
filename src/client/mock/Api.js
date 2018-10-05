@@ -1,21 +1,18 @@
-import {push} from "connected-react-router";
-import {SubmissionError} from "redux-form";
+import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
+import {PIECES_NUM} from "../../common/pieces";
 
 class ApiMock {
-  login(user) {
-    let data = {
+  login(data) {
+    let player = {
       id: Math.random().toString(36).substring(2, 15),
-      userName: user.name,
-      gameName: user.game,
+      name: data.userName,
+      gameName: data.gameName,
       connected: true,
       role: 'master',
-      thenFn: dispatch => {dispatch(push(`/#${user.game}/${user.name}`))},
-      catchFn: e => {
-        throw new SubmissionError(e)
-      }
+      grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
     }
-    if (data.userName && data.gameName) {
-      return Promise.resolve({status: 200, ...data})
+    if (player.name && player.gameName) {
+      return Promise.resolve({status: 200, ...player})
         .catch(error => {
           reject({ _error: error.message })
         })
