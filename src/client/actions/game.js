@@ -1,4 +1,4 @@
-import {tetriAction} from "./tetrimino";
+import {tetriReset} from "./tetrimino";
 
 export const EMIT_GAME_STATUS = 'game/EMIT_GAME_STATUS'
 export const EMIT_CREATE_GAME = 'game/EMIT_CREATE_GAME'
@@ -12,6 +12,7 @@ export const emitGameStatus = (status, game) => ({
   thenFn: dispatch => {
     dispatch(gameFlow(status))
     if (!game.gameIsStarted) dispatch(emitGamePieces())
+    if (!game.start && !game.pause) dispatch(tetriReset())
   }
 })
 

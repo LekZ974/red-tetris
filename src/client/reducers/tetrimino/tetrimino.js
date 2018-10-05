@@ -1,11 +1,14 @@
-import {TETRI_ACTION, TETRI_STEP} from '../../actions/tetrimino'
+import {TETRI_ACTION, TETRI_STEP, TETRI_RESET} from '../../actions/tetrimino'
 import {reducerTetriAction, reducerTetriStep} from "./functions";
 
 const initialState = {
   items: [],
   pieceId: 0,
   pieceStep: 0,
+  collision:false,
   coords: {
+    prevPosX: null,
+    prevPosY: null,
     posX:0,
     posY:0
   },
@@ -19,6 +22,9 @@ export default function TetriminoReducer (state = initialState, action = {}) {
     }
     case TETRI_ACTION: {
       return reducerTetriAction(state, action)
+    }
+    case TETRI_RESET: {
+      return initialState
     }
     default:
       return state

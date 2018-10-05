@@ -1,4 +1,6 @@
 import {USER_INIT, USER_LOGIN, USER_CONNECT} from '../../actions/user'
+import {GRID_HEIGHT, GRID_WIDTH} from "../../../common/grid";
+import {PIECES_NUM} from "../../../common/pieces";
 
 const initialState = {
   id: '',
@@ -6,7 +8,7 @@ const initialState = {
   gameName: '',
   role: '',
   connected: false,
-  grid: [],
+  grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
   payload: {}
 }
 
@@ -44,4 +46,3 @@ export default function UserReducer (state = initialState, action = {}) {
       return state
   }
 }
-

@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import {move, reset, tetriminosTick, button, requestShape, collision} from '../../actions/tetriminos'
-import { socket } from '../../index'
 const lines=[0,0,0,0,0,0,0,0,0,0]
 import { connect } from 'react-redux';
 /**
@@ -37,18 +35,6 @@ const green = '#e1f2cb'
 const orange = '#f2e1cb'
 
 // const blue = '#cbe6f2'
-
-function handleKeyUp(e) {
-  // const {move} = props
-  // move(e)
-}
-
-function start(e){
-  console.log('innerHTML',e.target.innerHTML)
-  windowTick
-  store.dispatch(button(e))
-}
-
 
 function canPlacePiece(array, sharp, pos, tetriNumber){
   const sharpLength = sharp.length
@@ -157,35 +143,15 @@ function addTetriminos(pos, prevPos, piece, array, tetriminos){
   return false
 }
 
-function resetButton(props){
-  // console.log('reset')
-  const{
-    reset
-  } = props
-
- reset()
-}
-
 const PlayGround = (props) =>{
  
   const { 
-    tetriData, 
     playgroundGrid,
     pos,
     prevPos,
     start,
-    move,
-    reset,
-    button
   } = props
 
-  console.log('tetridata', tetriData, props)
- 
-  const buttonValue = start === true ? 'Pause' : 'Start'
-
-  if(tetriData.tetriminosPosX === 5 && tetriData.tetriminosPosY === 0){
-    
- }
  const piece = [
   [3, 3, 3],
   [0, 3, 0],
@@ -193,8 +159,9 @@ const PlayGround = (props) =>{
  ]
 
   let array = playgroundGrid
+  console.log(playgroundGrid)
   addTetriminos(pos, prevPos, piece, playgroundGrid, 1)
-       array = tetriData.playground.map((row, key) =>{
+       array = playgroundGrid.map((row, key) =>{
         return(<div key={key}>{row}</div>)
     });
   
@@ -204,41 +171,25 @@ const PlayGround = (props) =>{
       <div>
         {array}
       </div>
-      <button onClick={ start }>{buttonValue}</button>
-      <button onClick={reset }>Reset</button>
       {commandes()}
     </div>
   )
 }
 
-window.addEventListener('keydown', handleKeyUp )
-//export const windowTick = window.setInterval(()=>{store.dispatch(tetriminosTick())} ,1000 )
-
 function mapStateToProps(state){
-  const  tetriData = state.tetriminos
   const   pos = {
-    X:state.tetriminos.tetriminosPosX,
-    Y:state.tetriminos.tetriminosPosY
+    X:state.tetrimino.coords.posX,
+    Y:state.tetrimino.coords.posY
   }
   const prevPos ={
-    X:state.tetriminos.prevPosX,
-    Y:state.tetriminos.prevPosY
+    X:state.tetrimino.coords.prevPosX,
+    Y:state.tetrimino.coords.prevPosY
   }
-  const playgroundGrid = state.tetriminos.playground
-  const start = state.tetriminos.start
-  return {tetriData, pos, prevPos, playgroundGrid, start}
-}
-
-function mapDispatchToProps(dispatch){
-  
-  return {
-    reset: () => dispatch(reset()),
-    button: (data) => dispatch(button(data)),
-    move: (data) => dispatch(move(data)),
-
-  }
+  const playgroundGrid = state.user.grid
+  const start = state.game.start
+  return {pos, prevPos, playgroundGrid, start}
 }
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayGround, handleKeyUp)
+export default connect(mapStateToProps)(PlayGround)
