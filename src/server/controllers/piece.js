@@ -36,12 +36,19 @@ export default class Piece {
     randRotation() {
         let min = 0
         let max = this.rotation.length - 1
-        let index = Math.floor(Math.random() * (max -min + 1))
+        let index = Math.floor(Math.random() * (max - min + 1))
 
         return this.rotation[index]
     }
 
     getShapeToEmit() {
         return this.rotate(this.randRotation())
+    }
+
+    rotateShape(degree) {
+        if (degree !== 90 && degree !== 180
+                && degree !== 270 && degree !== 0)
+            return this.shape
+        return this.rotate(degree)
     }
 }
