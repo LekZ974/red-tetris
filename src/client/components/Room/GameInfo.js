@@ -8,7 +8,6 @@ class GameInfo extends Component {
     }
 
     render(){
-      console.log('ghj', this.props)
       let displaySpectre = null
       if(this.props.spectres && this.props.spectres.length === 1) {
         <div>

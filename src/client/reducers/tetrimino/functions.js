@@ -1,3 +1,4 @@
+import {PIECES_INFO} from "../../../common/pieces";
 
 const reducerTetriStep = (state, action, initialState) => {
   if (!action.game.gameIsStarted) {
@@ -16,23 +17,28 @@ const reducerTetriStep = (state, action, initialState) => {
 }
 
 const reducerTetriAction = (state, action) => {
+  let rotate = state.rotate;
   switch (action.action) {
     case 'ArrowUp': {
-      if (3 === state.rotate) {
-        state.rotate = -1
+      rotate += 1
+      if (4 === rotate) {
+        rotate = 0
       }
       return {
         ...state,
-        rotate: state.rotate + 1
+        rotate: rotate,
+        pieceInfo: PIECES_INFO[5][rotate]
       }
     }
     case 'ArrowDown': {
-      if (0 === state.rotate) {
-        state.rotate = 4
+      rotate += -1
+      if (-1 === rotate) {
+        rotate = 3
       }
       return {
         ...state,
-        rotate: state.rotate - 1
+        rotate: rotate,
+        pieceInfo: PIECES_INFO[5][rotate]
       }
     }
     case 'ArrowLeft': {
