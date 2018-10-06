@@ -45,10 +45,10 @@ const PlayGround = (props) =>{
     grid,
   } = props
 
-  TetriService.addTetriminos(tetrimino, grid)
-       let array = grid.map((row, key) =>{
-        return(<div key={key}>{row}</div>)
-    });
+
+  let array = TetriService.addTetriminos(tetrimino, grid).map((row, key) =>{
+    return(<div key={key}>{row}</div>)
+  });
 
   return(
     <div>

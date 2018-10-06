@@ -7,6 +7,7 @@ const PIECES_NUM = {
   _5:5,
   _6:6,
   _7:7,
+  preview:8,
 };
 
 const PIECES_INFO = [

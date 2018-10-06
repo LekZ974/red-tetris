@@ -1,4 +1,4 @@
-import {USER_INIT, USER_LOGIN, USER_CONNECT} from '../../actions/user'
+import {USER_INIT, USER_LOGIN, USER_CONNECT, USER_UPDATE_GRID} from '../../actions/user'
 import {GRID_HEIGHT, GRID_WIDTH} from "../../../common/grid";
 import {PIECES_NUM} from "../../../common/pieces";
 
@@ -40,6 +40,12 @@ export default function UserReducer (state = initialState, action = {}) {
       return {
         ...state,
         connected: false
+      }
+    }
+    case USER_UPDATE_GRID: {
+      return {
+        ...state,
+        grid: action.grid
       }
     }
     default:

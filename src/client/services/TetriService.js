@@ -1,111 +1,119 @@
+import {GRID_WIDTH} from "../../common/grid";
+import {PIECES_NUM} from "../../common/pieces";
 
+const COLLISION_TYPE = {
+  PIECE: "collision_piece",
+  LIMIT: "collision_limit",
+};
 
-  const canPlacePiece = (pieceInfo, shapeElementLenght, shapeLength, pos, grid) => {
+const PRIO_COLLISION = [
+  COLLISION_TYPE.PIECE,
+  COLLISION_TYPE.LIMIT,
+];
 
-    grid[pos.Y][pos.X] = 0
-    grid[pos.Y][pos.X] = 0
-    for( let i = 0 ; shapeLength > i ; i++){
-      for (let j = 0 ; shapeElementLenght > j; j++){
-        if(pieceInfo.piece[i][j] === pieceInfo.info.id)
-         if( grid[pos.Y + j][pos.X + i] !== 0){
-           return false
-         }
+const hasCollision = (grid, piece, pos) => {
+  let collisionType = undefined;
+  piece.forEach((line, y) => line.forEach((number, x) => {
+    const gx = x + pos.X;
+    const gy = y + pos.Y;
+
+    if (gy < 0 && number !== 0) {
+      if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.WALL_TOP)) {
+        collisionType = COLLISION_TYPE.LIMIT;
       }
     }
-    return true
+    else if (gy >= grid.length && number !== 0) {
+      if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.WALL_BOTTOM)) {
+        collisionType = COLLISION_TYPE.LIMIT;
+      }
+    }
+    else if (gx < 0 && number !== 0) {
+      if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.WALL_LEFT)) {
+        collisionType = COLLISION_TYPE.LIMIT;
+      }
+    }
+    else if (gx >= GRID_WIDTH && number !== 0) {
+      if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.WALL_RIGHT)) {
+        collisionType = COLLISION_TYPE.LIMIT;
+      }
+    }
+    else if (number !== 0 && grid[gy][gx] !== 0) {
+      if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.PIECE)) {
+        collisionType = COLLISION_TYPE.PIECE;
+      }
+    }
+  }));
+  return collisionType;
+};
+
+const placePiece = (grid, pieceInfo, pos) => {
+  const newGrid = grid.map(l => l.map(e => e));
+  const pieceDescr = pieceInfo.piece
+  console.log(pieceDescr)
+
+  pieceDescr.forEach((line, y) => {
+      return line.forEach((number, x) => {
+          const gx = x + pos.X;
+          const gy = y + pos.Y;
+          if (number !== 0 && number !== undefined) {
+            if (gx >= 0 && gy >= 0 &&
+              gy < newGrid.length && gx < newGrid[gy].length) {
+              newGrid[gy][gx] = number;
+            } else {
+              console.log(["invalide placement:"]);
+            }
+          }
+        }
+      )
+    }
+  );
+  return newGrid;
+};
+
+const placePiecePreview = (grid, pieceInfo, pos) => {
+  const newGrid = grid.map(l => l.map(e => e));
+  const pieceDescr = pieceInfo.piece
+
+  if (!hasCollision(grid, pieceDescr, pos)) {
+    pos.Y++;
+  }
+  if (pos.y > 0) {
+    pos.Y--;
   }
 
-  const placePiece = (pieceInfo, shapeElementLenght, shapeLength, pos, grid) => {
-
-    grid[pos.X][pos.Y] = 0
-
-    for( let i = 0 ; shapeLength > i ; i++){
-      for (let j = 0 ; shapeElementLenght > j; j++){
-        if(pieceInfo.piece[i][j] === pieceInfo.info.id){
-          grid[pos.Y + j][pos.X + i] = pieceInfo.info.id
+  pieceDescr.forEach((line, y) =>
+    line.forEach((number, x) => {
+        const gx = x + pos.X;
+        const gy = y + pos.Y;
+        if (number !== 0) {
+          if (gx >= 0 && gy >= 0 &&
+            gy < newGrid.length && gx < newGrid[gy].length) {
+            newGrid[gy][gx] = PIECES_NUM.preview;
+          } else {
+            console.log(["invalide placement:"]);
+          }
         }
       }
-    }
-  }
+    )
+  );
+  return newGrid;
+};
 
-  const erasePiece = (shapeElementLenght, shapeLength, pos, grid) => {
+const addTetriminos = (tetrimino, grid) => {
+  const {coords, pieceInfo} = tetrimino
+  const pos = {X: coords.posX, Y: coords.posY}
+  const prevPos = {X: coords.prevPosX, Y: coords.prevPosY}
+  const rightPos = prevPos.X === null ? pos : prevPos
+  grid = placePiecePreview(grid, pieceInfo, pos)
+  grid = placePiece(grid, pieceInfo, rightPos)
+  return grid
+}
 
-    for( let i = 0 ; shapeLength > i ; i++){
-      for (let j = 0 ; shapeElementLenght > j; j++){
-        grid[pos.Y + j][pos.X + i] = 0
-      }
-    }
 
-  }
-
-  const checkNextPos = (pieceInfo, pos, prevPos, grid) => {
-
-    const shapeLength = pieceInfo.piece.length
-    const shapeElementLenght = pieceInfo.info.width
-    const rightPos = prevPos.X === null ? pos : prevPos
-    erasePiece(shapeElementLenght, shapeLength, rightPos, grid)
-
-    if (canPlacePiece(pieceInfo, shapeElementLenght, shapeLength, rightPos, grid)) {
-      placePiece(pieceInfo, shapeElementLenght, shapeLength, rightPos, grid)
-      return true
-    }
-    placePiece(shapeElementLenght, shapeLength, rightPos, grid)
-    return false
-  }
-
-  const checkLinesIsFull = (lines) => {
-
-    for(let i = 0; i <= 10 ; i++){
-      if(lines[i] === 0){
-          return false
-      }
-    }
-    return true
-  }
-
-  const deleteFullLines = (linesIndexToDelete, arrayToClean) => {
-    const numberOfLinesToDelete = linesIndexToDelete.length
-
-    for(let i = 0; i < numberOfLinesToDelete + 1; i++){
-      arrayToClean.splice(linesIndexToDelete[i], 1)
-    }
-
-    for(let a = 0 ;a <  numberOfLinesToDelete + 1; a++){
-      arrayToClean.unshift(lines)
-    }
-    return arrayToClean
-  }
-
-  const checkArray = (arrayToCheck) => {
-    let linesIndexToDelete=[]
-    for(let i = 0; i < 20 ; i++){
-      if(checkLinesIsFull(arrayToCheck[i])){
-        linesIndexToDelete.push(i)
-      }
-    }
-     const cleanArray = deleteFullLines(linesIndexToDelete, arrayToCheck)
-    return(cleanArray)
-  }
-
-  const addTetriminos = (tetrimino, grid) => {
-    const {coords, pieceInfo} = tetrimino
-    const pos = {X: coords.posX, Y: coords.posY}
-    const prevPos = {X: coords.prevPosX, Y: coords.prevPosY}
-
-    if(checkNextPos(pieceInfo, pos, prevPos, grid)){
-      return true
-    }
-    return false
-  }
-
-  export {
-    addTetriminos,
-    checkLinesIsFull,
-    canPlacePiece,
-    checkArray,
-    checkNextPos,
-    deleteFullLines,
-    erasePiece,
-    placePiece
-  };
-
+export {
+  addTetriminos,
+  hasCollision,
+  placePiece,
+  COLLISION_TYPE,
+  placePiecePreview
+}
