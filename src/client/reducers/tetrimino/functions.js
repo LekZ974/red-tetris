@@ -1,4 +1,13 @@
 import {PIECES_INFO} from "../../../common/pieces";
+import * as TetriService from "../../services/TetriService";
+
+const TETRI_ACTION = {
+  ROTATE_LEFT: "rotate_left",
+  ROTATE_RIGHT: "rotate_right",
+  MOVE_LEFT: "move_left",
+  MOVE_RIGHT: "move_right",
+  MOVE_DROP: "move_drop",
+};
 
 const reducerTetriStep = (state, action, initialState) => {
   if (!action.game.gameIsStarted) {
@@ -26,6 +35,7 @@ const reducerTetriAction = (state, action) => {
       }
       return {
         ...state,
+        action: TETRI_ACTION.ROTATE_LEFT,
         rotate: rotate,
         pieceInfo: PIECES_INFO[5][rotate]
       }
@@ -37,6 +47,7 @@ const reducerTetriAction = (state, action) => {
       }
       return {
         ...state,
+        action: TETRI_ACTION.ROTATE_RIGHT,
         rotate: rotate,
         pieceInfo: PIECES_INFO[5][rotate]
       }
@@ -46,6 +57,7 @@ const reducerTetriAction = (state, action) => {
         ...state,
         coords: {
           ...state.coords,
+          action: TETRI_ACTION.MOVE_LEFT,
           posX: state.coords.posX - 1
         }
       }
@@ -55,8 +67,15 @@ const reducerTetriAction = (state, action) => {
         ...state,
         coords: {
           ...state.coords,
+          action: TETRI_ACTION.MOVE_RIGHT,
           posX: state.coords.posX + 1
         }
+      }
+    }
+    case 'Space': {
+      return {
+        ...state,
+        action: TETRI_ACTION.MOVE_DROP,
       }
     }
     default: {

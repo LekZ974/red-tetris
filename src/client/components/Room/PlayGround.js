@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 const lines=[0,0,0,0,0,0,0,0,0,0]
 import { connect } from 'react-redux';
 import * as TetriService from '../../services/TetriService';
+import {emitGamePieces} from "../../actions/game";
+import {updateGrid} from "../../actions/user";
+import {tetriReset} from "../../actions/tetrimino";
 /**
  * Forme
  * 1 O
@@ -45,10 +48,15 @@ const PlayGround = (props) =>{
     grid,
   } = props
 
-
-  let array = TetriService.addTetriminos(tetrimino, grid).map((row, key) =>{
+  let array = grid.map((row, key) =>{
     return(<div key={key}>{row}</div>)
-  });
+  })
+  if (tetrimino.pieceInfo) {
+    array = TetriService.addTetriminos(tetrimino, grid).map((row, key) =>{
+      return(<div key={key}>{row}</div>)
+    });
+  }
+
 
   return(
     <div>
