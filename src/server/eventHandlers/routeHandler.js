@@ -5,19 +5,19 @@ import * as idHandler from './idHandler'
 import * as gameHandler from './gameHandler'
 
 const login = function(userInfo, client, onlineUsers) {
-	let player = new Player(userInfo.id, client.id)
+    let player = new Player(userInfo.id, client.id)
 
-	onlineUsers.push(player)
+    onlineUsers.push(player)
 }
 
 const createGame = function(io, client, activeGames, onlineUsers, gameName) {
-	const gameId = idHandler.getGameId(gameName)
+    const gameId = idHandler.getGameId(gameName)
     const id = gameHandler.findGame(gameId, activeGames)
 
     if (id !== undefined) {
-    	io.to(client.id).emit(routes.GAME_EXISTS, 'KO')
+        io.to(client.id).emit(routes.GAME_EXISTS, 'KO')
     } else {
-    	let game = gameHandler.createGame(client.id, onlineUsers)
+        let game = gameHandler.createGame(client.id, onlineUsers)
 
         game.setRoomInfo(gameId, gameName)
         activeGames.push(game)
@@ -26,7 +26,7 @@ const createGame = function(io, client, activeGames, onlineUsers, gameName) {
 }
 
 const joinGame = function(client, onlineUsers, gameName, activeGames) {
-	const challenger = gameHandler.findPlayer(client.id, onlineUsers)
+    const challenger = gameHandler.findPlayer(client.id, onlineUsers)
     const gameId = idHandler.getGameId(gameName)
     let game = gameHandler.findGame(gameId, activeGames)
 
@@ -34,7 +34,7 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
 }
 
 const startGame = function(io, client, activeGames) {
-	let game = gameHandler.findGameBySocketId(client.id, activeGames)
+    let game = gameHandler.findGameBySocketId(client.id, activeGames)
 
     /*if (game.waitingForPlayers()) {
         io.to(client.id).emit('gameStarted', 'KO')
@@ -47,21 +47,21 @@ const startGame = function(io, client, activeGames) {
 }
 
 const requestShape = function(io, client, activeGames) {
-	let game = gameHandler.findGameBySocketId(client.id, activeGames)
+    let game = gameHandler.findGameBySocketId(client.id, activeGames)
     let shape = gameHandler.getShape(game, client.id)
 
     io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
 }
 
 const disconnect = function() {
-	console.log('user is disconnecting')
+    console.log('user is disconnecting')
 }
 
 export {
-	login,
-	createGame,
-	joinGame,
-	startGame,
-	requestShape,
-	disconnect
+    login,
+    createGame,
+    joinGame,
+    startGame,
+    requestShape,
+    disconnect
 }
