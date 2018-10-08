@@ -47,3 +47,16 @@ test('randNumber', () => {
 test('initBoard', () => {
     expect(gameHandler.initBoard()).toMatchSnapshot()
 })
+
+test('findGameBySocketId', () => {
+	let onlinePlayers = []
+	let allGames = []
+
+	for(let i = 0; i < 3; i++) {
+		let player = new Player(i, i)
+
+		onlinePlayers.push(player)
+		allGames.push(gameHandler.createGame(i, onlinePlayers))
+	}
+	expect(gameHandler.findGameBySocketId(1, allGames)).toMatchSnapshot()
+})
