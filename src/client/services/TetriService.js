@@ -58,7 +58,6 @@ const hasCollision = (grid, piece, pos) => {
     else if (number !== 0 && grid[gy][gx] !== 0) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.PIECE)) {
         collisionType = COLLISION_TYPE.PIECE;
-        store.dispatch(tetriIsBlock(collisionType))
       }
     }
   }));
@@ -93,7 +92,7 @@ const placePiecePreview = (grid, tetrimino, pos) => {
   const newGrid = grid.map(l => l.map(e => e));
   const { pieceInfo } = tetrimino
 
-  pos = checkCollision(grid, pieceInfo.piece, pos, tetrimino.action)
+  pos = updatePos(grid, pieceInfo.piece, pos, tetrimino.action)
 
   console.log(pos)
   pieceInfo.piece.forEach((line, y) =>
@@ -114,7 +113,7 @@ const placePiecePreview = (grid, tetrimino, pos) => {
   return newGrid;
 };
 
-const checkCollision = (grid, piece, pos, action) => {
+const updatePos = (grid, piece, pos, action) => {
   if (TETRI_ACTION.MOVE_DROP === action) {
     while (!hasCollision(grid, piece, pos))  {
       pos.Y++;
@@ -132,28 +131,30 @@ const checkCollision = (grid, piece, pos, action) => {
 }
 
 const nextTetri = (tetrimino, grid) => {
-  if (!!store.getState().tetrimino.collision) {
-    store.dispatch(updateGrid(grid));
-    store.dispatch(emitGamePieces());
-    store.dispatch(tetriInitNew())
-  }
+  console.log(grid, tetrimino)
+    // store.dispatch(updateGrid(grid));
+    // store.dispatch(emitGamePieces());
+    // store.dispatch(tetriInitNew())
 }
 
 const addTetriminos = (tetrimino, grid) => {
+  console.log("TETRI", tetrimino)
   const {coords, pieceInfo} = tetrimino
   const pos = {X: coords.posX, Y: coords.posY}
   const prevPos = {X: coords.prevPosX, Y: coords.prevPosY}
   const rightPos = prevPos.X === null ? pos : prevPos
   const prevGrid = placePiecePreview(grid, tetrimino, rightPos)
   const newGrid = placePiece(prevGrid, tetrimino, rightPos)
-  nextTetri(tetrimino, newGrid)
+  if (tetrimino.collision) {
+    nextTetri(tetrimino, newGrid)
+  }
   return newGrid
 }
 
 
 export {
   addTetriminos,
-  checkCollision,
+  updatePos,
   nextTetri,
   hasCollision,
   placePiece,

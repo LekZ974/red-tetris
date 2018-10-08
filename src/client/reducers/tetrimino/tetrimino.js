@@ -34,7 +34,6 @@ export default function TetriminoReducer (state = initialState, action = {}) {
     case TETRI_IS_BLOCK: {
       return {
         ...state,
-        action: null,
         collision: true
       };
     }
