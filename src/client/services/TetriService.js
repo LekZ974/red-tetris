@@ -58,6 +58,7 @@ const hasCollision = (grid, piece, pos) => {
     else if (number !== 0 && grid[gy][gx] !== 0) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.PIECE)) {
         collisionType = COLLISION_TYPE.PIECE;
+        store.dispatch(tetriIsBlock(collisionType))
       }
     }
   }));
@@ -132,9 +133,9 @@ const updatePos = (grid, piece, pos, action) => {
 
 const nextTetri = (tetrimino, grid) => {
   console.log(grid, tetrimino)
-    // store.dispatch(updateGrid(grid));
-    // store.dispatch(emitGamePieces());
-    // store.dispatch(tetriInitNew())
+    store.dispatch(updateGrid(grid));
+    store.dispatch(emitGamePieces());
+    store.dispatch(tetriInitNew())
 }
 
 const addTetriminos = (tetrimino, grid) => {
