@@ -16,6 +16,7 @@ const TETRI_ACTION = {
 const COLLISION_TYPE = {
   PIECE: "collision_piece",
   LIMIT_DOWN: "collision_limit_down",
+  LIMIT_TOP: "collision_limit_top",
   LIMIT_LEFT: "collision_limit_left",
   LIMIT_RIGHT: "collision_limit_right",
 };
@@ -23,6 +24,7 @@ const COLLISION_TYPE = {
 const PRIO_COLLISION = [
   COLLISION_TYPE.PIECE,
   COLLISION_TYPE.LIMIT_DOWN,
+  COLLISION_TYPE.LIMIT_TOP,
   COLLISION_TYPE.LIMIT_LEFT,
   COLLISION_TYPE.LIMIT_RIGHT,
 ];
@@ -34,12 +36,11 @@ const hasCollision = (grid, piece, pos) => {
     const gy = y + pos.Y;
 
     if (gy < 0 && number !== 0) {
-      // if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.LIMIT)) {
-      //   collisionType = COLLISION_TYPE.LIMIT;
-      // }
+      if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.LIMIT_TOP)) {
+        collisionType = COLLISION_TYPE.LIMIT_TOP;
+      }
     }
     else if (gy >= grid.length && number !== 0) {
-      console.log("LIMIT DOWN", number)
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.LIMIT_DOWN)) {
         collisionType = COLLISION_TYPE.LIMIT_DOWN;
         store.dispatch(tetriIsBlock(collisionType))
@@ -95,7 +96,6 @@ const placePiecePreview = (grid, tetrimino, pos) => {
 
   pos = updatePos(grid, pieceInfo.piece, pos, tetrimino.action)
 
-  console.log(pos)
   pieceInfo.piece.forEach((line, y) =>
     line.forEach((number, x) => {
         const gx = x + pos.X;
@@ -132,14 +132,12 @@ const updatePos = (grid, piece, pos, action) => {
 }
 
 const nextTetri = (tetrimino, grid) => {
-  console.log(grid, tetrimino)
     store.dispatch(updateGrid(grid));
     store.dispatch(emitGamePieces());
     store.dispatch(tetriInitNew())
 }
 
 const addTetriminos = (tetrimino, grid) => {
-  console.log("TETRI", tetrimino)
   const {coords, pieceInfo} = tetrimino
   const pos = {X: coords.posX, Y: coords.posY}
   const prevPos = {X: coords.prevPosX, Y: coords.prevPosY}
