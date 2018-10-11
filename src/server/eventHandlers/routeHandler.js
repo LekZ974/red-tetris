@@ -32,8 +32,16 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
     const challenger = gameHandler.findPlayer(client.id, onlineUsers)
     const gameId = idHandler.getGameId(gameName)
     let game = gameHandler.findGame(gameId, activeGames)
+    let res
 
-    game.setChallenger(challenger)
+    if (game === undefined || challenger === undefined) {
+        res = 'KO'
+    } else {
+         game.setChallenger(challenger)
+         res = 'OK'
+    }
+    return res
+}
 }
 
 const startGame = function(io, client, activeGames) {

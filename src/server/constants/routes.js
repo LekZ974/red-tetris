@@ -4,6 +4,7 @@ const routing = {
     CREATE_GAME: 'createGame',
     GAME_EXISTS: 'gameExists',
     JOIN_GAME: 'joinGame',
+    GAME_JOINED: 'gameJoined',
     REQUEST_SHAPE: 'requestShape',
     EMITTED_SHAPE: 'emittedShape',
     START_GAME: 'startGame',

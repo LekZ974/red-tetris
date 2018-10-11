@@ -27,14 +27,15 @@ io.on('connection', (client) => {
     client.on(routes.LOGIN, (userInfo) => {
         let res = routeHandler.login(userInfo, client, onlineUsers)
         io.to(client.id).emit(routes.LOGGED, res)
-	})
+    })
 
     client.on(routes.CREATE_GAME, (gameName) => {
         let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
     })
     client.on(routes.JOIN_GAME, (gameName) => {
-        routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+        let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+        io.to(client.id).emit(routes.GAME_JOINED, res)
     })
 
     client.on(routes.START_GAME, () => {
