@@ -77,8 +77,11 @@ const startGame = function(io, client, activeGames) {
 
 const requestShape = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
-    let shape = gameHandler.getShape(game, client.id)
+    let shape = null
 
+    if (game !== undefined) {
+        shape = gameHandler.getShape(game, client.id)
+    }
     return shape
 }
 
