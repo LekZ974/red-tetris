@@ -1,6 +1,6 @@
 const routing = {
     LOGIN: 'login',
-    LOGGED: 'logged'
+    LOGGED: 'logged',
     CREATE_GAME: 'createGame',
     GAME_EXISTS: 'gameExists',
     JOIN_GAME: 'joinGame',
