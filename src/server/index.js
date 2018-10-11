@@ -38,6 +38,10 @@ io.on('connection', (client) => {
         io.to(client.id).emit(routes.GAME_JOINED, res)
     })
 
+    client.on(routes.LEAVE_GAME, () => {
+        let res = routeHandler.leaveGame(client, activeGames)
+        io.to(client.id).emit(routes.LEFT_GAME, res)
+    })
     client.on(routes.START_GAME, () => {
         routeHandler.startGame(io, client, activeGames)
     })

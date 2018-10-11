@@ -42,6 +42,24 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
     }
     return res
 }
+
+const leaveGame = function(client, activeGames) {
+    let game = gameHandler.findGameBySocketId(client.id, activeGames)
+    let ret = false
+
+    if (game.master.socketID === client.id) {
+        ret = gameHandler.changeMaster(game)
+
+        if (!ret) {
+            let del = gameHandler.deleteGame(game, activeGames)
+            return del
+        }
+        return ret
+    } else if (game.challenger.socketID === client.id) {
+        game.challenger = null
+        ret = true
+    }
+    return ret
 }
 
 const startGame = function(io, client, activeGames) {
@@ -72,6 +90,7 @@ export {
     login,
     createGame,
     joinGame,
+    leaveGame,
     startGame,
     requestShape,
     disconnect

@@ -98,6 +98,28 @@ const getShape = function(game, clientId) {
 	}
 }
 
+const changeMaster = function(game) {
+	let ret = false
+
+	if (game.challenger) {
+		game.master = game.challenger
+		game.challenger = null
+		ret = true
+	}
+	return ret
+}
+
+const destroyGame = function(game, activeGames) {
+	let index = activeGames.indexOf(game)
+	let ret = false
+
+	if (index > -1) {
+		activeGames.splice(index, 1)
+		ret = true
+	}
+	return ret
+}
+
 export {
 	findPlayer,
 	findGame,
@@ -105,5 +127,7 @@ export {
 	createGame,
 	randNumber,
 	initBoard,
-	getShape
+	getShape,
+	changeMaster,
+	destroyGame
 }

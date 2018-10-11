@@ -8,7 +8,9 @@ const routing = {
     REQUEST_SHAPE: 'requestShape',
     EMITTED_SHAPE: 'emittedShape',
     START_GAME: 'startGame',
-    GAME_STARTED: 'gameStarted'
+    GAME_STARTED: 'gameStarted',
+    LEAVE_GAME: 'leaveGame',
+    LEFT_GAME: 'leftGame'
 }
 
 export default routing
