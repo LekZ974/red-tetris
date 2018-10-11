@@ -25,11 +25,13 @@ app.get('/', (req, res) => {
 io.on('connection', (client) => {
 
     client.on(routes.LOGIN, (userInfo) => {
-        routeHandler.login(userInfo, client, onlineUsers)
+        let res = routeHandler.login(userInfo, client, onlineUsers)
+        io.to(client.id).emit(routes.LOGGED, res)
 	})
 
     client.on(routes.CREATE_GAME, (gameName) => {
-        routeHandler.createGame(io, client, activeGames, onlineUsers, gameName)
+        let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
+        io.to(client.id).emit(routes.GAME_EXISTS, res)
     })
     client.on(routes.JOIN_GAME, (gameName) => {
         routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
@@ -40,7 +42,8 @@ io.on('connection', (client) => {
     })
 
     client.on(routes.REQUEST_SHAPE, () => {
-        routeHandler.requestShape(io, client, activeGames)
+        let shape = routeHandler.requestShape(client, activeGames)
+        io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
     })
 
     client.on('disconnect', () => {

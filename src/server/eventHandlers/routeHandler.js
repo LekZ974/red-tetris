@@ -8,21 +8,24 @@ const login = function(userInfo, client, onlineUsers) {
     let player = new Player(userInfo.id, client.id)
 
     onlineUsers.push(player)
+    return 'OK'
 }
 
-const createGame = function(io, client, activeGames, onlineUsers, gameName) {
+const createGame = function(client, activeGames, onlineUsers, gameName) {
     const gameId = idHandler.getGameId(gameName)
     const id = gameHandler.findGame(gameId, activeGames)
+    let res
 
     if (id !== undefined) {
-        io.to(client.id).emit(routes.GAME_EXISTS, 'KO')
+        res = 'KO'
     } else {
         let game = gameHandler.createGame(client.id, onlineUsers)
 
         game.setRoomInfo(gameId, gameName)
         activeGames.push(game)
-        io.to(client.id).emit(routes.GAME_EXISTS, 'OK')
+        res = 'OK'
     }
+    return res
 }
 
 const joinGame = function(client, onlineUsers, gameName, activeGames) {
@@ -46,11 +49,11 @@ const startGame = function(io, client, activeGames) {
     //io.to(game.challenger.socketID).emit('gameStarted', game.boardChallenger)
 }
 
-const requestShape = function(io, client, activeGames) {
+const requestShape = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
     let shape = gameHandler.getShape(game, client.id)
 
-    io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
+    return shape
 }
 
 const disconnect = function() {
