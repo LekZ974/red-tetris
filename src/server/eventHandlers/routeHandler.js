@@ -13,16 +13,16 @@ const login = function(userInfo, client, onlineUsers) {
 
 const createGame = function(client, activeGames, onlineUsers, gameName) {
     const gameId = idHandler.getGameId(gameName)
-    const id = gameHandler.findGame(gameId, activeGames)
+    const game = gameHandler.findGame(gameId, activeGames)
     let res
 
-    if (id !== undefined) {
+    if (game !== undefined) {
         res = 'KO'
     } else {
-        let game = gameHandler.createGame(client.id, onlineUsers)
+        let newGame = gameHandler.createGame(client.id, onlineUsers)
 
-        game.setRoomInfo(gameId, gameName)
-        activeGames.push(game)
+        newGame.setRoomInfo(gameId, gameName)
+        activeGames.push(newGame)
         res = 'OK'
     }
     return res
