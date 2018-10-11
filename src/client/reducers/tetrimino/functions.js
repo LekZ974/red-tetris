@@ -31,33 +31,53 @@ const reducerTetriAction = (state, action) => {
       }
     }
     case 'ArrowDown': {
-      rotate += -1
-      if (-1 === rotate) {
-        rotate = 3
-      }
-      return {
-        ...state,
-        rotate: rotate,
-        pieceInfo: PIECES_INFO[5][rotate]
+      console.log('state.coords',state.coords)
+      if(state.coords.posY < 20){
+        return {
+          ...state,
+          coords: {
+            ...state.coords,
+            posY: state.coords.posY + 1
+          }
+        }
+      }else{
+        return {
+          ...state,
+          ...state.coords
+        }
       }
     }
     case 'ArrowLeft': {
-      return {
-        ...state,
-        coords: {
-          ...state.coords,
-          posX: state.coords.posX - 1
+      if(state.coords.posX > 0){
+        return {
+          ...state,
+          coords: {
+            ...state.coords,
+            posX: state.coords.posX - 1
+          }
+        }
+      }else{
+        return {
+          ...state,
+          ...state.coords
         }
       }
     }
     case 'ArrowRight': {
-      return {
-        ...state,
-        coords: {
-          ...state.coords,
-          posX: state.coords.posX + 1
+      if(state.coords.posX < 10){
+        return {
+          ...state,
+          coords: {
+            ...state.coords,
+            posX: state.coords.posX + 1
+          }
         }
-      }
+      }else{
+        return {
+          ...state,
+          ...state.coords,
+          }
+        }
     }
     default: {
       return state

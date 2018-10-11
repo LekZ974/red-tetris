@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-const lines=[0,0,0,0,0,0,0,0,0,0]
+
 import { connect } from 'react-redux';
 import * as TetriService from '../../services/TetriService';
 /**
@@ -45,18 +45,19 @@ const PlayGround = (props) =>{
     grid,
   } = props
 
+
   TetriService.addTetriminos(tetrimino, grid)
-       let array = grid.map((row, key) =>{
-        return(<div key={key}>{row}</div>)
-    });
+  const array = TetriService.colorGrid(grid)
 
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
-      <div>
+      <div style={{width:'100%'}} >
         {array}
       </div>
-      {commandes()}
+      <div style={{clear:'both'}}>
+        {commandes()}
+      </div>
     </div>
   )
 }

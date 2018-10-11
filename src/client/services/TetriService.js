@@ -1,6 +1,30 @@
+import React from "react";
+import LINE from '../../common/pieces'
 
+const getColor = (color) =>{
+  switch (color){
+  case 0 :
+    return 'white'
+    case 1 :
+      return 'blue'
+    case 2 :
+      return 'purple'
+    case 3 :
+      return 'yellow'
+    case 4 :
+      return 'red'
+    case 5 :
+      return 'orange'
+    case 6 :
+      return 'green'
+    case 7 :
+      return 'pink'
+    default:
+      return 'white'
 
-  const canPlacePiece = (pieceInfo, shapeElementLenght, shapeLength, pos, grid) => {
+  }
+}
+  const         canPlacePiece = (pieceInfo, shapeElementLenght, shapeLength, pos, grid) => {
 
     grid[pos.Y][pos.X] = 0
     grid[pos.Y][pos.X] = 0
@@ -27,11 +51,15 @@
       }
     }
   }
-
   const erasePiece = (shapeElementLenght, shapeLength, pos, grid) => {
 
     for( let i = 0 ; shapeLength > i ; i++){
       for (let j = 0 ; shapeElementLenght > j; j++){
+        console.log('posY et posX', pos.Y)
+        console.log('posY et posX', j)
+        console.log('posY et posX', pos.Y + j)
+        console.log('posY et posX', pos.Y)
+        console.log('posY et posX', pos.Y)
         grid[pos.Y + j][pos.X + i] = 0
       }
     }
@@ -43,8 +71,9 @@
     const shapeLength = pieceInfo.piece.length
     const shapeElementLenght = pieceInfo.info.width
     const rightPos = prevPos.X === null ? pos : prevPos
+    console.log('1')
     erasePiece(shapeElementLenght, shapeLength, rightPos, grid)
-
+    console.log('2')
     if (canPlacePiece(pieceInfo, shapeElementLenght, shapeLength, rightPos, grid)) {
       placePiece(pieceInfo, shapeElementLenght, shapeLength, rightPos, grid)
       return true
@@ -71,7 +100,7 @@
     }
 
     for(let a = 0 ;a <  numberOfLinesToDelete + 1; a++){
-      arrayToClean.unshift(lines)
+      arrayToClean.unshift(LINE)
     }
     return arrayToClean
   }
@@ -98,11 +127,28 @@
     return false
   }
 
+  const colorGrid = (grid) =>{
+    return grid.map((row, key) =>{
+      const rowline = row.map((element, id) =>{
+        const color = getColor(element)
+
+        if(id === 0){
+          return <div key={id} style={{backgroundColor:color, width:'10px',height:'10px', display:'inline',float:'left',clear:'both', border:'1px black solid'}}></div>
+        }
+        return <div key={id} style={{backgroundColor:color, width:'10px',height:'10px', display:'inline', float:'left', border:'1px black solid'}}></div>
+      })
+      return(<div key={key}>{rowline}</div>)
+    });
+
+  }
+
   export {
     addTetriminos,
     checkLinesIsFull,
     canPlacePiece,
+    colorGrid,
     checkArray,
+    getColor,
     checkNextPos,
     deleteFullLines,
     erasePiece,
