@@ -1,6 +1,6 @@
 import Player from '../../../src/server/controllers/player'
 import Piece from '../../../src/server/controllers/piece'
-import * as routeHandler from '../../../src/server/eventhandlers/routeHandler'
+import * as routeHandler from '../../../src/server/eventHandlers/routeHandler'
 
 var onlineUsers
 var activeGames
@@ -36,11 +36,13 @@ test('createGame', () => {
 
 	if (logged1 === 'OK') {
 		let result = routeHandler.createGame(player1, activeGames, onlineUsers, 'GAME1')
+
 		expect(activeGames).toMatchSnapshot()
 		expect(result).toMatch('OK')
 	}
 	if (logged2 === 'OK') {
 		let result = routeHandler.createGame(player2, activeGames, onlineUsers, 'GAME1')
+
 		expect(result).toMatch('KO')
 	}
 })
@@ -57,6 +59,7 @@ test('requestShape', () => {
 		for (let i = 0; i <= 270; i += 90) {
 			rotatedShapes.push(piece.rotate(i))
 		}
+
 		expect(rotatedShapes).toContainEqual(shape)
 	}
 })
