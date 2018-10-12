@@ -63,7 +63,7 @@ io.on('connection', (client) => {
     })
 
     client.on('disconnect', () => {
-        routeHandler.disconnect()
+        routeHandler.disconnect(client, onlineUsers)
     })
 })
 

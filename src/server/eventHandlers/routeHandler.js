@@ -107,8 +107,19 @@ const requestShape = function(client, activeGames) {
     return shape
 }
 
-const disconnect = function() {
-    console.log('user is disconnecting')
+const disconnect = function(client, onlineUsers, activeGames) {
+    let player = gameHandler.findPlayer(client.id, onlineUsers)
+    let index
+
+    if (player !== undefined) {
+        leaveGame(client, activeGames)
+
+        index = onlineUsers.indexOf(player)
+        if (index > -1) {
+            onlineUsers.slice(index, 1)
+            console.log('user disconnected properly')
+        }
+    }
 }
 
 export {

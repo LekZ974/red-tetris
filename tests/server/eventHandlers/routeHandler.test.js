@@ -60,3 +60,10 @@ test('requestShape', () => {
 		expect(rotatedShapes).toContainEqual(shape)
 	}
 })
+
+test('disconnect', () => {
+	routeHandler.login(userInfo, client, onlineUsers)
+	routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
+
+	expect(routeHandler.disconnect(client, onlineUsers, activeGames)).toMatchSnapshot()
+})
