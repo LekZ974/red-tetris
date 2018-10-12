@@ -63,6 +63,8 @@ const leaveGame = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
     let ret = false
 
+    if (!game)
+        return ret
     if (game.master.socketID === client.id) {
         ret = gameHandler.changeMaster(game)
 
