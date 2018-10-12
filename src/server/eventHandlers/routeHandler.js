@@ -62,17 +62,23 @@ const leaveGame = function(client, activeGames) {
     return ret
 }
 
-const startGame = function(io, client, activeGames) {
+const startGame = function(client, activeGames) {
+    let ret = null
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
 
-    /*if (game.waitingForPlayers()) {
-        io.to(client.id).emit('gameStarted', 'KO')
-        return
-    }*/
-    game.boardMaster = gameHandler.initBoard()
-    game.boardChallenger = gameHandler.initBoard()
-    io.to(game.master.socketID).emit(routes.GAME_STARTED, game.boardMaster)
-    //io.to(game.challenger.socketID).emit('gameStarted', game.boardChallenger)
+    if (game !== undefined) {
+        if (game.master) {
+            game.boardMaster = gameHandler.initBoard()
+            game.setGameStarted()
+        } else {
+            return ret
+        }
+        if (game.challenger) {
+            game.boardChallenger = gameHandler.initBoard()
+        }
+        ret = game
+    }
+    return ret
 }
 
 const requestShape = function(client, activeGames) {
