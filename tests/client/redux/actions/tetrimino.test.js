@@ -1,8 +1,42 @@
-import reducer from '../../../src/client/reducers/tetrimino/tetrimino'
-import {TETRI_STEP} from '../../../src/client/actions/tetrimino'
+ import reducer from '../../../../src/client/reducers/tetrimino/tetrimino'
+import {TETRI_STEP, TETRI_RESET, TETRI_ACTION} from '../../../../src/client/actions/tetrimino'
+import * as actions from '../../../../src/client/actions/tetrimino'
 
+ describe('tetriminos action', ()=>{
+   it('test tetriStep', ()=>{
+     expect(actions.tetriStep()).toEqual({
+       type:TETRI_STEP,
+       game:undefined
+     })
+   })
+   it('test tetriStep', ()=>{
+     expect(actions.tetriStep()).toEqual({
+       type:TETRI_STEP,
+       game:undefined
+     })
+   })
+   it('test tetriStep with no parameter', ()=>{
+     expect(actions.tetriAction()).toEqual({
+       type:TETRI_ACTION,
+       game:undefined
+     })
+   })
+   it('test tetriStep', ()=>{
+     const game=""
+     expect(actions.tetriStep(game)).toEqual({
+       type:TETRI_STEP,
+       game:game
+     })
+   })
+   it('test tetriReset', ()=>{
+     expect(actions.tetriReset()).toEqual({
+       type:TETRI_RESET,
+     })
+   })
 
-describe('game reducer', () => {
+ })
+
+/**describe('game reducer', () => {
   it('should return the initial state', () => {
       expect(reducer(undefined, {})).toEqual(
         {
@@ -88,4 +122,5 @@ describe('game reducer', () => {
       }
     )
   })
-})
+})**/
+
