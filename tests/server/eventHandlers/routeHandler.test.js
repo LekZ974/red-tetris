@@ -20,6 +20,14 @@ test('login', () => {
 	expect(result).toMatch('OK')
 })
 
+test('getGames', () => {
+	routeHandler.login(userInfo, client, onlineUsers)
+	routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
+	routeHandler.createGame(client, activeGames, onlineUsers, 'GAME2')
+
+	expect(routeHandler.getGames(activeGames)).toMatchSnapshot()
+})
+
 test('createGame', () => {
 	let player1 = { id : 0 }
 	let player2 = { id : 1 }

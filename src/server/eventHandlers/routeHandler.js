@@ -11,6 +11,22 @@ const login = function(userInfo, client, onlineUsers) {
     return 'OK'
 }
 
+const getGames = function(activeGames) {
+    let gameList = []
+
+    for(let i = 0; i < activeGames.length; i++) {
+        let entry = {
+            gameName: '',
+            started: ''
+        }
+
+        entry.gameName = activeGames[i].roomName
+        entry.started = activeGames[i].gameStarted
+        gameList.push(entry)
+    }
+    return gameList
+}
+
 const createGame = function(client, activeGames, onlineUsers, gameName) {
     const gameId = idHandler.getGameId(gameName)
     const game = gameHandler.findGame(gameId, activeGames)
@@ -97,6 +113,7 @@ const disconnect = function() {
 
 export {
     login,
+    getGames,
     createGame,
     joinGame,
     leaveGame,

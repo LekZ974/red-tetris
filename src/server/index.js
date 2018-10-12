@@ -29,10 +29,16 @@ io.on('connection', (client) => {
         io.to(client.id).emit(routes.LOGGED, res)
     })
 
+    client.on(routes.GET_GAMES, () => {
+        let gameList = routeHandler.getGames(activeGames)
+        io.to(client.id).emit(routes.GAMES_SENT, gameList)
+    })
+
     client.on(routes.CREATE_GAME, (gameName) => {
         let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
     })
+
     client.on(routes.JOIN_GAME, (gameName) => {
         let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
         io.to(client.id).emit(routes.GAME_JOINED, res)

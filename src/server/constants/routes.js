@@ -1,6 +1,8 @@
 const routing = {
     LOGIN: 'login',
     LOGGED: 'logged',
+    GET_GAMES: 'getGames',
+    GAMES_SENT: 'gamesSent',
     CREATE_GAME: 'createGame',
     GAME_EXISTS: 'gameExists',
     JOIN_GAME: 'joinGame',
