@@ -51,7 +51,7 @@ const leaveGame = function(client, activeGames) {
         ret = gameHandler.changeMaster(game)
 
         if (!ret) {
-            let del = gameHandler.deleteGame(game, activeGames)
+            let del = gameHandler.destroyGame(game, activeGames)
             return del
         }
         return ret
