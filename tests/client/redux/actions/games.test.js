@@ -1,8 +1,22 @@
-import reducer from '../../../src/client/reducers/games/games'
-import {GET_GAMES} from '../../../src/client/actions/games'
-import {reducerGetGames} from '../../../src/client/reducers/games/functions'
+import reducer from '../../../../src/client/reducers/games/games'
+import * as actions from '../../../../src/client/actions/games'
+import{GET_GAMES} from '../../../../src/client/actions/games'
+import {reducerGetGames} from '../../../../src/client/reducers/games/functions'
+import { GAME_FLOW } from '../../../../src/client/actions/game';
+const gameFlowactionReturn = (games) =>{
+  return {
+    type: GET_GAMES,
+    payload: games,
+  }
+}
+describe('get games', ()=>{
+  it('should ', ()=>{
+    const games=""
+    expect(actions.getGames(games)).toEqual(gameFlowactionReturn(games))
 
-
+  })
+})
+/**
 describe('game reducer', () => {
   it('should return the initial state', () => {
       expect(reducer(undefined, {})).toEqual(
@@ -41,3 +55,4 @@ describe('game reducer', () => {
         })).toEqual(reducerGetGames)
   })
 })
+*/

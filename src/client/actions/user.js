@@ -1,5 +1,4 @@
 import Api from '../mock/Api'
-import { socket } from '../index'
 
 export const USER_CONNECT = 'user/USER_CONNECT'
 export const USER_LOGIN = 'user/USER_LOGIN'
