@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as TetriService from '../../services/TetriService';
 import {emitGamePieces} from "../../actions/game";
 import {updateGrid} from "../../actions/user";
+import {Grid} from "./Grid"
 import {tetriReset} from "../../actions/tetrimino";
 /**
  * Forme
@@ -41,40 +42,32 @@ const orange = '#f2e1cb'
 // const blue = '#cbe6f2'
 
 
-const PlayGround = (props) =>{
+const PlayGround = () =>{
 
-  const {
-    tetrimino,
-    grid,
-  } = props
-
-  let array = grid.map((row, key) =>{
-    return(<div key={key}>{row}</div>)
-  })
-  if (tetrimino.pieceInfo) {
-    array = TetriService.addTetriminos(tetrimino, grid).map((row, key) =>{
-      return(<div key={key}>{row}</div>)
-    });
-  }
+  // const {
+  //   tetrimino,
+  //   grid,
+  // } = props
+  //
+  // let array = grid.map((row, key) =>{
+  //   return(<div key={key}>{row}</div>)
+  // })
+  // if (tetrimino.pieceInfo) {
+  //   array = TetriService.addTetriminos(tetrimino, grid).map((row, key) =>{
+  //     return(<div key={key}>{row}</div>)
+  //   });
+  // }
 
 
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
       <div>
-        {array}
+        <Grid/>
       </div>
       {commandes()}
     </div>
   )
 }
 
-function mapStateToProps(state){
-  const grid = state.user.grid
-  const tetrimino = state.tetrimino
-  return {tetrimino, grid}
-}
-
-
-
-export default connect(mapStateToProps)(PlayGround)
+export default PlayGround

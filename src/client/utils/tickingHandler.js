@@ -6,7 +6,7 @@ const ticking = () => {
   if (game.start) {
     store.dispatch(tetriStep(game));
   }
-  window.setTimeout(() => ticking(), 200);
+  window.setTimeout(() => ticking(), 1000);
 };
 
 export {ticking};

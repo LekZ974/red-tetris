@@ -1,4 +1,4 @@
-import {TETRI_ACTION, TETRI_STEP, TETRI_INIT_NEW, TETRI_IS_BLOCK} from '../../actions/tetrimino'
+import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT_NEW, TETRI_IS_BLOCK} from '../../actions/tetrimino'
 import {reducerTetriAction, reducerTetriStep} from "./functions";
 import {PIECES_INFO} from "../../../common/pieces";
 

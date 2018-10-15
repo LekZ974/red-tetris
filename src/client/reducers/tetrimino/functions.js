@@ -1,5 +1,6 @@
 import {PIECES_INFO} from "../../../common/pieces";
 import * as TetriService from "../../services/TetriService";
+import {store} from "../../index";
 
 const TETRI_ACTION = {
   ROTATE_LEFT: "rotate_left",
@@ -55,9 +56,9 @@ const reducerTetriAction = (state, action) => {
     case 'ArrowLeft': {
       return {
         ...state,
+        action: TETRI_ACTION.MOVE_LEFT,
         coords: {
           ...state.coords,
-          action: TETRI_ACTION.MOVE_LEFT,
           posX: state.coords.posX - 1
         }
       }
@@ -65,9 +66,9 @@ const reducerTetriAction = (state, action) => {
     case 'ArrowRight': {
       return {
         ...state,
+        action: TETRI_ACTION.MOVE_RIGHT,
         coords: {
           ...state.coords,
-          action: TETRI_ACTION.MOVE_RIGHT,
           posX: state.coords.posX + 1
         }
       }
