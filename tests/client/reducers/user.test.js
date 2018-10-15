@@ -1,12 +1,12 @@
-import reducer from '../../../../src/client/reducers/user/user'
-import { initialState } from '../../../../src/client/reducers/user/user'
+import reducer from '../../../src/client/reducers/user/user'
+import { initialState } from '../../../src/client/reducers/user/user'
 import {
   USER_CONNECT,
   USER_INIT,
   USER_LOGIN
-} from '../../../../src/client/actions/user'
-import {GRID_HEIGHT, GRID_WIDTH} from "../../../../src/common/grid";
-import {PIECES_NUM} from "../../../../src/common/pieces";
+} from '../../../src/client/actions/user'
+import {GRID_HEIGHT, GRID_WIDTH} from "../../../src/common/grid";
+import {PIECES_NUM} from "../../../src/common/pieces";
 
 
 describe('user reducer test',()=>{

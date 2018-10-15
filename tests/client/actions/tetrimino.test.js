@@ -1,6 +1,6 @@
- import reducer from '../../../../src/client/reducers/tetrimino/tetrimino'
-import {TETRI_STEP, TETRI_RESET, TETRI_ACTION} from '../../../../src/client/actions/tetrimino'
-import * as actions from '../../../../src/client/actions/tetrimino'
+ import reducer from '../../../src/client/reducers/tetrimino/tetrimino'
+import {TETRI_STEP, TETRI_RESET, TETRI_ACTION} from '../../../src/client/actions/tetrimino'
+import * as actions from '../../../src/client/actions/tetrimino'
 
  describe('tetriminos action', ()=>{
    it('test tetriStep', ()=>{

@@ -1,11 +1,11 @@
-import {initialState} from '../../../../src/client/reducers/game/game';
-import reducer from '../../../../src/client/reducers/game/game'
+import {initialState} from '../../../src/client/reducers/game/game';
+import reducer from '../../../src/client/reducers/game/game'
 import {
   EMIT_GAME_STATUS,
   GAME_FLOW,
   EMIT_GAME_PIECES,
   EMIT_CREATE_GAME
-} from '../../../../src/client/actions/game'
+} from '../../../src/client/actions/game'
 
 describe('Test game reducer', ()=> {
   it('should render initial state when state is undifined', () => {
@@ -14,6 +14,7 @@ describe('Test game reducer', ()=> {
   it('should render initial state when action is not pass', () => {
     expect(reducer(initialState, {})).toEqual(initialState)
   })
+
   it('should test EMIT_CREATE_GAME', () => {
     const  name = "Kirikou"
     const owner = "Moi"

@@ -1,5 +1,5 @@
-import reducer from '../../../../src/client/reducers/alert'
-import {ALERT_POP} from '../../../../src/client/actions/alert'
+import reducer from '../../../src/client/reducers/alert'
+import {ALERT_POP} from '../../../src/client/actions/alert'
 
 const message = "Hello there"
 

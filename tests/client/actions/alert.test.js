@@ -1,5 +1,5 @@
-import * as actions from "../../../../src/client/actions/alert"
-import { ALERT_POP } from "../../../../src/client/actions/alert"
+import * as actions from "../../../src/client/actions/alert"
+import { ALERT_POP } from "../../../src/client/actions/alert"
 
 describe('test alert action', ()=>{
   it('should test alert function', ()=>{

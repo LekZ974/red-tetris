@@ -4,9 +4,9 @@ import {
   EMIT_GAME_PIECES,
   EMIT_CREATE_GAME,
   gameFlow, emitGamePieces,
-} from '../../../../src/client/actions/game'
-import * as actions from '../../../../src/client/actions/game'
-import { tetriReset } from '../../../../src/client/actions/tetrimino';
+} from '../../../src/client/actions/game'
+import * as actions from '../../../src/client/actions/game'
+import { tetriReset } from '../../../src/client/actions/tetrimino';
 
 const gameFlowactionReturn = (action, type) =>{
   return {

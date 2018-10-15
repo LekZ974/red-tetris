@@ -1,8 +1,8 @@
-import reducer from '../../../../src/client/reducers/games/games'
-import * as actions from '../../../../src/client/actions/games'
-import{GET_GAMES} from '../../../../src/client/actions/games'
-import {reducerGetGames} from '../../../../src/client/reducers/games/functions'
-import { GAME_FLOW } from '../../../../src/client/actions/game';
+import reducer from '../../../src/client/reducers/games/games'
+import * as actions from '../../../src/client/actions/games'
+import{GET_GAMES} from '../../../src/client/actions/games'
+import {reducerGetGames} from '../../../src/client/reducers/games/functions'
+import { GAME_FLOW } from '../../../src/client/actions/game';
 const gameFlowactionReturn = (games) =>{
   return {
     type: GET_GAMES,
