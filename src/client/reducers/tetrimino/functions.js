@@ -42,15 +42,13 @@ const reducerTetriAction = (state, action) => {
       }
     }
     case 'ArrowDown': {
-      rotate += -1
-      if (-1 === rotate) {
-        rotate = 3
-      }
       return {
         ...state,
-        action: TETRI_ACTION.ROTATE_RIGHT,
-        rotate: rotate,
-        pieceInfo: PIECES_INFO[5][rotate]
+        action: TETRI_ACTION.MOVE_DOWN,
+        coords: {
+          ...state.coords,
+        posY: state.coords.posY + 1,
+        }
       }
     }
     case 'ArrowLeft': {
