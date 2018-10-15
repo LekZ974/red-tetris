@@ -43,7 +43,6 @@ export default function UserReducer (state = initialState, action = {}) {
       }
     }
     case USER_UPDATE_GRID: {
-      console.log(action.grid)
       return {
         ...state,
         grid: action.grid

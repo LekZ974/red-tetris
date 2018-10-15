@@ -1,6 +1,6 @@
 import {GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
-import {tetriInitNew, updateTetriPos} from "../actions/tetrimino";
+import {tetriInitNew, tetriIsBlock, tetriPosIsNotValid} from "../actions/tetrimino";
 import {store} from "../index";
 import {emitGamePieces} from "../actions/game";
 import {updateGrid} from "../actions/user";
@@ -43,7 +43,6 @@ const hasCollision = (grid, piece, pos) => {
     else if (gy >= grid.length && number !== 0) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.LIMIT_DOWN)) {
         collisionType = COLLISION_TYPE.LIMIT_DOWN;
-        // store.dispatch(tetriIsBlock(collisionType))
       }
     }
     else if (gx < 0 && number !== 0) {
@@ -59,7 +58,6 @@ const hasCollision = (grid, piece, pos) => {
     else if (number !== 0 && grid[gy][gx] !== 0) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.PIECE)) {
         collisionType = COLLISION_TYPE.PIECE;
-        // store.dispatch(tetriIsBlock(collisionType))
       }
     }
   }));
@@ -72,21 +70,22 @@ const placePiece = (grid, tetrimino) => {
   const pos = {X: coords.posX, Y: coords.posY}
 
   pieceInfo.piece.forEach((line, y) => {
-      return line.forEach((number, x) => {
-          const gx = x + pos.X;
-          const gy = y + pos.Y;
-          if (number !== 0) {
-            if (gx >= 0 && gy >= 0 &&
-              gy < newGrid.length && gx < newGrid[gy].length) {
-              newGrid[gy][gx] = number;
-            } else {
-              console.log(["invalide placement:", grid]);
-            }
-          }
+    return line.forEach((number, x) => {
+      const gx = x + pos.X;
+      const gy = y + pos.Y;
+      console.log(number)
+      if (number !== 0 && number) {
+        if (gx >= 0 && gy >= 0 &&
+          gy < newGrid.length && gx < newGrid[gy].length) {
+          console.log("NPOS", gx, gy, pos);
+          newGrid[gy][gx] = number;
         }
-      )
-    }
-  );
+        else {
+          store.dispatch(tetriPosIsNotValid())
+        }
+      }
+    })
+  });
   return newGrid;
 };
 
@@ -95,40 +94,56 @@ const placePiecePreview = (grid, tetrimino) => {
   const { pieceInfo, coords } = tetrimino
   const pos = {X: coords.posX, Y: coords.posY}
 
-  const newPos = updatePos(grid, pieceInfo.piece, coords, tetrimino.action)
+  const newPos = finalPos(grid, pieceInfo.piece, pos)
 
   pieceInfo.piece.forEach((line, y) =>
     line.forEach((number, x) => {
-        const gx = x + newPos.X;
-        const gy = y + newPos.Y;
-        if (number !== 0) {
-          if (gx >= 0 && gy >= 0 &&
-            gy < newGrid.length && gx < newGrid[gy].length) {
-            newGrid[gy][gx] = PIECES_NUM.preview;
-          } else {
-            console.log(["invalide placement:"]);
-          }
+      console.log(newPos)
+      const gx = x + newPos.X;
+      const gy = y + newPos.Y;
+      if (number !== 0) {
+        if (gx >= 0 && gy >= 0 &&
+          gy < newGrid.length && gx < newGrid[gy].length) {
+          newGrid[gy][gx] = PIECES_NUM.preview;
+        } else {
+          store.dispatch(tetriPosIsNotValid())
         }
       }
-    )
+    })
   );
   return newGrid;
 };
 
-const updatePos = (grid, piece, coords, action) => {
-  const pos = {X: coords.posX, Y: coords.posY}
-  if (TETRI_ACTION.MOVE_DROP === action) {
-    while (!hasCollision(grid, piece, pos))  {
-      pos.Y++;
+const updatePos = (grid, piece, pos) => {
+  const collisionType = hasCollision(grid, piece, pos)
+  switch (collisionType) {
+    case 'collision_limit_down': {
+      store.dispatch(tetriIsBlock(collisionType))
     }
-    pos.Y--;
+    case 'collision_limit_left': {
+      pos.X += 1
+      console.log("COLISION POS LEFT", pos)
+      return pos;
+    }
+    case 'collision_limit_right': {
+      pos.X -= 1;
+      console.log("COLISION POS RIGHT", pos)
+      return pos;
+    }
+    default: {
+      return pos;
+    }
   }
-  else if (!hasCollision(grid, piece, pos)) {
+}
+
+const finalPos = (grid, piece, pos) => {
+  while (!(hasCollision(grid, piece, pos) === 'collision_limit_down'))  {
     pos.Y++;
   }
   if (pos.Y > 0) {
     pos.Y--;
   }
+  pos = updatePos(grid, piece, pos)
   return pos
 }
 
@@ -154,9 +169,8 @@ const nextTetri = (tetrimino, grid) => {
 const clonePiece = piece => Object.assign({}, piece, {coords: Object.assign({}, piece.coords)});
 
 export {
-  // addTetriminos,
   updatePos,
-  nextTetri,
+  finalPos,
   hasCollision,
   placePiece,
   COLLISION_TYPE,

@@ -1,12 +1,14 @@
 import {PIECES_INFO} from "../../../common/pieces";
 import * as TetriService from "../../services/TetriService";
 import {store} from "../../index";
+import { GRID_WIDTH } from '../../../common/grid';
 
 const TETRI_ACTION = {
   ROTATE_LEFT: "rotate_left",
   ROTATE_RIGHT: "rotate_right",
   MOVE_LEFT: "move_left",
   MOVE_RIGHT: "move_right",
+  MOVE_DOWN: "move_down",
   MOVE_DROP: "move_drop",
 };
 
@@ -52,22 +54,30 @@ const reducerTetriAction = (state, action) => {
       }
     }
     case 'ArrowLeft': {
+      let newPosX = state.coords.posX - 1
+      if (newPosX < 0) {
+        newPosX = 0;
+      }
       return {
         ...state,
         action: TETRI_ACTION.MOVE_LEFT,
         coords: {
           ...state.coords,
-          posX: state.coords.posX - 1
+          posX: newPosX
         }
       }
     }
     case 'ArrowRight': {
+      let newPosX = state.coords.posX + 1
+      if (newPosX > GRID_WIDTH - state.pieceInfo.info.width) {
+        newPosX = GRID_WIDTH - state.pieceInfo.info.width;
+      }
       return {
         ...state,
         action: TETRI_ACTION.MOVE_RIGHT,
         coords: {
           ...state.coords,
-          posX: state.coords.posX + 1
+          posX: newPosX
         }
       }
     }
