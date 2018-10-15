@@ -10,9 +10,30 @@ describe('Test game reducer', ()=> {
     expect(reducer(undefined, {})).toEqual(initialState)
 
   })
+  it('should test GET_GAMES case status === success', ()=>{
+    expect(reducer(initialState, {
+      type:GET_GAMES,
+      status:'success',
+      payload:'games'
+    }))
+      .toEqual({
+        items: [],
+        isLoading: false
+      })
+  })
+  it('should test GET_GAMES case status === connected', ()=>{
+    expect(reducer({
+      items: [],
+      isLoading: true
+    }, {
+
+    }))
+      .toEqual({
+        items: [],
+        isLoading: true
+      })
+  })
  // it('should test GET_GAMES', () => {
- //
- //    expect(reducer(initialState, {
  //      type: GET_GAMES,
  //      status:'success',
  //      payload:'fake payload'
