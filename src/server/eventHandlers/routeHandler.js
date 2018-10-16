@@ -85,7 +85,7 @@ const startGame = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
 
     if (game !== undefined) {
-        if (game.master) {
+        if (game.master && game.master.socketID === client.id) {
             game.boardMaster = gameHandler.initBoard()
             game.setGameStarted()
         } else {
