@@ -1,17 +1,9 @@
 import {GRID_WIDTH} from "../../common/grid";
-import {PIECES_NUM} from "../../common/pieces";
+import {PIECES_NUM, PIECES_ACTION, PIECES_INFO} from "../../common/pieces";
 import {tetriInitNew, tetriIsBlock, tetriPosIsNotValid} from "../actions/tetrimino";
 import {store} from "../index";
 import {emitGamePieces} from "../actions/game";
 import {updateGrid} from "../actions/user";
-
-const TETRI_ACTION = {
-  ROTATE_LEFT: "rotate_left",
-  ROTATE_RIGHT: "rotate_right",
-  MOVE_LEFT: "move_left",
-  MOVE_RIGHT: "move_right",
-  MOVE_DROP: "move_drop",
-};
 
 const COLLISION_TYPE = {
   PIECE: "collision_piece",
@@ -29,11 +21,15 @@ const PRIO_COLLISION = [
   COLLISION_TYPE.LIMIT_RIGHT,
 ];
 
-const hasCollision = (grid, piece, pos) => {
+const hasCollision = (grid, piece, coords) => {
   let collisionType = undefined;
+  const { posX, posY } = coords
   piece.forEach((line, y) => line.forEach((number, x) => {
-    const gx = x + pos.X;
-    const gy = y + pos.Y;
+    const gx = x + posX;
+    const gy = y + posY;
+
+    // console.log("gx:", gx, "gy:", gy, "number:", number, "x:", x, "y:", y, posX, posY)
+
 
     if (gy < 0 && number !== 0) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.LIMIT_TOP)) {
@@ -61,27 +57,29 @@ const hasCollision = (grid, piece, pos) => {
       }
     }
   }));
+  // console.log("COLLISION", collisionType)
   return collisionType;
 };
 
 const placePiece = (grid, tetrimino) => {
   const newGrid = grid.map(l => l.map(e => e));
   const {pieceInfo, coords} = tetrimino
-  const pos = {X: coords.posX, Y: coords.posY}
+  const {posX, posY} = coords
+
+  console.log(tetrimino, pieceInfo)
 
   pieceInfo.piece.forEach((line, y) => {
     return line.forEach((number, x) => {
-      const gx = x + pos.X;
-      const gy = y + pos.Y;
-      console.log(number)
+      const gx = x + posX;
+      const gy = y + posY;
       if (number !== 0 && number) {
         if (gx >= 0 && gy >= 0 &&
           gy < newGrid.length && gx < newGrid[gy].length) {
-          console.log("NPOS", gx, gy, pos);
           newGrid[gy][gx] = number;
         }
         else {
-          store.dispatch(tetriPosIsNotValid())
+          console.log('invalid position')
+          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -92,88 +90,162 @@ const placePiece = (grid, tetrimino) => {
 const placePiecePreview = (grid, tetrimino) => {
   const newGrid = grid.map(l => l.map(e => e));
   const { pieceInfo, coords } = tetrimino
-  const pos = {X: coords.posX, Y: coords.posY}
 
-  const newPos = finalPos(grid, pieceInfo.piece, pos)
+
+  const newPos = finalPos(grid, pieceInfo.piece, coords)
 
   pieceInfo.piece.forEach((line, y) =>
     line.forEach((number, x) => {
-      console.log(newPos)
-      const gx = x + newPos.X;
-      const gy = y + newPos.Y;
+      const gx = x + newPos.posX;
+      const gy = y + newPos.posY;
       if (number !== 0) {
         if (gx >= 0 && gy >= 0 &&
           gy < newGrid.length && gx < newGrid[gy].length) {
           newGrid[gy][gx] = PIECES_NUM.preview;
+          console.log(newGrid[gy][gx])
         } else {
-          store.dispatch(tetriPosIsNotValid())
+          console.log('invalid position')
+          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
   );
+  console.log("PREVIEWGRID", newGrid)
   return newGrid;
 };
 
-const updatePos = (grid, piece, pos) => {
-  const collisionType = hasCollision(grid, piece, pos)
+const updatePos = (grid, piece, coords) => {
+  const collisionType = hasCollision(grid, piece, coords)
+  let {posX} = coords
   switch (collisionType) {
     case 'collision_limit_down': {
       store.dispatch(tetriIsBlock(collisionType))
     }
     case 'collision_limit_left': {
-      pos.X += 1
-      console.log("COLISION POS LEFT", pos)
-      return pos;
+      posX += 1
+      return coords;
     }
     case 'collision_limit_right': {
-      pos.X -= 1;
-      console.log("COLISION POS RIGHT", pos)
-      return pos;
+      posX -= 1;
+      return coords;
     }
     default: {
-      return pos;
+      return coords;
     }
   }
 }
 
-const finalPos = (grid, piece, pos) => {
-  while (!(hasCollision(grid, piece, pos) === 'collision_limit_down'))  {
-    pos.Y++;
+const finalPos = (grid, piece, coords) => {
+  while (!(hasCollision(grid, piece, coords) === 'collision_limit_down'))  {
+    coords.posY++;
   }
-  if (pos.Y > 0) {
-    pos.Y--;
+  if (coords.posY > 0) {
+    coords.posY--;
   }
-  pos = updatePos(grid, piece, pos)
-  return pos
+  return coords
 }
 
-const nextTetri = (tetrimino, grid) => {
-    store.dispatch(updateGrid(grid));
-    store.dispatch(emitGamePieces());
-    store.dispatch(tetriInitNew())
+const newRot = (rot, move) => {
+  if (move === PIECES_ACTION.ROTATE_RIGHT) {
+    return (rot + 1) % 4;
+  }
+  if (move === PIECES_ACTION.ROTATE_LEFT) {
+    console.log(rot)
+    return (rot + 3) % 4;
+  }
+  return rot;
+};
+
+const newCoords = (coords, move) => {
+  if (move === PIECES_ACTION.MOVE_DOWN)
+    return {posX: coords.posX, posY: coords.posY + 1};
+  else if (move === PIECES_ACTION.MOVE_LEFT)
+    return {posX: coords.posX - 1, posY: coords.posY};
+  else if (move === PIECES_ACTION.MOVE_RIGHT)
+    return {posX: coords.posX + 1, posY: coords.posY};
+  return {posX: coords.posX, posY: coords.posY};
+};
+
+const moveCollision = (tetrimino, grid) => {
+
+  const newPiece = cloneTetri(tetrimino);
+  const newPieceDescr = newPiece.pieceInfo.piece;
+
+  let collisionType = hasCollision(grid, newPieceDescr, newPiece.coords);
+
+  while (collisionType && collisionType !== COLLISION_TYPE.LIMIT_TOP) {
+    if (collisionType === COLLISION_TYPE.LIMIT_LEFT) {
+      newPiece.coords.posX++;
+    } else if (collisionType === COLLISION_TYPE.LIMIT_RIGHT) {
+      newPiece.coords.posX--;
+    } else {
+      newPiece.coords.posY--;
+    }
+    collisionType = hasCollision(grid, newPieceDescr, newPiece.coords);
+  }
+  return newPiece;
+};
+
+const updatePieceRot = (grid, tetrimino, move) => {
+
+  const rotate = newRot(tetrimino.rotate, move)
+  const newPiece = {
+    ...tetrimino,
+    rotate: rotate,
+    coords: newCoords(tetrimino.coords, move),
+    pieceInfo: PIECES_INFO[5][rotate]
+  }
+
+  return moveCollision(newPiece, grid);
+};
+
+const updateTetriPos = (grid, tetrimino, move) => {
+  if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
+    return updatePieceRot(grid, tetrimino, move)
+  } else if (move === PIECES_ACTION.MOVE_DROP) {
+    const newPiece = cloneTetri(tetrimino);
+    const newPieceDescr = newPiece.pieceInfo.piece;
+    while (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
+      newPiece.coords.posY++;
+    }
+    newPiece.coords.posY--;
+    return newPiece;
+  } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
+    const newPiece = {
+      ...tetrimino,
+      rotate: newRot(tetrimino.rotate, move),
+      coords: newCoords(tetrimino.coords, move)
+    }
+    const newPieceDescr = newPiece.pieceInfo.piece;
+    if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
+      return newPiece
+    }
+    return tetrimino;
+  }
+  else if (move === PIECES_ACTION.MOVE_DOWN) {
+    const newPiece = {
+      ...tetrimino,
+      rotate: newRot(tetrimino.rotate, move),
+      coords: newCoords(tetrimino.coords, move)
+    }
+    const newPieceDescr = newPiece.pieceInfo.piece;
+    if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
+      return newPiece
+    }
+    return tetrimino;
+  }
+  return tetrimino;
 }
 
-// const addTetriminos = (tetrimino, grid) => {
-//   const {coords, pieceInfo} = tetrimino
-//   const pos = {X: coords.posX, Y: coords.posY}
-//   const prevPos = {X: coords.prevPosX, Y: coords.prevPosY}
-//   const rightPos = prevPos.X === null ? pos : prevPos
-//   const prevGrid = placePiecePreview(grid, tetrimino, rightPos)
-//   const newGrid = placePiece(prevGrid, tetrimino, rightPos)
-//   if (tetrimino.collision) {
-//     nextTetri(tetrimino, newGrid)
-//   }
-//   return newGrid
-// }
-
-const clonePiece = piece => Object.assign({}, piece, {coords: Object.assign({}, piece.coords)});
+const cloneTetri = piece => Object.assign({}, piece, {coords: Object.assign({}, piece.coords)});
 
 export {
   updatePos,
+  updateTetriPos,
   finalPos,
   hasCollision,
   placePiece,
   COLLISION_TYPE,
   placePiecePreview,
-  clonePiece
+  cloneTetri
 }

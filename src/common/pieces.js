@@ -255,7 +255,17 @@ const PIECES_INFO = [
   ],
 ];
 
+const PIECES_ACTION = {
+  ROTATE_LEFT: "rotate_left",
+  ROTATE_RIGHT: "rotate_right",
+  MOVE_LEFT: "move_left",
+  MOVE_RIGHT: "move_right",
+  MOVE_DOWN: "move_down",
+  MOVE_DROP: "move_drop",
+};
+
 export {
   PIECES_NUM,
   PIECES_INFO,
+  PIECES_ACTION,
 }
