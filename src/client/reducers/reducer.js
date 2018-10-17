@@ -18,21 +18,19 @@ const appReducer = combineReducers({
 })
 
 const rootReducer = (state, action) => {
-  let pos;
-  state && state.tetrimino && state.tetrimino.coords ? pos = { X: state.tetrimino.coords.posX, Y: state.tetrimino.coords.posY } : null;
   switch (action.type) {
     case TETRI_ACTION : {
       switch (action.action){
         case 'Space': {
-          const newPos = TetriService.finalPos(state.user.grid, state.tetrimino.pieceInfo.piece, pos)
+          const newPos = TetriService.finalPos(state.user.grid, state.tetrimino.pieceInfo.piece, state.tetrimino.coords)
           return appReducer(
             {
               ...state,
               tetrimino: {
                 ...state.tetrimino,
                 coords: {
-                  posX: newPos.X,
-                  posY: newPos.Y
+                  posX: newPos.posX,
+                  posY: newPos.posY
                 }
               }
             },

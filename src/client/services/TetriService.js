@@ -66,7 +66,6 @@ const placePiece = (grid, tetrimino) => {
   const {pieceInfo, coords} = tetrimino
   const {posX, posY} = coords
 
-  console.log(tetrimino, pieceInfo)
 
   pieceInfo.piece.forEach((line, y) => {
     return line.forEach((number, x) => {
@@ -110,7 +109,6 @@ const placePiecePreview = (grid, tetrimino) => {
       }
     })
   );
-  console.log("PREVIEWGRID", newGrid)
   return newGrid;
 };
 
@@ -150,7 +148,6 @@ const newRot = (rot, move) => {
     return (rot + 1) % 4;
   }
   if (move === PIECES_ACTION.ROTATE_LEFT) {
-    console.log(rot)
     return (rot + 3) % 4;
   }
   return rot;
