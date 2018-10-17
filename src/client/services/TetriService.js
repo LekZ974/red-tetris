@@ -1,5 +1,9 @@
 import {GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM, PIECES_ACTION, PIECES_INFO} from "../../common/pieces";
+import {tetriInitNew, tetriIsBlock, tetriPosIsNotValid} from "../actions/tetrimino";
+import {store} from "../index";
+import {emitGamePieces} from "../actions/game";
+import {updateGrid} from "../actions/user";
 
 const COLLISION_TYPE = {
   PIECE: "collision_piece",
@@ -74,6 +78,7 @@ const placePiece = (grid, tetrimino) => {
         }
         else {
           console.log('invalid position')
+          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -98,6 +103,7 @@ const placePiecePreview = (grid, tetrimino) => {
           newGrid[gy][gx] = PIECES_NUM.preview;
         } else {
           console.log('invalid position')
+          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -219,7 +225,6 @@ const updateTetriPos = (grid, tetrimino, move) => {
 const cloneTetri = piece => Object.assign({}, piece, {coords: Object.assign({}, piece.coords)});
 
 export {
-  updatePos,
   updateTetriPos,
   finalPos,
   hasCollision,
