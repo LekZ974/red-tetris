@@ -1,7 +1,7 @@
 import {EMIT_GAME_STATUS, GAME_FLOW, EMIT_GAME_PIECES, EMIT_CREATE_GAME} from '../../actions/game'
 import {reducerEmitCreateGame, reducerEmitGameStatus, reducerEmitGamePieces, reducerGameFlow} from './functions'
 
-const initialState = {
+export const initialState = {
   items: [],
   name: '',
   id: '',

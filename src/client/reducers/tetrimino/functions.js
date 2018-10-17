@@ -1,3 +1,4 @@
+import {PIECES_INFO} from "../../../common/pieces";
 
 const reducerTetriStep = (state, action, initialState) => {
   if (!action.game.gameIsStarted) {
@@ -16,42 +17,67 @@ const reducerTetriStep = (state, action, initialState) => {
 }
 
 const reducerTetriAction = (state, action) => {
+  let rotate = state.rotate;
   switch (action.action) {
     case 'ArrowUp': {
-      if (3 === state.rotate) {
-        state.rotate = -1
+      rotate += 1
+      if (4 === rotate) {
+        rotate = 0
       }
       return {
         ...state,
-        rotate: state.rotate + 1
+        rotate: rotate,
+        pieceInfo: PIECES_INFO[5][rotate]
       }
     }
     case 'ArrowDown': {
-      if (0 === state.rotate) {
-        state.rotate = 4
-      }
-      return {
-        ...state,
-        rotate: state.rotate - 1
+      console.log('state.coords',state.coords)
+      if(state.coords.posY < 20){
+        return {
+          ...state,
+          coords: {
+            ...state.coords,
+            posY: state.coords.posY + 1
+          }
+        }
+      }else{
+        return {
+          ...state,
+          ...state.coords
+        }
       }
     }
     case 'ArrowLeft': {
-      return {
-        ...state,
-        coords: {
-          ...state.coords,
-          posX: state.coords.posX - 1
+      if(state.coords.posX > 0){
+        return {
+          ...state,
+          coords: {
+            ...state.coords,
+            posX: state.coords.posX - 1
+          }
+        }
+      }else{
+        return {
+          ...state,
+          ...state.coords
         }
       }
     }
     case 'ArrowRight': {
-      return {
-        ...state,
-        coords: {
-          ...state.coords,
-          posX: state.coords.posX + 1
+      if(state.coords.posX < 10){
+        return {
+          ...state,
+          coords: {
+            ...state.coords,
+            posX: state.coords.posX + 1
+          }
         }
-      }
+      }else{
+        return {
+          ...state,
+          ...state.coords,
+          }
+        }
     }
     default: {
       return state

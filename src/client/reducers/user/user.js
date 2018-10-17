@@ -2,7 +2,7 @@ import {USER_INIT, USER_LOGIN, USER_CONNECT} from '../../actions/user'
 import {GRID_HEIGHT, GRID_WIDTH} from "../../../common/grid";
 import {PIECES_NUM} from "../../../common/pieces";
 
-const initialState = {
+export const initialState = {
   id: '',
   name: '',
   gameName: '',
