@@ -9,7 +9,7 @@ const PIECES_NUM = {
   _7:7,
   preview:8,
 };
-
+const LINE = [0,0,0,0,0,0,0,0,0,0]
 const PIECES_INFO = [
   [
     {
@@ -268,4 +268,5 @@ export {
   PIECES_NUM,
   PIECES_INFO,
   PIECES_ACTION,
+  LINE
 }

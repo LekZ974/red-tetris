@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-const lines=[0,0,0,0,0,0,0,0,0,0]
+
 import { connect } from 'react-redux';
 import * as TetriService from '../../services/TetriService';
 import {emitGamePieces} from "../../actions/game";
@@ -44,28 +44,15 @@ const orange = '#f2e1cb'
 
 const PlayGround = () =>{
 
-  // const {
-  //   tetrimino,
-  //   grid,
-  // } = props
-  //
-  // let array = grid.map((row, key) =>{
-  //   return(<div key={key}>{row}</div>)
-  // })
-  // if (tetrimino.pieceInfo) {
-  //   array = TetriService.addTetriminos(tetrimino, grid).map((row, key) =>{
-  //     return(<div key={key}>{row}</div>)
-  //   });
-  // }
-
-
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
       <div>
         <Grid/>
       </div>
-      {commandes()}
+      <div style={{clear:'both'}}>
+        {commandes()}
+      </div>
     </div>
   )
 }

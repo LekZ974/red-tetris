@@ -1,7 +1,7 @@
 import {GET_GAMES} from '../../actions/games'
 import {reducerGetGames} from "./functions";
 
-const initialState = {
+export const initialState = {
   items: [],
   isLoading: false,
 }
@@ -9,7 +9,7 @@ const initialState = {
 export default function GamesReducer (state = initialState, action = {}) {
   switch (action.type) {
     case GET_GAMES: {
-      return reducerGetGames
+      return reducerGetGames(state, action)
     }
     default:
       return state

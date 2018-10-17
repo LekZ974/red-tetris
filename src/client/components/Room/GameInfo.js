@@ -15,6 +15,7 @@ class GameInfo extends Component {
           <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'100px', width:'100px', border:'1px solid red'}}>
             {spectre.gameSpectre[0].map((col, key) =>{
               const height = (col/20) * 100
+              console.log('')
               return(
                 <div key={key} style={{backgroundColor:'red', width:'10px', height: height +'%'}}></div>
               )
