@@ -1,9 +1,5 @@
 import {GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM, PIECES_ACTION, PIECES_INFO} from "../../common/pieces";
-import {tetriInitNew, tetriIsBlock, tetriPosIsNotValid} from "../actions/tetrimino";
-import {store} from "../index";
-import {emitGamePieces} from "../actions/game";
-import {updateGrid} from "../actions/user";
 
 const COLLISION_TYPE = {
   PIECE: "collision_piece",
@@ -78,7 +74,6 @@ const placePiece = (grid, tetrimino) => {
         }
         else {
           console.log('invalid position')
-          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -101,37 +96,14 @@ const placePiecePreview = (grid, tetrimino) => {
         if (gx >= 0 && gy >= 0 &&
           gy < newGrid.length && gx < newGrid[gy].length) {
           newGrid[gy][gx] = PIECES_NUM.preview;
-          console.log(newGrid[gy][gx])
         } else {
           console.log('invalid position')
-          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
   );
   return newGrid;
 };
-
-const updatePos = (grid, piece, coords) => {
-  const collisionType = hasCollision(grid, piece, coords)
-  let {posX} = coords
-  switch (collisionType) {
-    case 'collision_limit_down': {
-      store.dispatch(tetriIsBlock(collisionType))
-    }
-    case 'collision_limit_left': {
-      posX += 1
-      return coords;
-    }
-    case 'collision_limit_right': {
-      posX -= 1;
-      return coords;
-    }
-    default: {
-      return coords;
-    }
-  }
-}
 
 const finalPos = (grid, piece, coords) => {
   while (!(hasCollision(grid, piece, coords) === 'collision_limit_down'))  {
@@ -230,6 +202,16 @@ const updateTetriPos = (grid, tetrimino, move) => {
       return newPiece
     }
     return tetrimino;
+  }
+  else if (move === PIECES_ACTION.MOVE_DROP) {
+    const newPiece = {
+      ...tetrimino,
+    }
+    const newPieceDescr = newPiece.pieceInfo.piece;
+    return {
+      ...newPiece,
+      coords: finalPos(grid, newPieceDescr, newPiece.coords)
+    }
   }
   return tetrimino;
 }
