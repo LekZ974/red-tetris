@@ -27,18 +27,34 @@ io.on('connection', (client) => {
     client.on(routes.LOGIN, (userInfo) => {
         let res = routeHandler.login(userInfo, client, onlineUsers)
         io.to(client.id).emit(routes.LOGGED, res)
-	})
+    })
+
+    client.on(routes.GET_GAMES, () => {
+        let gameList = routeHandler.getGames(activeGames)
+        io.to(client.id).emit(routes.GAMES_SENT, gameList)
+    })
 
     client.on(routes.CREATE_GAME, (gameName) => {
         let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
     })
+
     client.on(routes.JOIN_GAME, (gameName) => {
-        routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+        let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+        io.to(client.id).emit(routes.GAME_JOINED, res)
+    })
+
+    client.on(routes.LEAVE_GAME, () => {
+        let res = routeHandler.leaveGame(client, activeGames)
+        io.to(client.id).emit(routes.LEFT_GAME, res)
     })
 
     client.on(routes.START_GAME, () => {
-        routeHandler.startGame(io, client, activeGames)
+        let game = routeHandler.startGame(client, activeGames)
+        if (game !== null) {
+            io.to(game.master.socketID).emit(routes.GAME_STARTED, game.boardMaster)
+            io.to(game.challenger.socketID).emit(routes.GAME_STARTED, game.boardChallenger)
+        }
     })
 
     client.on(routes.REQUEST_SHAPE, () => {
@@ -47,7 +63,7 @@ io.on('connection', (client) => {
     })
 
     client.on('disconnect', () => {
-        routeHandler.disconnect()
+        routeHandler.disconnect(client, onlineUsers)
     })
 })
 

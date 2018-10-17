@@ -1,6 +1,8 @@
 import * as gameHandler from '../../../src/server/eventHandlers/gameHandler'
 import Player from '../../../src/server/controllers/player'
 import Game from '../../../src/server/controllers/game'
+import Piece from '../../../src/server/controllers/piece'
+import shapes from '../../../src/server/constants/shapes'
 
 test('createGame', () => {
     let onlinePlayers = []
@@ -59,4 +61,15 @@ test('findGameBySocketId', () => {
 		allGames.push(gameHandler.createGame(i, onlinePlayers))
 	}
 	expect(gameHandler.findGameBySocketId(1, allGames)).toMatchSnapshot()
+})
+
+test('getShape', () => {
+    const clientId = 1
+    const clientId2 = 2
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+
+    expect(gameHandler.getShape(game, clientId)).toMatchSnapshot()
+    expect(gameHandler.getShape(game, clientId)).toMatchSnapshot()
+    expect(gameHandler.getShape(game, clientId2)).toMatchSnapshot()
 })
