@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux';
 import * as TetriService from '../../services/TetriService';
+import {emitGamePieces} from "../../actions/game";
+import {updateGrid} from "../../actions/user";
+import {Grid} from "./Grid"
+import {tetriReset} from "../../actions/tetrimino";
 /**
  * Forme
  * 1 O
@@ -38,22 +42,13 @@ const orange = '#f2e1cb'
 // const blue = '#cbe6f2'
 
 
-const PlayGround = (props) =>{
-
-  const {
-    tetrimino,
-    grid,
-  } = props
-
-
-  TetriService.addTetriminos(tetrimino, grid)
-  const array = TetriService.colorGrid(grid)
+const PlayGround = () =>{
 
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
-      <div style={{width:'100%'}} >
-        {array}
+      <div>
+        <Grid/>
       </div>
       <div style={{clear:'both'}}>
         {commandes()}
@@ -62,12 +57,4 @@ const PlayGround = (props) =>{
   )
 }
 
-function mapStateToProps(state){
-  const grid = state.user.grid
-  const tetrimino = state.tetrimino
-  return {tetrimino, grid}
-}
-
-
-
-export default connect(mapStateToProps)(PlayGround)
+export default PlayGround

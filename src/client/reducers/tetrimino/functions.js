@@ -1,83 +1,44 @@
-import {PIECES_INFO} from "../../../common/pieces";
+import {PIECES_ACTION} from "../../../common/pieces";
+import * as TetriService from "../../services/TetriService";
 
 const reducerTetriStep = (state, action, initialState) => {
+  if (0 === state.pieceStep) {
+    state.coords.posY = -1
+  }
   if (!action.game.gameIsStarted) {
     return initialState
   } else {
+    const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DOWN)
     return {
-      ...state,
-      items: action.payload ? action.payload : [],
+      ...newTetriminoState,
       pieceStep: state.pieceStep + 1,
-      coords:{
-        ...state.coords,
-        posY: state.coords.posY + 1
-      }
     }
   }
 }
 
 const reducerTetriAction = (state, action) => {
-  let rotate = state.rotate;
   switch (action.action) {
-    case 'ArrowUp': {
-      rotate += 1
-      if (4 === rotate) {
-        rotate = 0
-      }
-      return {
-        ...state,
-        rotate: rotate,
-        pieceInfo: PIECES_INFO[5][rotate]
-      }
+    case 'Space': {
+      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DROP)
+      return newTetriminoState;
     }
-    case 'ArrowDown': {
-      console.log('state.coords',state.coords)
-      if(state.coords.posY < 20){
-        return {
-          ...state,
-          coords: {
-            ...state.coords,
-            posY: state.coords.posY + 1
-          }
-        }
-      }else{
-        return {
-          ...state,
-          ...state.coords
-        }
-      }
+    case 'ArrowLeft' : {
+      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_LEFT)
+      return newTetriminoState;
     }
-    case 'ArrowLeft': {
-      if(state.coords.posX > 0){
-        return {
-          ...state,
-          coords: {
-            ...state.coords,
-            posX: state.coords.posX - 1
-          }
-        }
-      }else{
-        return {
-          ...state,
-          ...state.coords
-        }
-      }
+    case 'ArrowRight' : {
+      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_RIGHT)
+      return newTetriminoState;
+
     }
-    case 'ArrowRight': {
-      if(state.coords.posX < 10){
-        return {
-          ...state,
-          coords: {
-            ...state.coords,
-            posX: state.coords.posX + 1
-          }
-        }
-      }else{
-        return {
-          ...state,
-          ...state.coords,
-          }
-        }
+    case 'ArrowDown' : {
+      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DOWN)
+      return newTetriminoState;
+
+    }
+    case 'ArrowUp' : {
+      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.ROTATE_LEFT)
+      return newTetriminoState;
     }
     default: {
       return state
