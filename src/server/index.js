@@ -3,9 +3,7 @@ import bodyParser from 'body-parser'
 
 import params from '../../params'
 import routes from './constants/routes'
-import * as gameHandler from './eventHandlers/gameHandler'
-import * as idHandler from './eventHandlers/idHandler'
-import Player from './controllers/player'
+import * as routeHandler from './eventHandlers/routeHandler'
 
 const app = express()
 const server = require('http').createServer(app)
@@ -25,53 +23,47 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (client) => {
-	client.on(routes.LOGIN, (userInfo) => {
-		let player = new Player(userInfo.id, client.id)
 
-		onlineUsers.push(player)
-	})
+    client.on(routes.LOGIN, (userInfo) => {
+        let res = routeHandler.login(userInfo, client, onlineUsers)
+        io.to(client.id).emit(routes.LOGGED, res)
+    })
+
+    client.on(routes.GET_GAMES, () => {
+        let gameList = routeHandler.getGames(activeGames)
+        io.to(client.id).emit(routes.GAMES_SENT, gameList)
+    })
+
     client.on(routes.CREATE_GAME, (gameName) => {
-        console.log('Dans CreateGame')
-        const gameId = idHandler.getGameId(gameName)
-        const id = gameHandler.findGame(gameId, activeGames)
+        let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
+        io.to(client.id).emit(routes.GAME_EXISTS, res)
+    })
 
-         if (id !== undefined) {
-            io.to(client.id).emit(routes.GAME_EXISTS, 'KO')
-        } else {
-            let game = gameHandler.createGame(client.id, onlineUsers)
+    client.on(routes.JOIN_GAME, (gameName) => {
+        let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+        io.to(client.id).emit(routes.GAME_JOINED, res)
+    })
 
-            game.setRoomInfo(gameId, gameName)
-            activeGames.push(game)
-            io.to(client.id).emit(routes.GAME_EXISTS, 'OK')
+    client.on(routes.LEAVE_GAME, () => {
+        let res = routeHandler.leaveGame(client, activeGames)
+        io.to(client.id).emit(routes.LEFT_GAME, res)
+    })
+
+    client.on(routes.START_GAME, () => {
+        let game = routeHandler.startGame(client, activeGames)
+        if (game !== null) {
+            io.to(game.master.socketID).emit(routes.GAME_STARTED, game.boardMaster)
+            io.to(game.challenger.socketID).emit(routes.GAME_STARTED, game.boardChallenger)
         }
     })
-    client.on(routes.JOIN_GAME, (gameName) => {
-        const challenger = gameHandler.findPlayer(client.id, onlineUsers)
-        const gameId = idHandler.getGameId(gameName)
-        let game = gameHandler.findGame(gameId, activeGames)
 
-        game.setChallenger(challenger)
-    })
-    client.on(routes.START_GAME, () => {
-        let game = gameHandler.findGameBySocketId(client.id, activeGames)
-
-        /*if (game.waitingForPlayers()) {
-            io.to(client.id).emit('gameStarted', 'KO')
-            return
-        }*/
-        game.boardMaster = gameHandler.initBoard()
-        game.boardChallenger = gameHandler.initBoard()
-        io.to(game.master.socketID).emit('gameStarted', game.boardMaster)
-        //io.to(game.challenger.socketID).emit('gameStarted', game.boardChallenger)
-    })
     client.on(routes.REQUEST_SHAPE, () => {
-        let game = gameHandler.findGameBySocketId(client.id, activeGames)
-        let shape = gameHandler.getShape(game, client.id)
-
+        let shape = routeHandler.requestShape(client, activeGames)
         io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
     })
+
     client.on('disconnect', () => {
-        console.log('user is disconnecting')
+        routeHandler.disconnect(client, onlineUsers)
     })
 })
 
