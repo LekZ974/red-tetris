@@ -4,7 +4,8 @@ import {
   EMIT_GAME_PIECES,
   EMIT_CREATE_GAME,
   gameFlow, emitGamePieces,
-} from '../../../src/client/actions/game'
+} from '../../../src/client/actions/game';
+import reducer from '../../../src/client/reducers/game/game'
 import * as actions from '../../../src/client/actions/game'
 import { tetriReset } from '../../../src/client/actions/tetrimino';
 
@@ -27,11 +28,6 @@ const emitGameStatusReturn = (status, game)=>{
     type: EMIT_GAME_STATUS,
     game: game,
     gameStatus: status,
-    thenFn: dispatch => {
-      dispatch(gameFlow(status))
-      if (!game.gameIsStarted) dispatch(emitGamePieces())
-      if (!game.start && !game.pause) dispatch(tetriReset())
-    }
   }
 }
 
@@ -79,14 +75,13 @@ describe('game test all actions', () => {
     expect(actions.emitCreateGame(game)).toEqual(emitCreateGameReturn(game))
   })
   it('should test emitGameStatus', () => {
-    const status = "connected"
+    const status = "Pause"
     const game = {
       gameIsStarted: true,
       pause: true,
       start: false
     }
-    expect(actions.emitGameStatus(status, game)).toEqual(emitGameStatusReturn(status, game))
-
+    expect(JSON.parse(JSON.stringify(actions.emitGameStatus(status, game)))).toEqual(emitGameStatusReturn(status, game))
   })
 })
    /** const game ={

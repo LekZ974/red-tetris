@@ -165,7 +165,7 @@ describe('Test game reducer', ()=> {
          reducer([], {
            type: GAME_FLOW,
            gameAction: 'something'
-         })).toEqual([])
+         })).toEqual({})
      })
        it('should handle GAME_FLOW', () => {
 

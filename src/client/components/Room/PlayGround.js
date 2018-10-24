@@ -1,11 +1,6 @@
-import React, { Component } from 'react'
+import React  from 'react'
 
-import { connect } from 'react-redux';
-import * as TetriService from '../../services/TetriService';
-import {emitGamePieces} from "../../actions/game";
-import {updateGrid} from "../../actions/user";
 import {Grid} from "./Grid"
-import {tetriReset} from "../../actions/tetrimino";
 /**
  * Forme
  * 1 O
@@ -32,15 +27,6 @@ const commandes = () => (
       Déplacement vertical afin de positionner une pièce dans un trou du tas<br/>
   </div>
 )
-
-const pink = '#f2cbe0'
-
-const green = '#e1f2cb'
-
-const orange = '#f2e1cb'
-
-// const blue = '#cbe6f2'
-
 
 const PlayGround = () =>{
 

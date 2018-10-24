@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-
-
 class GameInfo extends Component {
     constructor(props){
       super(props)

@@ -264,9 +264,26 @@ const PIECES_ACTION = {
   MOVE_DROP: "move_drop",
 };
 
+const COLLISION_TYPE = {
+  PIECE: "collision_piece",
+  LIMIT_DOWN: "collision_limit_down",
+  LIMIT_TOP: "collision_limit_top",
+  LIMIT_LEFT: "collision_limit_left",
+  LIMIT_RIGHT: "collision_limit_right",
+};
+
+const PRIO_COLLISION = [
+  COLLISION_TYPE.PIECE,
+  COLLISION_TYPE.LIMIT_DOWN,
+  COLLISION_TYPE.LIMIT_TOP,
+  COLLISION_TYPE.LIMIT_LEFT,
+  COLLISION_TYPE.LIMIT_RIGHT,
+];
+
 export {
   PIECES_NUM,
   PIECES_INFO,
   PIECES_ACTION,
-  LINE
+  COLLISION_TYPE,
+  PRIO_COLLISION,
 }

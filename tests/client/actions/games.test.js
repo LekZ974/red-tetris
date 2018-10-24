@@ -7,6 +7,7 @@ const gameFlowactionReturn = (games) =>{
   return {
     type: GET_GAMES,
     payload: games,
+    status: "success",
   }
 }
 describe('get games', ()=>{

@@ -1,25 +1,5 @@
 import {GRID_WIDTH} from "../../common/grid";
-import {PIECES_NUM, PIECES_ACTION, PIECES_INFO} from "../../common/pieces";
-import {tetriInitNew, tetriIsBlock, tetriPosIsNotValid} from "../actions/tetrimino";
-import {store} from "../index";
-import {emitGamePieces} from "../actions/game";
-import {updateGrid} from "../actions/user";
-
-const COLLISION_TYPE = {
-  PIECE: "collision_piece",
-  LIMIT_DOWN: "collision_limit_down",
-  LIMIT_TOP: "collision_limit_top",
-  LIMIT_LEFT: "collision_limit_left",
-  LIMIT_RIGHT: "collision_limit_right",
-};
-
-const PRIO_COLLISION = [
-  COLLISION_TYPE.PIECE,
-  COLLISION_TYPE.LIMIT_DOWN,
-  COLLISION_TYPE.LIMIT_TOP,
-  COLLISION_TYPE.LIMIT_LEFT,
-  COLLISION_TYPE.LIMIT_RIGHT,
-];
+import {PIECES_NUM, PIECES_ACTION, PIECES_INFO, PRIO_COLLISION, COLLISION_TYPE} from "../../common/pieces";
 
 const hasCollision = (grid, piece, coords) => {
   let collisionType = undefined;

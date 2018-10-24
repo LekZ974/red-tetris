@@ -23,17 +23,12 @@ import * as actions from '../../../src/client/actions/tetrimino'
    })
    it('test tetriStep', ()=>{
      const game=""
+     console.log("TESTS TETRISTEP ====>", actions.tetriStep(game))
      expect(actions.tetriStep(game)).toEqual({
        type:TETRI_STEP,
        game:game
      })
    })
-   it('test tetriReset', ()=>{
-     expect(actions.tetriReset()).toEqual({
-       type:TETRI_RESET,
-     })
-   })
-
  })
 
 /**describe('game reducer', () => {

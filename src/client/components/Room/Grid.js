@@ -1,7 +1,6 @@
 import React from 'react'
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
-import {placePiece} from "../../services/TetriService";
 
 const GridUserComponent = (state) => {
   return(
