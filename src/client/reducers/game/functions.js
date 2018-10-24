@@ -39,7 +39,7 @@ const reducerEmitGamePieces = (state, action) => {
 }
 
 const reducerGameFlow = (state, action) => {
-  return state
+  return {...state}
 }
 
 export {

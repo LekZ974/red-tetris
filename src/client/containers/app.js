@@ -19,12 +19,12 @@ const App = () => (
   </Router>
 )
 
-const mapStateToProps = (state) => {
-  return {
-    message: state.message
-  }
-}
+// const mapStateToProps = (state) => {
+//   return {
+//     message: state.message
+//   }
+// }
 
-export default connect(mapStateToProps, null)(App)
+export default connect()(App)
 
 

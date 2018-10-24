@@ -5,9 +5,9 @@ import renderer from 'react-test-renderer';
 import GameInfo from '../../../../src/client/components/Room/GameInfo'
 
 const spectres = [
-  {name: 'spectre1', gameSpectre: 'gameSpectre1'},
-  {name: 'spectre2', gameSpectre: 'gameSpectre2'},
-  {name: 'spectre3', gameSpectre: 'gameSpectre3'}
+  {name: 'spectre1', gameSpectre: [2,12,14,8,8,3,9,15,8,8]},
+  {name: 'spectre2', gameSpectre: [2,12,14,8,8,3,9,15,8,8]},
+  {name: 'spectre3', gameSpectre: [2,12,14,8,8,3,9,15,8,8]}
 ]
 
 describe('>>>>GAMEINFO', () => {

@@ -1,43 +1,58 @@
 import reducer from '../../../src/client/reducers/games/games'
-import {GET_GAMES} from '../../../src/client/actions/games'
-import {reducerGetGames} from '../../../src/client/reducers/games/functions'
+import {initialState} from '../../../src/client/reducers/games/games';
 
+import {
+  GET_GAMES,
+} from '../../../src/client/actions/game'
 
-describe('game reducer', () => {
-  it('should return the initial state', () => {
-      expect(reducer(undefined, {})).toEqual(
-        {
-          items: [],
-          isLoading: false,
-        }
-      )
-    }
-  )
-  it('should handle GET_GAMES', () => {
-    expect(
-      reducer([],{
-        type: GET_GAMES,
-        payload: 'Run the tests'
-      })).toEqual(reducerGetGames)
-    expect(
-      reducer({
-          items: [],
-          isLoading: false,
-        }
-        ,{
-          type: GET_GAMES,
-          payload: {'something': 'run the tests'},
-          status: 'success'
-        })).toEqual(reducerGetGames)
-    expect(
-      reducer({
-          items: [],
-          isLoading: true,
-        }
-        ,{
-          type: GET_GAMES,
-          payload: 'a string',
-          status: 'success'
-        })).toEqual(reducerGetGames)
+describe('Test game reducer', ()=> {
+  it('should render initial state when state is undefined', () => {
+    expect(reducer(undefined, {})).toEqual(initialState)
+
   })
+  it('should test GET_GAMES case status === success', ()=>{
+    expect(reducer(initialState, {
+      type:GET_GAMES,
+      status:'success',
+      payload:'games'
+    }))
+      .toEqual({
+        items: [],
+        isLoading: false
+      })
+  })
+  it('should test GET_GAMES case status === connected', ()=>{
+    expect(reducer({
+      items: [],
+      isLoading: true,
+    },{
+      type:GET_GAMES,
+      status:'connected',
+      payload: {
+        games:false,
+      }
+    }))
+      .toEqual({
+        items: [],
+        isLoading: true
+      })
+  })
+ // it('should test GET_GAMES', () => {
+ //      type: GET_GAMES,
+ //      status:'success',
+ //      payload:'fake payload'
+ //    })).toEqual({
+ //      items: [],
+ //      isLoading: false,
+ //    })
+ //  })
+ //  it('should test GET_GAMES', () => {
+ //    expect(reducer(initialState, {
+ //      type: GET_GAMES,
+ //    })).toEqual({
+ //      items: [],
+ //      isLoading: false,
+ //    })
+ //  })
+
 })
