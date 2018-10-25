@@ -29,7 +29,7 @@ test('setMaster', () => {
 test('setChallenger', () => {
     game.setChallenger(challenger)
         
-    expect(game.challenger).toBe(challenger)
+    expect(game.challenger).toMatchSnapshot()
 })
 
 test('setGameStarted', () => {
