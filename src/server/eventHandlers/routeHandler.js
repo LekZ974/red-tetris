@@ -54,7 +54,7 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
     let game = gameHandler.findGame(gameId, activeGames)
     let res
 
-    if (game === undefined || challenger === undefined) {
+    if (game === undefined || challenger === undefined || game.master.socketID === client.id) {
         res = 'KO'
     } else {
          game.setChallenger(challenger)
@@ -66,9 +66,11 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
 const leaveGame = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
     let ret = false
+	let index = -1
 
     if (!game)
         return ret
+	index = gameHandler.findChallengerIndex(client.id, game.challenger)
     if (game.master.socketID === client.id) {
         ret = gameHandler.changeMaster(game)
 
@@ -77,8 +79,8 @@ const leaveGame = function(client, activeGames) {
             return del
         }
         return ret
-    } else if (game.challenger.socketID === client.id) {
-        game.challenger = null
+    } else if (index > -1) {
+        game.challenger.splice(index, 1)
         ret = true
     }
     return ret

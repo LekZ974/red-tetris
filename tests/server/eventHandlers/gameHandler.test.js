@@ -68,7 +68,11 @@ test('getShape', () => {
     const clientId2 = 2
     let tetriminos = Array(new Piece(shapes[0]))
     let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
 
+    game.master = player1
+    game.challenger.push(player2)
     expect(gameHandler.getShape(game, clientId)).toMatchSnapshot()
     expect(gameHandler.getShape(game, clientId)).toMatchSnapshot()
     expect(gameHandler.getShape(game, clientId2)).toMatchSnapshot()

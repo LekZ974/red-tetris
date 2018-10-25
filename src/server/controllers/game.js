@@ -2,7 +2,7 @@ export default class Game {
     constructor(shapes) {
         this.shapes = shapes
         this.master = null
-        this.challenger = null
+        this.challenger = []
         this.roomID = ''
         this.roomName = ''
         this.gameStarted = false
@@ -24,7 +24,7 @@ export default class Game {
     }
 
     setChallenger(challenger) {
-        this.challenger = challenger
+        this.challenger.push(challenger)
     }
 
     setGameStarted() {
@@ -32,7 +32,7 @@ export default class Game {
     }
 
     waitingForPlayers() {
-        if (this.master && this.challenger)
+        if (this.master && this.challenger.length > 0)
             return false
         return true
     }
