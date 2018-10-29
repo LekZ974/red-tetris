@@ -23,7 +23,6 @@ const socketMiddleware = socket => ({dispatch}) => {
               name: action.user.userName,
               gameName: action.user.gameName,
               connected: true,
-              role: 'master',
               grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
             }
             return 'OK' === data && next(action);
