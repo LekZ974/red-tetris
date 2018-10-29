@@ -10,7 +10,7 @@ export const connect = user => ({
 })
 export const login = user => ({
   type: USER_LOGIN,
-  apiCall: Api.login(user),
+  user: user,
 })
 export const init = () => ({
   type: USER_INIT,

@@ -1,6 +1,8 @@
 import {GET_GAMES} from "../actions/games";
 import {EMIT_GAME_STATUS, EMIT_GAME_PIECES, EMIT_CREATE_GAME} from "../actions/game";
 import {USER_LOGIN} from "../actions/user";
+import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
+import {PIECES_NUM} from "../../common/pieces";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -11,6 +13,26 @@ const socketMiddleware = socket => ({dispatch}) => {
 
     if (socket) {
       switch (type) {
+        case USER_LOGIN : {
+          socket.emit('login', {id: action.userName})
+          socket.on('logged', data => {
+            action = {
+              type: action.type,
+              status: 'success',
+              payload: {
+                id: Math.random().toString(36).substring(2, 15),
+                name: action.user.userName,
+                gameName: action.user.gameName,
+                connected: true,
+                role: 'master',
+                grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+              }
+            }
+            return 'OK' === data && next(action);
+          }
+        )
+          break;
+        }
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
