@@ -24,7 +24,7 @@ export default function UserReducer (state = initialState, action = {}) {
     case USER_LOGIN: {
       console.log("USER REDUCER", action)
       if (action.status === 'success') {
-        const { id, name, gameName, role , connected, grid} = action.payload
+        const { id, name, gameName, role , connected, grid} = action
         return {
           ...state,
           id,

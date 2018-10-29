@@ -19,14 +19,12 @@ const socketMiddleware = socket => ({dispatch}) => {
             action = {
               type: action.type,
               status: 'success',
-              payload: {
-                id: Math.random().toString(36).substring(2, 15),
-                name: action.user.userName,
-                gameName: action.user.gameName,
-                connected: true,
-                role: 'master',
-                grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-              }
+              id: Math.random().toString(36).substring(2, 15),
+              name: action.user.userName,
+              gameName: action.user.gameName,
+              connected: true,
+              role: 'master',
+              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
             }
             return 'OK' === data && next(action);
           }
