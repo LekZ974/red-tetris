@@ -16,7 +16,7 @@ import io from 'socket.io-client'
 import {eventHandler} from "./utils/eventHandler";
 import {ticking} from "./utils/tickingHandler";
 
-export const socket = io.connect(params.server.url + '/socket.ios');
+export const socket = io.connect(params.server.url);
 
 const history = createBrowserHistory()
 
