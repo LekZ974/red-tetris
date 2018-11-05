@@ -148,7 +148,7 @@ const updatePieceRot = (grid, tetrimino, move) => {
     ...tetrimino,
     rotate: rotate,
     coords: newCoords(tetrimino.coords, move),
-    pieceInfo: PIECES_INFO[5][rotate]
+    pieceInfo: PIECES_INFO[tetrimino.id][rotate]
   }
 
   return moveCollision(newPiece, grid);

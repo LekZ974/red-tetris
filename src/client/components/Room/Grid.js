@@ -2,18 +2,17 @@ import React from 'react'
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
 import { emitGamePieces } from "../../actions/game";
-import {tetriInitNew} from "../../actions/tetrimino";
+import { tetriNew } from "../../actions/tetrimino";
 import { shapeHandler } from "../../utils/shapeHandler";
 
 const GridUserComponent = (state) => {
-  const { tetriminoState, userState, gameState, gridRender, emitGamePieces } = state
+  const { tetriminoState, tetriNew, gameState, gridRender, emitGamePieces } = state
 
   if (gameState.gamePieces && gameState.gamePieces.length === 0) {
     emitGamePieces(gameState)
   }
-  else if (gameState.gamePieces && gameState.gamePieces.length > 0) {
-    shapeHandler(gameState.gamePieces)
-    tetriInitNew(gameState)
+  if (gameState.gamePieces && gameState.gamePieces.length > 0 && !tetriminoState.pieceInfo) {
+    tetriNew(gameState, shapeHandler(gameState.gamePieces))
   }
 
   return(
@@ -31,7 +30,8 @@ const mapStateToProps = state => {
   let playerGrid = userState.grid.map(l => l.map(e => e));
   const tetrimino = TetriService.cloneTetri(state.tetrimino)
 
-  if (state.game.gameIsStarted) {
+  console.log(tetrimino)
+  if (state.game.gameIsStarted && tetrimino.pieceInfo) {
     playerGrid = TetriService.placePiecePreview(playerGrid, tetrimino);
     playerGrid = TetriService.placePiece(playerGrid, state.tetrimino);
   }
@@ -49,7 +49,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  emitGamePieces: (gameState, userState) => dispatch(emitGamePieces(gameState, userState))
+  emitGamePieces: (gameState, userState) => dispatch(emitGamePieces(gameState, userState)),
+  tetriNew: (gameState, shapeInfo) => dispatch(tetriNew(gameState, shapeInfo))
 })
 
 const Grid = connect(

@@ -5,15 +5,14 @@ const reducerTetriStep = (state, action, initialState) => {
   if (0 === state.pieceStep) {
     state.coords.posY = -1
   }
-  if (!action.game.gameIsStarted) {
-    return initialState
-  } else {
+  if (state.pieceInfo) {
     const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DOWN)
     return {
       ...newTetriminoState,
       pieceStep: state.pieceStep + 1,
     }
   }
+  return initialState
 }
 
 const reducerTetriAction = (state, action) => {

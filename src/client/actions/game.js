@@ -1,4 +1,4 @@
-import {tetriInitNew} from "./tetrimino";
+import { tetriInit } from "./tetrimino";
 
 export const EMIT_GAME_STATUS = 'game/EMIT_GAME_STATUS'
 export const EMIT_CREATE_GAME = 'game/EMIT_CREATE_GAME'
@@ -16,11 +16,11 @@ export const emitCreateGame = (gameData) => ({
   type: EMIT_CREATE_GAME,
   game: gameData,
   thenFn: dispatch => {
-    dispatch(tetriInitNew())
+    dispatch(tetriInit())
   }
 })
 
-export const emitGamePieces = (game) => ({
+export const emitGamePieces = (game, tetrimino) => ({
   type: EMIT_GAME_PIECES,
   game: game,
 })
