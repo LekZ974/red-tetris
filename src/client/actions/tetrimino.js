@@ -15,8 +15,9 @@ export const tetriAction = (action, game, user) => ({
   game: game,
   user: user,
 })
-export const tetriInitNew = () => ({
+export const tetriInitNew = (game) => ({
   type: TETRI_INIT_NEW,
+  game: game,
 })
 export const tetriIsBlock = () => ({
   type: TETRI_IS_BLOCK,

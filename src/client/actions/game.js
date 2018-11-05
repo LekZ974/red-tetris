@@ -10,23 +10,17 @@ export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
   game: game,
   gameStatus: status,
-  thenFn: dispatch => {
-    dispatch(gameFlow(status))
-    if (!game.gameIsStarted) dispatch(emitGamePieces())
-    if (!game.start && !game.pause) dispatch(tetriInitNew())
-  }
 })
 
 export const emitCreateGame = (gameData) => ({
   type: EMIT_CREATE_GAME,
   game: gameData,
+  thenFn: dispatch => {
+    dispatch(tetriInitNew())
+  }
 })
 
-export const gameFlow = (action) => ({
-  type: GAME_FLOW,
-  gameAction: action,
-})
-
-export const emitGamePieces = () => ({
+export const emitGamePieces = (game) => ({
   type: EMIT_GAME_PIECES,
+  game: game,
 })

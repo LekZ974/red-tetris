@@ -49,7 +49,14 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_GAME_PIECES : {
           socket.emit('requestShape')
-          socket.on('emittedShape', (data) => console.log(data))
+          socket.on('emittedShape', (data) => {
+            action = {
+              type: action.type,
+              status: 'success',
+              data,
+            };
+          return data && next(action);
+          })
           break;
         }
         default: {

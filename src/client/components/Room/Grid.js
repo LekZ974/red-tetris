@@ -1,12 +1,25 @@
 import React from 'react'
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
+import { emitGamePieces } from "../../actions/game";
+import {tetriInitNew} from "../../actions/tetrimino";
+import { shapeHandler } from "../../utils/shapeHandler";
 
 const GridUserComponent = (state) => {
+  const { tetriminoState, userState, gameState, gridRender, emitGamePieces } = state
+
+  if (gameState.gamePieces && gameState.gamePieces.length === 0) {
+    emitGamePieces(gameState)
+  }
+  else if (gameState.gamePieces && gameState.gamePieces.length > 0) {
+    shapeHandler(gameState.gamePieces)
+    tetriInitNew(gameState)
+  }
+
   return(
-    state.gridRender.map((row, key) =>{
-        return(<div key={key}>{row}</div>)
-      }))
+    gridRender.map((row, key) =>{
+      return(<div key={key}>{row}</div>)
+    }))
 }
 
 const mapStateToProps = state => {
@@ -30,12 +43,18 @@ const mapStateToProps = state => {
   return {
     userState: Object.assign({}, state.user),
     gridRender: gridRender,
+    tetriminoState: state.tetrimino,
+    gameState: state.game,
   }
 };
 
+const mapDispatchToProps = dispatch => ({
+  emitGamePieces: (gameState, userState) => dispatch(emitGamePieces(gameState, userState))
+})
+
 const Grid = connect(
   mapStateToProps,
-  undefined
+  mapDispatchToProps,
 )(GridUserComponent);
 
 export {Grid};

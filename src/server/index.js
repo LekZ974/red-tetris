@@ -59,6 +59,7 @@ io.on('connection', (client) => {
 
     client.on(routes.REQUEST_SHAPE, () => {
         let shape = routeHandler.requestShape(client, activeGames)
+      console.log("SHAPE===>", shape)
         io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
     })
 

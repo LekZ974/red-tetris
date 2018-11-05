@@ -35,7 +35,10 @@ const reducerEmitCreateGame = (state, action) => {
 }
 
 const reducerEmitGamePieces = (state, action) => {
-  return state
+  return {
+    ...state,
+    gamePieces: action.data,
+  }
 }
 
 const reducerGameFlow = (state, action) => {

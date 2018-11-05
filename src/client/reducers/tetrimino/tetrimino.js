@@ -8,8 +8,6 @@ const initialState = {
   pieceStep: 0,
   collision:false,
   coords: {
-    prevPosX: null,
-    prevPosY: null,
     posX:0,
     posY:0
   },
@@ -26,9 +24,14 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       return reducerTetriAction(state, action)
     }
     case TETRI_INIT_NEW: {
+      if (action.game && !action.game.gamePieces) {
+        return {
+          ...initialState,
+        }
+      }
       return {
-        ...initialState,
-        pieceInfo: PIECES_INFO[5][state.rotate]
+        ...state,
+        pieceInfo: PIECES_INFO[4][state.rotate]
       }
     }
     case TETRI_IS_BLOCK: {
@@ -40,7 +43,6 @@ export default function TetriminoReducer (state = initialState, action = {}) {
     default:
       return {
         ...state,
-        pieceInfo: PIECES_INFO[5][state.rotate]
       }
   }
 }
