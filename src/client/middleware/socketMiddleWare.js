@@ -1,6 +1,6 @@
 import {GET_GAMES} from "../actions/games";
 import {
-  EMIT_GAME_STATUS,
+  UPDATE_GAME_STATUS,
   CREATE_GAME,
   EMIT_CREATE_GAME,
   NEED_NEW_PIECES
@@ -8,7 +8,6 @@ import {
 import {USER_JOIN_GAME, USER_LOGIN} from "../actions/user";
 import {store} from "../index";
 import {TETRI_IS_BLOCK, tetriInit, tetriNew} from "../actions/tetrimino";
-import {shapeHandler} from "../utils/shapeHandler";
 import * as SocketService from "../services/SocketService";
 
 const socketMiddleware = socket => ({dispatch}) => {
@@ -36,16 +35,9 @@ const socketMiddleware = socket => ({dispatch}) => {
         case CREATE_GAME : {
           console.log("EMIT CREATE GAME ACTION", action)
           SocketService.emitCreateGame(action.gameName)
-          // dispatch(tetriInit())
-          // if( action.gameData ) socket.emit('createGame', action.gameData.gameName)
-          // socket.on('gameExists', (data) => {
-          //   if ('OK' === data) {
-          //     dispatch(emitGamePieces(store.getState().game, store.getState().tetrimino))
-          //   }
-          // })
           break;
         }
-        case EMIT_GAME_STATUS : {
+        case UPDATE_GAME_STATUS : {
           socket.emit('GAME_STATUS', (payload) => {
             return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
           })
@@ -53,19 +45,6 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case NEED_NEW_PIECES : {
           SocketService.emitGamePieces(action.game)
-          // socket.emit('requestShape')
-          // socket.on('emittedShape', (data) => {
-          //   action = {
-          //     type: action.type,
-          //     status: 'success',
-          //     data,
-          //   };
-          //   dispatch(tetriNew(store.getState().game, shapeHandler(data)))
-          // })
-          break;
-        }
-        case TETRI_IS_BLOCK : {
-          dispatch(emitGamePieces(store.getState().game, store.getState('tetrimino')))
           break;
         }
         default: {

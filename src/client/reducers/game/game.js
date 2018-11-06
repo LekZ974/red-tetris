@@ -1,4 +1,4 @@
-import {EMIT_GAME_STATUS, GAME_FLOW, CREATE_GAME, NEED_NEW_PIECES} from '../../actions/game'
+import {UPDATE_GAME_STATUS, GAME_FLOW, CREATE_GAME, NEED_NEW_PIECES} from '../../actions/game'
 import {reducerEmitCreateGame, reducerEmitGameStatus, reducerEmitGamePieces, reducerGameFlow} from './functions'
 
 export const initialState = {
@@ -16,7 +16,7 @@ export default function GameReducer (state = initialState, action = {}) {
     action.payload = [];
   }
   switch (action.type) {
-    case EMIT_GAME_STATUS: {
+    case UPDATE_GAME_STATUS: {
       return reducerEmitGameStatus(state, action, initialState)
     }
     case CREATE_GAME: {

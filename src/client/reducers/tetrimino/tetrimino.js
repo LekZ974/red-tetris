@@ -28,11 +28,12 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       return initialState
     }
     case TETRI_NEW: {
+      console.log("TETRI NEW", action)
       return {
         ...initialState,
         id: action.tetrimino.id,
         rotate: action.tetrimino.rotate,
-        pieceInfo: PIECES_INFO[action.tetrimino.id][action.tetrimino.rotate]
+        pieceInfo: PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate]
       }
     }
     default:

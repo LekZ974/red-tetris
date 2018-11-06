@@ -1,7 +1,6 @@
 import {GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM, PIECES_ACTION, PIECES_INFO, PRIO_COLLISION, COLLISION_TYPE} from "../../common/pieces";
-import {tetriIsBlock} from "../actions/tetrimino";
-import { store } from "../index";
+import * as SocketService from "./SocketService";
 
 const hasCollision = (grid, piece, coords) => {
   let collisionType = undefined;
@@ -33,7 +32,7 @@ const hasCollision = (grid, piece, coords) => {
         collisionType = COLLISION_TYPE.LIMIT_RIGHT;
       }
     }
-    else if (number !== 0 && grid[gy][gx] !== 0) {
+    else if (number !== 0 && grid[gy][gx] !== 0 && number !== 8 && grid[gy][gx] !== 8) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.PIECE)) {
         collisionType = COLLISION_TYPE.PIECE;
       }
@@ -65,6 +64,10 @@ const placePiece = (grid, tetrimino) => {
       }
     })
   });
+  console.log("COLLISION", tetrimino.needNext)
+  if (tetrimino.needNext) {
+    SocketService.emitUpdateGrid(newGrid)
+  }
   return newGrid;
 };
 
@@ -73,6 +76,7 @@ const placePiecePreview = (grid, tetrimino) => {
   const { pieceInfo, coords } = tetrimino
 
 
+  console.log("PLACEPREVIEW", coords)
   const newPos = finalPos(grid, pieceInfo.piece, coords)
 
   pieceInfo.piece.forEach((line, y) =>
@@ -94,7 +98,7 @@ const placePiecePreview = (grid, tetrimino) => {
 };
 
 const finalPos = (grid, piece, coords) => {
-  while (!(hasCollision(grid, piece, coords) === 'collision_limit_down'))  {
+  while (!(hasCollision(grid, piece, coords)))  {
     coords.posY++;
   }
   if (coords.posY > 0) {
@@ -150,7 +154,7 @@ const updatePieceRot = (grid, tetrimino, move) => {
     ...tetrimino,
     rotate: rotate,
     coords: newCoords(tetrimino.coords, move),
-    pieceInfo: PIECES_INFO[tetrimino.id][rotate]
+    pieceInfo: PIECES_INFO[tetrimino.id - 1][rotate]
   }
 
   return moveCollision(newPiece, grid);

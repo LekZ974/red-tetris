@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {emitGameStatus} from '../../actions/game'
+import {updateGameStatus} from '../../actions/game'
 
 
 class RoomInfo extends Component {
@@ -12,7 +12,7 @@ class RoomInfo extends Component {
 
       function changeGameFlow(e) {
         const status = e.target.innerHTML
-        dispatch(emitGameStatus(status, game))
+        dispatch(updateGameStatus(status, game))
       }
 
       const buttonValue = game.start ? 'Pause' : 'Start'

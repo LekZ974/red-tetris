@@ -3,7 +3,7 @@ import { PIECES_NUM } from "../../common/pieces";
 import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
-import { updateUser, joinGame } from "../actions/user";
+import {updateUser, joinGame, updateGrid} from "../actions/user";
 import {tetriInit, tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces} from "../actions/game";
@@ -25,20 +25,16 @@ const rcvPlayerLogged = data => {
 }
 
 const rcvJoinGame = data => {
-  console.log("RCVJOIN GAME", data)
   store.dispatch(needNewPieces(store.getState().game))
 }
 
 const rcvGameExist = data => {
-  console.log("RCVGAMEEXIST", data)
-  console.log(store.getState().user)
   if (!store.getState().user.gameName) {
     store.dispatch(joinGame(store.getState().user.name, store.getState().game.name))
   }
 }
 
 const rcvNewShape = data => {
-  console.log("RCV NEW SHAPE", data)
   store.dispatch(tetriNew(store.getState().game, shapeHandler(data)))
 }
 
@@ -55,7 +51,6 @@ const emitLogin = userName => {
 
 const emitJoinGame = (userName, gameName) => {
   socket.emit('joinGame', gameName)
-  console.log("UPDATE USER JOIN GAME", gameName)
   store.dispatch(updateUser({
     gameName,
     grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
@@ -64,12 +59,17 @@ const emitJoinGame = (userName, gameName) => {
 
 const emitCreateGame = (gameName) => {
   socket.emit('createGame', gameName)
-  store.dispatch(tetriInit())
 }
 
 const emitGamePieces = game => {
-  console.log("EMIT GAME PIECE", game)
   socket.emit('requestShape')
+  store.dispatch(tetriInit())
+}
+
+const emitUpdateGrid = grid => {
+  console.log("EMIT UPADTE GRID", grid)
+  store.dispatch(updateGrid(grid))
+  store.dispatch(needNewPieces(store.getState().game))
 }
 
 export {
@@ -80,4 +80,5 @@ export {
   emitJoinGame,
   emitCreateGame,
   emitGamePieces,
+  emitUpdateGrid,
 }
