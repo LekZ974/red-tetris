@@ -1,6 +1,4 @@
-import {USER_INIT, USER_LOGIN, USER_CONNECT, USER_UPDATE_GRID} from '../../actions/user'
-import {GRID_HEIGHT, GRID_WIDTH} from "../../../common/grid";
-import {PIECES_NUM} from "../../../common/pieces";
+import {USER_INIT, USER_LOGIN, USER_CONNECT, USER_UPDATE_GRID, USER_UPDATE} from '../../actions/user'
 
 export const initialState = {
   id: '',
@@ -8,7 +6,7 @@ export const initialState = {
   gameName: '',
   role: '',
   connected: false,
-  grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+  grid: [],
   payload: {}
 }
 
@@ -22,7 +20,6 @@ export default function UserReducer (state = initialState, action = {}) {
       }
     }
     case USER_LOGIN: {
-      console.log("USER REDUCER", action)
       if (action.status === 'success') {
         const { id, name, gameName, role , connected, grid} = action
         return {
@@ -36,6 +33,12 @@ export default function UserReducer (state = initialState, action = {}) {
         }
       }
       return state
+    }
+    case USER_UPDATE : {
+      return {
+        ...state,
+        ...action.data,
+      }
     }
     case USER_INIT: {
       return {

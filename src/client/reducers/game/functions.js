@@ -27,17 +27,16 @@ const reducerEmitGameStatus = (state, action, initialState) => {
 }
 
 const reducerEmitCreateGame = (state, action) => {
+  console.log("REDUCER CREATE GAME", action)
   return {
     ...state,
-    name: action.game.gameName,
-    owner: action.game.userName,
+    name: action.gameName,
   }
 }
 
 const reducerEmitGamePieces = (state, action) => {
   return {
     ...state,
-    gamePieces: action.data,
   }
 }
 

@@ -1,5 +1,7 @@
 import {GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM, PIECES_ACTION, PIECES_INFO, PRIO_COLLISION, COLLISION_TYPE} from "../../common/pieces";
+import {tetriIsBlock} from "../actions/tetrimino";
+import { store } from "../index";
 
 const hasCollision = (grid, piece, coords) => {
   let collisionType = undefined;
@@ -157,14 +159,6 @@ const updatePieceRot = (grid, tetrimino, move) => {
 const updateTetriPos = (grid, tetrimino, move) => {
   if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
     return updatePieceRot(grid, tetrimino, move)
-  } else if (move === PIECES_ACTION.MOVE_DROP) {
-    const newPiece = cloneTetri(tetrimino);
-    const newPieceDescr = newPiece.pieceInfo.piece;
-    while (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
-      newPiece.coords.posY++;
-    }
-    newPiece.coords.posY--;
-    return newPiece;
   } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
     const newPiece = {
       ...tetrimino,
@@ -187,7 +181,10 @@ const updateTetriPos = (grid, tetrimino, move) => {
     if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
       return newPiece
     }
-    return tetrimino;
+    return {
+      ...tetrimino,
+      needNext: true,
+    };
   }
   else if (move === PIECES_ACTION.MOVE_DROP) {
     const newPiece = {
@@ -196,7 +193,7 @@ const updateTetriPos = (grid, tetrimino, move) => {
     const newPieceDescr = newPiece.pieceInfo.piece;
     return {
       ...newPiece,
-      coords: finalPos(grid, newPieceDescr, newPiece.coords)
+      coords: finalPos(grid, newPieceDescr, newPiece.coords),
     }
   }
   return tetrimino;

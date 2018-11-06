@@ -7,7 +7,7 @@ const initialState = {
   id: null,
   pieceInfo: null,
   pieceStep: 0,
-  collision:false,
+  needNext:false,
   coords: {
     posX:0,
     posY:0
@@ -28,19 +28,12 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       return initialState
     }
     case TETRI_NEW: {
-      console.log("TETRI ACTION", action)
       return {
-        ...state,
+        ...initialState,
         id: action.tetrimino.id,
         rotate: action.tetrimino.rotate,
         pieceInfo: PIECES_INFO[action.tetrimino.id][action.tetrimino.rotate]
       }
-    }
-    case TETRI_IS_BLOCK: {
-      return {
-        ...state,
-        collision: true
-      };
     }
     default:
       return {

@@ -1,8 +1,15 @@
 import {GET_GAMES} from "../actions/games";
-import {EMIT_GAME_STATUS, EMIT_GAME_PIECES, EMIT_CREATE_GAME} from "../actions/game";
-import {USER_LOGIN} from "../actions/user";
-import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
-import {PIECES_NUM} from "../../common/pieces";
+import {
+  EMIT_GAME_STATUS,
+  CREATE_GAME,
+  EMIT_CREATE_GAME,
+  NEED_NEW_PIECES
+} from "../actions/game";
+import {USER_JOIN_GAME, USER_LOGIN} from "../actions/user";
+import {store} from "../index";
+import {TETRI_IS_BLOCK, tetriInit, tetriNew} from "../actions/tetrimino";
+import {shapeHandler} from "../utils/shapeHandler";
+import * as SocketService from "../services/SocketService";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -14,21 +21,11 @@ const socketMiddleware = socket => ({dispatch}) => {
     if (socket) {
       switch (type) {
         case USER_LOGIN : {
-          socket.emit('login', {id: action.userName})
-          socket.on('logged', data => {
-            action = {
-              type: action.type,
-              status: 'success',
-              id: Math.random().toString(36).substring(2, 15),
-              name: action.user.userName,
-              gameName: action.user.gameName,
-              connected: true,
-              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-            }
-            return 'OK' === data && next(action);
-          }
-        )
+          SocketService.emitLogin(action.userName);
           break;
+        }
+        case USER_JOIN_GAME : {
+          SocketService.emitJoinGame(action.userName, action.gameName)
         }
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
@@ -36,9 +33,16 @@ const socketMiddleware = socket => ({dispatch}) => {
           })
           break;
         }
-        case EMIT_CREATE_GAME : {
-          if( action.game ) socket.emit('createGame', action.game.gameName)
-          socket.on('gameExists', (data) => console.log(data))
+        case CREATE_GAME : {
+          console.log("EMIT CREATE GAME ACTION", action)
+          SocketService.emitCreateGame(action.gameName)
+          // dispatch(tetriInit())
+          // if( action.gameData ) socket.emit('createGame', action.gameData.gameName)
+          // socket.on('gameExists', (data) => {
+          //   if ('OK' === data) {
+          //     dispatch(emitGamePieces(store.getState().game, store.getState().tetrimino))
+          //   }
+          // })
           break;
         }
         case EMIT_GAME_STATUS : {
@@ -47,16 +51,21 @@ const socketMiddleware = socket => ({dispatch}) => {
           })
           break;
         }
-        case EMIT_GAME_PIECES : {
-          socket.emit('requestShape')
-          socket.on('emittedShape', (data) => {
-            action = {
-              type: action.type,
-              status: 'success',
-              data,
-            };
-          return data && next(action);
-          })
+        case NEED_NEW_PIECES : {
+          SocketService.emitGamePieces(action.game)
+          // socket.emit('requestShape')
+          // socket.on('emittedShape', (data) => {
+          //   action = {
+          //     type: action.type,
+          //     status: 'success',
+          //     data,
+          //   };
+          //   dispatch(tetriNew(store.getState().game, shapeHandler(data)))
+          // })
+          break;
+        }
+        case TETRI_IS_BLOCK : {
+          dispatch(emitGamePieces(store.getState().game, store.getState('tetrimino')))
           break;
         }
         default: {
@@ -65,6 +74,10 @@ const socketMiddleware = socket => ({dispatch}) => {
       }
       if (thenFn) thenFn(dispatch)
     }
+    if (store.getState().tetrimino.needNext) {
+      console.log("NEED UPGRADE GRID", store.getState().user.grid)
+    }
+
     return next(action)
   }
 }

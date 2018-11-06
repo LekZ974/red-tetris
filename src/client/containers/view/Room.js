@@ -5,8 +5,10 @@ import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
-import {emitCreateGame} from "../../actions/game";
+import {createGame} from "../../actions/game";
 import {login} from "../../actions/user";
+import {GRID_HEIGHT, GRID_WIDTH} from "../../../common/grid";
+import {PIECES_NUM} from "../../../common/pieces";
 
 const FakeSpectre = [
   {
@@ -23,25 +25,20 @@ const FakeSpectre = [
   }
 ]
 
-const createGame = (props) => {
-  const {match, dispatch} = props
+const createRoom = (props) => {
+  const {match, user, dispatch} = props
 
-  dispatch(login({
-    userName: match.params.user,
-    gameName: match.params.room,
-  }))
-
-  dispatch(emitCreateGame({
-    userName: match.params.user,
-    gameName: match.params.room,
-  }))
+  if (!user.name) {
+    dispatch(login(match.params.user))
+  }
+  dispatch(createGame(match.params.room))
 }
 
 const Room = (props) => {
   const {user, game, match, dispatch} = props
 
   if (!game.name) {
-    createGame(props)
+    createRoom(props)
   }
 
   return (
