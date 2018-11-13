@@ -23,7 +23,6 @@ const mapStateToProps = state => {
   if (state.game.gameIsStarted && state.tetrimino.pieceInfo) {
     let CpPlayerGrid = TetriService.placePiecePreview(playerGrid, CpTetrimino);
     playerGrid = TetriService.placePiece(CpPlayerGrid, state.tetrimino);
-    console.log("GRID", playerGrid)
   }
 
   playerGrid.forEach(l => {

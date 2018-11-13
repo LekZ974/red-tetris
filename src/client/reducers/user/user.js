@@ -52,7 +52,6 @@ export default function UserReducer (state = initialState, action = {}) {
       let newGrid = action.grid
       let nbLineDel;
       [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
-      console.log("LINEDEL", nbLineDel)
         return {
         ...state,
         completeLine: nbLineDel,

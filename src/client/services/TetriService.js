@@ -8,7 +8,7 @@ const hasCollision = (grid, piece, coords) => {
     const gx = x + posX;
     const gy = y + posY;
 
-    // console.log("gx:", gx, "gy:", gy, "number:", number, "x:", x, "y:", y, posX, posY)
+    // console.log("piece", piece, "gx:", gx, "gy:", gy, "number:", number, "x:", x, "y:", y, posX, posY)
 
 
     if (gy < 0 && number !== 0) {
@@ -155,6 +155,7 @@ const updatePieceRot = (grid, tetrimino, move) => {
 };
 
 const updateTetriPos = (grid, tetrimino, move) => {
+  console.log("TETRI POS", tetrimino)
   if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
     return updatePieceRot(grid, tetrimino, move)
   } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
@@ -178,6 +179,12 @@ const updateTetriPos = (grid, tetrimino, move) => {
     const newPieceDescr = newPiece.pieceInfo.piece;
     if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
       return newPiece
+    }
+    if (tetrimino.needNext) {
+      return {
+        ...tetrimino,
+        needNext: false,
+      };
     }
     return {
       ...tetrimino,

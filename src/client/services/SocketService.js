@@ -37,7 +37,6 @@ const rcvGameExist = data => {
 
 const rcvNewShape = data => {
   if (store.getState().tetrimino.needNext) {
-    console.log("HERE", data)
   }
   store.dispatch(tetriNew(store.getState().game, shapeHandler(data)))
 }

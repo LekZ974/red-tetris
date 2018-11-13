@@ -9,7 +9,7 @@ const initialState = {
   pieceStep: 0,
   needNext:false,
   coords: {
-    posX:0,
+    posX:4,
     posY:0
   },
   action: null,
@@ -31,12 +31,15 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       }
     }
     case TETRI_NEW: {
-      console.log("TETRINEW")
       return {
         ...initialState,
         id: action.tetrimino.id,
         rotate: action.tetrimino.rotate,
-        pieceInfo: PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate]
+        pieceInfo: PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate],
+        coords: {
+          posX: initialState.coords.posX + PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate].info.posX,
+          posY: initialState.coords.posY + PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate].info.posY,
+        }
       }
     }
     default:

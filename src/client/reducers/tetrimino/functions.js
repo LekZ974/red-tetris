@@ -2,9 +2,9 @@ import {PIECES_ACTION} from "../../../common/pieces";
 import * as TetriService from "../../services/TetriService";
 
 const reducerTetriStep = (state, action, initialState) => {
-  if (0 === state.pieceStep) {
-    state.coords.posY = -1
-  }
+  // if (0 === state.pieceStep) {
+  //   state.coords.posY = -1
+  // }
   if (state.pieceInfo) {
     const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DOWN)
     return {
@@ -43,7 +43,7 @@ const reducerTetriAction = (state, action) => {
       break;
     }
   }
-  return pieceAction && TetriService.updateTetriPos(action.user.grid, state, pieceAction)
+  return pieceAction ? TetriService.updateTetriPos(action.user.grid, state, pieceAction) : state
 }
 
 export {

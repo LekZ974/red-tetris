@@ -7,7 +7,7 @@ import {
 } from "../actions/game";
 import {updateGrid, USER_JOIN_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
 import {store} from "../index";
-import {TETRI_INIT, TETRI_IS_BLOCK, tetriInit, tetriNew} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_IS_BLOCK, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
 import {emitUpdateGrid} from "../services/SocketService";
@@ -22,6 +22,9 @@ const socketMiddleware = socket => ({dispatch}) => {
     if (socket) {
       switch (type) {
         case TETRI_INIT : {
+          return next(action)
+        }
+        case TETRI_NEW : {
           return next(action)
         }
         case USER_LOGIN : {
@@ -66,7 +69,6 @@ const socketMiddleware = socket => ({dispatch}) => {
       SocketService.emitGamePieces()
       store.dispatch(tetriInit())
     }
-    console.log("NEXT", action)
     return next(action)
   }
 }
