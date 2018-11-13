@@ -9,7 +9,8 @@ export const initialState = {
   connected: false,
   grid: [],
   completeLine: 0,
-  payload: {}
+  payload: {},
+  loosed: false,
 }
 
 export default function UserReducer (state = initialState, action = {}) {
@@ -52,10 +53,14 @@ export default function UserReducer (state = initialState, action = {}) {
       let newGrid = action.grid
       let nbLineDel;
       [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
+
+      const loose = TetriService.asLoose(newGrid);
+
         return {
         ...state,
         completeLine: nbLineDel,
-        grid: newGrid
+        grid: newGrid,
+        loosed: loose,
       }
     }
     default:

@@ -5,9 +5,9 @@ import {
   EMIT_CREATE_GAME,
   NEED_NEW_PIECES
 } from "../actions/game";
-import {updateGrid, USER_JOIN_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
+import {USER_JOIN_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
 import {store} from "../index";
-import {TETRI_INIT, TETRI_IS_BLOCK, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
 import {emitUpdateGrid} from "../services/SocketService";

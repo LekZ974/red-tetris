@@ -51,7 +51,7 @@ const Room = (props) => {
         <PlayGround game={game} tetrimino={20}/>
       </Card>
       <Card flex={1} width={'40em'}>
-        <GameInfo spectres={FakeSpectre} game={game}/>
+        <GameInfo spectres={FakeSpectre} game={game} user={user}/>
       </Card>
       <Route path={`${match.path}/:user`} render={({match}) => (<div><h3> {match.params.userName} </h3></div>)}/>
     </Box>
