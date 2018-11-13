@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {updateGameStatus} from '../../actions/game'
-
+import * as SocketService from '../../services/SocketService';
+import { Link } from 'react-router-dom';
 
 class RoomInfo extends Component {
     constructor(props){
@@ -15,6 +16,10 @@ class RoomInfo extends Component {
         dispatch(updateGameStatus(status, game))
       }
 
+      function leaveGame(e) {
+        SocketService.emitLeaveGame()
+      }
+
       const buttonValue = game.start ? 'Pause' : 'Start'
 
       return(
@@ -24,6 +29,7 @@ class RoomInfo extends Component {
           <h1>ROOM:{user.gameName}</h1>
           <button onClick={changeGameFlow}>{buttonValue}</button>
           <button onClick={changeGameFlow}>Stop</button>
+          <button onClick={leaveGame}><Link to={'/'}>Leave Game</Link></button>
         </div>
       )
     }

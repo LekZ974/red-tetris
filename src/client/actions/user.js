@@ -4,6 +4,7 @@ import {PIECES_NUM} from "../../common/pieces";
 export const USER_CONNECT = 'user/USER_CONNECT'
 export const USER_LOGIN = 'user/USER_LOGIN'
 export const USER_JOIN_GAME = 'user/USER_JOIN_GAME'
+export const USER_LEFT_GAME = 'user/USER_LEFT_GAME'
 export const USER_INIT = 'user/USER_INIT'
 export const USER_UPDATE = 'user/USER_UPDATE'
 export const USER_UPDATE_GRID = 'user/USER_UPDATE_GRID'
@@ -21,6 +22,10 @@ export const joinGame = (userName, gameName) => ({
   type: USER_JOIN_GAME,
   userName,
   gameName,
+})
+
+export const leaveGame = () => ({
+  type: USER_LEFT_GAME,
 })
 
 export const updateUser = data => ({

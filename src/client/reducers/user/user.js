@@ -1,4 +1,4 @@
-import {USER_INIT, USER_LOGIN, USER_CONNECT, USER_UPDATE_GRID, USER_UPDATE} from '../../actions/user'
+import {USER_INIT, USER_LOGIN, USER_CONNECT, USER_UPDATE_GRID, USER_UPDATE, USER_LEFT_GAME} from '../../actions/user'
 import * as TetriService from '../../services/TetriService';
 
 export const initialState = {
@@ -16,6 +16,12 @@ export const initialState = {
 export default function UserReducer (state = initialState, action = {}) {
 
   switch (action.type) {
+    case USER_LEFT_GAME : {
+      console.log("LEAVE GAME", action)
+      return {
+        ...initialState,
+      }
+    }
     case USER_CONNECT : {
       return {
         ...state,

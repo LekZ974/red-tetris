@@ -5,7 +5,7 @@ import {
   EMIT_CREATE_GAME,
   NEED_NEW_PIECES
 } from "../actions/game";
-import {USER_JOIN_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
+import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
 import {store} from "../index";
 import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
@@ -34,6 +34,9 @@ const socketMiddleware = socket => ({dispatch}) => {
         case USER_JOIN_GAME : {
           SocketService.emitJoinGame(action.userName, action.gameName)
           break;
+        }
+        case USER_LEFT_GAME : {
+          return next(action)
         }
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {

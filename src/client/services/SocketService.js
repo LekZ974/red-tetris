@@ -3,11 +3,11 @@ import { PIECES_NUM } from "../../common/pieces";
 import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
-import {updateUser, joinGame, updateGrid} from "../actions/user";
-import {tetriInit, tetriNew} from "../actions/tetrimino";
+import {updateUser, joinGame, updateGrid, leaveGame} from "../actions/user";
+import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces} from "../actions/game";
-import * as TetriService from "./TetriService";
+import {push} from "connected-react-router";
 
 const socket = io.connect(params.server.url);
 
@@ -36,15 +36,20 @@ const rcvGameExist = data => {
 }
 
 const rcvNewShape = data => {
-  if (store.getState().tetrimino.needNext) {
-  }
   store.dispatch(tetriNew(store.getState().game, shapeHandler(data)))
+}
+
+const rcvLeftGame = data => {
+  console.log("RCVLEAVE GAME", data)
+  store.dispatch(leaveGame(data))
+  store.dispatch(push('/'))
 }
 
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvJoinGame)
 socket.on('gameExists', rcvGameExist)
 socket.on('emittedShape', rcvNewShape)
+socket.on('leftGame', rcvLeftGame)
 
 //EMIT
 
@@ -72,13 +77,19 @@ const emitUpdateGrid = grid => {
   store.dispatch(updateGrid(grid))
 }
 
+const emitLeaveGame = () => {
+  socket.emit('leaveGame')
+}
+
 export {
   rcvPlayerLogged,
   rcvJoinGame,
   rcvGameExist,
+
   emitLogin,
   emitJoinGame,
   emitCreateGame,
   emitGamePieces,
   emitUpdateGrid,
+  emitLeaveGame,
 }
