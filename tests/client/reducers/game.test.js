@@ -1,10 +1,9 @@
 import {initialState} from '../../../src/client/reducers/game/game';
 import reducer from '../../../src/client/reducers/game/game'
 import {
-  EMIT_GAME_STATUS,
-  GAME_FLOW,
-  EMIT_GAME_PIECES,
-  EMIT_CREATE_GAME
+  UPDATE_GAME_STATUS,
+  CREATE_GAME,
+  NEED_NEW_PIECES,
 } from '../../../src/client/actions/game'
 
 describe('Test game reducer', ()=> {
@@ -15,36 +14,32 @@ describe('Test game reducer', ()=> {
     expect(reducer(initialState, {})).toEqual(initialState)
   })
 
-  it('should test EMIT_CREATE_GAME', () => {
+  it('should test CREATE_GAME', () => {
     const  name = "Kirikou"
-    const owner = "Moi"
     expect(reducer({
       items: [],
       name: '',
       id: '',
-      owner: undefined,
+      owner: "",
       gameIsStarted: false,
       start: false,
       pause: false,
       gamePieces: []
     }, {
-      type: EMIT_CREATE_GAME,
-      game: {
-        gameName:name,
-        userName:owner
-      }
+      type: CREATE_GAME,
+      gameName: name,
     })).toEqual({
       items: [],
       name: name,
       id: '',
-      owner: owner,
+      owner: "",
       gameIsStarted: false,
       start: false,
       pause: false,
       gamePieces: []
     })
   })
-  it('should test EMIT_GAME_STATUS', () => {
+  it('should test UPDATE_GAME_STATUS', () => {
 
     expect(
       reducer({
@@ -52,21 +47,19 @@ describe('Test game reducer', ()=> {
           gameIsStarted: false,
           start: false,
           pause: false,
-          gamePieces: []
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: UPDATE_GAME_STATUS,
           gameStatus: 'Start'
         })).toEqual({
         items: [],
         gameIsStarted: true,
         start: true,
         pause: false,
-        gamePieces: []
       }
     )
   })
-  it('should test EMIT_GAME_STATUS default case', () => {
+  it('should test UPDATE_GAME_STATUS default case', () => {
 
     expect(
       reducer({
@@ -74,21 +67,19 @@ describe('Test game reducer', ()=> {
           gameIsStarted: false,
           start: false,
           pause: false,
-          gamePieces: []
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: UPDATE_GAME_STATUS,
           gameStatus: 'rien'
         })).toEqual({
         items: [],
         gameIsStarted: false,
         start: false,
         pause: false,
-        gamePieces: []
       }
     )
   })
-  it('should test EMIT_GAME_STATUS', () => {
+  it('should test UPDATE_GAME_STATUS', () => {
 
     expect(
       reducer({
@@ -96,21 +87,19 @@ describe('Test game reducer', ()=> {
           gameIsStarted: false,
           start: false,
           pause: false,
-          gamePieces: []
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: UPDATE_GAME_STATUS,
           gameStatus: 'Pause'
         })).toEqual({
         items: [],
         gameIsStarted: true,
         start: false,
         pause: true,
-        gamePieces: []
       }
     )
   })
-  it('should test Alex EMIT_GAME_STATUS', () => {
+  it('should test Alex UPDATE_GAME_STATUS', () => {
 
     expect(
       reducer({
@@ -118,10 +107,9 @@ describe('Test game reducer', ()=> {
           gameIsStarted: false,
           start: false,
           pause: false,
-          gamePieces: []
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: UPDATE_GAME_STATUS,
           gameStatus: 'Stop'
         })).toEqual({
         items: [],
@@ -131,61 +119,26 @@ describe('Test game reducer', ()=> {
         gameIsStarted: false,
         start: false,
         pause: false,
-        gamePieces: []
       }
     )
   })
-})
-     it('should handle EMIT_GAME_PIECES', () => {
-    expect(
-      reducer([],{
-        type: EMIT_GAME_PIECES,
-      })).toEqual([])
-    expect(
-      reducer({
-          items: [],
-          gameIsStarted: false,
-          start: false,
-          pause: false,
-          gamePieces: []
-        }
-        ,{
-          type: EMIT_GAME_PIECES,
-        })).toEqual({
-        items: [],
-        gameIsStarted: false,
-        start: false,
-        pause: false,
-        gamePieces: []
-      }
-    )
+  it('should handle NEED_NEW_PIECES', () => {expect(
+    reducer([],{
+      type: NEED_NEW_PIECES,
+    })).toEqual({})
+    expect(reducer({
+      items: [],
+      gameIsStarted: false,
+      start: false,
+      pause: false,
+    }
+    ,{
+      type: NEED_NEW_PIECES,
+    })).toEqual({
+      items: [],
+      gameIsStarted: false,
+      start: false,
+      pause: false,
+    })
   })
-     it('should handle GAME_FLOW', () => {
-       expect(
-         reducer([], {
-           type: GAME_FLOW,
-           gameAction: 'something'
-         })).toEqual({})
-     })
-       it('should handle GAME_FLOW', () => {
-
-         expect(
-      reducer({
-          items: [],
-          gameIsStarted: false,
-          start: false,
-          pause: false,
-          gamePieces: []
-        }
-        ,{
-          type: GAME_FLOW,
-        })).toEqual({
-        items: [],
-        gameIsStarted: false,
-        start: false,
-        pause: false,
-        gamePieces: []
-      }
-    )
-
 })

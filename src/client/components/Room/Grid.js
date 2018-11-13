@@ -18,13 +18,12 @@ const mapStateToProps = state => {
   const gridRender = [];
   const userState = state.user;
   let playerGrid = userState.grid.map(l => l.map(e => e));
-  const tetrimino = TetriService.cloneTetri(state.tetrimino)
+  const CpTetrimino = TetriService.cloneTetri(state.tetrimino)
 
-  if (state.game.gameIsStarted && tetrimino.pieceInfo) {
-    playerGrid = TetriService.placePiecePreview(playerGrid, tetrimino);
-    playerGrid = TetriService.placePiece(playerGrid, state.tetrimino);
-    // if (!playerGrid.map(row => row.find(elem => elem === 8)).find(p => p === 8)) {
-    // }
+  if (state.game.gameIsStarted && state.tetrimino.pieceInfo) {
+    let CpPlayerGrid = TetriService.placePiecePreview(playerGrid, CpTetrimino);
+    playerGrid = TetriService.placePiece(CpPlayerGrid, state.tetrimino);
+    console.log("GRID", playerGrid)
   }
 
   playerGrid.forEach(l => {

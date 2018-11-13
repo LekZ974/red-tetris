@@ -85,7 +85,7 @@ describe('>>>>>TetriService', () => {
       expect(JSON.stringify(placePiece(grid, tetrimino))).to.equal(JSON.stringify([
           [0, 6, 0, 0, 0, 0, 0, 0, 0, 0],
           [6, 6, 0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 6, 0, 0, 0, 0, 0, 0, 0, 0],
+          [6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -108,7 +108,7 @@ describe('>>>>>TetriService', () => {
     it('place Piece 4,7', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][0],
+        pieceInfo: PIECES_INFO[2][0],
         pieceStep: 8,
         collision: false,
         coords: {
@@ -127,8 +127,8 @@ describe('>>>>>TetriService', () => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 6, 0, 0, 0, 0],
-        [0, 0, 0, 0, 6, 6, 6, 0, 0, 0],
+        [0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+        [0, 0, 0, 0, 3, 3, 3, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -145,7 +145,7 @@ describe('>>>>>TetriService', () => {
     it('place Piece output', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][0],
+        pieceInfo: PIECES_INFO[4][0],
         pieceStep: 8,
         collision: false,
         coords: {
@@ -184,7 +184,7 @@ describe('>>>>>TetriService', () => {
     it('place Piece 0,0', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][3],
+        pieceInfo: PIECES_INFO[0][3],
         pieceStep: 0,
         collision: false,
         coords: {
@@ -213,15 +213,15 @@ describe('>>>>>TetriService', () => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 8, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [8, 8, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 8, 0, 0, 0, 0, 0, 0, 0, 0]
+        [8, 8, 0, 0, 0, 0, 0, 0, 0, 0]
       ]))
     })
     it('place Piece 4,7', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][0],
+        pieceInfo: PIECES_INFO[6][0],
         pieceStep: 8,
         collision: false,
         coords: {
@@ -251,14 +251,14 @@ describe('>>>>>TetriService', () => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 8, 0, 0, 0, 0],
-        [0, 0, 0, 0, 8, 8, 8, 0, 0, 0]
+        [0, 0, 0, 0, 0, 8, 8, 0, 0, 0],
+        [0, 0, 0, 0, 8, 8, 0, 0, 0, 0]
       ]))
     })
     it('place Piece output', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][0],
+        pieceInfo: PIECES_INFO[4][0],
         pieceStep: 8,
         collision: false,
         coords: {
@@ -297,7 +297,7 @@ describe('>>>>>TetriService', () => {
     it('place Piece 0,0', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][3],
+        pieceInfo: PIECES_INFO[2][3],
         pieceStep: 0,
         collision: false,
         coords: {
@@ -334,7 +334,7 @@ describe('>>>>>TetriService', () => {
     it('place Piece 4,7', () => {
       const tetrimino = {
         items: [],
-        pieceInfo: PIECES_INFO[5][0],
+        pieceInfo: PIECES_INFO[4][0],
         pieceStep: 8,
         collision: false,
         coords: {
@@ -364,7 +364,7 @@ describe('>>>>>TetriService', () => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 8, 0, 0, 0, 0],
+        [0, 0, 0, 0, 8, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 8, 8, 8, 0, 0, 0]
       ]))
     })

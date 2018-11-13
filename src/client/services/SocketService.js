@@ -7,6 +7,7 @@ import {updateUser, joinGame, updateGrid} from "../actions/user";
 import {tetriInit, tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces} from "../actions/game";
+import * as TetriService from "./TetriService";
 
 const socket = io.connect(params.server.url);
 
@@ -35,6 +36,9 @@ const rcvGameExist = data => {
 }
 
 const rcvNewShape = data => {
+  if (store.getState().tetrimino.needNext) {
+    console.log("HERE", data)
+  }
   store.dispatch(tetriNew(store.getState().game, shapeHandler(data)))
 }
 
@@ -61,15 +65,12 @@ const emitCreateGame = (gameName) => {
   socket.emit('createGame', gameName)
 }
 
-const emitGamePieces = game => {
+const emitGamePieces = () => {
   socket.emit('requestShape')
-  store.dispatch(tetriInit())
 }
 
 const emitUpdateGrid = grid => {
-  console.log("EMIT UPADTE GRID", grid)
   store.dispatch(updateGrid(grid))
-  store.dispatch(needNewPieces(store.getState().game))
 }
 
 export {

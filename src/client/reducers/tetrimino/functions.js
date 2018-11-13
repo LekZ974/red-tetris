@@ -16,33 +16,34 @@ const reducerTetriStep = (state, action, initialState) => {
 }
 
 const reducerTetriAction = (state, action) => {
+  let pieceAction;
   switch (action.action) {
     case 'Space': {
-      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DROP)
-      return newTetriminoState;
+      pieceAction = PIECES_ACTION.MOVE_DROP
+      break;
     }
     case 'ArrowLeft' : {
-      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_LEFT)
-      return newTetriminoState;
+      pieceAction = PIECES_ACTION.MOVE_LEFT
+      break;
     }
     case 'ArrowRight' : {
-      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_RIGHT)
-      return newTetriminoState;
-
+      pieceAction = PIECES_ACTION.MOVE_RIGHT
+      break;
     }
     case 'ArrowDown' : {
-      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.MOVE_DOWN)
-      return newTetriminoState;
-
+      pieceAction = PIECES_ACTION.MOVE_DOWN
+      break;
     }
     case 'ArrowUp' : {
-      const newTetriminoState = TetriService.updateTetriPos(action.user.grid, state, PIECES_ACTION.ROTATE_LEFT)
-      return newTetriminoState;
+      pieceAction = PIECES_ACTION.ROTATE_RIGHT
+      break;
     }
     default: {
-      return state
+      pieceAction = null
+      break;
     }
   }
+  return pieceAction && TetriService.updateTetriPos(action.user.grid, state, pieceAction)
 }
 
 export {

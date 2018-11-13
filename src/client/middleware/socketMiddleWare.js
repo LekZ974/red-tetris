@@ -5,10 +5,12 @@ import {
   EMIT_CREATE_GAME,
   NEED_NEW_PIECES
 } from "../actions/game";
-import {USER_JOIN_GAME, USER_LOGIN} from "../actions/user";
+import {updateGrid, USER_JOIN_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
 import {store} from "../index";
-import {TETRI_IS_BLOCK, tetriInit, tetriNew} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_IS_BLOCK, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
+import * as TetriService from "../services/TetriService";
+import {emitUpdateGrid} from "../services/SocketService";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -19,12 +21,16 @@ const socketMiddleware = socket => ({dispatch}) => {
 
     if (socket) {
       switch (type) {
+        case TETRI_INIT : {
+          return next(action)
+        }
         case USER_LOGIN : {
           SocketService.emitLogin(action.userName);
           break;
         }
         case USER_JOIN_GAME : {
           SocketService.emitJoinGame(action.userName, action.gameName)
+          break;
         }
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
@@ -33,7 +39,6 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case CREATE_GAME : {
-          console.log("EMIT CREATE GAME ACTION", action)
           SocketService.emitCreateGame(action.gameName)
           break;
         }
@@ -44,8 +49,11 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case NEED_NEW_PIECES : {
-          SocketService.emitGamePieces(action.game)
+          SocketService.emitGamePieces()
           break;
+        }
+        case USER_UPDATE_GRID : {
+          return next(action)
         }
         default: {
           break;
@@ -54,9 +62,11 @@ const socketMiddleware = socket => ({dispatch}) => {
       if (thenFn) thenFn(dispatch)
     }
     if (store.getState().tetrimino.needNext) {
-      console.log("NEED UPGRADE GRID", store.getState().user.grid)
+      emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+      SocketService.emitGamePieces()
+      store.dispatch(tetriInit())
     }
-
+    console.log("NEXT", action)
     return next(action)
   }
 }

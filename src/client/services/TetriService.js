@@ -1,6 +1,5 @@
 import {GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM, PIECES_ACTION, PIECES_INFO, PRIO_COLLISION, COLLISION_TYPE} from "../../common/pieces";
-import * as SocketService from "./SocketService";
 
 const hasCollision = (grid, piece, coords) => {
   let collisionType = undefined;
@@ -64,10 +63,6 @@ const placePiece = (grid, tetrimino) => {
       }
     })
   });
-  console.log("COLLISION", tetrimino.needNext)
-  if (tetrimino.needNext) {
-    SocketService.emitUpdateGrid(newGrid)
-  }
   return newGrid;
 };
 
@@ -76,7 +71,6 @@ const placePiecePreview = (grid, tetrimino) => {
   const { pieceInfo, coords } = tetrimino
 
 
-  console.log("PLACEPREVIEW", coords)
   const newPos = finalPos(grid, pieceInfo.piece, coords)
 
   pieceInfo.piece.forEach((line, y) =>
@@ -205,6 +199,32 @@ const updateTetriPos = (grid, tetrimino, move) => {
 
 const cloneTetri = piece => Object.assign({}, piece, {coords: Object.assign({}, piece.coords)});
 
+const gridDelLine = grid => {
+
+  let nbWall = 0;
+  let lineToDel = [];
+  let newGrid = grid.map(l => l.map(e => e));
+
+  newGrid.forEach((line, i) => {
+    let asEmpty = false;
+    line.forEach(el => {
+      if (el === PIECES_NUM.empty) {
+        asEmpty = true;
+      }
+    });
+    if (!asEmpty) {
+      lineToDel.push(i);
+    }
+  });
+
+  newGrid = newGrid.filter((line, i) => !lineToDel.includes(i));
+  while (newGrid.length < grid.length) {
+    newGrid = [Array(GRID_WIDTH).fill(PIECES_NUM.empty), ...newGrid];
+  }
+
+  return [newGrid, lineToDel.length - nbWall];
+};
+
 export {
   updateTetriPos,
   finalPos,
@@ -212,5 +232,6 @@ export {
   placePiece,
   COLLISION_TYPE,
   placePiecePreview,
-  cloneTetri
+  cloneTetri,
+  gridDelLine,
 }

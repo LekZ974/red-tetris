@@ -31,7 +31,8 @@ describe('user reducer test',()=>{
         gameName: '',
         role: '',
         connected: true,
-        grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+        grid: [],
+        completeLine: 0,
         payload: {}
       })
   })
@@ -39,14 +40,13 @@ describe('user reducer test',()=>{
     expect(reducer(initialState,{
       type:USER_LOGIN,
       status:'success',
-      payload:{
-        id:'1',
-        name:'Golden',
-        gameName: 'Fancy',
-        role:'master',
-        connected: true,
-        grid:[0,0,0]
-      }
+      id:'1',
+      name:'Golden',
+      gameName: 'Fancy',
+      role:'master',
+      connected: true,
+      grid:[0,0,0],
+      completeLine: 0,
     }))
       .toEqual({
         id:'1',
@@ -55,6 +55,7 @@ describe('user reducer test',()=>{
         role:'master',
         connected: true,
         grid:[0,0,0],
+        completeLine: 0,
         payload: {}
       })
   })
@@ -68,6 +69,7 @@ describe('user reducer test',()=>{
         gameName: 'Fancy',
         role:'master',
         connected: true,
+        completeLine: 0,
         grid:[0,0,0]
       }
     }))
@@ -80,7 +82,8 @@ describe('user reducer test',()=>{
       gameName: '',
       role: '',
       connected: true,
-      grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+      grid: [],
+      completeLine: 0,
       payload: {}
     }, {
       type:USER_INIT

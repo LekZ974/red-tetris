@@ -25,10 +25,13 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       return reducerTetriAction(state, action)
     }
     case TETRI_INIT: {
-      return initialState
+      return {
+        ...state,
+        needNext: false,
+      }
     }
     case TETRI_NEW: {
-      console.log("TETRI NEW", action)
+      console.log("TETRINEW")
       return {
         ...initialState,
         id: action.tetrimino.id,

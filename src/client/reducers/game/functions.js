@@ -27,7 +27,6 @@ const reducerEmitGameStatus = (state, action, initialState) => {
 }
 
 const reducerEmitCreateGame = (state, action) => {
-  console.log("REDUCER CREATE GAME", action)
   return {
     ...state,
     name: action.gameName,

@@ -1,4 +1,5 @@
 import {USER_INIT, USER_LOGIN, USER_CONNECT, USER_UPDATE_GRID, USER_UPDATE} from '../../actions/user'
+import * as TetriService from '../../services/TetriService';
 
 export const initialState = {
   id: '',
@@ -7,6 +8,7 @@ export const initialState = {
   role: '',
   connected: false,
   grid: [],
+  completeLine: 0,
   payload: {}
 }
 
@@ -47,9 +49,14 @@ export default function UserReducer (state = initialState, action = {}) {
       }
     }
     case USER_UPDATE_GRID: {
-      return {
+      let newGrid = action.grid
+      let nbLineDel;
+      [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
+      console.log("LINEDEL", nbLineDel)
+        return {
         ...state,
-        grid: action.grid
+        completeLine: nbLineDel,
+        grid: newGrid
       }
     }
     default:
