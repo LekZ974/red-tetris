@@ -13,6 +13,14 @@ const findPlayer = function(socketId, users) {
 	return player
 }
 
+const findChallengerIndex = function(socketId, allChallengers) {
+	for (let i = 0; i < allChallengers.length; i++) {
+		if (socketId == allChallengers[i].socketID)
+			return (i)
+	}
+	return (-1)
+}
+
 const findGame = function(gameId, allGames) {
 	const game = allGames.find((id) => {
 		if (id.roomID === gameId)
@@ -27,9 +35,12 @@ const findGameBySocketId = function(clientId, allGames) {
 			if (id.master.socketID == clientId)
 				return id
 		}
-		if (id.challenger != null) {
-			if (id.challenger.socketID == clientId)
-				return id
+		if (id.challenger.length > 0) {
+			const enemy = id.challenger.find((enemyId) => {
+				if (enemyId.socketID == clientId)
+					return enemyId
+			})
+			return enemy
 		}
 	})
 	return game
@@ -73,26 +84,31 @@ const initBoard = function() {
 
 const getShape = function(game, clientId) {
 	let index = randNumber(0, game.shapes.length - 1)
+	let player
 
+	if (game.master.socketID === clientId) {
+		player = game.master
+	} else {
+		let i = findChallengerIndex(clientId, game.challenger)
+
+		if (i > -1)
+			player = game.challenger[i]
+	}
 	if (game.shapeOrder.shapes.length === 0) {
 		let shape = game.shapes[index].getShapeToEmit()
 
 		game.shapeOrder.shapes.push(shape)
-		game.shapeOrder.requestId = clientId
+		player.piece += 1
 		return shape
 	} else {
 		let shape
 
-		if (game.shapeOrder.requestId != clientId) {
-			shape = game.shapeOrder.shapes[0]
-			
-			game.shapeOrder.shapes.shift()
-			game.shapeOrder.requestId = null
+		player.piece += 1
+		if (player.piece < game.shapeOrder.shapes.length) {
+			shape = game.shapeOrder.shapes[player.piece]
 		} else {
 			shape = game.shapes[index].getShapeToEmit()
-
 			game.shapeOrder.shapes.push(shape)
-			game.shapeOrder.requsteId = clientId
 		}
 		return shape
 	}
@@ -101,9 +117,10 @@ const getShape = function(game, clientId) {
 const changeMaster = function(game) {
 	let ret = false
 
-	if (game.challenger) {
-		game.master = game.challenger
-		game.challenger = null
+	if (game.challenger.length > 0) {
+		game.master = game.challenger[0]
+		game.master.master = true;
+		game.challenger.shift()
 		ret = true
 	}
 	return ret
@@ -122,6 +139,7 @@ const destroyGame = function(game, activeGames) {
 
 export {
 	findPlayer,
+	findChallengerIndex,
 	findGame,
 	findGameBySocketId,
 	createGame,

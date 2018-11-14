@@ -53,6 +53,7 @@ test('initBoard', () => {
 test('findGameBySocketId', () => {
 	let onlinePlayers = []
 	let allGames = []
+	let player4 = new Player(4, 4)
 
 	for(let i = 0; i < 3; i++) {
 		let player = new Player(i, i)
@@ -61,6 +62,8 @@ test('findGameBySocketId', () => {
 		allGames.push(gameHandler.createGame(i, onlinePlayers))
 	}
 	expect(gameHandler.findGameBySocketId(1, allGames)).toMatchSnapshot()
+	allGames[1].challenger.push(player4)
+	expect(gameHandler.findGameBySocketId(4, allGames)).toMatchSnapshot()
 })
 
 test('getShape', () => {
@@ -68,8 +71,37 @@ test('getShape', () => {
     const clientId2 = 2
     let tetriminos = Array(new Piece(shapes[0]))
     let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
 
+    game.master = player1
+    game.challenger.push(player2)
     expect(gameHandler.getShape(game, clientId)).toMatchSnapshot()
     expect(gameHandler.getShape(game, clientId)).toMatchSnapshot()
     expect(gameHandler.getShape(game, clientId2)).toMatchSnapshot()
+})
+
+test('findChallengerIndex', () => {
+	let allChallenger = []
+
+	for (let i = 0; i < 3; i++) {
+		let player = new Player(i, i);
+
+		allChallenger.push(player)
+	}
+	expect(gameHandler.findChallengerIndex(0, allChallenger)).toMatchSnapshot()
+	expect(gameHandler.findChallengerIndex(5, allChallenger)).toEqual(-1)
+})
+
+test('changeMaster', () => {
+    const clientId = 1
+    const clientId2 = 2
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
+
+    game.master = player1
+    game.challenger.push(player2)
+	expect(gameHandler.changeMaster(game)).toMatchSnapshot()
 })

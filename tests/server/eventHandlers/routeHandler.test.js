@@ -17,6 +17,7 @@ test('login', () => {
 	let result = routeHandler.login(userInfo, client, onlineUsers)
 
 	expect(onlineUsers[0]).toMatchObject(player)
+	expect(player).toMatchSnapshot()
 	expect(result).toMatchSnapshot()
 })
 
@@ -143,6 +144,8 @@ test('requestShape', () => {
 
 		expect(rotatedShapes).toContainEqual(shape)
 	}
+	let shape = routeHandler.requestShape({id : 1}, activeGames)
+	expect(shape).toBe(null)
 })
 
 test('disconnect', () => {

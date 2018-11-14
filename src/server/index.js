@@ -36,11 +36,17 @@ io.on('connection', (client) => {
 
     client.on(routes.CREATE_GAME, (gameName) => {
         let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
+
+		if (res === 'OK')
+			client.join(gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
     })
 
     client.on(routes.JOIN_GAME, (gameName) => {
         let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+
+		if (res === 'OK')
+			client.join(gameName)
         io.to(client.id).emit(routes.GAME_JOINED, res)
     })
 
@@ -52,8 +58,7 @@ io.on('connection', (client) => {
     client.on(routes.START_GAME, () => {
         let game = routeHandler.startGame(client, activeGames)
         if (game !== null) {
-            io.to(game.master.socketID).emit(routes.GAME_STARTED, game.boardMaster)
-            io.to(game.challenger.socketID).emit(routes.GAME_STARTED, game.boardChallenger)
+            io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
         }
     })
 

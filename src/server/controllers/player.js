@@ -4,6 +4,8 @@ export default class Player {
 		this.socketID = socketID
 		this.login = '',
 		this.master = false
+		this.piece = -1
+		this.board = null
 	}
 
 	getPlayerID() {
