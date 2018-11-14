@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
 import { Box, Card, LoadingContainer } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
-import {getGames} from "../../actions/games";
 import {init} from "../../actions/user";
+import * as SocketService from '../../services/SocketService';
 
 class Home extends React.Component {
   constructor(props) {
@@ -14,21 +16,30 @@ class Home extends React.Component {
 
   componentDidMount () {
     const { dispatch} = this.props
-    dispatch(getGames())
+    SocketService.emitGetGames()
   }
 
   render () {
-    const { user, gamesList, isLoading } = this.props
+    const { user, gamesList, isLoading, formValues } = this.props
 
-    let linkList = gamesList ? gamesList.map((game) => {
+    let userName;
+    if (formValues && formValues.hasOwnProperty('values')) {
+      if (formValues.values.userName && !formValues.syncErrors.userName) {
+        userName = formValues.values.userName;
+      }
+    }
+
+    let linkList = gamesList && gamesList.map((game, i) => {
+      const {gameName} = game
       return(
-        <li key={game.id}>
+        <li key={i}>
           <Box fontSize={30}>
-            {game.name}
+            <Link to={`/#${gameName}/${userName}`}>
+              {gameName}
+            </Link>
           </Box>
-        </li>
-      )
-    }) : null
+        </li>)
+    })
     if(user.connected === true){
       window.location.reload()
     }
@@ -44,7 +55,7 @@ class Home extends React.Component {
             emptyLabel='Pas de parties en cours'
           >
           <Box fontSize={30}>
-            <ul>{linkList}</ul>
+            {userName ? <ul>{linkList}</ul> : <div>Choose a login first</div>}
           </Box>
           </LoadingContainer>
         </Card>
@@ -52,8 +63,9 @@ class Home extends React.Component {
     )
   }
 }
-export default connect(({ user, games }) => ({
+export default connect(({ form, user, games }) => ({
   user: user,
   gamesList: games.items,
-  isLoading: games.isLoading
+  isLoading: games.isLoading,
+  formValues: form.HomeForm,
 }))(Home)

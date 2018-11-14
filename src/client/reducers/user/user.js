@@ -5,7 +5,7 @@ export const initialState = {
   id: '',
   name: '',
   gameName: '',
-  role: '',
+  role: 'challenger',
   connected: false,
   grid: [],
   completeLine: 0,
