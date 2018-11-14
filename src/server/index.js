@@ -58,8 +58,7 @@ io.on('connection', (client) => {
     client.on(routes.START_GAME, () => {
         let game = routeHandler.startGame(client, activeGames)
         if (game !== null) {
-            io.to(game.master.socketID).emit(routes.GAME_STARTED, game.boardMaster)
-            io.to(game.challenger.socketID).emit(routes.GAME_STARTED, game.boardChallenger)
+            io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
         }
     })
 
