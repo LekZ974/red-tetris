@@ -58,7 +58,6 @@ const placePiece = (grid, tetrimino) => {
         }
         else {
           console.log('invalid position')
-          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -83,7 +82,6 @@ const placePiecePreview = (grid, tetrimino) => {
           newGrid[gy][gx] = PIECES_NUM.preview;
         } else {
           console.log('invalid position')
-          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
