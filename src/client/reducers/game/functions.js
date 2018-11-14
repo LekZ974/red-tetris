@@ -39,13 +39,8 @@ const reducerEmitGamePieces = (state, action) => {
   }
 }
 
-const reducerGameFlow = (state, action) => {
-  return {...state}
-}
-
 export {
   reducerEmitGameStatus,
   reducerEmitGamePieces,
-  reducerGameFlow,
   reducerEmitCreateGame,
 }

@@ -9,6 +9,9 @@ export const initialState = {
   gameIsStarted: false,
   start: false,
   pause: false,
+  params: {
+    addMalus: true,
+  }
 }
 
 export default function GameReducer (state = initialState, action = {}) {
@@ -24,9 +27,6 @@ export default function GameReducer (state = initialState, action = {}) {
     }
     case NEED_NEW_PIECES: {
       return reducerEmitGamePieces(state, action)
-    }
-    case GAME_FLOW: {
-      return reducerGameFlow(state, action)
     }
     default:
       return state

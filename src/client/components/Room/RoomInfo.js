@@ -13,7 +13,7 @@ class RoomInfo extends Component {
 
       function changeGameFlow(e) {
         const status = e.target.innerHTML
-        dispatch(updateGameStatus(status, game))
+        SocketService.emitGameStatus(status, game)
       }
 
       function leaveGame(e) {

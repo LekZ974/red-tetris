@@ -108,6 +108,32 @@ const GridBlock = (props) => {
         }}> </div>
       )
     }
+    case 8: {
+      return (
+        <div style={{
+          height:'20px',
+          width:'20px',
+          marginTop: props.pos +'px',
+          border: '3px solid #223345',
+          borderBottomColor: '#394A56',
+          borderRightColor: '#394A56',
+          backgroundColor: '#86aec7',
+        }}> </div>
+      )
+    }
+    case 9: {
+      return (
+        <div style={{
+          height:'20px',
+          width:'20px',
+          marginTop: props.pos +'px',
+          border: '3px solid #223345',
+          borderBottomColor: '#394A56',
+          borderRightColor: '#394A56',
+          backgroundColor: '#000000',
+        }}> </div>
+      )
+    }
   }
 }
 

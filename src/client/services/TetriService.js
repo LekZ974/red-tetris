@@ -155,7 +155,6 @@ const updatePieceRot = (grid, tetrimino, move) => {
 };
 
 const updateTetriPos = (grid, tetrimino, move) => {
-  console.log("TETRI POS", tetrimino)
   if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
     return updatePieceRot(grid, tetrimino, move)
   } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
@@ -238,6 +237,17 @@ const asLoose = grid => {
     grid[2].some(e => e !== PIECES_NUM.empty)))
 };
 
+const gridAddMalus = (grid, amount) => {
+  const newGrid = grid.map(l => l.map(e => e));
+
+  for (let i = 0; i < amount; i++) {
+    newGrid.push(Array(GRID_WIDTH).fill(PIECES_NUM.malus));
+    newGrid.shift();
+  }
+
+  return newGrid;
+};
+
 export {
   updateTetriPos,
   finalPos,
@@ -248,4 +258,5 @@ export {
   cloneTetri,
   gridDelLine,
   asLoose,
+  gridAddMalus,
 }

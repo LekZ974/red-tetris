@@ -6,7 +6,7 @@ import params from "../../../params";
 import {updateUser, joinGame, updateGrid, leaveGame} from "../actions/user";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
-import {needNewPieces} from "../actions/game";
+import {needNewPieces, updateGameStatus} from "../actions/game";
 import {push} from "connected-react-router";
 
 const socket = io.connect(params.server.url);
@@ -40,7 +40,6 @@ const rcvNewShape = data => {
 }
 
 const rcvLeftGame = data => {
-  console.log("RCVLEAVE GAME", data)
   store.dispatch(leaveGame(data))
   store.dispatch(push('/'))
 }
@@ -77,6 +76,10 @@ const emitUpdateGrid = grid => {
   store.dispatch(updateGrid(grid))
 }
 
+const emitGameStatus = (status, game) => {
+  store.dispatch(updateGameStatus(status, game))
+}
+
 const emitLeaveGame = () => {
   socket.emit('leaveGame')
 }
@@ -91,5 +94,6 @@ export {
   emitCreateGame,
   emitGamePieces,
   emitUpdateGrid,
+  emitGameStatus,
   emitLeaveGame,
 }

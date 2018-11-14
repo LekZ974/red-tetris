@@ -17,7 +17,6 @@ export default function UserReducer (state = initialState, action = {}) {
 
   switch (action.type) {
     case USER_LEFT_GAME : {
-      console.log("LEAVE GAME", action)
       return {
         ...initialState,
       }

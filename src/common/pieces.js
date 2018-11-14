@@ -8,6 +8,7 @@ const PIECES_NUM = {
   _6:6,
   _7:7,
   preview:8,
+  malus:9,
 };
 const LINE = [0,0,0,0,0,0,0,0,0,0]
 const PIECES_INFO = [

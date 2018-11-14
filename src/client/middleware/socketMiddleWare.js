@@ -5,7 +5,7 @@ import {
   EMIT_CREATE_GAME,
   NEED_NEW_PIECES
 } from "../actions/game";
-import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID} from "../actions/user";
+import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID, leaveGame} from "../actions/user";
 import {store} from "../index";
 import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
@@ -49,9 +49,9 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case UPDATE_GAME_STATUS : {
-          socket.emit('GAME_STATUS', (payload) => {
-            return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
-          })
+          if (action.status === 'Stop') {
+            store.dispatch(leaveGame())
+          }
           break;
         }
         case NEED_NEW_PIECES : {

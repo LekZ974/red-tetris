@@ -7,14 +7,9 @@ const ticking = () => {
   const game = store.getState().game
   const user = store.getState().user
   if (game.start) {
-    // if (store.getState().tetrimino.needNext) {
-    //   SocketService.emitGamePieces()
-    //   SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
-    //   store.dispatch(tetriInit())
-    // }
     store.dispatch(tetriStep(game, user));
   }
-  window.setTimeout(() => ticking(), 1000);
+  window.setTimeout(() => ticking(), 500);
 };
 
 export {ticking};
