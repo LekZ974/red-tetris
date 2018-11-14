@@ -1,12 +1,17 @@
 import React from 'react'
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
+import GridBlock from '../block/GridBlock';
 
 const GridUserComponent = (state) => {
+  const { gridRender } = state
+
   return(
-    state.gridRender.map((row, key) =>{
-        return(<div key={key}>{row}</div>)
-      }))
+    gridRender.map((row, key) =>
+      key > 2 && (<div key={key} style={{display: 'flex', flexDirection: 'row'}}>
+        {row.map((block, i) => <GridBlock blockId={block} key={i} />)}
+        </div>)
+    ))
 }
 
 const mapStateToProps = state => {
@@ -16,11 +21,11 @@ const mapStateToProps = state => {
   const gridRender = [];
   const userState = state.user;
   let playerGrid = userState.grid.map(l => l.map(e => e));
-  const tetrimino = TetriService.cloneTetri(state.tetrimino)
+  const CpTetrimino = TetriService.cloneTetri(state.tetrimino)
 
-  if (state.game.gameIsStarted) {
-    playerGrid = TetriService.placePiecePreview(playerGrid, tetrimino);
-    playerGrid = TetriService.placePiece(playerGrid, state.tetrimino);
+  if (state.game.gameIsStarted && state.tetrimino.pieceInfo) {
+    let CpPlayerGrid = TetriService.placePiecePreview(playerGrid, CpTetrimino);
+    playerGrid = TetriService.placePiece(CpPlayerGrid, state.tetrimino);
   }
 
   playerGrid.forEach(l => {
@@ -30,12 +35,13 @@ const mapStateToProps = state => {
   return {
     userState: Object.assign({}, state.user),
     gridRender: gridRender,
+    tetriminoState: state.tetrimino,
+    gameState: state.game,
   }
 };
 
 const Grid = connect(
   mapStateToProps,
-  undefined
 )(GridUserComponent);
 
 export {Grid};

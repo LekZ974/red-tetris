@@ -8,7 +8,7 @@ const hasCollision = (grid, piece, coords) => {
     const gx = x + posX;
     const gy = y + posY;
 
-    // console.log("gx:", gx, "gy:", gy, "number:", number, "x:", x, "y:", y, posX, posY)
+    // console.log("piece", piece, "gx:", gx, "gy:", gy, "number:", number, "x:", x, "y:", y, posX, posY)
 
 
     if (gy < 0 && number !== 0) {
@@ -31,7 +31,7 @@ const hasCollision = (grid, piece, coords) => {
         collisionType = COLLISION_TYPE.LIMIT_RIGHT;
       }
     }
-    else if (number !== 0 && grid[gy][gx] !== 0) {
+    else if (number !== 0 && grid[gy][gx] !== 0 && number !== 8 && grid[gy][gx] !== 8) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.PIECE)) {
         collisionType = COLLISION_TYPE.PIECE;
       }
@@ -58,7 +58,6 @@ const placePiece = (grid, tetrimino) => {
         }
         else {
           console.log('invalid position')
-          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -83,7 +82,6 @@ const placePiecePreview = (grid, tetrimino) => {
           newGrid[gy][gx] = PIECES_NUM.preview;
         } else {
           console.log('invalid position')
-          // store.dispatch(tetriPosIsNotValid())
         }
       }
     })
@@ -92,7 +90,7 @@ const placePiecePreview = (grid, tetrimino) => {
 };
 
 const finalPos = (grid, piece, coords) => {
-  while (!(hasCollision(grid, piece, coords) === 'collision_limit_down'))  {
+  while (!(hasCollision(grid, piece, coords)))  {
     coords.posY++;
   }
   if (coords.posY > 0) {
@@ -148,7 +146,7 @@ const updatePieceRot = (grid, tetrimino, move) => {
     ...tetrimino,
     rotate: rotate,
     coords: newCoords(tetrimino.coords, move),
-    pieceInfo: PIECES_INFO[5][rotate]
+    pieceInfo: PIECES_INFO[tetrimino.id - 1][rotate]
   }
 
   return moveCollision(newPiece, grid);
@@ -157,14 +155,6 @@ const updatePieceRot = (grid, tetrimino, move) => {
 const updateTetriPos = (grid, tetrimino, move) => {
   if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
     return updatePieceRot(grid, tetrimino, move)
-  } else if (move === PIECES_ACTION.MOVE_DROP) {
-    const newPiece = cloneTetri(tetrimino);
-    const newPieceDescr = newPiece.pieceInfo.piece;
-    while (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
-      newPiece.coords.posY++;
-    }
-    newPiece.coords.posY--;
-    return newPiece;
   } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
     const newPiece = {
       ...tetrimino,
@@ -187,7 +177,16 @@ const updateTetriPos = (grid, tetrimino, move) => {
     if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
       return newPiece
     }
-    return tetrimino;
+    if (tetrimino.needNext) {
+      return {
+        ...tetrimino,
+        needNext: false,
+      };
+    }
+    return {
+      ...tetrimino,
+      needNext: true,
+    };
   }
   else if (move === PIECES_ACTION.MOVE_DROP) {
     const newPiece = {
@@ -196,13 +195,56 @@ const updateTetriPos = (grid, tetrimino, move) => {
     const newPieceDescr = newPiece.pieceInfo.piece;
     return {
       ...newPiece,
-      coords: finalPos(grid, newPieceDescr, newPiece.coords)
+      coords: finalPos(grid, newPieceDescr, newPiece.coords),
     }
   }
   return tetrimino;
 }
 
 const cloneTetri = piece => Object.assign({}, piece, {coords: Object.assign({}, piece.coords)});
+
+const gridDelLine = grid => {
+
+  let nbWall = 0;
+  let lineToDel = [];
+  let newGrid = grid.map(l => l.map(e => e));
+
+  newGrid.forEach((line, i) => {
+    let asEmpty = false;
+    line.forEach(el => {
+      if (el === PIECES_NUM.empty) {
+        asEmpty = true;
+      }
+    });
+    if (!asEmpty) {
+      lineToDel.push(i);
+    }
+  });
+
+  newGrid = newGrid.filter((line, i) => !lineToDel.includes(i));
+  while (newGrid.length < grid.length) {
+    newGrid = [Array(GRID_WIDTH).fill(PIECES_NUM.empty), ...newGrid];
+  }
+
+  return [newGrid, lineToDel.length - nbWall];
+};
+
+const asLoose = grid => {
+  return grid && ((grid[0].some(e => e !== PIECES_NUM.empty) ||
+    grid[1].some(e => e !== PIECES_NUM.empty) ||
+    grid[2].some(e => e !== PIECES_NUM.empty)))
+};
+
+const gridAddMalus = (grid, amount) => {
+  const newGrid = grid.map(l => l.map(e => e));
+
+  for (let i = 0; i < amount; i++) {
+    newGrid.push(Array(GRID_WIDTH).fill(PIECES_NUM.malus));
+    newGrid.shift();
+  }
+
+  return newGrid;
+};
 
 export {
   updateTetriPos,
@@ -211,5 +253,8 @@ export {
   placePiece,
   COLLISION_TYPE,
   placePiecePreview,
-  cloneTetri
+  cloneTetri,
+  gridDelLine,
+  asLoose,
+  gridAddMalus,
 }

@@ -29,22 +29,18 @@ const reducerEmitGameStatus = (state, action, initialState) => {
 const reducerEmitCreateGame = (state, action) => {
   return {
     ...state,
-    name: action.game.gameName,
-    owner: action.game.userName,
+    name: action.gameName,
   }
 }
 
 const reducerEmitGamePieces = (state, action) => {
-  return state
-}
-
-const reducerGameFlow = (state, action) => {
-  return {...state}
+  return {
+    ...state,
+  }
 }
 
 export {
   reducerEmitGameStatus,
   reducerEmitGamePieces,
-  reducerGameFlow,
   reducerEmitCreateGame,
 }

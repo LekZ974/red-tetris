@@ -1,8 +1,16 @@
 import {GET_GAMES} from "../actions/games";
-import {EMIT_GAME_STATUS, EMIT_GAME_PIECES, EMIT_CREATE_GAME} from "../actions/game";
-import {USER_LOGIN} from "../actions/user";
-import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
-import {PIECES_NUM} from "../../common/pieces";
+import {
+  UPDATE_GAME_STATUS,
+  CREATE_GAME,
+  EMIT_CREATE_GAME,
+  NEED_NEW_PIECES
+} from "../actions/game";
+import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID, leaveGame} from "../actions/user";
+import {store} from "../index";
+import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
+import * as SocketService from "../services/SocketService";
+import * as TetriService from "../services/TetriService";
+import {emitUpdateGrid} from "../services/SocketService";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -13,22 +21,22 @@ const socketMiddleware = socket => ({dispatch}) => {
 
     if (socket) {
       switch (type) {
+        case TETRI_INIT : {
+          return next(action)
+        }
+        case TETRI_NEW : {
+          return next(action)
+        }
         case USER_LOGIN : {
-          socket.emit('login', {id: action.userName})
-          socket.on('logged', data => {
-            action = {
-              type: action.type,
-              status: 'success',
-              id: Math.random().toString(36).substring(2, 15),
-              name: action.user.userName,
-              gameName: action.user.gameName,
-              connected: true,
-              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-            }
-            return 'OK' === data && next(action);
-          }
-        )
+          SocketService.emitLogin(action.userName);
           break;
+        }
+        case USER_JOIN_GAME : {
+          SocketService.emitJoinGame(action.userName, action.gameName)
+          break;
+        }
+        case USER_LEFT_GAME : {
+          return next(action)
         }
         case GET_GAMES : {
           socket.on('GET_GAMES', (payload) => {
@@ -36,27 +44,33 @@ const socketMiddleware = socket => ({dispatch}) => {
           })
           break;
         }
-        case EMIT_CREATE_GAME : {
-          if( action.game ) socket.emit('createGame', action.game.gameName)
-          socket.on('gameExists', (data) => console.log(data))
+        case CREATE_GAME : {
+          SocketService.emitCreateGame(action.gameName)
           break;
         }
-        case EMIT_GAME_STATUS : {
-          socket.emit('GAME_STATUS', (payload) => {
-            return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
-          })
+        case UPDATE_GAME_STATUS : {
+          if (action.status === 'Stop') {
+            store.dispatch(leaveGame())
+          }
           break;
         }
-        case EMIT_GAME_PIECES : {
-          socket.emit('requestShape')
-          socket.on('emittedShape', (data) => console.log(data))
+        case NEED_NEW_PIECES : {
+          SocketService.emitGamePieces()
           break;
+        }
+        case USER_UPDATE_GRID : {
+          return next(action)
         }
         default: {
           break;
         }
       }
       if (thenFn) thenFn(dispatch)
+    }
+    if (store.getState().tetrimino.needNext) {
+      emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+      SocketService.emitGamePieces()
+      store.dispatch(tetriInit())
     }
     return next(action)
   }

@@ -1,31 +1,22 @@
 import {
-  EMIT_GAME_STATUS,
-  GAME_FLOW,
-  EMIT_GAME_PIECES,
-  EMIT_CREATE_GAME,
-  gameFlow, emitGamePieces,
+  NEED_NEW_PIECES,
+  CREATE_GAME,
+  UPDATE_GAME_STATUS,
 } from '../../../src/client/actions/game';
 import reducer from '../../../src/client/reducers/game/game'
 import * as actions from '../../../src/client/actions/game'
 import { tetriReset } from '../../../src/client/actions/tetrimino';
 
-const gameFlowactionReturn = (action, type) =>{
+const emitCreateGameReturn = gameName =>{
   return {
-    gameAction:action,
-    type:GAME_FLOW
-  }
-}
-
-const emitCreateGameReturn = (game)=>{
-  return {
-    type: EMIT_CREATE_GAME,
-    game: game,
+    type: CREATE_GAME,
+    gameName: gameName,
   }
 }
 
 const emitGameStatusReturn = (status, game)=>{
   return {
-    type: EMIT_GAME_STATUS,
+    type: UPDATE_GAME_STATUS,
     game: game,
     gameStatus: status,
   }
@@ -37,7 +28,6 @@ describe('game test all actions', () => {
         {
           items: [],
           gameIsStarted: false,
-          gamePieces: [],
           pause: false,
           start: false,
           id: "",
@@ -47,32 +37,24 @@ describe('game test all actions', () => {
       )
     }
   )
-  it('should test gameFlow  with action is an empty string', () => {
-    const action = ""
-    expect(actions.gameFlow(action)).toEqual(gameFlowactionReturn(action))
-  })
-  it('should test gameFlow with action equal test', () => {
-    const action = "test"
-    expect(actions.gameFlow(action)).toEqual(gameFlowactionReturn(action))
-  })
-  it('should test emitGamePiece', () => {
-    expect(actions.emitGamePieces()).toEqual({ type: EMIT_GAME_PIECES })
+  it('should test NeedNewPiece', () => {
+    expect(actions.needNewPieces({})).toEqual({ type: NEED_NEW_PIECES, game: {} })
   })
   it('should test emitGamePiece with no parameter pass', () => {
-    const game = undefined
-    expect(actions.emitCreateGame()).toEqual(emitCreateGameReturn(game))
+    const gameName = undefined
+    expect(actions.createGame()).toEqual(emitCreateGameReturn(gameName))
   })
   it('should test emitGamePiece with empty string', () => {
-    const game = ""
-    expect(actions.emitCreateGame(game)).toEqual(emitCreateGameReturn(game))
+    const gameName = ""
+    expect(actions.createGame(gameName)).toEqual(emitCreateGameReturn(gameName))
   })
   it('should test emitGamePiece with a rubbish name', () => {
-    const game = "fdklsjflms"
-    expect(actions.emitCreateGame(game)).toEqual(emitCreateGameReturn(game))
+    const gameName = "fdklsjflms"
+    expect(actions.createGame(gameName)).toEqual(emitCreateGameReturn(gameName))
   })
   it('should test emitGamePiece with "Le jeu de la vie" name', () => {
-    const game = "Le jeu de la vie"
-    expect(actions.emitCreateGame(game)).toEqual(emitCreateGameReturn(game))
+    const gameName = "Le jeu de la vie"
+    expect(actions.createGame(gameName)).toEqual(emitCreateGameReturn(gameName))
   })
   it('should test emitGameStatus', () => {
     const status = "Pause"
@@ -81,7 +63,7 @@ describe('game test all actions', () => {
       pause: true,
       start: false
     }
-    expect(JSON.parse(JSON.stringify(actions.emitGameStatus(status, game)))).toEqual(emitGameStatusReturn(status, game))
+    expect(JSON.parse(JSON.stringify(actions.updateGameStatus(status, game)))).toEqual(emitGameStatusReturn(status, game))
   })
 })
    /** const game ={
@@ -96,10 +78,10 @@ describe('game test all actions', () => {
    })
 
 
-  it('should handle EMIT_GAME_STATUS', () => {
+  it('should handle UPDATE_GAME_STATUS', () => {
     expect(
       reducer([], {
-        type: EMIT_GAME_STATUS,
+        type: UPDATE_GAME_STATUS,
         gameStatus: 'Run the tests'
       })).toEqual([])
   })
@@ -113,7 +95,7 @@ describe('game test all actions', () => {
           gamePieces: []
         }
         ,{
-          type: EMIT_GAME_STATUS,
+          type: UPDATE_GAME_STATUS,
           gameStatus: 'Run the tests'
         })).toEqual({
         items: [],

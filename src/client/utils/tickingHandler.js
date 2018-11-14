@@ -1,5 +1,7 @@
 import {store} from "../index";
-import {tetriStep} from "../actions/tetrimino";
+import {tetriInit, tetriStep} from "../actions/tetrimino";
+import * as SocketService from "../services/SocketService";
+import * as TetriService from "../services/TetriService";
 
 const ticking = () => {
   const game = store.getState().game
@@ -7,7 +9,7 @@ const ticking = () => {
   if (game.start) {
     store.dispatch(tetriStep(game, user));
   }
-  window.setTimeout(() => ticking(), 1000);
+  window.setTimeout(() => ticking(), 500);
 };
 
 export {ticking};

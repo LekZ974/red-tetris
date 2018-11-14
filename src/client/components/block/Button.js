@@ -87,8 +87,6 @@ StyledButton.defaultProps = {
 
 const Button = ({children, size, fullwidth, outline, ...props}) => {
   const CustomButton = (() => {
-    // if(props.to) return StyledButton.withComponent(Link) //pb avec withComponent a creuser ou faire autrement
-    // if(props.href) return StyledButton.withComponent('a')
     return StyledButton
   })()
   return <CustomButton>{children}</CustomButton>

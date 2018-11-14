@@ -1,16 +1,15 @@
-import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT_NEW, TETRI_IS_BLOCK} from '../../actions/tetrimino'
+import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT, TETRI_NEW, TETRI_IS_BLOCK} from '../../actions/tetrimino'
 import {reducerTetriAction, reducerTetriStep} from "./functions";
 import {PIECES_INFO} from "../../../common/pieces";
 
 const initialState = {
   items: [],
+  id: null,
   pieceInfo: null,
   pieceStep: 0,
-  collision:false,
+  needNext:false,
   coords: {
-    prevPosX: null,
-    prevPosY: null,
-    posX:0,
+    posX:4,
     posY:0
   },
   action: null,
@@ -25,22 +24,27 @@ export default function TetriminoReducer (state = initialState, action = {}) {
     case TETRI_ACTION: {
       return reducerTetriAction(state, action)
     }
-    case TETRI_INIT_NEW: {
-      return {
-        ...initialState,
-        pieceInfo: PIECES_INFO[5][state.rotate]
-      }
-    }
-    case TETRI_IS_BLOCK: {
+    case TETRI_INIT: {
       return {
         ...state,
-        collision: true
-      };
+        needNext: false,
+      }
+    }
+    case TETRI_NEW: {
+      return {
+        ...initialState,
+        id: action.tetrimino.id,
+        rotate: action.tetrimino.rotate,
+        pieceInfo: PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate],
+        coords: {
+          posX: initialState.coords.posX + PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate].info.posX,
+          posY: initialState.coords.posY + PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate].info.posY,
+        }
+      }
     }
     default:
       return {
         ...state,
-        pieceInfo: PIECES_INFO[5][state.rotate]
       }
   }
 }

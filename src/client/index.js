@@ -4,7 +4,6 @@ import thunk from 'redux-thunk'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { Provider } from 'react-redux'
-import storeStateMiddleWare from './middleware/storeStateMiddleWare'
 import socketMiddleWare from './middleware/socketMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
@@ -16,11 +15,11 @@ import io from 'socket.io-client'
 import {eventHandler} from "./utils/eventHandler";
 import {ticking} from "./utils/tickingHandler";
 
-export const socket = io.connect(params.server.url);
+const socket = io.connect(params.server.url);
 
 const history = createBrowserHistory()
 
-const middlewares = [thunk, storeStateMiddleWare, routerMiddleware(history), socketMiddleWare(socket)]
+const middlewares = [thunk, routerMiddleware(history), socketMiddleWare(socket)]
 
 const enhancedReducer = connectRouter(history)(reducer)
 
@@ -29,7 +28,7 @@ const composeFn =
 
 const store = composeFn(applyMiddleware(...middlewares))(createStore)(enhancedReducer)
 
-export { store, history }
+export { store, history, socket }
 
 const NonBlockApp = withRouter(App)
 

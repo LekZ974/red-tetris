@@ -6,14 +6,15 @@ class GameInfo extends Component {
     }
 
     render(){
+      const {user} = this.props;
       let displaySpectre = null
       if(this.props.spectres && this.props.spectres.length === 1) {
+        return (
         <div>
           {this.props.spectres[0].name}
           <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'100px', width:'100px', border:'1px solid red'}}>
             {spectre.gameSpectre[0].map((col, key) =>{
               const height = (col/20) * 100
-              console.log('')
               return(
                 <div key={key} style={{backgroundColor:'red', width:'10px', height: height +'%'}}></div>
               )
@@ -21,6 +22,7 @@ class GameInfo extends Component {
             }
           </div>
         </div>
+        )
       }else{
          displaySpectre = this.props.spectres.map((spectre, key) =>{
             return(
@@ -44,6 +46,9 @@ class GameInfo extends Component {
         <div>
           <h3 style={{textAlign:"center"}}>Game Info</h3>
           {displaySpectre}
+          <div>
+            {user.loosed && <h4>You lost!!</h4>}
+          </div>
         </div>
       )
     }
