@@ -8,7 +8,6 @@ import {getGames} from "../actions/games";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces, updateGameStatus} from "../actions/game";
-import {push} from "connected-react-router";
 
 const socket = io.connect(params.server.url);
 
@@ -30,8 +29,8 @@ const rcvJoinGame = data => {
 }
 
 const rcvGameExist = data => {
-  if ('OK' === data) {
-    store.dispatch(updateUser({role: 'master'}))
+  if ('KO' === data) {
+    store.dispatch(updateUser({role: 'challenger'}))
   }
   if (!store.getState().user.gameName) {
     store.dispatch(joinGame(store.getState().user.name, store.getState().game.name))

@@ -23,8 +23,8 @@ class Home extends React.Component {
     const { user, gamesList, isLoading, formValues } = this.props
 
     let userName;
-    if (formValues && formValues.hasOwnProperty('values')) {
-      if (formValues.values.userName && !formValues.syncErrors.userName) {
+    if (formValues && formValues.hasOwnProperty('values') && formValues.hasOwnProperty('syncErrors')) {
+      if (formValues.values.userName || !formValues.syncErrors.userName) {
         userName = formValues.values.userName;
       }
     }
