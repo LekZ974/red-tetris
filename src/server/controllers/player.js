@@ -5,6 +5,7 @@ export default class Player {
 		this.login = '',
 		this.master = false
 		this.piece = -1
+		this.board = null
 	}
 
 	getPlayerID() {
