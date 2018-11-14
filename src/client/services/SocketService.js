@@ -4,10 +4,10 @@ import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
 import {updateUser, joinGame, updateGrid, leaveGame} from "../actions/user";
+import {getGames} from "../actions/games";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces, updateGameStatus} from "../actions/game";
-import {push} from "connected-react-router";
 
 const socket = io.connect(params.server.url);
 
@@ -29,6 +29,9 @@ const rcvJoinGame = data => {
 }
 
 const rcvGameExist = data => {
+  if ('KO' === data) {
+    store.dispatch(updateUser({role: 'challenger'}))
+  }
   if (!store.getState().user.gameName) {
     store.dispatch(joinGame(store.getState().user.name, store.getState().game.name))
   }
@@ -42,11 +45,16 @@ const rcvLeftGame = data => {
   store.dispatch(leaveGame(data))
 }
 
+const rcvGames = data => {
+  store.dispatch(getGames(data))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvJoinGame)
 socket.on('gameExists', rcvGameExist)
 socket.on('emittedShape', rcvNewShape)
 socket.on('leftGame', rcvLeftGame)
+socket.on('gamesSent', rcvGames)
 
 //EMIT
 
@@ -82,6 +90,10 @@ const emitLeaveGame = () => {
   socket.emit('leaveGame')
 }
 
+const emitGetGames = () => {
+  socket.emit('getGames')
+}
+
 export {
   rcvPlayerLogged,
   rcvJoinGame,
@@ -94,4 +106,5 @@ export {
   emitUpdateGrid,
   emitGameStatus,
   emitLeaveGame,
+  emitGetGames,
 }
