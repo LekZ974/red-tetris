@@ -18,11 +18,10 @@ const rcvPlayerLogged = data => {
     return;
   }
   const userData = {
-    id: data.playerID,
     name: data.login,
     connected: true,
   }
-  store.dispatch(updateUser(userData));
+  !userData.name ? store.dispatch(leaveGame()) : store.dispatch(updateUser(userData));
 }
 
 const rcvJoinGame = data => {
@@ -41,7 +40,6 @@ const rcvNewShape = data => {
 
 const rcvLeftGame = data => {
   store.dispatch(leaveGame(data))
-  store.dispatch(push('/'))
 }
 
 socket.on('logged', rcvPlayerLogged)
@@ -53,7 +51,7 @@ socket.on('leftGame', rcvLeftGame)
 //EMIT
 
 const emitLogin = userName => {
-  socket.emit('login', {id: Math.random().toString(36).substring(2, 15), name: userName})
+  socket.emit('login', {id: userName, name: userName})
 }
 
 const emitJoinGame = (userName, gameName) => {
