@@ -5,7 +5,7 @@ import * as routeHandler from '../../../src/server/eventHandlers/routeHandler'
 var onlineUsers
 var activeGames
 var client = { id : 0 }
-var userInfo = { id : 0 }
+var userInfo = { id : 0, name: 'name' }
 
 beforeEach(() => {
 	onlineUsers = []
@@ -17,7 +17,7 @@ test('login', () => {
 	let result = routeHandler.login(userInfo, client, onlineUsers)
 
 	expect(onlineUsers[0]).toMatchObject(player)
-	expect(result).toMatch('OK')
+	expect(result).toMatchSnapshot()
 })
 
 test('getGames', () => {
