@@ -36,11 +36,17 @@ io.on('connection', (client) => {
 
     client.on(routes.CREATE_GAME, (gameName) => {
         let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
+
+		if (res === 'OK')
+			client.join(gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
     })
 
     client.on(routes.JOIN_GAME, (gameName) => {
         let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
+
+		if (res === 'OK')
+			client.join(gameName)
         io.to(client.id).emit(routes.GAME_JOINED, res)
     })
 
