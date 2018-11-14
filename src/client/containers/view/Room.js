@@ -7,8 +7,6 @@ import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
 import {createGame} from "../../actions/game";
 import {login} from "../../actions/user";
-import {GRID_HEIGHT, GRID_WIDTH} from "../../../common/grid";
-import {PIECES_NUM} from "../../../common/pieces";
 
 const FakeSpectre = [
   {

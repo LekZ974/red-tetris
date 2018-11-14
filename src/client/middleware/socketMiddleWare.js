@@ -2,7 +2,6 @@ import {GET_GAMES} from "../actions/games";
 import {
   UPDATE_GAME_STATUS,
   CREATE_GAME,
-  EMIT_CREATE_GAME,
   NEED_NEW_PIECES
 } from "../actions/game";
 import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID, leaveGame} from "../actions/user";
@@ -11,6 +10,7 @@ import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
 import {emitUpdateGrid} from "../services/SocketService";
+import { push } from "connected-react-router";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -36,6 +36,8 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case USER_LEFT_GAME : {
+          store.dispatch(push('/'))
+          window.location.reload()
           return next(action)
         }
         case GET_GAMES : {
