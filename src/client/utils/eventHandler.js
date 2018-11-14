@@ -2,7 +2,6 @@ import {tetriAction} from "../actions/tetrimino";
 import {store} from "../index";
 
 const eventHandler = (event) => {
-  console.log(event)
   const user = store.getState().user;
   const game = store.getState().game;
   if (user.name && game.name) {
