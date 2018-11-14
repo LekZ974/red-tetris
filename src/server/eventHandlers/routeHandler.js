@@ -5,10 +5,14 @@ import * as idHandler from './idHandler'
 import * as gameHandler from './gameHandler'
 
 const login = function(userInfo, client, onlineUsers) {
+	let ret = {
+		login: null
+	}
     let player = new Player(userInfo.id, client.id)
 
     onlineUsers.push(player)
-    return 'OK'
+	ret.login = userInfo.name
+    return ret
 }
 
 const getGames = function(activeGames) {
