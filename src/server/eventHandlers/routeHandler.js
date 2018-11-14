@@ -7,10 +7,8 @@ import * as gameHandler from './gameHandler'
 const login = function(userInfo, client, onlineUsers) {
     let player = new Player(userInfo.id, client.id)
 
-    player.setLogin(userInfo.name)
     onlineUsers.push(player)
-
-  return player
+    return 'OK'
 }
 
 const getGames = function(activeGames) {
