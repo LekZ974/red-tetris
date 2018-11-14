@@ -92,15 +92,16 @@ const startGame = function(client, activeGames) {
 
     if (game !== undefined) {
         if (game.master && game.master.socketID === client.id) {
-            game.boardMaster = gameHandler.initBoard()
+            game.master.board = gameHandler.initBoard()
             game.setGameStarted()
         } else {
             return ret
         }
-        if (game.challenger) {
-            game.boardChallenger = gameHandler.initBoard()
+        if (game.challenger.length > 0) {
+			for (let i = 0; i < game.challenger.length; i++)
+				game.challenger[i].board = gameHandler.initBoard()
         }
-        ret = game
+        ret = game;
     }
     return ret
 }
