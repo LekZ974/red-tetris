@@ -107,6 +107,7 @@ describe('Test game reducer', ()=> {
           gameIsStarted: false,
           start: false,
           pause: false,
+          params: {addMalus: true}
         }
         , {
           type: UPDATE_GAME_STATUS,
@@ -119,6 +120,7 @@ describe('Test game reducer', ()=> {
         gameIsStarted: false,
         start: false,
         pause: false,
+        params: {addMalus: true}
       }
     )
   })

@@ -33,6 +33,7 @@ describe('game test all actions', () => {
           id: "",
           name: "",
           owner: "",
+          params: {addMalus: true}
         }
       )
     }

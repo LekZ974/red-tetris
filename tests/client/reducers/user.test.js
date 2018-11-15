@@ -29,10 +29,11 @@ describe('user reducer test',()=>{
         id: '',
         name: '',
         gameName: '',
-        role: '',
+        role: 'master',
         connected: true,
         grid: [],
         completeLine: 0,
+        loosed: false,
         payload: {}
       })
   })
@@ -47,6 +48,7 @@ describe('user reducer test',()=>{
       connected: true,
       grid:[0,0,0],
       completeLine: 0,
+      loosed: false,
     }))
       .toEqual({
         id:'1',
@@ -56,7 +58,8 @@ describe('user reducer test',()=>{
         connected: true,
         grid:[0,0,0],
         completeLine: 0,
-        payload: {}
+        payload: {},
+        loosed: false,
       })
   })
   it('should test USER_LOGIN when status is wrong', () =>{
@@ -70,7 +73,8 @@ describe('user reducer test',()=>{
         role:'master',
         connected: true,
         completeLine: 0,
-        grid:[0,0,0]
+        grid:[0,0,0],
+        loosed: false,
       }
     }))
       .toEqual(initialState)
@@ -80,11 +84,12 @@ describe('user reducer test',()=>{
       id: '',
       name: '',
       gameName: '',
-      role: '',
+      role: 'master',
       connected: true,
       grid: [],
       completeLine: 0,
-      payload: {}
+      payload: {},
+      loosed: false,
     }, {
       type:USER_INIT
     }))

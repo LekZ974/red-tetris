@@ -1,10 +1,10 @@
-import {GET_GAMES} from "../actions/games";
+import {EMIT_GET_GAMES, GET_GAMES, RCV_GET_GAMES} from "../actions/games";
 import {
   UPDATE_GAME_STATUS,
   CREATE_GAME,
   NEED_NEW_PIECES
 } from "../actions/game";
-import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID, leaveGame} from "../actions/user";
+import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID, leaveGame, USER_CONNECT} from "../actions/user";
 import {store} from "../index";
 import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
@@ -21,6 +21,9 @@ const socketMiddleware = socket => ({dispatch}) => {
 
     if (socket) {
       switch (type) {
+        case USER_CONNECT : {
+          window.location.reload()
+        }
         case TETRI_INIT : {
           return next(action)
         }
@@ -40,10 +43,14 @@ const socketMiddleware = socket => ({dispatch}) => {
           window.location.reload()
           return next(action)
         }
-        case GET_GAMES : {
-          socket.on('GET_GAMES', (payload) => {
-            return payload ? next({payload, type: action.type, status: 'success'}) : next(action)
-          })
+        case EMIT_GET_GAMES: {
+          SocketService.emitGetGames()
+          break;
+        }
+        case RCV_GET_GAMES: {
+          if (!action.payload || action.payload.length < 1) {
+            action.payload = null
+          }
           break;
         }
         case CREATE_GAME : {

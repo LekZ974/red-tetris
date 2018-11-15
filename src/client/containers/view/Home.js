@@ -5,44 +5,25 @@ import { Box, Card, LoadingContainer } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
 import {init} from "../../actions/user";
-import * as SocketService from '../../services/SocketService';
+import {emitGetGames} from "../../actions/games";
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props)
-    const { dispatch} = this.props
-    dispatch(init())
+
+  componentWillMount() {
+    const {init} = this.props
+
+    init()
   }
 
-  componentDidMount () {
-    const { dispatch} = this.props
-    SocketService.emitGetGames()
+  componentDidMount() {
+    const {getGames} = this.props
+
+    getGames()
   }
 
   render () {
-    const { user, gamesList, isLoading, formValues } = this.props
+    const { userName, gamesList, isLoading } = this.props
 
-    let userName;
-    if (formValues && formValues.hasOwnProperty('values') && formValues.hasOwnProperty('syncErrors')) {
-      if (formValues.values.userName || !formValues.syncErrors.userName) {
-        userName = formValues.values.userName;
-      }
-    }
-
-    let linkList = gamesList && gamesList.map((game, i) => {
-      const {gameName} = game
-      return(
-        <li key={i}>
-          <Box fontSize={30}>
-            <Link to={`/#${gameName}/${userName}`}>
-              {gameName}
-            </Link>
-          </Box>
-        </li>)
-    })
-    if(user.connected === true){
-      window.location.reload()
-    }
     return (
       <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
         <Box flex={1}>
@@ -50,12 +31,12 @@ class Home extends React.Component {
         </Box>
         <Card flex={1} width={'40em'} center>
           <LoadingContainer
-            isLoading={isLoading && (!gamesList || !gamesList.length) }
-            isEmpty={!gamesList || !gamesList.length}
+            isLoading={isLoading && (!gamesList) }
+            isEmpty={!gamesList}
             emptyLabel='Pas de parties en cours'
           >
           <Box fontSize={30}>
-            {userName ? <ul>{linkList}</ul> : <div>Choose a login first</div>}
+            {userName && userName.length > 0 ? <ul>{gamesList}</ul> : <div>Choose a login first</div>}
           </Box>
           </LoadingContainer>
         </Card>
@@ -63,9 +44,50 @@ class Home extends React.Component {
     )
   }
 }
-export default connect(({ form, user, games }) => ({
-  user: user,
-  gamesList: games.items,
-  isLoading: games.isLoading,
-  formValues: form.HomeForm,
-}))(Home)
+
+const mapDispatchToProps = dispatch => ({
+  init: () => dispatch(init()),
+  getGames: () => dispatch(emitGetGames()),
+})
+
+const mapStateToProps = state => {
+
+  const homeForm = state.form.HomeForm
+  const gamesList = state.games.items
+  const userName = [];
+
+  if (gamesList && gamesList.length < 1) {
+    emitGetGames()
+  }
+
+  if (homeForm && homeForm.hasOwnProperty('values') && homeForm.hasOwnProperty('syncErrors')) {
+    if (homeForm.values.userName && !homeForm.syncErrors.userName) {
+      userName.push(homeForm.values.userName);
+    }
+  }
+
+  const renderList = gamesList && gamesList.map((game, i) => {
+    const {gameName} = game
+    return(
+      <li key={i}>
+        <Box fontSize={30}>
+          <Link to={`/#${gameName}/${userName}`}>
+            {gameName}
+          </Link>
+        </Box>
+      </li>)
+  })
+
+  return {
+    userName: userName,
+    gamesList: renderList,
+    isLoading: state.games.isLoading,
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
+
+export {Home}

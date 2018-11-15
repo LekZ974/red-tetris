@@ -1,20 +1,20 @@
 import reducer from '../../../src/client/reducers/games/games'
 import * as actions from '../../../src/client/actions/games'
-import{GET_GAMES} from '../../../src/client/actions/games'
-import {reducerGetGames} from '../../../src/client/reducers/games/functions'
-import { GAME_FLOW } from '../../../src/client/actions/game';
-const gameFlowactionReturn = (games) =>{
-  return {
-    type: GET_GAMES,
-    payload: games,
-    status: "success",
-  }
-}
-describe('get games', ()=>{
-  it('should ', ()=>{
-    const games=""
-    expect(actions.getGames(games)).toEqual(gameFlowactionReturn(games))
+import{RCV_GET_GAMES, EMIT_GET_GAMES} from '../../../src/client/actions/games'
 
+describe('get games', ()=>{
+  it('should emit ', ()=>{
+    expect(actions.emitGetGames()).toEqual({
+      type: EMIT_GET_GAMES,
+    })
+  })
+  it('should rcv ', ()=>{
+    const games=""
+    expect(actions.rcvGetGames(games)).toEqual({
+      type: RCV_GET_GAMES,
+      payload: games,
+      status: "success",
+    })
   })
 })
 /**

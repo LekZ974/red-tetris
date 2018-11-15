@@ -4,7 +4,7 @@ import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
 import {updateUser, joinGame, updateGrid, leaveGame} from "../actions/user";
-import {getGames} from "../actions/games";
+import {rcvGetGames} from "../actions/games";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces, updateGameStatus} from "../actions/game";
@@ -46,7 +46,7 @@ const rcvLeftGame = data => {
 }
 
 const rcvGames = data => {
-  store.dispatch(getGames(data))
+  store.dispatch(rcvGetGames(data))
 }
 
 socket.on('logged', rcvPlayerLogged)

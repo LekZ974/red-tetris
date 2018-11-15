@@ -27,10 +27,14 @@ const games = {
   ],
   isLoading: false
 }
+const form = {
+  HomeForm: "A form"
+}
 
 const initialState = {
   user,
-  games
+  games,
+  form,
 }
 
 
@@ -38,7 +42,7 @@ describe('>>>>HOME - REACT-REDUX (Shallow + passing the {store} directly', () =>
   let wrapper;
   beforeEach(() => {
     const store = mockStore(initialState)
-    wrapper = shallow(<ConnectedHome store={store}/>).dive()
+    wrapper = shallow(<ConnectedHome store={store}/>)
   })
   it('renders without crashing', () => {
     expect(wrapper.length).to.equal(1)
