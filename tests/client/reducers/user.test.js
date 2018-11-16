@@ -4,10 +4,8 @@ import {
   USER_CONNECT,
   USER_INIT,
   EMIT_USER_LOGIN,
-  RCV_USER_LOGIN,
+  RCV_USER_LOGIN, USER_UPDATE, USER_UPDATE_GRID,
 } from '../../../src/client/actions/user'
-import {GRID_HEIGHT, GRID_WIDTH} from "../../../src/common/grid";
-import {PIECES_NUM} from "../../../src/common/pieces";
 
 
 describe('user reducer test',()=>{
@@ -39,7 +37,25 @@ describe('user reducer test',()=>{
         isLoading: false,
       })
   })
-  it('should test USER_LOGIN when status is success', () =>{
+  it('should test EMIT_USER_LOGIN', () =>{
+    expect(reducer(initialState,{
+      type:EMIT_USER_LOGIN,
+      userName: 'TOTO'
+    }))
+      .toEqual({
+        id:'',
+        name:'',
+        gameName: '',
+        role:'master',
+        connected: false,
+        grid:[],
+        completeLine: 0,
+        payload: {},
+        loosed: false,
+        isLoading: true,
+      })
+  })
+  it('should test RCV_USER_LOGIN', () =>{
     expect(reducer(initialState,{
       type:RCV_USER_LOGIN,
       somedata: "data",
@@ -89,5 +105,36 @@ describe('user reducer test',()=>{
       type:USER_INIT
     }))
       .toEqual(initialState)
+  })
+  it('should test USER_UPDATE', ()=>{
+    expect(reducer({
+      name: 'toto',
+      role: 'a role'
+    }, {
+      type:USER_UPDATE,
+      data: {role: 'A role for test'}
+    }))
+      .toEqual({name: 'toto', role:'A role for test'})
+  })
+  it('should test USER_UPDATE_GRID', ()=>{
+    expect(reducer({}, {
+      type:USER_UPDATE_GRID,
+      grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+    }))
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+  })
+  it('should test USER_UPDATE_GRID with a complete line', ()=>{
+    expect(reducer({}, {
+      type:USER_UPDATE_GRID,
+      grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1]]
+    }))
+      .toEqual({completeLine: 1, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+  })
+  it('should test USER_UPDATE_GRID with a lost grid', ()=>{
+    expect(reducer({}, {
+      type:USER_UPDATE_GRID,
+      grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1]]
+    }))
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0,0,0,1,0], [1,1,0,1,1]], loosed: true})
   })
 })
