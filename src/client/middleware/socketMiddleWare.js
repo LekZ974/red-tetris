@@ -1,16 +1,32 @@
 import {EMIT_GET_GAMES, GET_GAMES, RCV_GET_GAMES} from "../actions/games";
 import {
-  UPDATE_GAME_STATUS,
-  CREATE_GAME,
-  NEED_NEW_PIECES
+  EMIT_GAME_STATUS,
+  RCV_GAME_STATUS,
+  EMIT_CREATE_GAME,
+  RCV_CREATE_GAME,
+  EMIT_NEW_PIECES,
+  RCV_NEW_PIECES,
+  emitNewPieces,
 } from "../actions/game";
-import {USER_JOIN_GAME, USER_LEFT_GAME, USER_LOGIN, USER_UPDATE_GRID, leaveGame, USER_CONNECT} from "../actions/user";
+import {
+  EMIT_USER_JOIN_GAME,
+  RCV_USER_JOIN_GAME,
+  EMIT_USER_LOGIN,
+  USER_UPDATE_GRID,
+  USER_CONNECT,
+  updateUser,
+  emitJoinGame,
+  RCV_USER_LOGIN, EMIT_USER_LEAVE_GAME, RCV_USER_LEAVE_GAME,
+} from "../actions/user";
 import {store} from "../index";
-import {TETRI_INIT, TETRI_NEW, tetriInit} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
 import {emitUpdateGrid} from "../services/SocketService";
 import { push } from "connected-react-router";
+import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
+import {PIECES_NUM} from "../../common/pieces";
+import {shapeHandler} from "../utils/shapeHandler";
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -21,6 +37,81 @@ const socketMiddleware = socket => ({dispatch}) => {
 
     if (socket) {
       switch (type) {
+        //
+        case EMIT_USER_LOGIN : {
+          SocketService.emitLogin(action.userName);
+          break;
+        }
+        case RCV_USER_LOGIN : {
+          if (!action.data) {
+            return;
+          }
+          const userData = {
+            name: action.data.login,
+            connected: true,
+          }
+          !userData.name ? store.dispatch(emitLeaveGame()) : store.dispatch(updateUser(userData));
+          break;
+        }
+        case EMIT_USER_LEAVE_GAME : {
+          SocketService.emitLeaveGame()
+          break;
+        }
+        case RCV_USER_LEAVE_GAME : {
+          store.dispatch(push('/'))
+          break;
+        }
+        case EMIT_USER_JOIN_GAME : {
+          SocketService.emitJoinGame(action.userName, action.gameName)
+          break;
+        }
+        case RCV_USER_JOIN_GAME : {
+          if (action.data) {
+            store.dispatch(updateUser({
+              gameName: store.getState().game.name,
+              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+            }))
+            store.dispatch(emitNewPieces(store.getState().game))
+          }
+          break;
+        }
+        case EMIT_GET_GAMES: {
+          SocketService.emitGetGames()
+          break;
+        }
+        case RCV_GET_GAMES: {
+          break;
+        }
+        case EMIT_CREATE_GAME : {
+          SocketService.emitCreateGame(action.gameName)
+          break;
+        }
+        case RCV_CREATE_GAME : {
+          console.log(action)
+          if ('KO' === action.data) {
+            store.dispatch(updateUser({role: 'challenger'}))
+          }
+          if (!store.getState().user.gameName) {
+            store.dispatch(emitJoinGame(store.getState().user.name, store.getState().game.name))
+          }
+          break;
+        }
+        case EMIT_GAME_STATUS : {
+          SocketService.emitGameStatus(action.gameStatus, action.game)
+          break;
+        }
+        case EMIT_NEW_PIECES : {
+          SocketService.emitNeedPieces()
+          break;
+        }
+        case RCV_NEW_PIECES : {
+          console.log(action)
+          store.dispatch(tetriNew(store.getState().game, shapeHandler(action.data)))
+          break;
+        }
+        case USER_UPDATE_GRID : {
+          return next(action)
+        }
         case USER_CONNECT : {
           window.location.reload()
         }
@@ -28,46 +119,6 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case TETRI_NEW : {
-          return next(action)
-        }
-        case USER_LOGIN : {
-          SocketService.emitLogin(action.userName);
-          break;
-        }
-        case USER_JOIN_GAME : {
-          SocketService.emitJoinGame(action.userName, action.gameName)
-          break;
-        }
-        case USER_LEFT_GAME : {
-          store.dispatch(push('/'))
-          window.location.reload()
-          return next(action)
-        }
-        case EMIT_GET_GAMES: {
-          SocketService.emitGetGames()
-          break;
-        }
-        case RCV_GET_GAMES: {
-          if (!action.payload || action.payload.length < 1) {
-            action.payload = null
-          }
-          break;
-        }
-        case CREATE_GAME : {
-          SocketService.emitCreateGame(action.gameName)
-          break;
-        }
-        case UPDATE_GAME_STATUS : {
-          if (action.status === 'Stop') {
-            store.dispatch(leaveGame())
-          }
-          break;
-        }
-        case NEED_NEW_PIECES : {
-          SocketService.emitGamePieces()
-          break;
-        }
-        case USER_UPDATE_GRID : {
           return next(action)
         }
         default: {
@@ -78,7 +129,7 @@ const socketMiddleware = socket => ({dispatch}) => {
     }
     if (store.getState().tetrimino.needNext) {
       emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
-      SocketService.emitGamePieces()
+      SocketService.emitNeedPieces()
       store.dispatch(tetriInit())
     }
     return next(action)

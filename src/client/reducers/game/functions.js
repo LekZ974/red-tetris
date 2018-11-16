@@ -26,21 +26,14 @@ const reducerEmitGameStatus = (state, action, initialState) => {
   }
 }
 
-const reducerEmitCreateGame = (state, action) => {
+const reducerRcvCreateGame = (state, action) => {
   return {
     ...state,
-    name: action.gameName,
-  }
-}
-
-const reducerEmitGamePieces = (state, action) => {
-  return {
-    ...state,
+    isLoading: false,
   }
 }
 
 export {
   reducerEmitGameStatus,
-  reducerEmitGamePieces,
-  reducerEmitCreateGame,
+  reducerRcvCreateGame,
 }

@@ -1,9 +1,9 @@
 import {initialState} from '../../../src/client/reducers/game/game';
 import reducer from '../../../src/client/reducers/game/game'
 import {
-  UPDATE_GAME_STATUS,
-  CREATE_GAME,
-  NEED_NEW_PIECES,
+  EMIT_CREATE_GAME,
+  EMIT_GAME_STATUS,
+  EMIT_NEW_PIECES,
 } from '../../../src/client/actions/game'
 
 describe('Test game reducer', ()=> {
@@ -24,9 +24,10 @@ describe('Test game reducer', ()=> {
       gameIsStarted: false,
       start: false,
       pause: false,
-      gamePieces: []
+      gamePieces: [],
+      isLoading: false,
     }, {
-      type: CREATE_GAME,
+      type: EMIT_CREATE_GAME,
       gameName: name,
     })).toEqual({
       items: [],
@@ -36,7 +37,8 @@ describe('Test game reducer', ()=> {
       gameIsStarted: false,
       start: false,
       pause: false,
-      gamePieces: []
+      gamePieces: [],
+      isLoading: true,
     })
   })
   it('should test UPDATE_GAME_STATUS', () => {
@@ -49,7 +51,7 @@ describe('Test game reducer', ()=> {
           pause: false,
         }
         , {
-          type: UPDATE_GAME_STATUS,
+          type: EMIT_GAME_STATUS,
           gameStatus: 'Start'
         })).toEqual({
         items: [],
@@ -69,7 +71,7 @@ describe('Test game reducer', ()=> {
           pause: false,
         }
         , {
-          type: UPDATE_GAME_STATUS,
+          type: EMIT_GAME_STATUS,
           gameStatus: 'rien'
         })).toEqual({
         items: [],
@@ -89,7 +91,7 @@ describe('Test game reducer', ()=> {
           pause: false,
         }
         , {
-          type: UPDATE_GAME_STATUS,
+          type: EMIT_GAME_STATUS,
           gameStatus: 'Pause'
         })).toEqual({
         items: [],
@@ -110,7 +112,7 @@ describe('Test game reducer', ()=> {
           params: {addMalus: true}
         }
         , {
-          type: UPDATE_GAME_STATUS,
+          type: EMIT_GAME_STATUS,
           gameStatus: 'Stop'
         })).toEqual({
         items: [],
@@ -120,14 +122,15 @@ describe('Test game reducer', ()=> {
         gameIsStarted: false,
         start: false,
         pause: false,
-        params: {addMalus: true}
+        params: {addMalus: true},
+        isLoading: false,
       }
     )
   })
   it('should handle NEED_NEW_PIECES', () => {expect(
     reducer([],{
-      type: NEED_NEW_PIECES,
-    })).toEqual({})
+      type: EMIT_NEW_PIECES,
+    })).toEqual([])
     expect(reducer({
       items: [],
       gameIsStarted: false,
@@ -135,7 +138,7 @@ describe('Test game reducer', ()=> {
       pause: false,
     }
     ,{
-      type: NEED_NEW_PIECES,
+      type: EMIT_NEW_PIECES,
     })).toEqual({
       items: [],
       gameIsStarted: false,

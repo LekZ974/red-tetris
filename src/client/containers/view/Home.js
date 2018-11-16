@@ -56,10 +56,6 @@ const mapStateToProps = state => {
   const gamesList = state.games.items
   const userName = [];
 
-  if (gamesList && gamesList.length < 1) {
-    emitGetGames()
-  }
-
   if (homeForm && homeForm.hasOwnProperty('values') && homeForm.hasOwnProperty('syncErrors')) {
     if (homeForm.values.userName && !homeForm.syncErrors.userName) {
       userName.push(homeForm.values.userName);
@@ -89,5 +85,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Home);
-
-export {Home}

@@ -12,8 +12,7 @@ describe('get games', ()=>{
     const games=""
     expect(actions.rcvGetGames(games)).toEqual({
       type: RCV_GET_GAMES,
-      payload: games,
-      status: "success",
+      data: "",
     })
   })
 })

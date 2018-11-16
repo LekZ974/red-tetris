@@ -5,8 +5,8 @@ import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
-import {createGame} from "../../actions/game";
-import {login} from "../../actions/user";
+import {emitCreateGame, emitGameStatus} from "../../actions/game";
+import {emitLogin, emitLeaveGame} from "../../actions/user";
 
 const FakeSpectre = [
   {
@@ -23,27 +23,28 @@ const FakeSpectre = [
   }
 ]
 
-const createRoom = (props) => {
-  const {match, user, dispatch} = props
-
-  if (!user.name) {
-    dispatch(login(match.params.user))
-  }
-  dispatch(createGame(match.params.room))
-}
-
 const Room = (props) => {
-  const {user, game, match, dispatch} = props
+  const {user, game, match, createGame, login} = props
 
-  if (!game.name) {
-    createRoom(props)
+  if (!user.name && !user.isLoading) {
+    login(match.params.user)
+  }
+
+  if (!game.name && !game.isLoading) {
+    createGame(match.params.room)
+  }
+
+  if (!user.gameName || user.isLoading) {
+    return (
+      <div>IS LOADING</div>
+    )
   }
 
   return (
   <Box flex flexDirection='column' align='stretch'>
     <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
       <Card flex={1} width={'40em'}>
-        <RoomInfo user={user} game={game} dispatch={dispatch}/>
+        <RoomInfo {...props} />
       </Card>
       <Card flex={1} width={'40em'}>
         <PlayGround game={game} tetrimino={20}/>
@@ -57,8 +58,23 @@ const Room = (props) => {
   )
 }
 
-export default connect(({ user, game }) => ({
-  user: user,
-  game: game,
-}))(Room)
+const mapDispatchToProps = dispatch => ({
+  login: userName => dispatch(emitLogin(userName)),
+  createGame: gameName => dispatch(emitCreateGame(gameName)),
+  updateGameStatus: (status, game) => dispatch(emitGameStatus(status, game)),
+  leaveGame: () => dispatch(emitLeaveGame()),
+})
+
+const mapStateToProps = state => {
+
+  return {
+    user: state.user,
+    game: state.game,
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Room);
 
