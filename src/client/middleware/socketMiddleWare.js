@@ -87,7 +87,6 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_CREATE_GAME : {
-          console.log(action)
           if ('KO' === action.data) {
             store.dispatch(updateUser({role: 'challenger'}))
           }
@@ -105,7 +104,6 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_NEW_PIECES : {
-          console.log(action)
           store.dispatch(tetriNew(store.getState().game, shapeHandler(action.data)))
           break;
         }

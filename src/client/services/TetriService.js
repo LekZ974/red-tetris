@@ -174,7 +174,6 @@ const updateTetriPos = (grid, tetrimino, move) => {
       coords: newCoords(tetrimino.coords, move)
     }
     const newPieceDescr = newPiece.pieceInfo.piece;
-    console.log(hasCollision(grid, newPieceDescr, newPiece.coords))
     if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
       return newPiece
     }
