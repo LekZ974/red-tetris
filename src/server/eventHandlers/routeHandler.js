@@ -116,6 +116,25 @@ const requestShape = function(client, activeGames) {
     return shape
 }
 
+const updateBoard = function(client, activeGames, newBoard) {
+    let game = gameHandler.findGameBySocketId(client.id, activeGames)
+    let ret = 'KO'
+
+    if (game !== undefined) {
+        if (client.id == game.master.socketID) {
+            game.master.board = newBoard
+            ret = 'OK'
+        } else {
+            let index = gameHandler.findChallengerIndex(client.id, game.challenger)
+            if (index > -1) {
+                game.challenger[index].board = newBoard
+                ret = 'OK'
+            }
+        }
+    }
+    return ret
+}
+
 const disconnect = function(client, onlineUsers, activeGames) {
     let player = gameHandler.findPlayer(client.id, onlineUsers)
     let index
@@ -139,5 +158,6 @@ export {
     leaveGame,
     startGame,
     requestShape,
+    updateBoard,
     disconnect
 }
