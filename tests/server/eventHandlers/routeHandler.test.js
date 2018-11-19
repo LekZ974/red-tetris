@@ -5,7 +5,11 @@ import * as routeHandler from '../../../src/server/eventHandlers/routeHandler'
 var onlineUsers
 var activeGames
 var client = { id : 0 }
+var client1 = { id : 1 }
+var client2 = { id : 2 }
 var userInfo = { id : 0, name: 'name' }
+var userInfo1 = { id : 1, name: 'name1' }
+var userInfo2 = { id : 2, name: 'name2' }
 
 beforeEach(() => {
 	onlineUsers = []
@@ -146,6 +150,20 @@ test('requestShape', () => {
 	}
 	let shape = routeHandler.requestShape({id : 1}, activeGames)
 	expect(shape).toBe(null)
+})
+
+test('updateBoard', () => {
+    let player = routeHandler.login(userInfo, client, onlineUsers)
+    let player1 = routeHandler.login(userInfo1, client1, onlineUsers)
+    let player2 = routeHandler.login(userInfo2, client2, onlineUsers)
+    let create = routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
+    let join = routeHandler.joinGame(client1, onlineUsers, 'GAME1', activeGames)
+    let start = routeHandler.startGame(client, activeGames)
+    let newBoard = [1, 2, 3, 4, 5]
+    
+    expect(routeHandler.updateBoard(client, activeGames, newBoard)).toMatchSnapshot()
+    expect(routeHandler.updateBoard(client1, activeGames, newBoard)).toMatchSnapshot()
+    expect(routeHandler.updateBoard(client2, activeGames, newBoard)).toMatchSnapshot()
 })
 
 test('disconnect', () => {
