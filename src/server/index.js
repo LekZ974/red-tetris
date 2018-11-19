@@ -67,6 +67,10 @@ io.on('connection', (client) => {
         io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
     })
 
+    client.on(routes.UPDATE_BOARD, (newBoard) => {
+        let ret = routeHandler.updateBoard(client, activeGames, newBoard)
+    })
+
     client.on('disconnect', () => {
         routeHandler.disconnect(client, onlineUsers, activeGames)
     })
