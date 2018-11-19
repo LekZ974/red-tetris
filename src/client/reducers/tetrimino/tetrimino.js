@@ -2,7 +2,7 @@ import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT, TETRI_NEW, TETRI_IS_BLO
 import {reducerTetriAction, reducerTetriStep} from "./functions";
 import {PIECES_INFO} from "../../../common/pieces";
 
-const initialState = {
+export const initialState = {
   items: [],
   id: null,
   pieceInfo: null,
@@ -12,7 +12,6 @@ const initialState = {
     posX:4,
     posY:0
   },
-  action: null,
   rotate:0,
 }
 

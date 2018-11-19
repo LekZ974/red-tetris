@@ -80,8 +80,11 @@ const emitGetGames = () => {
 
 export {
   rcvPlayerLogged,
-  rcvJoinGame,
   rcvGameExists,
+  rcvGameJoined,
+  rcvGames,
+  rcvLeftGame,
+  rcvNewShape,
 
   emitLogin,
   emitJoinGame,
