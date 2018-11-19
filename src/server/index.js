@@ -40,6 +40,7 @@ io.on('connection', (client) => {
 		if (res === 'OK')
 			client.join(gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
+        io.to(client.id).emit(routes.CAN_START, res)
     })
 
     client.on(routes.JOIN_GAME, (gameName) => {
