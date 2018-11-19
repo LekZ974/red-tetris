@@ -1,5 +1,5 @@
-import {UPDATE_GAME_STATUS, GAME_FLOW, CREATE_GAME, NEED_NEW_PIECES} from '../../actions/game'
-import {reducerEmitCreateGame, reducerEmitGameStatus, reducerEmitGamePieces, reducerGameFlow} from './functions'
+import {EMIT_GAME_STATUS, EMIT_CREATE_GAME, RCV_CREATE_GAME} from '../../actions/game'
+import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions'
 
 export const initialState = {
   items: [],
@@ -11,7 +11,8 @@ export const initialState = {
   pause: false,
   params: {
     addMalus: true,
-  }
+  },
+  isLoading: false,
 }
 
 export default function GameReducer (state = initialState, action = {}) {
@@ -19,14 +20,18 @@ export default function GameReducer (state = initialState, action = {}) {
     action.payload = [];
   }
   switch (action.type) {
-    case UPDATE_GAME_STATUS: {
+    case EMIT_GAME_STATUS: {
       return reducerEmitGameStatus(state, action, initialState)
     }
-    case CREATE_GAME: {
-      return reducerEmitCreateGame(state, action, initialState)
+    case EMIT_CREATE_GAME: {
+      return {
+        ...state,
+        name: action.gameName,
+        isLoading: true,
+      }
     }
-    case NEED_NEW_PIECES: {
-      return reducerEmitGamePieces(state, action)
+    case RCV_CREATE_GAME: {
+      return reducerRcvCreateGame(state, action, initialState)
     }
     default:
       return state

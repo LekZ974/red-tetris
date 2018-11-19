@@ -1,13 +1,10 @@
 
 const reducerGetGames = (state, action) => {
-  if ('success' === action.status){
-    return {
+  return {
       ...state,
-      items: action.payload,
+      items: action.data,
       isLoading: false
-    }
   }
-  return action.payload ? {...state, isLoading: true} : {...state, items: [], isLoading: false}
 }
 
 export {

@@ -24,13 +24,3 @@ export function maxLength (max) {
     }
   }
 }
-
-export function doNotMatch (field) {
-  return (value, data) => {
-    if (data) {
-      if (value === data[field]) {
-        return 'Ces champs ne peuvent pas être identiques'
-      }
-    }
-  }
-}

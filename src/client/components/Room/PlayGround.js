@@ -33,10 +33,8 @@ const PlayGround = () =>{
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
-      <div>
-        <Grid/>
-      </div>
-      <div style={{clear:'both'}}>
+      <Grid/>
+      <div style={{clear:'both', paddingTop:'70px'}}>
         {commandes()}
       </div>
     </div>

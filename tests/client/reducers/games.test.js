@@ -2,57 +2,35 @@ import reducer from '../../../src/client/reducers/games/games'
 import {initialState} from '../../../src/client/reducers/games/games';
 
 import {
-  GET_GAMES,
-} from '../../../src/client/actions/game'
+  EMIT_GET_GAMES,
+  RCV_GET_GAMES,
+} from '../../../src/client/actions/games'
 
-describe('Test game reducer', ()=> {
+describe('Test games reducer', ()=> {
   it('should render initial state when state is undefined', () => {
     expect(reducer(undefined, {})).toEqual(initialState)
 
   })
-  it('should test GET_GAMES case status === success', ()=>{
+  it('should test EMIT_GET_GAMES', ()=>{
     expect(reducer(initialState, {
-      type:GET_GAMES,
-      status:'success',
-      payload:'games'
-    }))
-      .toEqual({
-        items: [],
-        isLoading: false
-      })
-  })
-  it('should test GET_GAMES case status === connected', ()=>{
-    expect(reducer({
-      items: [],
-      isLoading: true,
-    },{
-      type:GET_GAMES,
-      status:'connected',
-      payload: {
-        games:false,
-      }
+      type:EMIT_GET_GAMES,
     }))
       .toEqual({
         items: [],
         isLoading: true
       })
   })
- // it('should test GET_GAMES', () => {
- //      type: GET_GAMES,
- //      status:'success',
- //      payload:'fake payload'
- //    })).toEqual({
- //      items: [],
- //      isLoading: false,
- //    })
- //  })
- //  it('should test GET_GAMES', () => {
- //    expect(reducer(initialState, {
- //      type: GET_GAMES,
- //    })).toEqual({
- //      items: [],
- //      isLoading: false,
- //    })
- //  })
-
+  it('should test RCV_GET_GAMES', ()=>{
+    expect(reducer({
+      items: [],
+      isLoading: true,
+    },{
+      type:RCV_GET_GAMES,
+      data: 'some data'
+    }))
+      .toEqual({
+        items: 'some data',
+        isLoading: false
+      })
+  })
 })

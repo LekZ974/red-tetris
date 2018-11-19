@@ -7,11 +7,14 @@ const GridUserComponent = (state) => {
   const { gridRender } = state
 
   return(
-    gridRender.map((row, key) =>
-      key > 2 && (<div key={key} style={{display: 'flex', flexDirection: 'row'}}>
+    <div style={{height: '60vh'}}>
+      {gridRender.map((row, key) =>
+      key > 2 && (<div key={key} style={{display: 'flex', flexDirection: 'row', height: '6%'}}>
         {row.map((block, i) => <GridBlock blockId={block} key={i} />)}
         </div>)
-    ))
+      )}
+    </div>
+  )
 }
 
 const mapStateToProps = state => {

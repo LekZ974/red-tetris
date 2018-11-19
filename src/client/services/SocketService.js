@@ -3,55 +3,43 @@ import { PIECES_NUM } from "../../common/pieces";
 import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
-import {updateUser, joinGame, updateGrid, leaveGame} from "../actions/user";
-import {getGames} from "../actions/games";
+import {updateUser, rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin} from "../actions/user";
+import {rcvGetGames} from "../actions/games";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
-import {needNewPieces, updateGameStatus} from "../actions/game";
+import {needNewPieces, rcvCreateGame, rcvGameStatus, rcvNewPieces, updateGameStatus} from "../actions/game";
 
 const socket = io.connect(params.server.url);
 
 //RCV
 
 const rcvPlayerLogged = data => {
-  if (!data) {
-    return;
-  }
-  const userData = {
-    name: data.login,
-    connected: true,
-  }
-  !userData.name ? store.dispatch(leaveGame()) : store.dispatch(updateUser(userData));
+  store.dispatch(rcvLogin(data))
 }
 
-const rcvJoinGame = data => {
-  store.dispatch(needNewPieces(store.getState().game))
+const rcvGameJoined = data => {
+  store.dispatch(rcvJoinGame(data))
 }
 
-const rcvGameExist = data => {
-  if ('KO' === data) {
-    store.dispatch(updateUser({role: 'challenger'}))
-  }
-  if (!store.getState().user.gameName) {
-    store.dispatch(joinGame(store.getState().user.name, store.getState().game.name))
-  }
+const rcvGameExists = data => {
+  store.dispatch(rcvCreateGame(data))
 }
 
 const rcvNewShape = data => {
-  store.dispatch(tetriNew(store.getState().game, shapeHandler(data)))
+  store.dispatch(rcvNewPieces(data))
 }
 
 const rcvLeftGame = data => {
-  store.dispatch(leaveGame(data))
+  store.dispatch(rcvLeaveGame(data))
 }
 
 const rcvGames = data => {
-  store.dispatch(getGames(data))
+  store.dispatch(rcvGetGames(data))
 }
 
 socket.on('logged', rcvPlayerLogged)
-socket.on('gameJoined', rcvJoinGame)
-socket.on('gameExists', rcvGameExist)
+socket.on('gameJoined', rcvGameJoined)
+socket.on('gameExists', rcvGameExists)
 socket.on('emittedShape', rcvNewShape)
 socket.on('leftGame', rcvLeftGame)
 socket.on('gamesSent', rcvGames)
@@ -64,17 +52,13 @@ const emitLogin = userName => {
 
 const emitJoinGame = (userName, gameName) => {
   socket.emit('joinGame', gameName)
-  store.dispatch(updateUser({
-    gameName,
-    grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-  }))
 }
 
 const emitCreateGame = (gameName) => {
   socket.emit('createGame', gameName)
 }
 
-const emitGamePieces = () => {
+const emitNeedPieces = () => {
   socket.emit('requestShape')
 }
 
@@ -83,7 +67,7 @@ const emitUpdateGrid = grid => {
 }
 
 const emitGameStatus = (status, game) => {
-  store.dispatch(updateGameStatus(status, game))
+  store.dispatch(rcvGameStatus(status, game))
 }
 
 const emitLeaveGame = () => {
@@ -96,13 +80,16 @@ const emitGetGames = () => {
 
 export {
   rcvPlayerLogged,
-  rcvJoinGame,
-  rcvGameExist,
+  rcvGameExists,
+  rcvGameJoined,
+  rcvGames,
+  rcvLeftGame,
+  rcvNewShape,
 
   emitLogin,
   emitJoinGame,
   emitCreateGame,
-  emitGamePieces,
+  emitNeedPieces,
   emitUpdateGrid,
   emitGameStatus,
   emitLeaveGame,

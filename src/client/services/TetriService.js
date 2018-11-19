@@ -223,7 +223,7 @@ const gridDelLine = grid => {
 
   newGrid = newGrid.filter((line, i) => !lineToDel.includes(i));
   while (newGrid.length < grid.length) {
-    newGrid = [Array(GRID_WIDTH).fill(PIECES_NUM.empty), ...newGrid];
+    newGrid = [Array(grid[0].length).fill(PIECES_NUM.empty), ...newGrid];
   }
 
   return [newGrid, lineToDel.length - nbWall];
@@ -235,11 +235,24 @@ const asLoose = grid => {
     grid[2].some(e => e !== PIECES_NUM.empty)))
 };
 
-const gridAddMalus = (grid, amount) => {
+const addMalusBlocks = (grid, amount) => {
   const newGrid = grid.map(l => l.map(e => e));
 
   for (let i = 0; i < amount; i++) {
-    newGrid.push(Array(GRID_WIDTH).fill(PIECES_NUM.malus));
+    newGrid.pop()
+  }
+  for (let i = 0; i < amount; i++) {
+    newGrid.push(Array(grid[0].length).fill(PIECES_NUM.malus));
+  }
+
+  return newGrid;
+};
+
+const malusResizeGrid = (grid, amount) => {
+  const newGrid = grid.map(l => l.map(e => e));
+
+  for (let i = 0; i < amount; i++) {
+    newGrid.push(Array(grid[0].length).fill(PIECES_NUM.malus));
     newGrid.shift();
   }
 
@@ -256,5 +269,8 @@ export {
   cloneTetri,
   gridDelLine,
   asLoose,
-  gridAddMalus,
+  addMalusBlocks,
+  newRot,
+  newCoords,
+  updatePieceRot,
 }

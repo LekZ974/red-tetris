@@ -3,10 +3,9 @@ import { initialState } from '../../../src/client/reducers/user/user'
 import {
   USER_CONNECT,
   USER_INIT,
-  USER_LOGIN
+  EMIT_USER_LOGIN,
+  RCV_USER_LOGIN, USER_UPDATE, USER_UPDATE_GRID,
 } from '../../../src/client/actions/user'
-import {GRID_HEIGHT, GRID_WIDTH} from "../../../src/common/grid";
-import {PIECES_NUM} from "../../../src/common/pieces";
 
 
 describe('user reducer test',()=>{
@@ -29,40 +28,54 @@ describe('user reducer test',()=>{
         id: '',
         name: '',
         gameName: '',
-        role: '',
+        role: 'master',
         connected: true,
         grid: [],
         completeLine: 0,
-        payload: {}
+        loosed: false,
+        payload: {},
+        isLoading: false,
       })
   })
-  it('should test USER_LOGIN when status is success', () =>{
+  it('should test EMIT_USER_LOGIN', () =>{
     expect(reducer(initialState,{
-      type:USER_LOGIN,
-      status:'success',
-      id:'1',
-      name:'Golden',
-      gameName: 'Fancy',
-      role:'master',
-      connected: true,
-      grid:[0,0,0],
-      completeLine: 0,
+      type:EMIT_USER_LOGIN,
+      userName: 'TOTO'
     }))
       .toEqual({
-        id:'1',
-        name:'Golden',
-        gameName: 'Fancy',
+        id:'',
+        name:'',
+        gameName: '',
         role:'master',
-        connected: true,
-        grid:[0,0,0],
+        connected: false,
+        grid:[],
         completeLine: 0,
-        payload: {}
+        payload: {},
+        loosed: false,
+        isLoading: true,
+      })
+  })
+  it('should test RCV_USER_LOGIN', () =>{
+    expect(reducer(initialState,{
+      type:RCV_USER_LOGIN,
+      somedata: "data",
+    }))
+      .toEqual({
+        id:'',
+        name:'',
+        gameName: '',
+        role:'master',
+        connected: false,
+        grid:[],
+        completeLine: 0,
+        payload: {},
+        loosed: false,
+        isLoading: false,
       })
   })
   it('should test USER_LOGIN when status is wrong', () =>{
     expect(reducer(initialState,{
-      type:USER_LOGIN,
-      status:'connected',
+      type:RCV_USER_LOGIN,
       payload:{
         id:'1',
         name:'Golden',
@@ -70,7 +83,8 @@ describe('user reducer test',()=>{
         role:'master',
         connected: true,
         completeLine: 0,
-        grid:[0,0,0]
+        grid:[0,0,0],
+        loosed: false,
       }
     }))
       .toEqual(initialState)
@@ -80,14 +94,47 @@ describe('user reducer test',()=>{
       id: '',
       name: '',
       gameName: '',
-      role: '',
-      connected: true,
+      role: 'master',
+      connected: false,
       grid: [],
       completeLine: 0,
-      payload: {}
+      payload: {},
+      loosed: false,
+      isLoading: false,
     }, {
       type:USER_INIT
     }))
       .toEqual(initialState)
+  })
+  it('should test USER_UPDATE', ()=>{
+    expect(reducer({
+      name: 'toto',
+      role: 'a role'
+    }, {
+      type:USER_UPDATE,
+      data: {role: 'A role for test'}
+    }))
+      .toEqual({name: 'toto', role:'A role for test'})
+  })
+  it('should test USER_UPDATE_GRID', ()=>{
+    expect(reducer({}, {
+      type:USER_UPDATE_GRID,
+      grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+    }))
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+  })
+  it('should test USER_UPDATE_GRID with a complete line', ()=>{
+    expect(reducer({}, {
+      type:USER_UPDATE_GRID,
+      grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1]]
+    }))
+      .toEqual({completeLine: 1, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+  })
+  it('should test USER_UPDATE_GRID with a lost grid', ()=>{
+    expect(reducer({}, {
+      type:USER_UPDATE_GRID,
+      grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1]]
+    }))
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0,0,0,1,0], [1,1,0,1,1]], loosed: true})
   })
 })

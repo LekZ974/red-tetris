@@ -1,4 +1,4 @@
-import {GET_GAMES} from '../../actions/games'
+import {EMIT_GET_GAMES, RCV_GET_GAMES} from '../../actions/games'
 import {reducerGetGames} from "./functions";
 
 export const initialState = {
@@ -8,11 +8,17 @@ export const initialState = {
 
 export default function GamesReducer (state = initialState, action = {}) {
   switch (action.type) {
-    case GET_GAMES: {
+    case EMIT_GET_GAMES: {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }
+    case RCV_GET_GAMES: {
       return reducerGetGames(state, action)
     }
     default:
-      return state
+      return {...state}
   }
 }
 

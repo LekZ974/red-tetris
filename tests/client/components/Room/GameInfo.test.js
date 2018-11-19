@@ -10,13 +10,17 @@ const spectres = [
   {name: 'spectre3', gameSpectre: [2,12,14,8,8,3,9,15,8,8]}
 ]
 
+const user = {
+  loosed: false,
+}
+
 describe('>>>>GAMEINFO', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<GameInfo spectres={spectres}/>)
+    const wrapper = shallow(<GameInfo user={user} spectres={spectres}/>)
   })
   it('GameInfo display', () => {
     const component = renderer.create(
-      <GameInfo spectres={spectres}/>,
+      <GameInfo user={user} spectres={spectres}/>,
     );
     let tree = component.toJSON();
     expect(tree).to.matchSnapshot();

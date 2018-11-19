@@ -1,5 +1,5 @@
 import * as actions from '../../../src/client/actions/user'
-import {USER_CONNECT, USER_INIT,USER_LOGIN} from '../../../src/client/actions/user';
+import {USER_CONNECT, USER_INIT, EMIT_USER_LOGIN} from '../../../src/client/actions/user';
 
 describe('user test all actions', () => {
   it('should test connect function', () => {
@@ -7,7 +7,7 @@ describe('user test all actions', () => {
     }
   )
   it('should test login function', () => {
-      expect(actions.login("Graziella")).toEqual({type:USER_LOGIN, userName: "Graziella"})
+      expect(actions.emitLogin("Graziella")).toEqual({type:EMIT_USER_LOGIN, userName: "Graziella"})
     }
   )
   it('should test init function', () => {
