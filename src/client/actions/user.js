@@ -12,6 +12,8 @@ export const RCV_USER_LEAVE_GAME = 'user/RCV_USER_LEAVE_GAME'
 export const EMIT_USER_JOIN_GAME = 'user/EMIT_USER_JOIN_GAME'
 export const RCV_USER_JOIN_GAME = 'user/RCV_USER_JOIN_GAME'
 
+export const EMIT_USER_LOST = 'user/EMIT_USER_LOST'
+
 export const USER_INIT = 'user/USER_INIT'
 export const USER_UPDATE = 'user/USER_UPDATE'
 export const USER_UPDATE_GRID = 'user/USER_UPDATE_GRID'
@@ -48,6 +50,10 @@ export const emitLeaveGame = () => ({
 export const rcvLeaveGame = data => ({
   type: RCV_USER_LEAVE_GAME,
   data,
+})
+
+export const emitUserLost = () => ({
+  type: EMIT_USER_LOST
 })
 
 export const updateUser = data => ({

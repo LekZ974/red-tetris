@@ -1,9 +1,8 @@
-export const ALERT_POP = 'ALERT_POP'
+export const DISPLAY_COMMAND = 'DISPLAY_COMMAND'
 
-export const alert = (message) => {
+export const displayCommand = () => {
   return {
-    type: ALERT_POP,
-    message
+    type: DISPLAY_COMMAND,
   }
 }
 

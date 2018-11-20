@@ -1,5 +1,6 @@
-import React  from 'react'
+import React  from 'react';
 
+import {Box, Modal, Button} from "../block";
 import {Grid} from "./Grid"
 /**
  * Forme
@@ -18,25 +19,35 @@ import {Grid} from "./Grid"
  * 3=>270
  */
 const commandes = () => (
-  <div style={{ border: '1px, solid blue' }}>
-    <h5 style={{ textAlign: 'center' }}>Commandes</h5>
+  <Box style={{ borderRadius: '5px, solid blue' }}>
+    <h2 style={{ textAlign: 'center' }}>Commandes</h2>
     <span style={{ marginRight: '60px' }}>&rarr; ou &larr;</span> Déplacement horizontal à gauche ou à droite<br/>
     <span style={{ marginRight: '110px' }}>&uarr;</span>Rotation<br/>
     <span style={{ marginRight: '110px' }}>&darr;</span>Chute en direction du tas<br/>
     <span style={{ marginRight: '55px', height: '16px', width: '100px', border: '1px solid black', textAlign: 'center', paddingLeft: '20px', paddingRight: '20px', fontSize: '10px' }}>Space</span>
       Déplacement vertical afin de positionner une pièce dans un trou du tas<br/>
-  </div>
+  </Box>
 )
 
-const PlayGround = () =>{
+const PlayGround = (props) =>{
+
+  const {displayCommand, showCommand} = props
 
   return(
     <div>
       <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
       <Grid/>
-      <div style={{clear:'both', paddingTop:'70px'}}>
-        {commandes()}
-      </div>
+      <Box style={{clear:'both', paddingTop:'90px'}} center flex flexDirection={'column'}>
+        <Modal open={showCommand} onClose={displayCommand}>
+          {commandes()}
+        </Modal>
+        <Button
+          style={{backgroundColor:'#ff8b23'}}
+          onClick={() => displayCommand()}
+        >
+          Show Command
+        </Button>
+      </Box>
     </div>
   )
 }

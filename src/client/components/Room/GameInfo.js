@@ -47,7 +47,6 @@ class GameInfo extends Component {
           <h3 style={{textAlign:"center"}}>Game Info</h3>
           {displaySpectre}
           <div>
-            {user.loosed && <h4>You lost!!</h4>}
           </div>
         </div>
       )

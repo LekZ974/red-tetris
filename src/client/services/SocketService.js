@@ -3,7 +3,7 @@ import { PIECES_NUM } from "../../common/pieces";
 import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
-import {updateUser, rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin} from "../actions/user";
+import {updateUser, rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost} from "../actions/user";
 import {rcvGetGames} from "../actions/games";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
@@ -78,6 +78,10 @@ const emitGetGames = () => {
   socket.emit('getGames')
 }
 
+const emitUserLoose = () => {
+  store.dispatch(emitUserLost())
+}
+
 export {
   rcvPlayerLogged,
   rcvGameExists,
@@ -94,4 +98,5 @@ export {
   emitGameStatus,
   emitLeaveGame,
   emitGetGames,
+  emitUserLoose,
 }

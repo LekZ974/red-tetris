@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
+import alert from './alert'
 import user from './user/user'
 import games from './games/games'
 import game from './game/game'
@@ -7,6 +8,7 @@ import tetrimino from './tetrimino/tetrimino'
 import {EMIT_GAME_STATUS} from "../actions/game";
 
 const appReducer = combineReducers({
+  alert,
   user,
   games,
   game,

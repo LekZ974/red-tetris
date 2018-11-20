@@ -1,17 +1,17 @@
 import React from 'react'
 import Box from './Box'
-import { PulseLoader } from 'react-spinners'
 
 const LoadingContainer = ({
   isLoading,
   isEmpty,
   emptyLabel = "Pas d'éléments",
+  spinner,
   children
 }) => {
   if (isLoading) {
     return (
       <Box center flex>
-        <PulseLoader />
+        {spinner}
       </Box>
     )
   }

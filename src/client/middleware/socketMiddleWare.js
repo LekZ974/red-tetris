@@ -16,7 +16,7 @@ import {
   USER_CONNECT,
   updateUser,
   emitJoinGame,
-  RCV_USER_LOGIN, EMIT_USER_LEAVE_GAME, RCV_USER_LEAVE_GAME,
+  RCV_USER_LOGIN, EMIT_USER_LEAVE_GAME, RCV_USER_LEAVE_GAME, EMIT_USER_LOST,
 } from "../actions/user";
 import {store} from "../index";
 import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
@@ -119,11 +119,17 @@ const socketMiddleware = socket => ({dispatch}) => {
         case TETRI_NEW : {
           return next(action)
         }
+        case EMIT_USER_LOST : {
+          return next(action)
+        }
         default: {
           break;
         }
       }
       if (thenFn) thenFn(dispatch)
+    }
+    if (store.getState().user.loosed && store.getState().game.start) {
+      SocketService.emitUserLoose()
     }
     if (store.getState().tetrimino.needNext) {
       emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))

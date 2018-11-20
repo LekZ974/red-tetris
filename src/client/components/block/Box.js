@@ -1,5 +1,6 @@
 import styled from 'react-emotion'
 import {
+  opacity,
   space,
   width,
   fontSize,
@@ -98,8 +99,9 @@ const Box = styled('div')(
         backgroundColor: '#F6F7FB',
         flex: 1
       }
-      : {})
+      : {}),
   }),
+  opacity,
   space,
   width,
   fontSize,
