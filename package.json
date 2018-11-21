@@ -71,6 +71,7 @@
     "eslint": "^4.0.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-react": "^7.10.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.4.1",
     "jest-matcher-one-of": "^0.1.2",
     "mock-socket": "^8.0.5",
@@ -94,6 +95,24 @@
     ]
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js"
+    "verbose": true,
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
+    "moduleDirectories": [
+      "node_modules"
+    ]
   }
 }
