@@ -3,7 +3,7 @@ import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
 import { Route } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
-import { toast } from 'react-toastify';
+import {notify} from "../../utils/eventHandler";
 
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
@@ -27,63 +27,6 @@ const FakeSpectre = [
     gameSpectre:[2,16,14,5,3,3,9,17,8,8]
   }
 ]
-
-const notify = (message, type) => {
-
-  switch (type) {
-    case 'success': {
-      toast.success(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      break;
-    }
-    case 'error': {
-      toast.error(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,      });
-      break;
-    }
-    case 'warning': {
-      toast.warn(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,      });
-      break;
-    }
-    case 'info': {
-      toast.info(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,      });
-      break;
-    }
-    default: {
-      toast(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,      });
-      break;
-    }
-  }
-};
 
 const Room = (props) => {
   const {user, game, match, createGame, login, showCommand} = props
@@ -143,7 +86,6 @@ const mapStateToProps = state => {
 
   if (state.user.grid.length < 1 && state.user.loosed && state.game.start) {
     state.game.start = false
-    notify('You loose!!', 'error')
   }
 
   return {

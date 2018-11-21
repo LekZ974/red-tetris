@@ -23,6 +23,7 @@ import {
   RCV_USER_CAN_START,
 } from "../actions/user";
 import {store} from "../index";
+import {notify} from "../utils/eventHandler";
 import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
@@ -99,6 +100,9 @@ const socketMiddleware = socket => ({dispatch}) => {
         case RCV_USER_CAN_START : {
           if ('KO' === action.data) {
             store.dispatch(updateUser({role: 'challenger'}))
+            notify('You are a challenger', 'info')
+          } else {
+            notify('You are the master!', 'info')
           }
           break;
         }
@@ -127,6 +131,7 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case EMIT_USER_LOST : {
+          notify('You loose!!', 'error')
           return next(action)
         }
         default: {
