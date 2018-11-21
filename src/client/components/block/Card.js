@@ -1,6 +1,6 @@
 import styled from 'react-emotion'
 import Box from './Box'
-import theme from '../theme'
+import theme from '../../theme'
 import PropTypes from 'prop-types'
 import { borderRadius, propTypes } from 'styled-system'
 

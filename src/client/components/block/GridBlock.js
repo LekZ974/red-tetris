@@ -94,9 +94,7 @@ const GridBlock = (props) => {
       width:'10%',
       marginTop: props.pos +'px',
       ...propsBlock,
-    }}>
-
-    </div>
+    }} />
   )
 }
 

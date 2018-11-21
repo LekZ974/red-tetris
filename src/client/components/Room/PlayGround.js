@@ -1,4 +1,7 @@
 import React  from 'react';
+import Tada from 'react-reveal/Tada';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCrown, faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import {Box, Modal, Button} from "../block";
 import {Grid} from "./Grid"
@@ -31,11 +34,11 @@ const commandes = () => (
 
 const PlayGround = (props) =>{
 
-  const {displayCommand, showCommand} = props
+  const {displayCommand, showCommand, user} = props
 
   return(
     <div>
-      <h3 style={{ textAlign: 'center' }}>PlayGround</h3>
+      <h3 style={{ textAlign: 'center' }}>{'master' === user.role ? <Tada><FontAwesomeIcon icon={faCrown}/></Tada> : <Tada><FontAwesomeIcon icon={faUserNinja}/></Tada>} {user.name}</h3>
       <Grid/>
       <Box style={{clear:'both', paddingTop:'90px'}} center flex flexDirection={'column'}>
         <Modal open={showCommand} onClose={displayCommand}>

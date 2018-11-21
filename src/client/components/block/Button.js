@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import theme from '../theme'
+import theme from '../../theme'
 import PropTypes from 'prop-types'
 import Color from 'color'
 import { propTypes, space } from 'styled-system'

@@ -4,7 +4,7 @@ import { space, theme, propTypes } from 'styled-system'
 import PropTypes from 'prop-types'
 
 import { Box, Error, Help } from './'
-import defaultTheme from '../theme'
+import defaultTheme from '../../theme'
 
 const borders = ({ color, theme }) => {
   const borderColor = color ? theme.colors[color] : theme.colors.borderGray

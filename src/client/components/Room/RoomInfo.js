@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
+import React  from 'react'
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChessRook } from '@fortawesome/free-solid-svg-icons'
+import Jump from 'react-reveal/Jump';
 
-import {Button} from "../block";
+import {Button, Box} from "../block";
 
 
 const RoomInfo = (props) =>{
@@ -36,14 +39,18 @@ const RoomInfo = (props) =>{
   }
 
   return(
-    <div>
-      <div>RoomInfo</div>
-      <h1>PLAYER:{user.name}</h1>
-      <h1>ROOM:{game.name}</h1>
-      {user.role === 'master' && <Button style={buttonValue === 'Start' ? styles.buttonStart : styles.buttonPause} onClick={changeGameFlow}>{buttonValue}</Button>}
-      {user.role === 'master' && <Button style={styles.buttonStop} onClick={changeGameFlow}>Stop</Button>}
-      <Button onClick={leaveRoom}><Link style={styles.link} to={'/'}>Leave Game</Link></Button>
-    </div>
+    <Box flex flexDirection={'column'} container center>
+      <Box>RoomInfo</Box>
+      <Box flex flexDirection={'row'}>
+        <h1><Jump><FontAwesomeIcon icon={faChessRook} /> Room :</Jump></h1>
+      </Box>
+      <Box style={{marginTop: 0}}>
+        <h1>{game.name}</h1>
+      </Box>
+      {user.role === 'master' && <Box><Button style={buttonValue === 'Start' ? styles.buttonStart : styles.buttonPause} onClick={changeGameFlow}>{buttonValue}</Button></Box>}
+      {user.role === 'master' && <Box><Button style={styles.buttonStop} onClick={changeGameFlow}>Stop</Button></Box>}
+      <Box><Button onClick={leaveRoom}><Link style={styles.link} to={'/'}>Leave Game</Link></Button></Box>
+    </Box>
   )
 }
 

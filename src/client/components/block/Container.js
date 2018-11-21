@@ -1,5 +1,5 @@
 import styled from 'react-emotion'
-import theme from '../theme'
+import theme from '../../theme'
 import PropTypes from 'prop-types'
 
 import { Box } from './'
