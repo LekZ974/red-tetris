@@ -23,7 +23,7 @@ import {
   RCV_USER_CAN_START,
 } from "../actions/user";
 import {store} from "../index";
-import {notify} from "../utils/eventHandler";
+import {notify} from "../utils/notificationHandler";
 import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";

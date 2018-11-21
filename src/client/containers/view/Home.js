@@ -6,7 +6,7 @@ import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
 import {init} from "../../actions/user";
 import {emitGetGames} from "../../actions/games";
-import {notify} from "../../utils/eventHandler";
+import {notify} from "../../utils/notificationHandler";
 
 class Home extends React.Component {
 

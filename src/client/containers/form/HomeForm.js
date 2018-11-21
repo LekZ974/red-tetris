@@ -1,10 +1,10 @@
-import React , {Component} from 'react'
+import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import {Input, Error, Button} from "../../components/block";
+import {Input, Button} from "../../components/block";
 import {maxLength15, minLength3, required} from "../../utils/formValidation"
 import {connect} from "../../actions/user"
 import { push } from 'connected-react-router'
-import {notify} from "../../utils/eventHandler";
+import {notify} from "../../utils/notificationHandler";
 
 const handleClick = (form, e) => {
 

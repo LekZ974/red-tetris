@@ -3,7 +3,6 @@ import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
 import { Route } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
-import {notify} from "../../utils/eventHandler";
 
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
