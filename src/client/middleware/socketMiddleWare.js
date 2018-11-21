@@ -16,7 +16,11 @@ import {
   USER_CONNECT,
   updateUser,
   emitJoinGame,
-  RCV_USER_LOGIN, EMIT_USER_LEAVE_GAME, RCV_USER_LEAVE_GAME, EMIT_USER_LOST,
+  RCV_USER_LOGIN,
+  EMIT_USER_LEAVE_GAME,
+  RCV_USER_LEAVE_GAME,
+  EMIT_USER_LOST,
+  RCV_USER_CAN_START,
 } from "../actions/user";
 import {store} from "../index";
 import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
@@ -87,11 +91,14 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_CREATE_GAME : {
-          if ('KO' === action.data) {
-            store.dispatch(updateUser({role: 'challenger'}))
-          }
           if (!store.getState().user.gameName) {
             store.dispatch(emitJoinGame(store.getState().user.name, store.getState().game.name))
+          }
+          break;
+        }
+        case RCV_USER_CAN_START : {
+          if ('KO' === action.data) {
+            store.dispatch(updateUser({role: 'challenger'}))
           }
           break;
         }

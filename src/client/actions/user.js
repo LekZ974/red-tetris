@@ -13,6 +13,7 @@ export const EMIT_USER_JOIN_GAME = 'user/EMIT_USER_JOIN_GAME'
 export const RCV_USER_JOIN_GAME = 'user/RCV_USER_JOIN_GAME'
 
 export const EMIT_USER_LOST = 'user/EMIT_USER_LOST'
+export const RCV_USER_CAN_START = 'user/RCV_USER_CAN_START'
 
 export const USER_INIT = 'user/USER_INIT'
 export const USER_UPDATE = 'user/USER_UPDATE'
@@ -54,6 +55,11 @@ export const rcvLeaveGame = data => ({
 
 export const emitUserLost = () => ({
   type: EMIT_USER_LOST
+})
+  
+export const rcvUserCanStart = data => ({
+  type: RCV_USER_CAN_START,
+  data,
 })
 
 export const updateUser = data => ({

@@ -3,7 +3,7 @@ import { PIECES_NUM } from "../../common/pieces";
 import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
-import {updateUser, rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost} from "../actions/user";
+import {updateUser, rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCanStart} from "../actions/user";
 import {rcvGetGames} from "../actions/games";
 import {tetriNew} from "../actions/tetrimino";
 import {shapeHandler} from "../utils/shapeHandler";
@@ -25,6 +25,10 @@ const rcvGameExists = data => {
   store.dispatch(rcvCreateGame(data))
 }
 
+const rcvGameCanStart = data => {
+  store.dispatch(rcvUserCanStart(data))
+}
+
 const rcvNewShape = data => {
   store.dispatch(rcvNewPieces(data))
 }
@@ -37,12 +41,18 @@ const rcvGames = data => {
   store.dispatch(rcvGetGames(data))
 }
 
+const rcvGridUpdated = data => {
+  //dispatch updateGrid here but need data with grid
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
+socket.on('canStart', rcvGameCanStart)
 socket.on('emittedShape', rcvNewShape)
 socket.on('leftGame', rcvLeftGame)
 socket.on('gamesSent', rcvGames)
+socket.on('boardUpdated', rcvGridUpdated)
 
 //EMIT
 
@@ -63,6 +73,7 @@ const emitNeedPieces = () => {
 }
 
 const emitUpdateGrid = grid => {
+  socket.emit('updateBoard', grid)
   store.dispatch(updateGrid(grid))
 }
 
