@@ -53,7 +53,23 @@ io.on('connection', (client) => {
 
     client.on(routes.LEAVE_GAME, () => {
         let res = routeHandler.leaveGame(client, activeGames)
-        io.to(client.id).emit(routes.LEFT_GAME, res)
+
+        if (res !== null) {
+            if (res.masterStat) {
+                let stat = {
+                    isMaster : true
+                }
+
+                client.leave(res.masterStat.gameName);
+                io.to(res.masterStat.newMaster.socketID).emit(routes.STATUS_UPDATE, stat)
+                io.to(client.id).emit(routes.LEFT_GAME, 'OK')
+            } else if (res.challengerStat) {
+                client.leave(res.challengerStat.gameName)
+                io.to(client.id).emit(routes.LEFT_GAME, 'OK')
+            }
+        } else {
+            io.to(client.id).emit(routes.LEFT_GAME, 'KO')
+        }
     })
 
     client.on(routes.START_GAME, () => {
