@@ -1,6 +1,7 @@
 import routes from '../constants/routes'
 
 import Player from '../controllers/player'
+import Spectre from '../controllers/spectre'
 import * as idHandler from './idHandler'
 import * as gameHandler from './gameHandler'
 
@@ -108,8 +109,11 @@ const startGame = function(client, activeGames) {
             return ret
         }
         if (game.challenger.length > 0) {
-			for (let i = 0; i < game.challenger.length; i++)
+			game.master.spectre = new Spectre(gameHandler.initBoard())
+			for (let i = 0; i < game.challenger.length; i++) {
 				game.challenger[i].board = gameHandler.initBoard()
+				game.challenger[i].spectre = new Spectre(gameHandler.initBoard())
+			}
         }
         ret = game;
     }
