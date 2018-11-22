@@ -1,9 +1,9 @@
-import { store } from "../index";
-import io from "socket.io-client";
-import params from "../../../params";
-import {rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCanStart} from "../actions/user";
+import { store } from "../index"
+import io from "socket.io-client"
+import params from "../../../params"
+import {rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCanStart} from "../actions/user"
 import {rcvGetGames} from "../actions/games";
-import {needNewPieces, rcvCreateGame, rcvGameStatus, rcvNewPieces, updateGameStatus} from "../actions/game";
+import {rcvCreateGame, rcvGameStatus, rcvNewPieces} from "../actions/game"
 
 const socket = io.connect(params.server.url);
 
