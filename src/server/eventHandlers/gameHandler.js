@@ -115,15 +115,25 @@ const getShape = function(game, clientId) {
 }
 
 const changeMaster = function(game) {
-	let ret = false
+	let ret = null
 
+	game.master.master = false;
 	if (game.challenger.length > 0) {
-		game.master = game.challenger[0]
-		game.master.master = true;
-		game.challenger.shift()
-		ret = true
-	}
-	return ret
+        let stat = {
+            gameName: null,
+            newMaster: null,
+            prevMaster: null
+        }
+
+        stat.gameName = game.roomName
+        stat.prevMaster = game.master
+        stat.newMaster = game.challenger[0]
+        game.master = game.challenger[0]
+        game.master.master = true;
+        game.challenger.shift()
+        ret = stat
+    }
+    return ret
 }
 
 const destroyGame = function(game, activeGames) {
