@@ -45,6 +45,10 @@ const rcvGridUpdated = data => {
   //dispatch updateGrid here but need data with grid
 }
 
+const rcvGameIsStarted = data => {
+  store.dispatch(rcvGameStatus('Start'))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -53,6 +57,7 @@ socket.on('emittedShape', rcvNewShape)
 socket.on('leftGame', rcvLeftGame)
 socket.on('gamesSent', rcvGames)
 socket.on('boardUpdated', rcvGridUpdated)
+socket.on('gameStarted', rcvGameIsStarted)
 
 //EMIT
 
@@ -77,8 +82,16 @@ const emitUpdateGrid = grid => {
   store.dispatch(updateGrid(grid))
 }
 
-const emitGameStatus = (status, game) => {
-  store.dispatch(rcvGameStatus(status, game))
+const emitGameStatus = (status) => {
+  switch (status) {
+    case 'Start' : {
+      socket.emit('startGame')
+      break;
+    }
+    default : {
+      store.dispatch(rcvGameStatus(status))
+    }
+  }
 }
 
 const emitLeaveGame = () => {

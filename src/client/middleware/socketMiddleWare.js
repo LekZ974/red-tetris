@@ -107,7 +107,7 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case EMIT_GAME_STATUS : {
-          SocketService.emitGameStatus(action.gameStatus, action.game)
+          SocketService.emitGameStatus(action.gameStatus)
           break;
         }
         case EMIT_NEW_PIECES : {
