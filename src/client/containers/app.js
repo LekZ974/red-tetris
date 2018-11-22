@@ -4,7 +4,6 @@ import { HashRouter as Router, Route } from 'react-router-dom'
 import Home from './view/Home'
 import Room from './view/Room'
 
-
 const getConfirmation = (message, callback) => {
   const allowTransition = window.confirm(message)
   callback(allowTransition)

@@ -7,7 +7,7 @@ import {
   lineHeight,
   textAlign
 } from 'styled-system'
-import theme from '../theme'
+import theme from '../../theme'
 
 export const caps = props =>
   props.caps

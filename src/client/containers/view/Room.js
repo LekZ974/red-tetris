@@ -1,12 +1,16 @@
 import React from 'react'
-import { Box, Card } from '../../components/block'
+import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
 import { Route } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
+import GridLoader from 'react-spinners/GridLoader';
+
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
 import {emitCreateGame, emitGameStatus} from "../../actions/game";
 import {emitLogin, emitLeaveGame} from "../../actions/user";
+import {displayCommand} from "../../actions/alert";
 
 const FakeSpectre = [
   {
@@ -24,7 +28,7 @@ const FakeSpectre = [
 ]
 
 const Room = (props) => {
-  const {user, game, match, createGame, login} = props
+  const {user, game, match, createGame, login, showCommand} = props
 
   if (!user.name && !user.isLoading) {
     login(match.params.user)
@@ -34,26 +38,37 @@ const Room = (props) => {
     createGame(match.params.room)
   }
 
-  if (!user.gameName || user.isLoading) {
-    return (
-      <div>IS LOADING</div>
-    )
-  }
-
   return (
-  <Box flex flexDirection='column' align='stretch'>
-    <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
-      <Card flex={1} width={'40em'}>
-        <RoomInfo {...props} />
-      </Card>
-      <Card flex={1} width={'40em'}>
-        <PlayGround game={game} tetrimino={20}/>
-      </Card>
-      <Card flex={1} width={'40em'}>
-        <GameInfo spectres={FakeSpectre} game={game} user={user}/>
-      </Card>
-      <Route path={`${match.path}/:user`} render={({match}) => (<div><h3> {match.params.userName} </h3></div>)}/>
-    </Box>
+  <Box height={'100vh'} flex flexDirection='column' align='stretch' container>
+    <Toaster/>
+    <LoadingContainer
+      isLoading={!user.gameName || user.isLoading}
+      isEmpty={!user.gameName || !user.name}
+      spinner={
+        <Fade big>
+          <GridLoader
+            color={'#ff8b23'}
+            size={75}
+          />
+        </Fade>
+      }
+      emptyLabel='Something is wrong'
+    >
+      <Fade big>
+        <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
+          <Card flex={1} width={'40em'}>
+            <RoomInfo {...props} />
+          </Card>
+          <Card flex={1} width={'40em'}>
+            <PlayGround {...props} />
+          </Card>
+          <Card flex={1} width={'40em'}>
+            <GameInfo spectres={FakeSpectre} game={game} user={user}/>
+          </Card>
+          <Route path={`${match.path}/:user`} render={({match}) => (<div><h3> {match.params.userName} </h3></div>)}/>
+        </Box>
+      </Fade>
+    </LoadingContainer>
   </Box>
   )
 }
@@ -63,13 +78,19 @@ const mapDispatchToProps = dispatch => ({
   createGame: gameName => dispatch(emitCreateGame(gameName)),
   updateGameStatus: (status, game) => dispatch(emitGameStatus(status, game)),
   leaveGame: () => dispatch(emitLeaveGame()),
+  displayCommand: () => dispatch(displayCommand())
 })
 
 const mapStateToProps = state => {
 
+  if (state.user.grid.length < 1 && state.user.loosed && state.game.start) {
+    state.game.start = false
+  }
+
   return {
     user: state.user,
-    game: state.game,
+    game: Object.assign({}, state.game),
+    showCommand: state.alert.showCommand
   }
 };
 

@@ -9,6 +9,7 @@ import {
   RCV_USER_JOIN_GAME,
   EMIT_USER_LEAVE_GAME,
   RCV_USER_LEAVE_GAME,
+  EMIT_USER_LOST,
 } from '../../actions/user'
 import * as TetriService from '../../services/TetriService';
 
@@ -93,6 +94,12 @@ export default function UserReducer (state = initialState, action = {}) {
         completeLine: nbLineDel,
         grid: newGrid,
         loosed: loose,
+      }
+    }
+    case EMIT_USER_LOST: {
+      return {
+        ...state,
+        grid: [],
       }
     }
     default:

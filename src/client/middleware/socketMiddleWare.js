@@ -16,9 +16,14 @@ import {
   USER_CONNECT,
   updateUser,
   emitJoinGame,
-  RCV_USER_LOGIN, EMIT_USER_LEAVE_GAME, RCV_USER_LEAVE_GAME, RCV_USER_CAN_START,
+  RCV_USER_LOGIN,
+  EMIT_USER_LEAVE_GAME,
+  RCV_USER_LEAVE_GAME,
+  EMIT_USER_LOST,
+  RCV_USER_CAN_START,
 } from "../actions/user";
 import {store} from "../index";
+import {notify} from "../utils/notificationHandler";
 import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
@@ -95,6 +100,9 @@ const socketMiddleware = socket => ({dispatch}) => {
         case RCV_USER_CAN_START : {
           if ('KO' === action.data) {
             store.dispatch(updateUser({role: 'challenger'}))
+            notify('You are a challenger', 'info')
+          } else {
+            notify('You are the master!', 'info')
           }
           break;
         }
@@ -122,11 +130,18 @@ const socketMiddleware = socket => ({dispatch}) => {
         case TETRI_NEW : {
           return next(action)
         }
+        case EMIT_USER_LOST : {
+          notify('You loose!!', 'error')
+          return next(action)
+        }
         default: {
           break;
         }
       }
       if (thenFn) thenFn(dispatch)
+    }
+    if (store.getState().user.loosed && store.getState().game.start) {
+      SocketService.emitUserLoose()
     }
     if (store.getState().tetrimino.needNext) {
       emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))

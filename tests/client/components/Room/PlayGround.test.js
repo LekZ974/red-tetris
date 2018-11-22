@@ -14,6 +14,11 @@ const game = {
   start: true
 }
 
+const user = {
+  role: 'a role',
+  name: 'A name',
+}
+
 const initialState = {
 }
 
@@ -22,7 +27,7 @@ describe('>>>>PLAYGROUND - REACT-REDUX (Shallow + passing the {store} directly',
   let wrapper;
   beforeEach(() => {
     const store = mockStore(initialState)
-    wrapper = shallow(<ConnectedPlayground game={game} store={store}/>)
+    wrapper = shallow(<ConnectedPlayground user={user} game={game} store={store}/>)
   })
   it('renders without crashing', () => {
     expect(wrapper.length).to.equal(1)

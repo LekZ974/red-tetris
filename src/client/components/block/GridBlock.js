@@ -8,81 +8,82 @@ const GridBlock = (props) => {
   switch (blockId) {
     case 0 : default: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#504d4c',
+        backgroundColor: '#c9c4ce',
+        border: 'solid',
+        borderColor: '#FAF1FF #918C96 #918C96 #FAF1FF'
       }
       break;
     }
     case 1: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#d8db10',
+        backgroundColor: '#66b847',
+        border: 'solid',
+        borderColor: '#79D652 #396A2C #396A2C #79D652'
+
       }
       break;
     }
     case 2: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#ff541e',
+        backgroundColor: '#4951be',
+        border: 'solid',
+        borderColor: '#515ADE #2E336A #2E336A #515ADE'
       }
       break;
     }
     case 3: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#40ed6d',
+        backgroundColor: '#a445bd',
+        border: 'solid',
+        borderColor: '#C44FE0 #933FAC #933FAC #C44FE0'
       }
       break;
     }
     case 4: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#eead68',
+        backgroundColor: '#cb6d1e',
+        border: 'solid',
+        borderColor: '#EE8221 #8C7518 #8C7518 #EE8221'
       }
       break;
     }
     case 5: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#fb28f9',
+        backgroundColor: '#ba2f1c',
+        border: 'solid',
+        borderColor: '#E83722 #7C3B20 #7C3B20 #E83722'
       }
       break;
     }
     case 6: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#2128e6',
+        backgroundColor: '#4ebdb2',
+        border: 'solid',
+        borderColor: '#59DFD4 #337A70 #337A70 #59DFD4'
       }
       break;
     }
     case 7: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#f6001b',
+        backgroundColor: '#d4d519',
+        border: 'solid',
+        borderColor: '#FEFF1E #9C9D14 #9C9D14 #FEFF1E'
       }
       break;
     }
     case 8: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
         backgroundColor: '#86aec7',
+        border: 'solid',
+        borderColor: '#A3D7F5 #546f85 #546f85 #A3D7F5'
       }
       break;
     }
     case 9: {
       propsBlock = {
-        borderBottomColor: '#394A56',
-        borderRightColor: '#394A56',
-        backgroundColor: '#000000',
+        backgroundColor: '#777777',
+        border: 'solid',
+        borderColor: '#ababab #666666 #666666 #ababab'
       }
       break;
     }
@@ -92,11 +93,8 @@ const GridBlock = (props) => {
       height:'100%',
       width:'10%',
       marginTop: props.pos +'px',
-      border: '3px solid #223345',
       ...propsBlock,
-    }}>
-
-    </div>
+    }} />
   )
 }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import Fade from 'react-reveal/Fade';
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
 import GridBlock from '../block/GridBlock';
@@ -7,6 +8,7 @@ const GridUserComponent = (state) => {
   const { gridRender } = state
 
   return(
+    <Fade>
     <div style={{height: '60vh'}}>
       {gridRender.map((row, key) =>
       key > 2 && (<div key={key} style={{display: 'flex', flexDirection: 'row', height: '6%'}}>
@@ -14,6 +16,7 @@ const GridUserComponent = (state) => {
         </div>)
       )}
     </div>
+    </Fade>
   )
 }
 

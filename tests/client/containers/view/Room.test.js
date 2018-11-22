@@ -12,16 +12,22 @@ const mockStore = configureStore([
 const user = {
   userName: 'USERNAME',
   gameName: 'GAMENAME',
-  role: 'RoleOfUser'
+  role: 'RoleOfUser',
+  grid: [],
 }
 
 const game = {
   start: true
 }
 
+const alert = {
+  showCommand: false
+}
+
 const initialState = {
   user,
   game,
+  alert,
 }
 
 

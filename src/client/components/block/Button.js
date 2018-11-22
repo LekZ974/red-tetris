@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import theme from '../theme'
+import theme from '../../theme'
 import PropTypes from 'prop-types'
 import Color from 'color'
 import { propTypes, space } from 'styled-system'
@@ -48,6 +48,7 @@ const StyledButton = styled('button')`
   font-weight: 600;
   line-height: 1.5;
   cursor: pointer;
+  text-decoration: none
   border-radius: ${props => props.theme.radius};
   background-color: ${props => props.theme.colors.blue};
   color: ${props => props.theme.colors.white};
@@ -89,7 +90,7 @@ const Button = ({children, size, fullwidth, outline, ...props}) => {
   const CustomButton = (() => {
     return StyledButton
   })()
-  return <CustomButton>{children}</CustomButton>
+  return <CustomButton {...props}>{children}</CustomButton>
 }
 
 Button.displayName = 'Button'

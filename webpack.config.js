@@ -1,7 +1,8 @@
 const path = require('path');
-// const miniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
+  mode: 'development',
+
   entry: './src/client/index.js',
 
   output: {
@@ -19,10 +20,10 @@ module.exports = {
   },
 
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel',
+      loader: 'babel-loader',
       query:{
         presets: ["es2015", "react", "stage-0"]
       }
@@ -35,14 +36,9 @@ module.exports = {
     //     'resolve-url-loader',
     //     'sass-loader?sourceMap'
     //   ]
-    // }, {
-    //   test: /\.css$/,
-    //   use : [
-    //     'css-hot-loader',
-    //     miniCssExtractPlugin.loader,
-    //     'css-loader',
-    //     'resolve-url-loader'
-    //   ]
-    }],
+    }, {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    },],
   },
 };

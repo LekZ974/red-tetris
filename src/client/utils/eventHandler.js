@@ -1,7 +1,7 @@
 import {tetriAction} from "../actions/tetrimino";
 import {store} from "../index";
 
-const eventHandler = (event) => {
+export function eventHandler(event) {
   const user = store.getState().user;
   const game = store.getState().game;
   if (user.name && game.name) {
@@ -9,5 +9,3 @@ const eventHandler = (event) => {
     store.dispatch(tetriAction(event.code, game, user))
   }
 };
-
-export {eventHandler};

@@ -1,7 +1,5 @@
 import {store} from "../index";
-import {tetriInit, tetriStep} from "../actions/tetrimino";
-import * as SocketService from "../services/SocketService";
-import * as TetriService from "../services/TetriService";
+import {tetriStep} from "../actions/tetrimino";
 
 const ticking = () => {
   const game = store.getState().game
