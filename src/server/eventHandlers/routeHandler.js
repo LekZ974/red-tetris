@@ -65,23 +65,33 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
 
 const leaveGame = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
-    let ret = false
+    let ret = {
+        masterStat: null,
+        gameDestroy: false,
+        challengerStat: null
+    }
 	let index = -1
 
     if (!game)
-        return ret
+        return null
 	index = gameHandler.findChallengerIndex(client.id, game.challenger)
     if (game.master.socketID === client.id) {
-        ret = gameHandler.changeMaster(game)
-
-        if (!ret) {
-            let del = gameHandler.destroyGame(game, activeGames)
-            return del
+        if (game.challenger.length > 0) {
+            ret.masterStat = gameHandler.changeMaster(game)
+        } else {
+            ret.gameDestroy = gameHandler.destroyGame(game, activeGames)
         }
         return ret
     } else if (index > -1) {
+        let stat = {
+            gameName : null,
+            player : null
+        }
+
+        stat.gameName = game.roomName
+        stat.player = game.challenger[index]
         game.challenger.splice(index, 1)
-        ret = true
+        ret.challengerStat = stat
     }
     return ret
 }
