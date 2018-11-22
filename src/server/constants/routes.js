@@ -15,7 +15,8 @@ const routing = {
     LEFT_GAME: 'leftGame',
     CAN_START: 'canStart',
     UPDATE_BOARD: 'updateBoard',
-    BOARD_UPDATED: 'boardUpdated'
+    BOARD_UPDATED: 'boardUpdated',
+    UPDATE_STATUS: 'updateStatus'
 }
 
 export default routing
