@@ -5,7 +5,7 @@ import {rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCa
 import {rcvGetGames} from "../actions/games";
 import {rcvCreateGame, rcvGameStatus, rcvNewPieces} from "../actions/game"
 
-const socket = io.connect(params.server.url);
+const socket = io.connect(params.server.url)
 
 //RCV
 
