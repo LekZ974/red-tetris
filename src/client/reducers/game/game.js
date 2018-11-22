@@ -1,5 +1,5 @@
-import {EMIT_GAME_STATUS, EMIT_CREATE_GAME, RCV_CREATE_GAME, RCV_GAME_STATUS} from '../../actions/game';
-import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions';
+import {EMIT_GAME_STATUS, EMIT_CREATE_GAME, RCV_CREATE_GAME, RCV_GAME_STATUS} from '../../actions/game'
+import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions'
 
 export const initialState = {
   items: [],

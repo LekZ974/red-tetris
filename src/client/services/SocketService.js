@@ -1,12 +1,8 @@
-import { GRID_HEIGHT, GRID_WIDTH } from "../../common/grid";
-import { PIECES_NUM } from "../../common/pieces";
 import { store } from "../index";
 import io from "socket.io-client";
 import params from "../../../params";
-import {updateUser, rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCanStart} from "../actions/user";
+import {rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCanStart} from "../actions/user";
 import {rcvGetGames} from "../actions/games";
-import {tetriNew} from "../actions/tetrimino";
-import {shapeHandler} from "../utils/shapeHandler";
 import {needNewPieces, rcvCreateGame, rcvGameStatus, rcvNewPieces, updateGameStatus} from "../actions/game";
 
 const socket = io.connect(params.server.url);
