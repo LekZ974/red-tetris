@@ -2,7 +2,7 @@ import {initialState} from '../../../src/client/reducers/game/game';
 import reducer from '../../../src/client/reducers/game/game'
 import {
   EMIT_CREATE_GAME,
-  EMIT_GAME_STATUS,
+  RCV_GAME_STATUS,
   EMIT_NEW_PIECES,
 } from '../../../src/client/actions/game'
 
@@ -51,7 +51,7 @@ describe('Test game reducer', ()=> {
           pause: false,
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: RCV_GAME_STATUS,
           gameStatus: 'Start'
         })).toEqual({
         items: [],
@@ -71,7 +71,7 @@ describe('Test game reducer', ()=> {
           pause: false,
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: RCV_GAME_STATUS,
           gameStatus: 'rien'
         })).toEqual({
         items: [],
@@ -91,7 +91,7 @@ describe('Test game reducer', ()=> {
           pause: false,
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: RCV_GAME_STATUS,
           gameStatus: 'Pause'
         })).toEqual({
         items: [],
@@ -112,7 +112,7 @@ describe('Test game reducer', ()=> {
           params: {addMalus: true}
         }
         , {
-          type: EMIT_GAME_STATUS,
+          type: RCV_GAME_STATUS,
           gameStatus: 'Stop'
         })).toEqual({
         items: [],

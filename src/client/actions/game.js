@@ -13,9 +13,8 @@ export const emitGameStatus = (status, game) => ({
   gameStatus: status,
 })
 
-export const rcvGameStatus = (status, game) => ({
+export const rcvGameStatus = (status) => ({
   type: RCV_GAME_STATUS,
-  game: game,
   gameStatus: status,
 })
 
