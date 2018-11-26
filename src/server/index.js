@@ -61,7 +61,7 @@ io.on('connection', (client) => {
                 }
 
                 client.leave(res.masterStat.gameName);
-                io.to(res.masterStat.newMaster.socketID).emit(routes.STATUS_UPDATE, stat)
+                io.to(res.masterStat.newMaster.socketID).emit(routes.UPDATE_STATUS, stat)
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             } else if (res.challengerStat) {
                 client.leave(res.challengerStat.gameName)

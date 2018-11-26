@@ -1,9 +1,18 @@
 import { store } from "../index"
 import io from "socket.io-client"
 import params from "../../../params"
-import {rcvJoinGame, updateGrid, rcvLeaveGame, rcvLogin, emitUserLost, rcvUserCanStart} from "../actions/user"
-import {rcvGetGames} from "../actions/games";
+import {
+  rcvJoinGame,
+  updateGrid,
+  rcvLeaveGame,
+  rcvLogin,
+  emitUserLost,
+  rcvUserCanStart,
+  updateUser,
+} from '../actions/user'
+import {rcvGetGames} from "../actions/games"
 import {rcvCreateGame, rcvGameStatus, rcvNewPieces} from "../actions/game"
+import {notify} from '../utils/notificationHandler'
 
 const socket = io.connect(params.server.url)
 
@@ -45,6 +54,13 @@ const rcvGameIsStarted = data => {
   store.dispatch(rcvGameStatus('Start'))
 }
 
+const rcvUserStatus = data => {
+  if (data.isMaster) {
+    store.dispatch(updateUser({role: 'master'}))
+    notify('You are the new master', 'info')
+  }
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -54,6 +70,7 @@ socket.on('leftGame', rcvLeftGame)
 socket.on('gamesSent', rcvGames)
 socket.on('boardUpdated', rcvGridUpdated)
 socket.on('gameStarted', rcvGameIsStarted)
+socket.on('updateStatus', rcvUserStatus)
 
 //EMIT
 
