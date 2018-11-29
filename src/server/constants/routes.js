@@ -16,7 +16,8 @@ const routing = {
     CAN_START: 'canStart',
     UPDATE_BOARD: 'updateBoard',
     BOARD_UPDATED: 'boardUpdated',
-    UPDATE_STATUS: 'updateStatus'
+    UPDATE_STATUS: 'updateStatus',
+    SPECTRES_UPDATED: 'spectresUpdated'
 }
 
 export default routing
