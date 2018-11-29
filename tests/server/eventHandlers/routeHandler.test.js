@@ -166,6 +166,25 @@ test('updateBoard', () => {
     expect(routeHandler.updateBoard(client2, activeGames, newBoard)).toMatchSnapshot()
 })
 
+test('generateSpectre', () => {
+    const grid = [
+        [0, 0, 0, 0, 0],
+        [1, 0 ,0, 0, 0],
+        [1, 1, 0, 0, 0],
+        [1, 0, 0, 0, 0]
+        [1, 1, 1, 1, 0]
+    ]
+    let player = routeHandler.login(userInfo, client, onlineUsers)
+    let player1 = routeHandler.login(userInfo1, client1, onlineUsers)
+    let create = routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
+    let join = routeHandler.joinGame(client1, onlineUsers, 'GAME1', activeGames)
+    let start = routeHandler.startGame(client, activeGames)
+    let ret = routeHandler.updateBoard(client, activeGames, grid)
+
+    if (ret.game)
+        expect(routeHandler.generateSpectre(ret.game)).toMatchSnapshot()
+})
+
 test('disconnect', () => {
 	routeHandler.login(userInfo, client, onlineUsers)
 	routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
