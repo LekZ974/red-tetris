@@ -86,7 +86,12 @@ io.on('connection', (client) => {
 
     client.on(routes.UPDATE_BOARD, (newBoard) => {
         let res = routeHandler.updateBoard(client, activeGames, newBoard)
-        io.to(client.id).emit(routes.BOARD_UPDATED, res)
+        io.to(client.id).emit(routes.BOARD_UPDATED, res.stat)
+        if (res.game) {
+            let spectre = routeHandler.generateSpectre(res.game)
+            if (spectre.length > 0)
+                io.to(res.game.roomName).emit(routes.SPECTRES_UPDATED, spectre)
+        }
     })
 
     client.on('disconnect', () => {
