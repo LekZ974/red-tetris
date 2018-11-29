@@ -153,6 +153,36 @@ const updateBoard = function(client, activeGames, newBoard) {
     return ret
 }
 
+const generateSpectre = function(game) {
+    let allSpectres = []
+    let mcontents = {
+        role: null,
+        login: null,
+        spectre: null
+    }
+
+    if (game.challenger.length > 0) {
+        mcontents.role = 'Master'
+        mcontents.login = game.master.playerID
+        mcontents.spectre = game.master.spectre.generateSpectre(game.master.board);
+        allSpectres.push(mcontents)
+
+        for (let i = 0; i < game.challenger.length; i++) {
+            let contents = {
+                role: null,
+                login: null,
+                spectre: null
+            }
+
+            contents.role = 'Challenger'
+            contents.login = game.challenger[i].playerID
+            contents.spectre = game.challenger[i].spectre.generateSpectre(game.challenger[i].board)
+            allSpectres.push(contents)
+        }
+    }
+    return allSpectres
+}
+
 const disconnect = function(client, onlineUsers, activeGames) {
     let player = gameHandler.findPlayer(client.id, onlineUsers)
     let index
@@ -177,5 +207,6 @@ export {
     startGame,
     requestShape,
     updateBoard,
+    generateSpectre,
     disconnect
 }
