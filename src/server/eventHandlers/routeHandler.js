@@ -132,17 +132,21 @@ const requestShape = function(client, activeGames) {
 
 const updateBoard = function(client, activeGames, newBoard) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
-    let ret = 'KO'
+    let ret = {
+        stat: 'KO',
+        game: null
+    }
 
     if (game !== undefined) {
+        ret.game = game
         if (client.id == game.master.socketID) {
             game.master.board = newBoard
-            ret = 'OK'
+            ret.stat = 'OK'
         } else {
             let index = gameHandler.findChallengerIndex(client.id, game.challenger)
             if (index > -1) {
                 game.challenger[index].board = newBoard
-                ret = 'OK'
+                ret.stat = 'OK'
             }
         }
     }
