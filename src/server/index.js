@@ -87,10 +87,14 @@ io.on('connection', (client) => {
     client.on(routes.UPDATE_BOARD, (newBoard) => {
         let res = routeHandler.updateBoard(client, activeGames, newBoard)
         io.to(client.id).emit(routes.BOARD_UPDATED, res.stat)
-        if (res.game) {
-            let spectre = routeHandler.generateSpectre(res.game)
-            if (spectre.length > 0)
-                io.to(res.game.roomName).emit(routes.SPECTRES_UPDATED, spectre)
+        if (res.game && res.game.challenger.length > 0) {
+            let spectre = routeHandler.generateSpectre(res.game, res.game.master.socketID)
+            io.to(res.game.master.socketID).emit(routes.SPECTRES_UPDATED, spectre)
+
+            for (let i = 0; i < res.game.challenger.length; i++) {
+                let spectre = routeHandler.generateSpectre(res.game, res.game.challenger[i].socketID)
+                io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
+            }
         }
     })
 
