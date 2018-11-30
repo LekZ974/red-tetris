@@ -153,7 +153,7 @@ const updateBoard = function(client, activeGames, newBoard) {
     return ret
 }
 
-const generateSpectre = function(game) {
+const generateSpectre = function(game, clientId) {
     let allSpectres = []
     let mcontents = {
         role: null,
@@ -161,11 +161,13 @@ const generateSpectre = function(game) {
         spectre: null
     }
 
-    if (game.challenger.length > 0) {
-        mcontents.role = 'Master'
-        mcontents.login = game.master.playerID
-        mcontents.spectre = game.master.spectre.generateSpectre(game.master.board);
-        allSpectres.push(mcontents)
+    if (clientId !== undefined && game.challenger.length > 0) {
+        if (game.master.socketID !== clientId) {
+            mcontents.role = 'Master'
+            mcontents.login = game.master.playerID
+            mcontents.spectre = game.master.spectre.generateSpectre(game.master.board);
+            allSpectres.push(mcontents)
+        }
 
         for (let i = 0; i < game.challenger.length; i++) {
             let contents = {
@@ -174,10 +176,12 @@ const generateSpectre = function(game) {
                 spectre: null
             }
 
-            contents.role = 'Challenger'
-            contents.login = game.challenger[i].playerID
-            contents.spectre = game.challenger[i].spectre.generateSpectre(game.challenger[i].board)
-            allSpectres.push(contents)
+            if (game.challenger[i].socketID !== clientId) {
+                contents.role = 'Challenger'
+                contents.login = game.challenger[i].playerID
+                contents.spectre = game.challenger[i].spectre.generateSpectre(game.challenger[i].board)
+                allSpectres.push(contents)
+            }
         }
     }
     return allSpectres
