@@ -1,56 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
+import {Box, GridBlock} from "../block";
 
-class GameInfo extends Component {
-    constructor(props){
-      super(props)
-    }
-
-    render(){
-      const {user} = this.props;
-      let displaySpectre = null
-      if(this.props.spectres && this.props.spectres.length === 1) {
-        return (
-        <div>
-          {this.props.spectres[0].name}
-          <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'100px', width:'100px', border:'1px solid red'}}>
-            {spectre.gameSpectre[0].map((col, key) =>{
-              const height = (col/20) * 100
-              return(
-                <div key={key} style={{backgroundColor:'red', width:'10px', height: height +'%'}}></div>
-              )
-            })
-            }
-          </div>
-        </div>
-        )
-      }else{
-         displaySpectre = this.props.spectres.map((spectre, key) =>{
-            return(
-              <div key={key} style={{ marginLeft:'40%', marginTop:'5%'}}>
-                {spectre.name}<br/>
-                <div style={{display:'flex', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-start', height:'100px', width:'100px', border:'1px solid red'}}>
-                  {spectre.gameSpectre.map((col, key) =>{
-                      const height = (col/20) * 100
-                    return(
-                      <div key={key} style={{backgroundColor:'red', width:'10px', height: height +'%'}}></div>
-                    )
-                  })
-                  }
-                </div>
-              </div>
-            )
-        })
+const GameInfo = (props) => {
+  const {user, game} = props;
+  let players = game.players
+  return(
+    <Box center>
+      {players && players.length >= 2 ?
+        <div style={{height: '20vh'}}>
+          {players.map((player) => (
+            <div style={{marginTop: '20px'}}>
+              <h1>{player.login}</h1>
+              {player.spectre.map((row, key) =>
+              (<div key={key} style={{display: 'flex', flexDirection: 'row', height: '6%'}}>
+                {row.map((block, i) => <GridBlock blockId={block} key={i} />)}
+              </div>)
+            )}
+            </div>
+          ))}
+        </div> :
+        <Box>waiting challenger grid</Box>
       }
-
-      return(
-        <div>
-          <h3 style={{textAlign:"center"}}>Game Info</h3>
-          {displaySpectre}
-          <div>
-          </div>
-        </div>
-      )
-    }
+    </Box>
+  )
 }
 
 export default GameInfo
