@@ -185,6 +185,23 @@ test('generateSpectre', () => {
         expect(routeHandler.generateSpectre(ret.game)).toMatchSnapshot()
 })
 
+
+test('allPlayers', () => {
+    let player = routeHandler.login(userInfo, client, onlineUsers)
+    let player1 = routeHandler.login(userInfo1, client1, onlineUsers)
+    let create = routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
+    let join = routeHandler.joinGame(client1, onlineUsers, 'GAME1', activeGames)
+
+    expect(routeHandler.allPlayers(activeGames[0], client.id)).toMatchSnapshot()
+    expect(routeHandler.allPlayers(activeGames[0], client1.id)).toMatchSnapshot()
+    expect(routeHandler.allPlayers(activeGames[0])).toMatchSnapshot()
+    
+    let player2 = routeHandler.login(userInfo2, client2, onlineUsers)
+    let create2 = routeHandler.createGame(client2, activeGames, onlineUsers, 'GAME2')
+
+    expect(routeHandler.allPlayers(activeGames[1], client2.id)).toMatchSnapshot()
+})
+
 test('disconnect', () => {
 	routeHandler.login(userInfo, client, onlineUsers)
 	routeHandler.createGame(client, activeGames, onlineUsers, 'GAME1')
