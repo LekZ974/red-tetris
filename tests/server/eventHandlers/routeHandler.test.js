@@ -181,8 +181,11 @@ test('generateSpectre', () => {
     let start = routeHandler.startGame(client, activeGames)
     let ret = routeHandler.updateBoard(client, activeGames, grid)
 
-    if (ret.game)
+    if (ret.game) {
+        expect(routeHandler.generateSpectre(ret.game, client.id)).toMatchSnapshot()
+        expect(routeHandler.generateSpectre(ret.game, client1.id)).toMatchSnapshot()
         expect(routeHandler.generateSpectre(ret.game)).toMatchSnapshot()
+    }
 })
 
 test('disconnect', () => {
