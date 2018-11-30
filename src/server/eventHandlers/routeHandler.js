@@ -187,6 +187,32 @@ const generateSpectre = function(game, clientId) {
     return allSpectres
 }
 
+const allPlayers = function(game, clientId) {
+    if (!game || !clientId)
+        return null
+    if (game.challenger.length > 0) {
+        let allPlayers = []
+        if (game.master.socketID !== clientId) {
+            let master = {
+                role : 'Master',
+                login : game.master.playerID
+            }
+            allPlayers.push(master)
+        }
+        for (let i = 0; i < game.challenger.length; i++) {
+            if (game.challenger[i].socketID !== clientId) {
+                let challenger = {
+                    role : 'challenger',
+                    login : game.challenger[i].playerID
+                }
+                allPlayers.push(challenger)
+            }
+        }
+        return allPlayers
+    }
+    return null
+}
+
 const disconnect = function(client, onlineUsers, activeGames) {
     let player = gameHandler.findPlayer(client.id, onlineUsers)
     let index
@@ -212,5 +238,6 @@ export {
     requestShape,
     updateBoard,
     generateSpectre,
+    allPlayers,
     disconnect
 }

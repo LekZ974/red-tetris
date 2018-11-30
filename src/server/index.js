@@ -76,6 +76,16 @@ io.on('connection', (client) => {
         let game = routeHandler.startGame(client, activeGames)
         if (game !== null) {
             io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+
+            if (game.challenger.length > 0) {
+                let allPlayers = routeHandler.allPlayers(game, game.master.socketID)
+                io.to(game.master.socketID).emit(routes.ALL_PLAYERS, allPlayers)
+
+                for (let i = 0; i < game.challenger.length; i++) {
+                    let allPlayers = routeHandler.allPlayers(game, game.challenger[i].socketID)
+                    io.to(game.challenger[i].socketID).emit(routes.ALL_PLAYERS, allPlayers)
+                }
+            }
         }
     })
 

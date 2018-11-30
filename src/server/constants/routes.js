@@ -17,7 +17,8 @@ const routing = {
     UPDATE_BOARD: 'updateBoard',
     BOARD_UPDATED: 'boardUpdated',
     UPDATE_STATUS: 'updateStatus',
-    SPECTRES_UPDATED: 'spectresUpdated'
+    SPECTRES_UPDATED: 'spectresUpdated',
+    ALL_PLAYERS: 'allPlayers'
 }
 
 export default routing
