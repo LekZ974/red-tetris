@@ -11,7 +11,7 @@ import {
   updateUser,
 } from '../actions/user'
 import {rcvGetGames} from "../actions/games"
-import {rcvCreateGame, rcvGameStatus, rcvNewPieces} from "../actions/game"
+import {rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers} from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 
 const socket = io.connect(params.server.url)
@@ -61,6 +61,10 @@ const rcvUserStatus = data => {
   }
 }
 
+const rcvSpectres = data => {
+  store.dispatch(updatePlayers(data))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -71,6 +75,7 @@ socket.on('gamesSent', rcvGames)
 socket.on('boardUpdated', rcvGridUpdated)
 socket.on('gameStarted', rcvGameIsStarted)
 socket.on('updateStatus', rcvUserStatus)
+socket.on('spectresUpdated', rcvSpectres)
 
 //EMIT
 
