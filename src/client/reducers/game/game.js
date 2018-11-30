@@ -1,4 +1,4 @@
-import {EMIT_CREATE_GAME, RCV_CREATE_GAME, RCV_GAME_STATUS} from '../../actions/game'
+import {UPDATE_PLAYERS, EMIT_CREATE_GAME, RCV_CREATE_GAME, RCV_GAME_STATUS} from '../../actions/game'
 import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions'
 
 export const initialState = {
@@ -9,6 +9,7 @@ export const initialState = {
   gameIsStarted: false,
   start: false,
   pause: false,
+  players: null,
   params: {
     addMalus: true,
   },
@@ -20,6 +21,12 @@ export default function GameReducer (state = initialState, action = {}) {
     action.payload = []
   }
   switch (action.type) {
+    case UPDATE_PLAYERS: {
+      return {
+        ...state,
+        players: action.data,
+      }
+    }
     case RCV_GAME_STATUS: {
       return reducerEmitGameStatus(state, action, initialState)
     }

@@ -6,6 +6,7 @@ import {
   RCV_CREATE_GAME,
   EMIT_NEW_PIECES,
   RCV_NEW_PIECES,
+  UPDATE_PLAYERS,
   emitNewPieces,
 } from "../actions/game";
 import {
@@ -132,6 +133,9 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_USER_LOST : {
           notify('You loose!!', 'error')
+          return next(action)
+        }
+        case UPDATE_PLAYERS : {
           return next(action)
         }
         default: {
