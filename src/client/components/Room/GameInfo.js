@@ -2,14 +2,14 @@ import React from 'react'
 import {Box, GridBlock} from "../block";
 
 const GameInfo = (props) => {
-  const {user, game} = props;
+  const {game} = props;
   let players = game.players
   return(
     <Box center>
       {players && players.length >= 2 ?
         <div style={{height: '20vh'}}>
-          {players.map((player) => (
-            <div style={{marginTop: '20px'}}>
+          {players.map((player, index) => (
+            <div key={index} style={{marginTop: '20px'}}>
               <h1>{player.login}</h1>
               {player.spectre.map((row, key) =>
               (<div key={key} style={{display: 'flex', flexDirection: 'row', height: '6%'}}>
