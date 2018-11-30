@@ -6,7 +6,7 @@ const GameInfo = (props) => {
   let players = game.players
   return(
     <Box center>
-      {players && players.length >= 2 ?
+      {players && players.length >= 1 ?
         <div style={{height: '20vh'}}>
           {players.map((player, index) => (
             <div key={index} style={{marginTop: '20px'}}>
