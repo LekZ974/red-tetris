@@ -64,6 +64,7 @@ const rcvUserStatus = data => {
 }
 
 const rcvSpectres = data => {
+  console.log("DATA", data)
   store.dispatch(updatePlayers(data))
 }
 
