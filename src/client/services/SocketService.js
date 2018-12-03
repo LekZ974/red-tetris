@@ -13,6 +13,8 @@ import {
 import {rcvGetGames} from "../actions/games"
 import {rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers} from "../actions/game"
 import {notify} from '../utils/notificationHandler'
+import {PIECES_NUM} from "../../common/pieces";
+import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 
 const socket = io.connect(params.server.url)
 
@@ -65,6 +67,13 @@ const rcvSpectres = data => {
   store.dispatch(updatePlayers(data))
 }
 
+const rcvAllPlayers = data => {
+  const newData = data.map(player =>
+    Object.assign({spectre: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty))}, player)
+  )
+  store.dispatch(updatePlayers(newData))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -76,6 +85,7 @@ socket.on('boardUpdated', rcvGridUpdated)
 socket.on('gameStarted', rcvGameIsStarted)
 socket.on('updateStatus', rcvUserStatus)
 socket.on('spectresUpdated', rcvSpectres)
+socket.on('allPlayers', rcvAllPlayers)
 
 //EMIT
 
