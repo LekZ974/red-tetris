@@ -22,6 +22,7 @@ export default function GameReducer (state = initialState, action = {}) {
   }
   switch (action.type) {
     case UPDATE_PLAYERS: {
+      console.log(action)
       return {
         ...state,
         players: action.data,
