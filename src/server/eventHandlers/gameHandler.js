@@ -155,6 +155,35 @@ const isBoardFilled = function(board) {
 	return false
 }
 
+const isGameFinished = function(game) {
+	if (game.master.inGameLoser === false) {
+		if (isBoardFilled(game.master.board) === true) {
+			game.numLosers++
+			game.master.inGameLoser = true
+		}
+	}
+
+	if (game.challenger.length === 0) {
+		if (game.numLosers > 0) {
+			return true
+		} else {
+			return false
+		}
+	} else {
+		game.challenger.forEach((challenger) => {
+			if (challenger.inGameLoser === false) {
+				if (isBoardFilled(challenger.board) === true) {
+					game.numLosers++
+					challenger.inGameLoser = true
+				}
+			}
+		})
+		if (game.numLosers === game.challenger.length)
+			return true
+		return false
+	}
+}
+
 export {
 	findPlayer,
 	findChallengerIndex,
@@ -165,5 +194,6 @@ export {
 	initBoard,
 	getShape,
 	changeMaster,
-	destroyGame
+	destroyGame,
+	isGameFinished
 }
