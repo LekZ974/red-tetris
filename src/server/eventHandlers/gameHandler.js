@@ -147,6 +147,14 @@ const destroyGame = function(game, activeGames) {
 	return ret
 }
 
+const isBoardFilled = function(board) {
+	for (let i = 0; i < board[0].length; i++) {
+		if (board[0][i] > 0)
+			return true
+	}
+	return false
+}
+
 export {
 	findPlayer,
 	findChallengerIndex,
