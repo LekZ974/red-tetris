@@ -21,7 +21,6 @@ const createChallengerGrid = (players) => {
   if (players.length >= 2) {
     let grid;
     for (let i in players) {
-      console.log("PLAYERS",i,players[i])
       if (!grid) {
         grid = mergeGrid(players[i].spectre, players[i++].spectre)
       }
@@ -29,7 +28,6 @@ const createChallengerGrid = (players) => {
         grid = mergeGrid(grid, players[i].spectre)
       }
     }
-    console.log(grid)
     return grid
   }
   return players[0].spectre
