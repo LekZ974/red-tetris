@@ -10,6 +10,7 @@ export default class Game {
             shapes: [],
             requestId: null
         }
+		this.numLosers = 0
     }
 
     setRoomInfo(id, name) {
