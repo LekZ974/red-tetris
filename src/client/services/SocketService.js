@@ -71,7 +71,6 @@ const rcvAllPlayers = data => {
   const newData = data.map(player =>
     Object.assign({spectre: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty))}, player)
   )
-  console.log("NEWDATA", newData)
   store.dispatch(updatePlayers(newData))
 }
 
