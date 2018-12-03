@@ -7,6 +7,7 @@ export default class Player {
 		this.piece = -1
 		this.board = null
 		this.spectre = null
+		this.inGameLoser = false
 	}
 
 	getPlayerID() {
