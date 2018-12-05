@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import params from '../../params'
 import routes from './constants/routes'
 import * as routeHandler from './eventHandlers/routeHandler'
+import { isGameFinished, getGameStats } from './eventHandlers/gameHandler'
 
 const app = express()
 const server = require('http').createServer(app)
@@ -105,6 +106,14 @@ io.on('connection', (client) => {
                 let spectre = routeHandler.generateSpectre(res.game, res.game.challenger[i].socketID)
                 io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
             }
+
+			if (isGameFinished(res.game)) {
+				let winner = getGameStats(res.game)
+				io.to(winner.winner).emit(routes.GAME_FINISHED, 'winner')
+				winner.losers.forEach((id) => {
+					io.to(id).emit(routes.GAME_FINISHED, 'loser')
+				})
+			}
         }
     })
 

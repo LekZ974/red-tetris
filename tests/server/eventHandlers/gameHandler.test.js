@@ -105,3 +105,117 @@ test('changeMaster', () => {
     game.challenger.push(player2)
 	expect(gameHandler.changeMaster(game)).toMatchSnapshot()
 })
+
+test('isGameFinished_solo', () => {
+    const clientId = 1
+	const Board1 = [
+	[0, 0, 0, 0, 0],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+	const Board2 = [
+	[0, 0, 1, 0, 0],
+	[0, 1, 1, 1, 0],
+	[0, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+
+	player1.board = Board1
+    game.master = player1
+	expect(gameHandler.isGameFinished(game)).toBe(false)
+	game.master.board = Board2
+	expect(gameHandler.isGameFinished(game)).toBe(true)
+})
+
+test('isGameFinished_multi', () => {
+    const clientId = 1
+    const clientId2 = 2
+	const mBoard = [
+	[0, 0, 0, 0, 0],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+	const chBoard = [
+	[0, 0, 1, 0, 0],
+	[0, 1, 1, 1, 0],
+	[0, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
+
+	player1.board = mBoard
+    game.master = player1
+	player2.board = mBoard
+    game.challenger.push(player2)
+	expect(gameHandler.isGameFinished(game)).toBe(false)
+	game.challenger[0].board = chBoard
+	expect(gameHandler.isGameFinished(game)).toBe(true)
+})
+
+test('getGameStats', () => {
+    const clientId = 1
+    const clientId2 = 2
+	const mBoard = [
+	[0, 0, 0, 0, 0],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+	const chBoard = [
+	[0, 0, 1, 0, 0],
+	[0, 1, 1, 1, 0],
+	[0, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
+
+	player1.board = mBoard
+    game.master = player1
+	player2.board = chBoard
+    game.challenger.push(player2)
+	gameHandler.isGameFinished(game)
+	expect(gameHandler.getGameStats(game)).toMatchSnapshot()
+})
+
+test('getGameStats2', () => {
+    const clientId = 1
+    const clientId2 = 2
+	const mBoard = [
+	[0, 0, 1, 0, 0],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+	const chBoard = [
+	[0, 0, 0, 0, 0],
+	[0, 1, 1, 1, 0],
+	[0, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1]
+	]
+
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
+
+	player1.board = mBoard
+    game.master = player1
+	player2.board = chBoard
+    game.challenger.push(player2)
+	gameHandler.isGameFinished(game)
+	expect(gameHandler.getGameStats(game)).toMatchSnapshot()
+})

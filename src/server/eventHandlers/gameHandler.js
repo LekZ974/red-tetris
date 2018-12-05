@@ -147,6 +147,64 @@ const destroyGame = function(game, activeGames) {
 	return ret
 }
 
+const isBoardFilled = function(board) {
+	for (let i = 0; i < board[0].length; i++) {
+		if (board[0][i] > 0)
+			return true
+	}
+	return false
+}
+
+const isGameFinished = function(game) {
+	if (game.master.inGameLoser === false) {
+		if (isBoardFilled(game.master.board) === true) {
+			game.numLosers++
+			game.master.inGameLoser = true
+		}
+	}
+
+	if (game.challenger.length === 0) {
+		if (game.numLosers > 0) {
+			return true
+		} else {
+			return false
+		}
+	} else {
+		game.challenger.forEach((challenger) => {
+			if (challenger.inGameLoser === false) {
+				if (isBoardFilled(challenger.board) === true) {
+					game.numLosers++
+					challenger.inGameLoser = true
+				}
+			}
+		})
+		if (game.numLosers === game.challenger.length)
+			return true
+		return false
+	}
+}
+
+const getGameStats = function(game) {
+	let stat = {
+		winner: null,
+		losers: []
+	}
+
+	if (game.master.inGameLoser === false) {
+		stat.winner = game.master.socketID
+	} else {
+		stat.losers.push(game.master.socketID)
+	}
+	game.challenger.forEach((challenger) => {
+		if (challenger.inGameLoser === false) {
+			stat.winner = challenger.socketID
+		} else {
+			stat.losers.push(challenger.socketID)
+		}
+	})
+	return stat
+}
+
 export {
 	findPlayer,
 	findChallengerIndex,
@@ -157,5 +215,7 @@ export {
 	initBoard,
 	getShape,
 	changeMaster,
-	destroyGame
+	destroyGame,
+	isGameFinished,
+	getGameStats
 }
