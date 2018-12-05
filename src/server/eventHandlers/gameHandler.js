@@ -184,6 +184,27 @@ const isGameFinished = function(game) {
 	}
 }
 
+const getGameStats = function(game) {
+	let stat = {
+		winner: null,
+		losers: []
+	}
+
+	if (game.master.inGameLoser === false) {
+		stat.winner = game.master.socketID
+	} else {
+		stat.losers.push(game.master.socketID)
+	}
+	game.challenger.forEach((challenger) => {
+		if (challenger.inGameLoser === false) {
+			stat.winner = challenger.socketID
+		} else {
+			stat.losers.push(challenger.socketID)
+		}
+	})
+	return stat
+}
+
 export {
 	findPlayer,
 	findChallengerIndex,
@@ -195,5 +216,6 @@ export {
 	getShape,
 	changeMaster,
 	destroyGame,
-	isGameFinished
+	isGameFinished,
+	getGameStats
 }
