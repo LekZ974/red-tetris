@@ -74,6 +74,9 @@ const rcvAllPlayers = data => {
   store.dispatch(updatePlayers(newData))
 }
 
+const rcvGameFinished = data => {
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -86,6 +89,7 @@ socket.on('gameStarted', rcvGameIsStarted)
 socket.on('updateStatus', rcvUserStatus)
 socket.on('spectresUpdated', rcvSpectres)
 socket.on('allPlayers', rcvAllPlayers)
+socket.on('gameFinished', rcvGameFinished)
 
 //EMIT
 

@@ -35,6 +35,7 @@ describe('game test all actions', () => {
           owner: "",
           params: {addMalus: true},
           isLoading: false,
+          players: null,
         }
       )
     }
