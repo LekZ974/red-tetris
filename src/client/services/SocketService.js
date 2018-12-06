@@ -9,9 +9,10 @@ import {
   emitUserLost,
   rcvUserCanStart,
   updateUser,
+  emitUserIsWinner,
 } from '../actions/user'
 import {rcvGetGames} from "../actions/games"
-import {rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers} from "../actions/game"
+import {rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers, rcvGameIsFinished} from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
@@ -75,6 +76,8 @@ const rcvAllPlayers = data => {
 }
 
 const rcvGameFinished = data => {
+  console.log("HERE IS PASs", data)
+  store.dispatch(rcvGameIsFinished(data))
 }
 
 socket.on('logged', rcvPlayerLogged)
@@ -138,6 +141,10 @@ const emitUserLoose = () => {
   store.dispatch(emitUserLost())
 }
 
+const emitUserWin = () => {
+  store.dispatch(emitUserIsWinner())
+}
+
 export {
   rcvPlayerLogged,
   rcvGameExists,
@@ -155,4 +162,5 @@ export {
   emitLeaveGame,
   emitGetGames,
   emitUserLoose,
+  emitUserWin,
 }

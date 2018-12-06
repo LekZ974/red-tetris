@@ -7,8 +7,8 @@ import {
   EMIT_NEW_PIECES,
   RCV_NEW_PIECES,
   UPDATE_PLAYERS,
-  emitNewPieces,
-} from "../actions/game";
+  emitNewPieces, RCV_GAME_IS_FINISHED,
+} from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
   RCV_USER_JOIN_GAME,
@@ -21,6 +21,7 @@ import {
   EMIT_USER_LEAVE_GAME,
   RCV_USER_LEAVE_GAME,
   EMIT_USER_LOST,
+  EMIT_USER_WIN,
   RCV_USER_CAN_START,
 } from "../actions/user";
 import {store} from "../index";
@@ -28,7 +29,6 @@ import {notify} from "../utils/notificationHandler";
 import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
-import {emitUpdateGrid} from "../services/SocketService";
 import { push } from "connected-react-router";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
@@ -111,6 +111,9 @@ const socketMiddleware = socket => ({dispatch}) => {
           SocketService.emitGameStatus(action.gameStatus)
           break;
         }
+        case RCV_GAME_STATUS : {
+          return next(action)
+        }
         case EMIT_NEW_PIECES : {
           SocketService.emitNeedPieces()
           break;
@@ -133,9 +136,29 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_USER_LOST : {
           notify('You loose!!', 'error')
+          SocketService.emitGameStatus('Pause')
+          return next(action)
+        }
+        case EMIT_USER_WIN : {
+          notify('You win!!', 'success')
+          SocketService.emitGameStatus('Pause')
           return next(action)
         }
         case UPDATE_PLAYERS : {
+          return next(action)
+        }
+        case RCV_GAME_IS_FINISHED : {
+          console.log("GAME IS FINISHED", action)
+          switch (action.data) {
+            case 'winner':
+              store.dispatch(updateUser({winner: true}))
+              break;
+            case 'loser':
+              store.dispatch(updateUser({lost: true}))
+              break;
+            default:
+              break;
+          }
           return next(action)
         }
         default: {
@@ -144,11 +167,16 @@ const socketMiddleware = socket => ({dispatch}) => {
       }
       if (thenFn) thenFn(dispatch)
     }
-    if (store.getState().user.loosed && store.getState().game.start) {
+    if (store.getState().user.lost && store.getState().game.start) {
       SocketService.emitUserLoose()
+      SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+    }
+    if (store.getState().user.winner && store.getState().game.start) {
+      SocketService.emitUserWin()
+      SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
     }
     if (store.getState().tetrimino.needNext) {
-      emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+      SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
       SocketService.emitNeedPieces()
       store.dispatch(tetriInit())
     }

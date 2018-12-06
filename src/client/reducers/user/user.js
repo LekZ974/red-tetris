@@ -22,7 +22,8 @@ export const initialState = {
   grid: [],
   completeLine: 0,
   payload: {},
-  loosed: false,
+  lost: false,
+  winner: false,
   isLoading: false,
 }
 
@@ -93,13 +94,7 @@ export default function UserReducer (state = initialState, action = {}) {
         ...state,
         completeLine: nbLineDel,
         grid: newGrid,
-        loosed: loose,
-      }
-    }
-    case EMIT_USER_LOST: {
-      return {
-        ...state,
-        grid: [],
+        lost: loose,
       }
     }
     default:

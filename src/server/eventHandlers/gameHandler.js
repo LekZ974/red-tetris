@@ -148,7 +148,8 @@ const destroyGame = function(game, activeGames) {
 }
 
 const isBoardFilled = function(board) {
-	for (let i = 0; i < board[0].length; i++) {
+  console.log("GAME FINISHED", board)
+  for (let i = 0; i < board[0].length; i++) {
 		if (board[0][i] > 0)
 			return true
 	}

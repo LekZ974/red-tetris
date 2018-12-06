@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => {
 
-  if (state.user.grid.length < 1 && state.user.loosed && state.game.start) {
+  if (state.user.grid.length < 1 && state.user.lost && state.game.start) {
     state.game.start = false
   }
 
