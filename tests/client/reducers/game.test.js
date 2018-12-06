@@ -124,6 +124,7 @@ describe('Test game reducer', ()=> {
         pause: false,
         params: {addMalus: true},
         isLoading: false,
+        players: null,
       }
     )
   })

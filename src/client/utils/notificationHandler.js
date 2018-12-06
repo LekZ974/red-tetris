@@ -21,7 +21,8 @@ export function notify(message, type) {
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,      });
+        draggable: true,
+      });
       break;
     }
     case 'warning': {
@@ -31,7 +32,8 @@ export function notify(message, type) {
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,      });
+        draggable: true,
+      });
       break;
     }
     case 'info': {
@@ -41,7 +43,8 @@ export function notify(message, type) {
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,      });
+        draggable: true,
+      });
       break;
     }
     default: {
@@ -51,7 +54,8 @@ export function notify(message, type) {
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,      });
+        draggable: true,
+      });
       break;
     }
   }
