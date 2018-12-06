@@ -75,7 +75,6 @@ const rcvAllPlayers = data => {
 }
 
 const rcvGameFinished = data => {
-  console.log("GAME IS FINISHED",data)
 }
 
 socket.on('logged', rcvPlayerLogged)
