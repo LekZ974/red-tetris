@@ -76,7 +76,6 @@ const rcvAllPlayers = data => {
 }
 
 const rcvGameFinished = data => {
-  console.log("HERE IS PASs", data)
   store.dispatch(rcvGameIsFinished(data))
 }
 

@@ -148,7 +148,6 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case RCV_GAME_IS_FINISHED : {
-          console.log("GAME IS FINISHED", action)
           switch (action.data) {
             case 'winner':
               store.dispatch(updateUser({winner: true}))
