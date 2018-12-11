@@ -40,9 +40,8 @@ export const rcvCreateGame = (data) => ({
   data,
 })
 
-export const emitNewPieces = (game) => ({
+export const emitNewPieces = () => ({
   type: EMIT_NEW_PIECES,
-  game: game,
 })
 
 export const rcvNewPieces = data => ({
