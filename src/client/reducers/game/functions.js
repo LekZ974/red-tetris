@@ -29,6 +29,7 @@ const reducerEmitGameStatus = (state, action, initialState) => {
 const reducerRcvCreateGame = (state, action) => {
   return {
     ...state,
+    round: state.round + 1,
     isLoading: false,
   }
 }

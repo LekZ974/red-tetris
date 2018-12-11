@@ -1,4 +1,4 @@
-import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT, TETRI_NEW, TETRI_IS_BLOCK} from '../../actions/tetrimino'
+import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE} from '../../actions/tetrimino'
 import {reducerTetriAction, reducerTetriStep} from "./functions";
 import {PIECES_INFO} from "../../../common/pieces";
 
@@ -41,6 +41,10 @@ export default function TetriminoReducer (state = initialState, action = {}) {
         }
       }
     }
+    case TETRI_INIT_STATE: {
+      return initialState
+    }
+
     default:
       return {
         ...state,
