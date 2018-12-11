@@ -90,6 +90,11 @@ io.on('connection', (client) => {
         }
     })
 
+    client.on(routes.RESTART_GAME, () => {
+        routeHandler.restartGame(io, client, activeGames)
+    })
+
+
     client.on(routes.REQUEST_SHAPE, () => {
         let shape = routeHandler.requestShape(client, activeGames)
         io.to(client.id).emit(routes.EMITTED_SHAPE, shape)
