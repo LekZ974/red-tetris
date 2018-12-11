@@ -15,7 +15,17 @@ import {
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
-import {gameInitState, gameInit, rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers, rcvGameIsFinished, rcvGameCanRestart,} from "../actions/game"
+import {
+  gameInitState,
+  gameInit,
+  rcvCreateGame,
+  rcvGameStatus,
+  rcvNewPieces,
+  updatePlayers,
+  rcvGameIsFinished,
+  rcvGameCanRestart,
+  emitNewPieces,
+} from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
@@ -60,7 +70,12 @@ const rcvGridUpdated = data => {
 }
 
 const rcvGameIsStarted = data => {
+  store.dispatch(gameInit())
+  store.dispatch(init())
+  store.dispatch(tetriInitState())
+  store.dispatch(updateUser({grid: data}))
   store.dispatch(rcvGameStatus('Start'))
+  store.dispatch(emitNewPieces())
 }
 
 const rcvUserStatus = data => {
@@ -83,13 +98,12 @@ const rcvAllPlayers = data => {
 
 const rcvGameFinished = data => {
   store.dispatch(rcvGameIsFinished(data))
+  store.dispatch(tetriInitState())
+  emitGameStatus('Pause')
 }
 
 const rcvCanRestartGame = data => {
   store.dispatch(rcvGameCanRestart(data))
-  store.dispatch(gameInit())
-  store.dispatch(init())
-  store.dispatch(tetriInitState())
 }
 
 socket.on('logged', rcvPlayerLogged)

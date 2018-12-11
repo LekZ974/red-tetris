@@ -54,6 +54,13 @@ export default function GameReducer (state = initialState, action = {}) {
       return {
         ...state,
         pause: true,
+        gameIsStarted: false,
+        start: false,
+        players: null,
+        params: {
+          addMalus: true,
+        },
+        isLoading: false,
       }
     }
     case RCV_GAME_CAN_RESTART: {

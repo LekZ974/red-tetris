@@ -16,7 +16,6 @@ const reducerEmitGameStatus = (state, action, initialState) => {
         items: action.payload,
         start: false,
         pause: true,
-        gameIsStarted: true,
       }
     }
     case 'Stop': {
