@@ -112,6 +112,13 @@ io.on('connection', (client) => {
                 io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
             }
 
+            if (isGameFinished(res.game)) {
+                res.game.gameStarted = false
+                let winner = getGameStats(res.game)
+                io.to(winner.winner).emit(routes.GAME_FINISHED, 'winner')
+                winner.losers.forEach((id) => {
+                    io.to(id).emit(routes.GAME_FINISHED, 'loser')
+                })
                 io.to(res.game.master.socketID).emit(routes.CAN_RESTART, true)
            }
         }
