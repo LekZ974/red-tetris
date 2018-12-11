@@ -10,10 +10,12 @@ import {
   rcvUserCanStart,
   updateUser,
   emitUserIsWinner,
+  userInitState,
+  init,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
-import {gameInitState, rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers, rcvGameIsFinished, rcvGameCanRestart,} from "../actions/game"
+import {gameInitState, gameInit, rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers, rcvGameIsFinished, rcvGameCanRestart,} from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
@@ -46,6 +48,7 @@ const rcvLeftGame = () => {
   store.dispatch(rcvUserLeaveGame())
   store.dispatch(gameInitState())
   store.dispatch(tetriInitState())
+  store.dispatch(userInitState())
 }
 
 const rcvGames = data => {
@@ -82,8 +85,11 @@ const rcvGameFinished = data => {
   store.dispatch(rcvGameIsFinished(data))
 }
 
-const rcvRestartGame = data => {
+const rcvCanRestartGame = data => {
   store.dispatch(rcvGameCanRestart(data))
+  store.dispatch(gameInit())
+  store.dispatch(init())
+  store.dispatch(tetriInitState())
 }
 
 socket.on('logged', rcvPlayerLogged)
@@ -99,7 +105,7 @@ socket.on('updateStatus', rcvUserStatus)
 socket.on('spectresUpdated', rcvSpectres)
 socket.on('allPlayers', rcvAllPlayers)
 socket.on('gameFinished', rcvGameFinished)
-socket.on('restartGame', rcvRestartGame)
+socket.on('canRestart', rcvCanRestartGame)
 
 //EMIT
 
@@ -128,6 +134,10 @@ const emitGameStatus = (status) => {
   switch (status) {
     case 'Start' : {
       socket.emit('startGame')
+      break;
+    }
+    case 'Restart' : {
+      socket.emit('restartGame')
       break;
     }
     default : {

@@ -6,6 +6,7 @@ import {
   RCV_GAME_IS_FINISHED,
   RCV_GAME_CAN_RESTART,
   GAME_INIT_STATE,
+  GAME_INIT,
 } from '../../actions/game'
 import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions'
 
@@ -64,6 +65,21 @@ export default function GameReducer (state = initialState, action = {}) {
     }
     case GAME_INIT_STATE: {
       return initialState
+    }
+    case GAME_INIT: {
+      return {
+        ...state,
+        owner: '',
+        gameIsStarted: false,
+        start: false,
+        pause: false,
+        players: null,
+        round: 0,
+        params: {
+          addMalus: true,
+        },
+        isLoading: false,
+      }
     }
     default:
       return state

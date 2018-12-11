@@ -10,6 +10,7 @@ import {
   emitNewPieces,
   RCV_GAME_IS_FINISHED,
   GAME_INIT_STATE,
+  GAME_INIT,
 } from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
@@ -25,6 +26,8 @@ import {
   EMIT_USER_LOST,
   EMIT_USER_WIN,
   RCV_USER_CAN_START,
+  USER_INIT_STATE,
+  USER_INIT,
 } from "../actions/user";
 import {store} from "../index";
 import {notify} from "../utils/notificationHandler";
@@ -166,6 +169,15 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case TETRI_INIT_STATE: {
+          return next(action)
+        }
+        case USER_INIT_STATE: {
+          return next(action)
+        }
+        case USER_INIT: {
+          return next(action)
+        }
+        case GAME_INIT: {
           return next(action)
         }
         default: {
