@@ -9,6 +9,8 @@ export const RCV_NEW_PIECES = 'game/RCV_NEW_PIECES'
 
 export const UPDATE_PLAYERS = 'game/UPDATE_PLAYERS'
 
+export const RCV_GAME_IS_FINISHED = 'game/RCV_GAME_IS_FINISHED'
+
 export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
   game: game,
@@ -42,5 +44,10 @@ export const rcvNewPieces = data => ({
 
 export const updatePlayers = data => ({
   type: UPDATE_PLAYERS,
+  data,
+})
+
+export const rcvGameIsFinished = data => ({
+  type: RCV_GAME_IS_FINISHED,
   data,
 })

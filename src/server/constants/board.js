@@ -1,5 +1,5 @@
 const board = {
-    LENGTH: 20,
+    LENGTH: 23,
     WIDTH: 10 
 }
 
