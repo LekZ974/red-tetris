@@ -17,6 +17,8 @@ export const RCV_GAME_CAN_RESTART = 'game/RCV_GAME_CAN_RESTART'
 
 export const GAME_INIT_STATE = 'game/GAME_INIT_STATE'
 
+export const GAME_INIT = 'game/GAME_INIT'
+
 export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
   game: game,
@@ -65,4 +67,8 @@ export const rcvGameCanRestart = data => ({
 
 export const gameInitState = () => ({
   type: GAME_INIT_STATE,
+})
+
+export const gameInit = () => ({
+  type: GAME_INIT,
 })

@@ -8,8 +8,7 @@ import {
   EMIT_USER_JOIN_GAME,
   RCV_USER_JOIN_GAME,
   EMIT_USER_LEAVE_GAME,
-  RCV_USER_LEAVE_GAME,
-  EMIT_USER_LOST,
+  USER_INIT_STATE
 } from '../../actions/user'
 import * as TetriService from '../../services/TetriService';
 
@@ -68,7 +67,7 @@ export default function UserReducer (state = initialState, action = {}) {
         isLoading: true,
       }
     }
-    case RCV_USER_LEAVE_GAME: {
+    case USER_INIT_STATE: {
       return initialState
     }
     case USER_UPDATE : {
@@ -80,7 +79,13 @@ export default function UserReducer (state = initialState, action = {}) {
     case USER_INIT: {
       return {
         ...state,
-        connected: false
+        connected: false,
+        grid: [],
+        completeLine: 0,
+        payload: {},
+        lost: false,
+        winner: false,
+        isLoading: false,
       }
     }
     case USER_UPDATE_GRID: {
