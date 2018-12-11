@@ -7,7 +7,9 @@ import {
   EMIT_NEW_PIECES,
   RCV_NEW_PIECES,
   UPDATE_PLAYERS,
-  emitNewPieces, RCV_GAME_IS_FINISHED,
+  emitNewPieces,
+  RCV_GAME_IS_FINISHED,
+  GAME_INIT_STATE,
 } from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
@@ -26,7 +28,7 @@ import {
 } from "../actions/user";
 import {store} from "../index";
 import {notify} from "../utils/notificationHandler";
-import {TETRI_INIT, TETRI_NEW, tetriInit, tetriNew} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
 import { push } from "connected-react-router";
@@ -65,7 +67,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case RCV_USER_LEAVE_GAME : {
           store.dispatch(push('/'))
-          break;
+          return next(action)
         }
         case EMIT_USER_JOIN_GAME : {
           SocketService.emitJoinGame(action.userName, action.gameName)
@@ -158,6 +160,12 @@ const socketMiddleware = socket => ({dispatch}) => {
             default:
               break;
           }
+          return next(action)
+        }
+        case GAME_INIT_STATE: {
+          return next(action)
+        }
+        case TETRI_INIT_STATE: {
           return next(action)
         }
         default: {
