@@ -64,6 +64,21 @@ const createGame = function(socketId, users) {
 	return game
 }
 
+const initGame = function(game) {
+    game.shapeOrder.shapes = []
+    game.shapeOrder.requestId = null
+    game.numLosers = 0
+    game.master.inGameLoser = false
+    game.master.piece = -1
+
+    if (game.challenger.length > 0) {
+        game.challenger.forEach((player) => {
+            player.inGameLoser = false
+            player.piece = -1
+        })
+    }
+}
+
 const randNumber = function(min, max) {
 	return Math.floor(Math.random() * (max -min + 1))
 }
@@ -211,6 +226,7 @@ export {
 	findGame,
 	findGameBySocketId,
 	createGame,
+       initGame,
 	randNumber,
 	initBoard,
 	getShape,

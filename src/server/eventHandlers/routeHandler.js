@@ -120,6 +120,25 @@ const startGame = function(client, activeGames) {
     return ret
 }
 
+const restartGame = function(io, client, activeGames) {
+    let game = startGame(client, activeGames)
+
+    if (game) {
+        gameHandler.initGame(game)
+        io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+
+        if (game.challenger.length > 0) {
+            let players = allPlayers(game, game.master.socketID)
+            io.to(game.master.socketID).emit(routes.ALL_PLAYERS, players)
+
+            for (let i = 0; i < game.challenger.length; i++) {
+                let players = allPlayers(game, game.challenger[i].socketID)
+                io.to(game.challenger[i].socketID).emit(routes.ALL_PLAYERS, players)
+            }
+        }
+    }
+}
+
 const requestShape = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
     let shape = null
@@ -235,6 +254,7 @@ export {
     joinGame,
     leaveGame,
     startGame,
+    restartGame,
     requestShape,
     updateBoard,
     generateSpectre,

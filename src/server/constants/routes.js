@@ -19,7 +19,9 @@ const routing = {
     UPDATE_STATUS: 'updateStatus',
     SPECTRES_UPDATED: 'spectresUpdated',
     ALL_PLAYERS: 'allPlayers',
-    GAME_FINISHED: 'gameFinished'
+    GAME_FINISHED: 'gameFinished',
+    RESTART_GAME: 'restartGame',
+    CAN_RESTART: 'canRestart'
 }
 
 export default routing

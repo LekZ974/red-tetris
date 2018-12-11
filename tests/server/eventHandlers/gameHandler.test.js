@@ -219,3 +219,22 @@ test('getGameStats2', () => {
 	gameHandler.isGameFinished(game)
 	expect(gameHandler.getGameStats(game)).toMatchSnapshot()
 })
+
+test('initGame', () => {
+    const clientId = 1
+    const clientId2 = 2
+
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+    let player2 = new Player(clientId2, clientId2)
+
+    game.master = player1
+    game.numLosers = 1;
+    game.master.inGameLoser = true;
+    expect(gameHandler.initGame(game)).toMatchSnapshot()
+
+    game.challenger.push(player2);
+    game.challenger[0].inGameLoser = true;
+    expect(gameHandler.initGame(game)).toMatchSnapshot()
+})
