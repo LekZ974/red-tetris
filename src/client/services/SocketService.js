@@ -66,8 +66,9 @@ const rcvGames = data => {
 }
 
 const rcvGridUpdated = data => {
-  console.log("GRDI UPDATED", data)
-  //dispatch updateGrid here but need data with grid
+  if ('OK' === data.stat) {
+    store.dispatch(updateGrid(data.board))
+  }
 }
 
 const rcvGameIsStarted = data => {
@@ -141,7 +142,6 @@ const emitNeedPieces = () => {
 
 const emitUpdateGrid = grid => {
   socket.emit('updateBoard', grid)
-  store.dispatch(updateGrid(grid))
 }
 
 const emitGameStatus = (status) => {
@@ -170,10 +170,12 @@ const emitGetGames = () => {
 
 const emitUserLose = () => {
   store.dispatch(emitUserLost())
+  emitGameStatus('Stop')
 }
 
 const emitUserWin = () => {
   store.dispatch(emitUserIsWinner())
+  emitGameStatus('Stop')
 }
 
 export {

@@ -12,7 +12,6 @@ const RoomInfo = (props) =>{
   const {game, user, updateGameStatus, leaveGame} = props
 
   function changeGameFlow(e) {
-    console.log("BUTTON", e.target)
     const status = e.target.innerHTML
     updateGameStatus(status, game)
   }

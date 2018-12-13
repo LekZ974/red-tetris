@@ -53,7 +53,6 @@ export default function GameReducer (state = initialState, action = {}) {
     case RCV_GAME_IS_FINISHED: {
       return {
         ...state,
-        pause: true,
         gameIsStarted: false,
         start: false,
         params: {
