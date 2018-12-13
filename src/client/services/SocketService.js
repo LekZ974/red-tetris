@@ -141,7 +141,7 @@ const emitNeedPieces = () => {
 
 const emitUpdateGrid = grid => {
   socket.emit('updateBoard', grid)
-  // store.dispatch(updateGrid(grid))
+  store.dispatch(updateGrid(grid))
 }
 
 const emitGameStatus = (status) => {
