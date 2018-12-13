@@ -106,10 +106,12 @@ io.on('connection', (client) => {
         if (res.game && res.game.challenger.length > 0) {
             let spectre = routeHandler.generateSpectre(res.game, res.game.master.socketID)
             io.to(res.game.master.socketID).emit(routes.SPECTRES_UPDATED, spectre)
+            io.to(res.game.master.socketID).emit(routes.MALUS_UPDATED, res.game.master.malus)
 
             for (let i = 0; i < res.game.challenger.length; i++) {
                 let spectre = routeHandler.generateSpectre(res.game, res.game.challenger[i].socketID)
                 io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
+                io.to(res.game.challenger[i].socketID).emit(routes.MALUS_UPDATED, res.game.challenger[i].malus)
             }
 
             if (isGameFinished(res.game)) {

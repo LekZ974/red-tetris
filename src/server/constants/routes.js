@@ -21,7 +21,8 @@ const routing = {
     ALL_PLAYERS: 'allPlayers',
     GAME_FINISHED: 'gameFinished',
     RESTART_GAME: 'restartGame',
-    CAN_RESTART: 'canRestart'
+    CAN_RESTART: 'canRestart',
+    MALUS_UPDATED: 'malusUpdated'
 }
 
 export default routing

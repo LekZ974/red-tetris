@@ -4,6 +4,8 @@ import board from '../constants/board'
 import Piece from '../controllers/piece'
 import Game from '../controllers/game'
 
+import { checkMalus } from '../validators/validate'
+
 const findPlayer = function(socketId, users) {
 	const player = users.find((id) => {
 		if (id.socketID === socketId) {
@@ -220,6 +222,43 @@ const getGameStats = function(game) {
 	return stat
 }
 
+const addMalusToAllChallenger = function(challengers, malus) {
+    challengers.forEach((player) => {
+        player.malus += malus
+    })
+    return true
+}
+
+const updateMalus = function(game, clientId, newBoard) {
+    if (!game || !clientId || !newBoard)
+        return false
+    let malus = checkMalus(newBoard)
+    let diff = 0
+    if (game.master.socketID === clientId) {
+        diff = malus - game.master.malus
+        game.master.malus = malus
+        if (game.challenger.length > 0)
+            addMalusToAllChallenger(game.challenger, diff)
+        return true
+    } else {
+        if (game.challenger.length > 0) {
+            game.challenger.forEach((player) => {
+                if (player.socketID === clientId) {
+                    diff = malus - player.malus
+                    player.malus = malus
+                }
+            })
+            game.challenger.forEach((player) => {
+                if (player.socketId !== clientId)
+                    player.malus += diff
+            })
+            game.master.malus += diff
+            return true
+        }
+        return false
+    }
+}
+
 export {
 	findPlayer,
 	findChallengerIndex,
@@ -233,5 +272,6 @@ export {
 	changeMaster,
 	destroyGame,
 	isGameFinished,
-	getGameStats
+	getGameStats,
+       updateMalus
 }

@@ -4,6 +4,7 @@ import Player from '../controllers/player'
 import Spectre from '../controllers/spectre'
 import * as idHandler from './idHandler'
 import * as gameHandler from './gameHandler'
+import * as validator from '../validators/validate'
 
 const login = function(userInfo, client, onlineUsers) {
 	let ret = {
@@ -156,7 +157,10 @@ const updateBoard = function(client, activeGames, newBoard) {
         game: null
     }
 
-    if (game !== undefined) {
+    if (game !== undefined && validator.checkBoardSize(newBoard)) {
+        if (game.challenger.length > 0)
+            if (!gameHandler.updateMalus(game, client.id, newBoard))
+                return ret
         ret.game = game
         if (client.id == game.master.socketID) {
             game.master.board = newBoard
