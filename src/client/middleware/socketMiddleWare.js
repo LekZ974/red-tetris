@@ -182,14 +182,13 @@ const socketMiddleware = socket => ({dispatch}) => {
       if (thenFn) thenFn(dispatch)
     }
     if (store.getState().user.lost) {
-      SocketService.emitUserLoose()
-      SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+      SocketService.emitUserLose()
     }
-    if (store.getState().tetrimino.needNext) {
-      SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
-      SocketService.emitNeedPieces()
-      store.dispatch(tetriInit())
-    }
+    // if (store.getState().tetrimino.needNext) {
+    //   SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+    //   SocketService.emitNeedPieces()
+    //   store.dispatch(tetriInit())
+    // }
     return next(action)
   }
 }

@@ -56,7 +56,6 @@ export default function GameReducer (state = initialState, action = {}) {
         pause: true,
         gameIsStarted: false,
         start: false,
-        players: null,
         params: {
           addMalus: true,
         },
@@ -80,8 +79,6 @@ export default function GameReducer (state = initialState, action = {}) {
         gameIsStarted: false,
         start: false,
         pause: false,
-        players: null,
-        round: 0,
         params: {
           addMalus: true,
         },

@@ -66,12 +66,11 @@ const rcvGames = data => {
 }
 
 const rcvGridUpdated = data => {
+  console.log("GRDI UPDATED", data)
   //dispatch updateGrid here but need data with grid
 }
 
 const rcvGameIsStarted = data => {
-  store.dispatch(gameInit())
-  store.dispatch(init())
   store.dispatch(tetriInitState())
   store.dispatch(updateUser({grid: data}))
   store.dispatch(rcvGameStatus('Start'))
@@ -99,7 +98,8 @@ const rcvAllPlayers = data => {
 const rcvGameFinished = data => {
   store.dispatch(rcvGameIsFinished(data))
   store.dispatch(tetriInitState())
-  emitGameStatus('Pause')
+  store.dispatch(gameInit())
+  store.dispatch(init())
 }
 
 const rcvCanRestartGame = data => {
@@ -141,7 +141,7 @@ const emitNeedPieces = () => {
 
 const emitUpdateGrid = grid => {
   socket.emit('updateBoard', grid)
-  store.dispatch(updateGrid(grid))
+  // store.dispatch(updateGrid(grid))
 }
 
 const emitGameStatus = (status) => {
@@ -168,7 +168,7 @@ const emitGetGames = () => {
   socket.emit('getGames')
 }
 
-const emitUserLoose = () => {
+const emitUserLose = () => {
   store.dispatch(emitUserLost())
 }
 
@@ -192,6 +192,6 @@ export {
   emitGameStatus,
   emitLeaveGame,
   emitGetGames,
-  emitUserLoose,
+  emitUserLose,
   emitUserWin,
 }
