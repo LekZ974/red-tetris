@@ -103,26 +103,34 @@ io.on('connection', (client) => {
     client.on(routes.UPDATE_BOARD, (newBoard) => {
         let res = routeHandler.updateBoard(client, activeGames, newBoard)
         io.to(client.id).emit(routes.BOARD_UPDATED, res.stat)
-        if (res.game && res.game.challenger.length > 0) {
-            let spectre = routeHandler.generateSpectre(res.game, res.game.master.socketID)
-            io.to(res.game.master.socketID).emit(routes.SPECTRES_UPDATED, spectre)
-            io.to(res.game.master.socketID).emit(routes.MALUS_UPDATED, res.game.master.malus)
+        if (res.game) {
+            if (res.game.challenger.length > 0) {
+                let spectre = routeHandler.generateSpectre(res.game, res.game.master.socketID)
+                io.to(res.game.master.socketID).emit(routes.SPECTRES_UPDATED, spectre)
+                io.to(res.game.master.socketID).emit(routes.MALUS_UPDATED, res.game.master.malus)
 
-            for (let i = 0; i < res.game.challenger.length; i++) {
-                let spectre = routeHandler.generateSpectre(res.game, res.game.challenger[i].socketID)
-                io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
-                io.to(res.game.challenger[i].socketID).emit(routes.MALUS_UPDATED, res.game.challenger[i].malus)
+                for (let i = 0; i < res.game.challenger.length; i++) {
+                    let spectre = routeHandler.generateSpectre(res.game, res.game.challenger[i].socketID)
+                    io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
+                    io.to(res.game.challenger[i].socketID).emit(routes.MALUS_UPDATED, res.game.challenger[i].malus)
+                }
+
+                if (isGameFinished(res.game)) {
+                    res.game.gameStarted = false
+                    let winner = getGameStats(res.game)
+                    io.to(winner.winner).emit(routes.GAME_FINISHED, 'winner')
+                    winner.losers.forEach((id) => {
+                        io.to(id).emit(routes.GAME_FINISHED, 'loser')
+                    })
+                    io.to(res.game.master.socketID).emit(routes.CAN_RESTART, true)
+                }
+            } else {
+                if (isGameFinished(res.game)) {
+                    res.game.gameStarted = false
+                    io.to(client.id).emit(routes.GAME_FINISHED, 'loser')
+                    io.to(client.id).emit(routes.CAN_RESTART, true)
+                }
             }
-
-            if (isGameFinished(res.game)) {
-                res.game.gameStarted = false
-                let winner = getGameStats(res.game)
-                io.to(winner.winner).emit(routes.GAME_FINISHED, 'winner')
-                winner.losers.forEach((id) => {
-                    io.to(id).emit(routes.GAME_FINISHED, 'loser')
-                })
-                io.to(res.game.master.socketID).emit(routes.CAN_RESTART, true)
-           }
         }
     })
 
