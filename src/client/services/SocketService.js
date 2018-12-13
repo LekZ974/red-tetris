@@ -4,15 +4,28 @@ import params from "../../../params"
 import {
   rcvJoinGame,
   updateGrid,
-  rcvLeaveGame,
+  rcvUserLeaveGame,
   rcvLogin,
   emitUserLost,
   rcvUserCanStart,
   updateUser,
   emitUserIsWinner,
+  userInitState,
+  init,
 } from '../actions/user'
+import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
-import {rcvCreateGame, rcvGameStatus, rcvNewPieces, updatePlayers, rcvGameIsFinished} from "../actions/game"
+import {
+  gameInitState,
+  gameInit,
+  rcvCreateGame,
+  rcvGameStatus,
+  rcvNewPieces,
+  updatePlayers,
+  rcvGameIsFinished,
+  rcvGameCanRestart,
+  emitNewPieces,
+} from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
@@ -41,8 +54,11 @@ const rcvNewShape = data => {
   store.dispatch(rcvNewPieces(data))
 }
 
-const rcvLeftGame = data => {
-  store.dispatch(rcvLeaveGame(data))
+const rcvLeftGame = () => {
+  store.dispatch(rcvUserLeaveGame())
+  store.dispatch(gameInitState())
+  store.dispatch(tetriInitState())
+  store.dispatch(userInitState())
 }
 
 const rcvGames = data => {
@@ -50,11 +66,16 @@ const rcvGames = data => {
 }
 
 const rcvGridUpdated = data => {
-  //dispatch updateGrid here but need data with grid
+  if ('OK' === data.stat) {
+    store.dispatch(updateGrid(data.board))
+  }
 }
 
 const rcvGameIsStarted = data => {
+  store.dispatch(tetriInitState())
+  store.dispatch(updateUser({grid: data}))
   store.dispatch(rcvGameStatus('Start'))
+  store.dispatch(emitNewPieces())
 }
 
 const rcvUserStatus = data => {
@@ -77,6 +98,13 @@ const rcvAllPlayers = data => {
 
 const rcvGameFinished = data => {
   store.dispatch(rcvGameIsFinished(data))
+  store.dispatch(tetriInitState())
+  store.dispatch(gameInit())
+  store.dispatch(init())
+}
+
+const rcvCanRestartGame = data => {
+  store.dispatch(rcvGameCanRestart(data))
 }
 
 socket.on('logged', rcvPlayerLogged)
@@ -92,6 +120,7 @@ socket.on('updateStatus', rcvUserStatus)
 socket.on('spectresUpdated', rcvSpectres)
 socket.on('allPlayers', rcvAllPlayers)
 socket.on('gameFinished', rcvGameFinished)
+socket.on('canRestart', rcvCanRestartGame)
 
 //EMIT
 
@@ -113,13 +142,16 @@ const emitNeedPieces = () => {
 
 const emitUpdateGrid = grid => {
   socket.emit('updateBoard', grid)
-  store.dispatch(updateGrid(grid))
 }
 
 const emitGameStatus = (status) => {
   switch (status) {
     case 'Start' : {
       socket.emit('startGame')
+      break;
+    }
+    case 'Restart' : {
+      socket.emit('restartGame')
       break;
     }
     default : {
@@ -136,12 +168,14 @@ const emitGetGames = () => {
   socket.emit('getGames')
 }
 
-const emitUserLoose = () => {
+const emitUserLose = () => {
   store.dispatch(emitUserLost())
+  emitGameStatus('Stop')
 }
 
 const emitUserWin = () => {
   store.dispatch(emitUserIsWinner())
+  emitGameStatus('Stop')
 }
 
 export {
@@ -160,6 +194,6 @@ export {
   emitGameStatus,
   emitLeaveGame,
   emitGetGames,
-  emitUserLoose,
+  emitUserLose,
   emitUserWin,
 }

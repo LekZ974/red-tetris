@@ -20,14 +20,14 @@ const RoomInfo = (props) =>{
     leaveGame()
   }
 
-  const buttonValue = game.start ? 'Pause' : 'Start'
+  const buttonValue = !game.start && game.round > 1 ? 'Restart' : 'Start'
 
   const styles = {
     buttonStart: {
       backgroundColor: '#40ed6d'
     },
-    buttonPause: {
-      backgroundColor: '#ff8b23'
+    buttonDisabled: {
+      backgroundColor: '#c9c4ce'
     },
     buttonStop: {
       backgroundColor: '#ff001c'
@@ -47,8 +47,7 @@ const RoomInfo = (props) =>{
       <Box style={{marginTop: 0}}>
         <h1>{game.name}</h1>
       </Box>
-      {user.role === 'master' && <Box><Button style={buttonValue === 'Start' ? styles.buttonStart : styles.buttonPause} onClick={changeGameFlow}>{buttonValue}</Button></Box>}
-      {user.role === 'master' && <Box><Button style={styles.buttonStop} onClick={changeGameFlow}>Stop</Button></Box>}
+      {user.role === 'master' && <Box><Button style={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>{buttonValue}</Button></Box>}
       <Box><Button onClick={leaveRoom}><Link style={styles.link} to={'/'}>Leave Game</Link></Button></Box>
     </Box>
   )

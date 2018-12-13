@@ -8,8 +8,9 @@ import {
   EMIT_USER_JOIN_GAME,
   RCV_USER_JOIN_GAME,
   EMIT_USER_LEAVE_GAME,
-  RCV_USER_LEAVE_GAME,
+  USER_INIT_STATE,
   EMIT_USER_LOST,
+  EMIT_USER_WIN,
 } from '../../actions/user'
 import * as TetriService from '../../services/TetriService';
 
@@ -68,7 +69,7 @@ export default function UserReducer (state = initialState, action = {}) {
         isLoading: true,
       }
     }
-    case RCV_USER_LEAVE_GAME: {
+    case USER_INIT_STATE: {
       return initialState
     }
     case USER_UPDATE : {
@@ -80,7 +81,13 @@ export default function UserReducer (state = initialState, action = {}) {
     case USER_INIT: {
       return {
         ...state,
-        connected: false
+        connected: false,
+        grid: [],
+        completeLine: 0,
+        payload: {},
+        lost: false,
+        winner: false,
+        isLoading: false,
       }
     }
     case USER_UPDATE_GRID: {
@@ -88,13 +95,26 @@ export default function UserReducer (state = initialState, action = {}) {
       let nbLineDel;
       [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
 
-      const loose = TetriService.asLoose(newGrid);
-
         return {
         ...state,
         completeLine: nbLineDel,
         grid: newGrid,
-        lost: loose,
+      }
+    }
+    case EMIT_USER_LOST: {
+      return {
+        ...state,
+        connected: false,
+        lost: true,
+        grid: []
+      }
+    }
+    case EMIT_USER_WIN: {
+      return {
+        ...state,
+        connected: false,
+        winner: true,
+        grid: []
       }
     }
     default:

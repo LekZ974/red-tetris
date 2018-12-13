@@ -14,13 +14,17 @@ const reducerEmitGameStatus = (state, action, initialState) => {
       return {
         ...state,
         items: action.payload,
+        gameIsStarted: true,
         start: false,
         pause: true,
-        gameIsStarted: true,
       }
     }
     case 'Stop': {
-      return initialState
+      return {
+        ...state,
+        start: false,
+        pause: false,
+      }
     }
     default: return state
   }
@@ -29,6 +33,7 @@ const reducerEmitGameStatus = (state, action, initialState) => {
 const reducerRcvCreateGame = (state, action) => {
   return {
     ...state,
+    round: state.round + 1,
     isLoading: false,
   }
 }

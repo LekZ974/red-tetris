@@ -1,5 +1,6 @@
 import {PIECES_ACTION} from "../../../common/pieces";
 import * as TetriService from "../../services/TetriService";
+import * as SocketService from "../../services/SocketService";
 
 const reducerTetriStep = (state, action, initialState) => {
   if (state.pieceInfo) {

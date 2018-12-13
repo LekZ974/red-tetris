@@ -13,7 +13,7 @@ import {emitLogin, emitLeaveGame} from "../../actions/user";
 import {displayCommand} from "../../actions/alert";
 
 const Room = (props) => {
-  const {user, game, match, createGame, login, showCommand} = props
+  const {user, game, match, createGame, login} = props
 
   if (!user.name && !user.isLoading) {
     login(match.params.user)
