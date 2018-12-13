@@ -3,6 +3,7 @@ import Player from '../../../src/server/controllers/player'
 import Game from '../../../src/server/controllers/game'
 import Piece from '../../../src/server/controllers/piece'
 import shapes from '../../../src/server/constants/shapes'
+import board from '../../../src/server/constants/board'
 
 test('createGame', () => {
     let onlinePlayers = []
@@ -106,118 +107,125 @@ test('changeMaster', () => {
 	expect(gameHandler.changeMaster(game)).toMatchSnapshot()
 })
 
-test('isGameFinished_solo', () => {
-    const clientId = 1
-	const Board1 = [
-	[0, 0, 0, 0, 0],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
-	const Board2 = [
-	[0, 0, 1, 0, 0],
-	[0, 1, 1, 1, 0],
-	[0, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
-
-    let tetriminos = Array(new Piece(shapes[0]))
-    let game = new Game(tetriminos)
-    let player1 = new Player(clientId, clientId)
-
-	player1.board = Board1
-    game.master = player1
-	expect(gameHandler.isGameFinished(game)).toBe(false)
-	game.master.board = Board2
-	expect(gameHandler.isGameFinished(game)).toBe(true)
-})
-
-test('isGameFinished_multi', () => {
+describe('testsBoards', () => {
+    let Board1
+    let Board2
+    let tetriminos
+    let game
+    let player1
+    let player2
+    
     const clientId = 1
     const clientId2 = 2
-	const mBoard = [
-	[0, 0, 0, 0, 0],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
-	const chBoard = [
-	[0, 0, 1, 0, 0],
-	[0, 1, 1, 1, 0],
-	[0, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
+    
+    const init = function() {
+        let grid = Array(board.LENGTH)
+        for (let i = 0; i < grid.length; i++) {
+            grid[i] = Array(board.WIDTH)
+            for (let j = 0; j < grid[i].length; j++)
+                grid[i][j] = 0
+        }
+        return grid
+    }
+    
+    const fillBoard = function(grid, start) {
+        for (let i = start; i < grid.length; i++) {
+            for (let j = 0; i < grid[i].length; i++) {
+                grid[i][j] = 1
+            }
+        }
+    }
 
-    let tetriminos = Array(new Piece(shapes[0]))
-    let game = new Game(tetriminos)
-    let player1 = new Player(clientId, clientId)
-    let player2 = new Player(clientId2, clientId2)
+    beforeEach(() => {
+        Board1 = init()
+        Board2 = init()
+        tetriminos = Array(new Piece(shapes[0]))
+        game = new Game(tetriminos)
+        player1 = new Player(clientId, clientId)
+        player2 = new Player(clientId2, clientId2)
+    })
 
-	player1.board = mBoard
-    game.master = player1
-	player2.board = mBoard
-    game.challenger.push(player2)
-	expect(gameHandler.isGameFinished(game)).toBe(false)
-	game.challenger[0].board = chBoard
-	expect(gameHandler.isGameFinished(game)).toBe(true)
-})
+    test('isGameFinished_solo', () => {
+        fillBoard(Board1, 4)
+        fillBoard(Board2, 3)
 
-test('getGameStats', () => {
-    const clientId = 1
-    const clientId2 = 2
-	const mBoard = [
-	[0, 0, 0, 0, 0],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
-	const chBoard = [
-	[0, 0, 1, 0, 0],
-	[0, 1, 1, 1, 0],
-	[0, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
+        player1.board = Board1
+        game.master = player1
+        expect(gameHandler.isGameFinished(game)).toBe(false)
+        game.master.board = Board2
+        expect(gameHandler.isGameFinished(game)).toBe(true)
+    })
 
-    let tetriminos = Array(new Piece(shapes[0]))
-    let game = new Game(tetriminos)
-    let player1 = new Player(clientId, clientId)
-    let player2 = new Player(clientId2, clientId2)
+    test('isGameFinished_multi', () => {
+        fillBoard(Board1, 4)
+        fillBoard(Board2, 3)
 
-	player1.board = mBoard
-    game.master = player1
-	player2.board = chBoard
-    game.challenger.push(player2)
-	gameHandler.isGameFinished(game)
-	expect(gameHandler.getGameStats(game)).toMatchSnapshot()
-})
+        player1.board = Board1
+        game.master = player1
+        player2.board = Board1
+        game.challenger.push(player2)
+        expect(gameHandler.isGameFinished(game)).toBe(false)
+        game.challenger[0].board = Board2
+        expect(gameHandler.isGameFinished(game)).toBe(true)
+    })
 
-test('getGameStats2', () => {
-    const clientId = 1
-    const clientId2 = 2
-	const mBoard = [
-	[0, 0, 1, 0, 0],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
-	const chBoard = [
-	[0, 0, 0, 0, 0],
-	[0, 1, 1, 1, 0],
-	[0, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]
-	]
+    test('getGameStats', () => {
+        fillBoard(Board1, 4)
+        fillBoard(Board2, 3)
 
-    let tetriminos = Array(new Piece(shapes[0]))
-    let game = new Game(tetriminos)
-    let player1 = new Player(clientId, clientId)
-    let player2 = new Player(clientId2, clientId2)
+        player1.board = Board1
+        game.master = player1
+        player2.board = Board2
+        game.challenger.push(player2)
+        gameHandler.isGameFinished(game)
+        expect(gameHandler.getGameStats(game)).toMatchSnapshot()
+    })
 
-	player1.board = mBoard
-    game.master = player1
-	player2.board = chBoard
-    game.challenger.push(player2)
-	gameHandler.isGameFinished(game)
-	expect(gameHandler.getGameStats(game)).toMatchSnapshot()
+    test('getGameStats2', () => {
+        fillBoard(Board1, 3)
+        fillBoard(Board2, 4)
+
+        player1.board = Board1
+        game.master = player1
+        player2.board = Board2
+        game.challenger.push(player2)
+        gameHandler.isGameFinished(game)
+        expect(gameHandler.getGameStats(game)).toMatchSnapshot()
+    })
+
+    test('updateMalus', () => {
+        let falseGame
+        let client
+        let grid
+
+        expect(gameHandler.updateMalus(falseGame, clientId, Board1)).toBe(false)
+        expect(gameHandler.updateMalus(game, client, Board1)).toBe(false)
+        expect(gameHandler.updateMalus(game, clientId, grid)).toBe(false)
+
+        player1.board = Board1
+        game.master = player1
+        player2.board = Board2
+        game.challenger.push(player2)
+        
+        for(let i = Board1.length - 2; i < Board1.length; i++) {
+            for (let j = 0; j < Board1[i].length; j++) {
+                Board1[i][j] = board.MALUS
+            }
+        }
+        
+        expect(gameHandler.updateMalus(game, clientId, Board1)).toBe(true)
+        
+        for(let i = Board2.length - 5; i < Board1.length; i++) {
+            for (let j = 0; j < Board2[i].length; j++) {
+                Board2[i][j] = board.MALUS
+            }
+        }
+
+        expect(gameHandler.updateMalus(game, clientId2, Board2)).toBe(true)
+
+        game.challenger = []
+        expect(gameHandler.updateMalus(game, clientId2, Board2)).toBe(false)
+    })
 })
 
 test('initGame', () => {
