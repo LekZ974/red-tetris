@@ -113,7 +113,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_GAME_STATUS : {
           SocketService.emitGameStatus(action.gameStatus)
-          break;
+          return next(action)
         }
         case RCV_GAME_STATUS : {
           return next(action)
@@ -183,6 +183,7 @@ const socketMiddleware = socket => ({dispatch}) => {
     }
     if (store.getState().user.lost) {
       SocketService.emitUserLose()
+      SocketService.emitGameStatus('Stop')
     }
     if (store.getState().tetrimino.needNext) {
       SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))

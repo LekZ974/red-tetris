@@ -229,7 +229,7 @@ const gridDelLine = grid => {
   return [newGrid, lineToDel.length - nbWall];
 };
 
-const asLoose = grid => {
+const asLose = grid => {
   return grid && grid.length >= 1 && ((grid[0].some(e => e !== PIECES_NUM.empty) ||
     grid[1].some(e => e !== PIECES_NUM.empty) ||
     grid[2].some(e => e !== PIECES_NUM.empty)))
@@ -268,7 +268,7 @@ export {
   placePiecePreview,
   cloneTetri,
   gridDelLine,
-  asLoose,
+  asLose,
   addMalusBlocks,
   newRot,
   newCoords,

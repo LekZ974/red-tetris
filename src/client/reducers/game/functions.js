@@ -14,12 +14,17 @@ const reducerEmitGameStatus = (state, action, initialState) => {
       return {
         ...state,
         items: action.payload,
+        gameIsStarted: true,
         start: false,
         pause: true,
       }
     }
     case 'Stop': {
-      return initialState
+      return {
+        ...state,
+        start: false,
+        pause: false,
+      }
     }
     default: return state
   }

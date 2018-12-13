@@ -12,6 +12,7 @@ const RoomInfo = (props) =>{
   const {game, user, updateGameStatus, leaveGame} = props
 
   function changeGameFlow(e) {
+    console.log("BUTTON", e.target)
     const status = e.target.innerHTML
     updateGameStatus(status, game)
   }
@@ -27,7 +28,6 @@ const RoomInfo = (props) =>{
       backgroundColor: '#40ed6d'
     },
     buttonDisabled: {
-      disabled: true,
       backgroundColor: '#c9c4ce'
     },
     buttonStop: {
@@ -48,8 +48,7 @@ const RoomInfo = (props) =>{
       <Box style={{marginTop: 0}}>
         <h1>{game.name}</h1>
       </Box>
-      {user.role === 'master' && <Box><Button style={!game.start ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow}>{buttonValue}</Button></Box>}
-      {user.role === 'master' && <Box><Button style={styles.buttonStop} onClick={changeGameFlow}>Stop</Button></Box>}
+      {user.role === 'master' && <Box><Button style={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>{buttonValue}</Button></Box>}
       <Box><Button onClick={leaveRoom}><Link style={styles.link} to={'/'}>Leave Game</Link></Button></Box>
     </Box>
   )
