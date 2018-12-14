@@ -247,7 +247,7 @@ const updateMalus = function(game, clientId, newBoard) {
                 }
             })
             game.challenger.forEach((player) => {
-                if (player.socketId !== clientId)
+                if (player.socketID !== clientId)
                     player.malus += diff
             })
             game.master.malus += diff
