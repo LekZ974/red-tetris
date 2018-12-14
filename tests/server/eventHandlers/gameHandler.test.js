@@ -197,6 +197,7 @@ describe('testsBoards', () => {
         let falseGame
         let client
         let grid
+        let player3 = new Player(3, 3)
 
         expect(gameHandler.updateMalus(falseGame, clientId, Board1)).toBe(false)
         expect(gameHandler.updateMalus(game, client, Board1)).toBe(false)
@@ -209,15 +210,17 @@ describe('testsBoards', () => {
         
         for(let i = Board1.length - 2; i < Board1.length; i++) {
             for (let j = 0; j < Board1[i].length; j++) {
-                Board1[i][j] = board.MALUS
+                Board1[i][j] = 1
             }
         }
         
         expect(gameHandler.updateMalus(game, clientId, Board1)).toBe(true)
+        game.challenger.push(player3)
+        expect(gameHandler.updateMalus(game, clientId, Board1)).toBe(true)
         
         for(let i = Board2.length - 5; i < Board1.length; i++) {
             for (let j = 0; j < Board2[i].length; j++) {
-                Board2[i][j] = board.MALUS
+                Board2[i][j] = 1
             }
         }
 

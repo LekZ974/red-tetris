@@ -36,7 +36,7 @@ test('checkMalus', () => {
 
     for (let i = validGrid.length - 3; i < validGrid.length; i++) {
         for (let j = 0; j < validGrid[i].length; j++) {
-            validGrid[i][j] = board.MALUS
+            validGrid[i][j] = 1
         }
     }
 

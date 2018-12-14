@@ -1,7 +1,6 @@
 const board = {
     LENGTH: 23,
-    WIDTH: 10,
-    MALUS: -1
+    WIDTH: 10
 }
 
 export default board
