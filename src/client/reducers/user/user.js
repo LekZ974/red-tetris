@@ -10,7 +10,7 @@ import {
   EMIT_USER_LEAVE_GAME,
   USER_INIT_STATE,
   EMIT_USER_LOST,
-  EMIT_USER_WIN,
+  EMIT_USER_WIN, USER_ADD_MALUS,
 } from '../../actions/user'
 import * as TetriService from '../../services/TetriService';
 
@@ -22,6 +22,7 @@ export const initialState = {
   connected: false,
   grid: [],
   completeLine: 0,
+  malus: 0,
   payload: {},
   lost: false,
   winner: false,
@@ -94,6 +95,7 @@ export default function UserReducer (state = initialState, action = {}) {
       let newGrid = action.grid
       let nbLineDel;
       [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
+      console.log("NB LINEDEL", nbLineDel)
 
         return {
         ...state,
@@ -115,6 +117,12 @@ export default function UserReducer (state = initialState, action = {}) {
         connected: false,
         winner: true,
         grid: []
+      }
+    }
+    case USER_ADD_MALUS: {
+      return {
+        ...state,
+        malus: action.data
       }
     }
     default:

@@ -194,6 +194,7 @@ const socketMiddleware = socket => ({dispatch}) => {
       SocketService.emitNeedPieces()
       store.dispatch(tetriInit())
     }
+    TetriService.addMalusBlocks(store.getState().user.grid, store.getState().user.malus)
     return next(action)
   }
 }

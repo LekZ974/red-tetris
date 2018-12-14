@@ -12,6 +12,7 @@ import {
   emitUserIsWinner,
   userInitState,
   init,
+  addMalusToUser,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
@@ -107,6 +108,11 @@ const rcvCanRestartGame = data => {
   store.dispatch(rcvGameCanRestart(data))
 }
 
+const rcvMalus = data => {
+  console.log(data)
+  store.dispatch(addMalusToUser(data))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -121,6 +127,7 @@ socket.on('spectresUpdated', rcvSpectres)
 socket.on('allPlayers', rcvAllPlayers)
 socket.on('gameFinished', rcvGameFinished)
 socket.on('canRestart', rcvCanRestartGame)
+socket.on('malusUpdated', rcvMalus)
 
 //EMIT
 
@@ -141,6 +148,7 @@ const emitNeedPieces = () => {
 }
 
 const emitUpdateGrid = grid => {
+  console.log("EMIT GRID", grid)
   socket.emit('updateBoard', grid)
 }
 
