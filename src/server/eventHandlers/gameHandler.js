@@ -236,7 +236,6 @@ const updateMalus = function(game, clientId, newBoard) {
     let diff = 0
     if (game.master.socketID === clientId) {
         diff = malus - game.master.malus
-        game.master.malus = malus
         if (game.challenger.length > 0)
             addMalusToAllChallenger(game.challenger, diff)
         return true
@@ -245,7 +244,6 @@ const updateMalus = function(game, clientId, newBoard) {
             game.challenger.forEach((player) => {
                 if (player.socketID === clientId) {
                     diff = malus - player.malus
-                    player.malus = malus
                 }
             })
             game.challenger.forEach((player) => {
