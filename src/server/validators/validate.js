@@ -22,7 +22,7 @@ const checkMalus = function(board) {
     board.forEach((row) => {
         let rowVal = 0
         for (let i = 0; i < row.length; i++) {
-            if (row[i] === boardSpec.MALUS)
+            if (row[i] > 0)
                 rowVal++
         }
         if (rowVal === boardSpec.WIDTH) {
