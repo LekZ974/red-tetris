@@ -233,24 +233,19 @@ const updateMalus = function(game, clientId, newBoard) {
     if (!game || !clientId || !newBoard)
         return false
     let malus = checkMalus(newBoard)
-    let diff = 0
+    if (malus === -1)
+        return false
     if (game.master.socketID === clientId) {
-        diff = malus - game.master.malus
         if (game.challenger.length > 0)
-            addMalusToAllChallenger(game.challenger, diff)
+            addMalusToAllChallenger(game.challenger, malus)
         return true
     } else {
         if (game.challenger.length > 0) {
             game.challenger.forEach((player) => {
-                if (player.socketID === clientId) {
-                    diff = malus - player.malus
-                }
-            })
-            game.challenger.forEach((player) => {
                 if (player.socketID !== clientId)
-                    player.malus += diff
+                    player.malus += malus
             })
-            game.master.malus += diff
+            game.master.malus += malus
             return true
         }
         return false
@@ -263,7 +258,7 @@ export {
 	findGame,
 	findGameBySocketId,
 	createGame,
-       initGame,
+    initGame,
 	randNumber,
 	initBoard,
 	getShape,
@@ -271,5 +266,5 @@ export {
 	destroyGame,
 	isGameFinished,
 	getGameStats,
-       updateMalus
+    updateMalus
 }
