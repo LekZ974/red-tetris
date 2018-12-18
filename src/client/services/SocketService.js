@@ -109,7 +109,7 @@ const rcvCanRestartGame = data => {
 }
 
 const rcvMalus = data => {
-  console.log(data)
+  console.log("Malus", data)
   store.dispatch(addMalusToUser(data))
 }
 

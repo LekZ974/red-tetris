@@ -270,6 +270,7 @@ export {
   gridDelLine,
   asLose,
   addMalusBlocks,
+  malusResizeGrid,
   newRot,
   newCoords,
   updatePieceRot,
