@@ -193,7 +193,7 @@ const generateSpectre = function(game, clientId) {
         if (game.master.socketID !== clientId) {
             mcontents.role = 'Master'
             mcontents.login = game.master.playerID
-            mcontents.spectre = game.master.spectre.generateSpectre(game.master.board);
+            mcontents.spectre = game.master.spectre.generateSpectre(game.master.board, game.master.malus);
             allSpectres.push(mcontents)
         }
 
@@ -207,7 +207,7 @@ const generateSpectre = function(game, clientId) {
             if (game.challenger[i].socketID !== clientId) {
                 contents.role = 'Challenger'
                 contents.login = game.challenger[i].playerID
-                contents.spectre = game.challenger[i].spectre.generateSpectre(game.challenger[i].board)
+                contents.spectre = game.challenger[i].spectre.generateSpectre(game.challenger[i].board, game.challenger[i].malus)
                 allSpectres.push(contents)
             }
         }
