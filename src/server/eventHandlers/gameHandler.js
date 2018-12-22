@@ -72,11 +72,13 @@ const initGame = function(game) {
     game.numLosers = 0
     game.master.inGameLoser = false
     game.master.piece = -1
+    game.master.malus = 0
 
     if (game.challenger.length > 0) {
         game.challenger.forEach((player) => {
             player.inGameLoser = false
             player.piece = -1
+            player.malus = 0
         })
     }
 }
