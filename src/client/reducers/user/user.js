@@ -86,6 +86,7 @@ export default function UserReducer (state = initialState, action = {}) {
         grid: [],
         completeLine: 0,
         payload: {},
+        malus: 0,
         lost: false,
         winner: false,
         isLoading: false,
@@ -95,7 +96,6 @@ export default function UserReducer (state = initialState, action = {}) {
       let newGrid = action.grid
       let nbLineDel;
       [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
-      console.log("NB LINEDEL", nbLineDel)
 
         return {
         ...state,

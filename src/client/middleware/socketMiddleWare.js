@@ -28,6 +28,7 @@ import {
   RCV_USER_CAN_START,
   USER_INIT_STATE,
   USER_INIT,
+  USER_ADD_MALUS,
 } from "../actions/user";
 import {store} from "../index";
 import {notify} from "../utils/notificationHandler";
@@ -178,6 +179,13 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case GAME_INIT: {
+          return next(action)
+        }
+        case USER_ADD_MALUS: {
+          if (action.data !== store.getState().user.malus) {
+            const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data)
+            SocketService.emitUpdateGrid(newGrid)
+          }
           return next(action)
         }
         default: {

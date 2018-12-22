@@ -3,7 +3,6 @@ import Fade from 'react-reveal/Fade';
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
 import GridBlock from '../block/GridBlock';
-import {store} from "../../index";
 
 const GridUserComponent = (state) => {
   const { gridRender } = state
@@ -34,9 +33,7 @@ const mapStateToProps = state => {
     let CpPlayerGrid = TetriService.placePiecePreview(playerGrid, CpTetrimino);
     playerGrid = TetriService.placePiece(CpPlayerGrid, state.tetrimino);
   }
-
-  playerGrid = TetriService.malusResizeGrid(playerGrid, userState.malus)
-
+  
   playerGrid.forEach(l => {
     gridRender.push([...l]);
   });

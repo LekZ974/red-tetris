@@ -212,7 +212,7 @@ const gridDelLine = grid => {
   newGrid.forEach((line, i) => {
     let asEmpty = false;
     line.forEach(el => {
-      if (el === PIECES_NUM.empty) {
+      if (el === PIECES_NUM.empty || el === PIECES_NUM.malus) {
         asEmpty = true;
       }
     });

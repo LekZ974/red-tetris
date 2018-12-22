@@ -30,6 +30,7 @@ import {
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
+import * as TetriService from "./TetriService";
 
 const socket = io.connect(params.server.url)
 
@@ -109,7 +110,6 @@ const rcvCanRestartGame = data => {
 }
 
 const rcvMalus = data => {
-  console.log("Malus", data)
   store.dispatch(addMalusToUser(data))
 }
 
@@ -148,7 +148,6 @@ const emitNeedPieces = () => {
 }
 
 const emitUpdateGrid = grid => {
-  console.log("EMIT GRID", grid)
   socket.emit('updateBoard', grid)
 }
 
