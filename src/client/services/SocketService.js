@@ -12,6 +12,7 @@ import {
   emitUserIsWinner,
   userInitState,
   init,
+  addMalusToUser,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
@@ -29,6 +30,7 @@ import {
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
+import * as TetriService from "./TetriService";
 
 const socket = io.connect(params.server.url)
 
@@ -107,6 +109,10 @@ const rcvCanRestartGame = data => {
   store.dispatch(rcvGameCanRestart(data))
 }
 
+const rcvMalus = data => {
+  store.dispatch(addMalusToUser(data))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -121,6 +127,7 @@ socket.on('spectresUpdated', rcvSpectres)
 socket.on('allPlayers', rcvAllPlayers)
 socket.on('gameFinished', rcvGameFinished)
 socket.on('canRestart', rcvCanRestartGame)
+socket.on('malusUpdated', rcvMalus)
 
 //EMIT
 

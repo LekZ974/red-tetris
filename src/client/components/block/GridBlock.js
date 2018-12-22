@@ -79,7 +79,7 @@ const GridBlock = (props) => {
       }
       break;
     }
-    case 9: {
+    case -1: {
       propsBlock = {
         backgroundColor: '#777777',
         border: 'solid',

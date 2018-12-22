@@ -33,7 +33,7 @@ const mapStateToProps = state => {
     let CpPlayerGrid = TetriService.placePiecePreview(playerGrid, CpTetrimino);
     playerGrid = TetriService.placePiece(CpPlayerGrid, state.tetrimino);
   }
-
+  
   playerGrid.forEach(l => {
     gridRender.push([...l]);
   });

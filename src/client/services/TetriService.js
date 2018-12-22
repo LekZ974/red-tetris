@@ -212,7 +212,7 @@ const gridDelLine = grid => {
   newGrid.forEach((line, i) => {
     let asEmpty = false;
     line.forEach(el => {
-      if (el === PIECES_NUM.empty) {
+      if (el === PIECES_NUM.empty || el === PIECES_NUM.malus) {
         asEmpty = true;
       }
     });
@@ -249,14 +249,16 @@ const addMalusBlocks = (grid, amount) => {
 };
 
 const malusResizeGrid = (grid, amount) => {
-  const newGrid = grid.map(l => l.map(e => e));
+  if (grid.length > 0) {
+    const newGrid = grid.map(l => l.map(e => e));
 
-  for (let i = 0; i < amount; i++) {
-    newGrid.push(Array(grid[0].length).fill(PIECES_NUM.malus));
-    newGrid.shift();
+    for (let i = 0; i < amount; i++) {
+      newGrid.push(Array(grid[0].length).fill(PIECES_NUM.malus));
+      newGrid.shift();
+    }
+
+    return newGrid;
   }
-
-  return newGrid;
 };
 
 export {
@@ -270,6 +272,7 @@ export {
   gridDelLine,
   asLose,
   addMalusBlocks,
+  malusResizeGrid,
   newRot,
   newCoords,
   updatePieceRot,
