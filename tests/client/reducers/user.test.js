@@ -32,7 +32,9 @@ describe('user reducer test',()=>{
         connected: true,
         grid: [],
         completeLine: 0,
-        loosed: false,
+        lost: false,
+        malus: 0,
+        winner: false,
         payload: {},
         isLoading: false,
       })
@@ -51,7 +53,9 @@ describe('user reducer test',()=>{
         grid:[],
         completeLine: 0,
         payload: {},
-        loosed: false,
+        lost: false,
+        malus: 0,
+        winner: false,
         isLoading: true,
       })
   })
@@ -69,7 +73,9 @@ describe('user reducer test',()=>{
         grid:[],
         completeLine: 0,
         payload: {},
-        loosed: false,
+        lost: false,
+        malus: 0,
+        winner: false,
         isLoading: false,
       })
   })
@@ -99,7 +105,6 @@ describe('user reducer test',()=>{
       grid: [],
       completeLine: 0,
       payload: {},
-      loosed: false,
       isLoading: false,
     }, {
       type:USER_INIT
@@ -121,20 +126,20 @@ describe('user reducer test',()=>{
       type:USER_UPDATE_GRID,
       grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
     }))
-      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]})
   })
   it('should test USER_UPDATE_GRID with a complete line', ()=>{
     expect(reducer({}, {
       type:USER_UPDATE_GRID,
       grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1]]
     }))
-      .toEqual({completeLine: 1, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+      .toEqual({completeLine: 1, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]})
   })
   it('should test USER_UPDATE_GRID with a lost grid', ()=>{
     expect(reducer({}, {
       type:USER_UPDATE_GRID,
       grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1]]
     }))
-      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0,0,0,1,0], [1,1,0,1,1]], loosed: true})
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0,0,0,1,0], [1,1,0,1,1]]})
   })
 })

@@ -33,6 +33,7 @@ describe('game test all actions', () => {
           id: "",
           name: "",
           owner: "",
+          round: 0,
           params: {addMalus: true},
           isLoading: false,
           players: null,
@@ -41,7 +42,7 @@ describe('game test all actions', () => {
     }
   )
   it('should test NeedNewPiece', () => {
-    expect(actions.emitNewPieces({})).toEqual({ type: EMIT_NEW_PIECES, game: {} })
+    expect(actions.emitNewPieces({})).toEqual({ type: EMIT_NEW_PIECES})
   })
   it('should test emitGamePiece with no parameter pass', () => {
     const gameName = undefined

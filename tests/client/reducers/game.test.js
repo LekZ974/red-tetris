@@ -116,15 +116,10 @@ describe('Test game reducer', ()=> {
           gameStatus: 'Stop'
         })).toEqual({
         items: [],
-        id:"",
-        owner:"",
-        name:"",
         gameIsStarted: false,
         start: false,
         pause: false,
         params: {addMalus: true},
-        isLoading: false,
-        players: null,
       }
     )
   })
