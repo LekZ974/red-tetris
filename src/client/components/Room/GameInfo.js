@@ -1,6 +1,5 @@
 import React from 'react'
 import {Box, GridBlock} from "../block";
-import {createChallengerGrid} from "../../utils/gridHandler";
 import Fade from 'react-reveal/Fade';
 
 const GameInfo = (props) => {

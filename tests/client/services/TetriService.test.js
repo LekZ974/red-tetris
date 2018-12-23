@@ -11,8 +11,9 @@ import {
   updateTetriPos,
   cloneTetri,
   gridDelLine,
-  asLoose,
+  asLose,
   addMalusBlocks,
+  malusResizeGrid
 } from '../../../src/client/services/TetriService';
 import {GRID_HEIGHT, GRID_WIDTH} from "../../../src/common/grid";
 import {PIECES_NUM, PIECES_ACTION, PIECES_INFO, PRIO_COLLISION, COLLISION_TYPE} from "../../../src/common/pieces";
@@ -474,19 +475,19 @@ describe('>>>>>TetriService', () => {
     })
   })
 
-  describe('>>>>>asLoose', () => {
+  describe('>>>>>asLose', () => {
     const gridIsLost = [[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]
     const gridIsNotLost = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]
     const gridIsEmpty = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
 
     it('is lost', () => {
-      expect(asLoose(gridIsLost)).to.equal(true)
+      expect(asLose(gridIsLost)).to.equal(true)
     })
     it('not lost', () => {
-      expect(asLoose(gridIsNotLost)).to.equal(false)
+      expect(asLose(gridIsNotLost)).to.equal(false)
     })
     it('is empty', () => {
-      expect(asLoose(gridIsEmpty)).to.equal(false)
+      expect(asLose(gridIsEmpty)).to.equal(false)
     })
   })
   describe('>>>>>addMalusBlocks', () => {
@@ -495,14 +496,30 @@ describe('>>>>>TetriService', () => {
 
     it('with blocks', () => {
       expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 0))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]))
-      expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 1))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[9,9,9,9,9]]))
-      expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 3))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[9,9,9,9,9],[9,9,9,9,9],[9,9,9,9,9]]))
-      expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 5))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[9,9,9,9,9],[9,9,9,9,9],[9,9,9,9,9],[9,9,9,9,9],[9,9,9,9,9]]))
+      expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 1))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[-1,-1,-1,-1,-1]]))
+      expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 3))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
+      expect(JSON.stringify(addMalusBlocks(gridWithBlocks, 5))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
     })
     it('empty grid', () => {
       expect(JSON.stringify(addMalusBlocks(gridIsEmpty, 0))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]))
-      expect(JSON.stringify(addMalusBlocks(gridIsEmpty, 2))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[9,9,9,9,9],[9,9,9,9,9]]))
-      expect(JSON.stringify(addMalusBlocks(gridIsEmpty, 3))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[9,9,9,9,9],[9,9,9,9,9],[9,9,9,9,9]]))
+      expect(JSON.stringify(addMalusBlocks(gridIsEmpty, 2))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
+      expect(JSON.stringify(addMalusBlocks(gridIsEmpty, 3))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
+    })
+  })
+  describe('>>>>>malusResizeGrid', () => {
+    const gridWithBlocks = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]
+    const gridIsEmpty = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+
+    it('with blocks', () => {
+      expect(JSON.stringify(malusResizeGrid(gridWithBlocks, 0))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]))
+      expect(JSON.stringify(malusResizeGrid(gridWithBlocks, 1))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[-1,-1,-1,-1,-1]]))
+      expect(JSON.stringify(malusResizeGrid(gridWithBlocks, 3))).to.equal(JSON.stringify([[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
+      expect(JSON.stringify(malusResizeGrid(gridWithBlocks, 5))).to.equal(JSON.stringify([[1,1,1,1,1],[1,1,1,1,1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
+    })
+    it('empty grid', () => {
+      expect(JSON.stringify(malusResizeGrid(gridIsEmpty, 0))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]))
+      expect(JSON.stringify(malusResizeGrid(gridIsEmpty, 2))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
+      expect(JSON.stringify(malusResizeGrid(gridIsEmpty, 3))).to.equal(JSON.stringify([[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1]]))
     })
   })
 })

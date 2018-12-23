@@ -4,7 +4,14 @@ import {
   USER_CONNECT,
   USER_INIT,
   EMIT_USER_LOGIN,
-  RCV_USER_LOGIN, USER_UPDATE, USER_UPDATE_GRID,
+  RCV_USER_LOGIN,
+  USER_UPDATE,
+  USER_UPDATE_GRID,
+  USER_INIT_STATE,
+  EMIT_USER_LOST,
+  USER_ADD_MALUS,
+  EMIT_USER_WIN,
+  EMIT_USER_LEAVE_GAME, EMIT_USER_JOIN_GAME, RCV_USER_JOIN_GAME,
 } from '../../../src/client/actions/user'
 
 
@@ -32,7 +39,9 @@ describe('user reducer test',()=>{
         connected: true,
         grid: [],
         completeLine: 0,
-        loosed: false,
+        lost: false,
+        malus: 0,
+        winner: false,
         payload: {},
         isLoading: false,
       })
@@ -51,7 +60,9 @@ describe('user reducer test',()=>{
         grid:[],
         completeLine: 0,
         payload: {},
-        loosed: false,
+        lost: false,
+        malus: 0,
+        winner: false,
         isLoading: true,
       })
   })
@@ -69,7 +80,9 @@ describe('user reducer test',()=>{
         grid:[],
         completeLine: 0,
         payload: {},
-        loosed: false,
+        lost: false,
+        malus: 0,
+        winner: false,
         isLoading: false,
       })
   })
@@ -99,7 +112,6 @@ describe('user reducer test',()=>{
       grid: [],
       completeLine: 0,
       payload: {},
-      loosed: false,
       isLoading: false,
     }, {
       type:USER_INIT
@@ -121,20 +133,65 @@ describe('user reducer test',()=>{
       type:USER_UPDATE_GRID,
       grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
     }))
-      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]})
   })
   it('should test USER_UPDATE_GRID with a complete line', ()=>{
     expect(reducer({}, {
       type:USER_UPDATE_GRID,
       grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1]]
     }))
-      .toEqual({completeLine: 1, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], loosed: false})
+      .toEqual({completeLine: 1, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]})
   })
   it('should test USER_UPDATE_GRID with a lost grid', ()=>{
     expect(reducer({}, {
       type:USER_UPDATE_GRID,
       grid: [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1]]
     }))
-      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0,0,0,1,0], [1,1,0,1,1]], loosed: true})
+      .toEqual({completeLine: 0, grid: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0,0,0,1,0], [1,1,0,1,1]]})
+  })
+  it('should test USER_INIT_STATE', ()=>{
+    expect(reducer({}, {
+      type:USER_INIT_STATE,
+    }))
+      .toEqual(initialState)
+  })
+  it('should test EMIT_USER_LOST', ()=>{
+    expect(reducer({}, {
+      type:EMIT_USER_LOST,
+    }))
+      .toEqual({connected: false, lost: true, grid: []})
+  })
+  it('should test EMIT_USER_WIN', ()=>{
+    expect(reducer({}, {
+      type:EMIT_USER_WIN,
+    }))
+      .toEqual({connected: false, winner: true, grid: []})
+  })
+  it('should test USER_ADD_MALUS', ()=>{
+    expect(reducer({}, {
+      type:USER_ADD_MALUS,
+      data: 'data malus'
+    }))
+      .toEqual({malus: 'data malus'})
+  })
+  it('should test EMIT_USER_LEAVE_GAME', ()=>{
+    expect(reducer({}, {
+      type:EMIT_USER_LEAVE_GAME,
+    }))
+      .toEqual({isLoading: true})
+  })
+  it('should test EMIT_USER_JOIN_GAME', ()=>{
+    expect(reducer({}, {
+      type:EMIT_USER_JOIN_GAME,
+      userName: 'A NAME',
+      gameName: 'A GAMENAME'
+    }))
+      .toEqual({isLoading: true, name: 'A NAME', gameName: 'A GAMENAME'})
+  })
+  it('should test RCV_USER_JOIN_GAME', ()=>{
+    expect(reducer({}, {
+      type:RCV_USER_JOIN_GAME,
+    }))
+      .toEqual({isLoading: false})
   })
 })
