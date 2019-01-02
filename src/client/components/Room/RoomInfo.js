@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChessRook } from '@fortawesome/free-solid-svg-icons'
 import Jump from 'react-reveal/Jump';
+import ConfigForm from '../../containers/form/ConfigForm'
 
-import {Button, Box} from "../block";
+import {Button, Box, Input} from "../block";
 
 
 const RoomInfo = (props) =>{
@@ -41,11 +42,16 @@ const RoomInfo = (props) =>{
   return(
     <Box flex flexDirection={'column'} container center>
       <Box>RoomInfo</Box>
-      <Box flex flexDirection={'row'}>
+      <Box flex flexDirection={'column'}>
         <h1><Jump><FontAwesomeIcon icon={faChessRook} /> Room :</Jump></h1>
-      </Box>
-      <Box style={{marginTop: 0}}>
-        <h1>{game.name}</h1>
+        <Box style={{marginTop: '-45px'}}>
+          <h1>{game.name}</h1>
+        </Box>
+        {/*{user.role === 'master' &&*/}
+          {/*<Box>*/}
+            {/*<ConfigForm {...props} />*/}
+          {/*</Box>*/}
+        {/*}*/}
       </Box>
       {user.role === 'master' && <Box><Button style={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>{buttonValue}</Button></Box>}
       <Box><Button onClick={leaveRoom}><Link style={styles.link} to={'/'}>Leave Game</Link></Button></Box>

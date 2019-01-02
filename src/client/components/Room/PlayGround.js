@@ -40,7 +40,7 @@ const PlayGround = (props) =>{
     <Box style={{backgroundColor: '#48637a', padding: '1em', height: '100%'}}>
       <h3 style={{ textAlign: 'center', color: '#fff' }}>{'master' === user.role ? <Tada><FontAwesomeIcon style={{color: 'yellow'}} icon={faCrown}/></Tada> : <Tada><FontAwesomeIcon style={{color: '#ff8b23'}} icon={faUserNinja}/></Tada>} {user.name}</h3>
       <Grid/>
-      <Box style={{clear:'both', paddingTop:'12em'}} center flex flexDirection={'column'}>
+      <Box style={{clear:'both', paddingTop:'7em'}} center flex flexDirection={'column'}>
         <Modal open={showCommand} onClose={displayCommand}>
           {commandes()}
         </Modal>

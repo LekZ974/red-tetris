@@ -10,7 +10,7 @@ import {
   emitNewPieces,
   RCV_GAME_IS_FINISHED,
   GAME_INIT_STATE,
-  GAME_INIT,
+  GAME_INIT, GAME_UPDATE,
 } from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
@@ -181,8 +181,11 @@ const socketMiddleware = socket => ({dispatch}) => {
         case GAME_INIT: {
           return next(action)
         }
+        case GAME_UPDATE: {
+          return next(action)
+        }
         case USER_ADD_MALUS: {
-          if (action.data !== store.getState().user.malus) {
+          if (action.data !== store.getState().user.malus && store.getState().game.params.addMalus) {
             const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data)
             SocketService.emitUpdateGrid(newGrid)
           }
@@ -201,6 +204,9 @@ const socketMiddleware = socket => ({dispatch}) => {
       SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
       SocketService.emitNeedPieces()
       store.dispatch(tetriInit())
+    }
+    if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
+      SocketService.emitUpdateGame(store.getState().form.ConfigForm.values)
     }
     return next(action)
   }

@@ -26,6 +26,7 @@ import {
   rcvGameIsFinished,
   rcvGameCanRestart,
   emitNewPieces,
+  updateGame,
 } from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
@@ -185,6 +186,10 @@ const emitUserWin = () => {
   emitGameStatus('Stop')
 }
 
+const emitUpdateGame = data => {
+  store.dispatch(updateGame({params: data}))
+}
+
 export {
   rcvPlayerLogged,
   rcvGameExists,
@@ -203,4 +208,5 @@ export {
   emitGetGames,
   emitUserLose,
   emitUserWin,
+  emitUpdateGame,
 }
