@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import Home from './view/Home'
 import Room from './view/Room'
+import './app.css'
 
 const getConfirmation = (message, callback) => {
   const allowTransition = window.confirm(message)
