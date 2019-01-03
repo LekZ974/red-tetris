@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, reduxForm, change } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import {Input, Button} from "../../components/block";
 import {maxLength15, minLength3, required} from "../../utils/formValidation"
 import {connect} from "../../actions/user"
