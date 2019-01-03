@@ -153,49 +153,51 @@ const updatePieceRot = (grid, tetrimino, move) => {
 };
 
 const updateTetriPos = (grid, tetrimino, move) => {
-  if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
-    return updatePieceRot(grid, tetrimino, move)
-  } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
-    const newPiece = {
-      ...tetrimino,
-      rotate: newRot(tetrimino.rotate, move),
-      coords: newCoords(tetrimino.coords, move)
+  if (tetrimino && tetrimino.hasOwnProperty('pieceInfo')) {
+    if (move === PIECES_ACTION.ROTATE_LEFT || move === PIECES_ACTION.ROTATE_RIGHT) {
+      return updatePieceRot(grid, tetrimino, move)
+    } else if (move === PIECES_ACTION.MOVE_RIGHT || move === PIECES_ACTION.MOVE_LEFT) {
+      const newPiece = {
+        ...tetrimino,
+        rotate: newRot(tetrimino.rotate, move),
+        coords: newCoords(tetrimino.coords, move)
+      }
+      const newPieceDescr = newPiece.pieceInfo.piece;
+      if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
+        return newPiece
+      }
+      return tetrimino;
     }
-    const newPieceDescr = newPiece.pieceInfo.piece;
-    if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
-      return newPiece
-    }
-    return tetrimino;
-  }
-  else if (move === PIECES_ACTION.MOVE_DOWN) {
-    const newPiece = {
-      ...tetrimino,
-      rotate: newRot(tetrimino.rotate, move),
-      coords: newCoords(tetrimino.coords, move)
-    }
-    const newPieceDescr = newPiece.pieceInfo.piece;
-    if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
-      return newPiece
-    }
-    if (tetrimino.needNext) {
+    else if (move === PIECES_ACTION.MOVE_DOWN) {
+      const newPiece = {
+        ...tetrimino,
+        rotate: newRot(tetrimino.rotate, move),
+        coords: newCoords(tetrimino.coords, move)
+      }
+      const newPieceDescr = newPiece.pieceInfo.piece;
+      if (!hasCollision(grid, newPieceDescr, newPiece.coords)) {
+        return newPiece
+      }
+      if (tetrimino.needNext) {
+        return {
+          ...tetrimino,
+          needNext: false,
+        };
+      }
       return {
         ...tetrimino,
-        needNext: false,
+        needNext: true,
       };
     }
-    return {
-      ...tetrimino,
-      needNext: true,
-    };
-  }
-  else if (move === PIECES_ACTION.MOVE_DROP) {
-    const newPiece = {
-      ...tetrimino,
-    }
-    const newPieceDescr = newPiece.pieceInfo.piece;
-    return {
-      ...newPiece,
-      coords: finalPos(grid, newPieceDescr, newPiece.coords),
+    else if (move === PIECES_ACTION.MOVE_DROP) {
+      const newPiece = {
+        ...tetrimino,
+      }
+      const newPieceDescr = newPiece.pieceInfo.piece;
+      return {
+        ...newPiece,
+        coords: finalPos(grid, newPieceDescr, newPiece.coords),
+      }
     }
   }
   return tetrimino;

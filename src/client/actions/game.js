@@ -1,5 +1,3 @@
-import {TETRI_INIT_STATE} from "./tetrimino";
-
 export const EMIT_GAME_STATUS = 'game/EMIT_GAME_STATUS'
 export const RCV_GAME_STATUS = 'game/RCV_GAME_STATUS'
 
@@ -18,6 +16,8 @@ export const RCV_GAME_CAN_RESTART = 'game/RCV_GAME_CAN_RESTART'
 export const GAME_INIT_STATE = 'game/GAME_INIT_STATE'
 
 export const GAME_INIT = 'game/GAME_INIT'
+
+export const GAME_UPDATE = 'game/GAME_UPDATE'
 
 export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
@@ -70,4 +70,9 @@ export const gameInitState = () => ({
 
 export const gameInit = () => ({
   type: GAME_INIT,
+})
+
+export const updateGame = data => ({
+  type: GAME_UPDATE,
+  data,
 })

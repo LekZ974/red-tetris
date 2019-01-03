@@ -40,7 +40,7 @@ const reducerTetriAction = (state, action) => {
       break;
     }
   }
-  return pieceAction ? TetriService.updateTetriPos(action.user.grid, state, pieceAction) : state
+  return pieceAction && state.pieceInfo ? TetriService.updateTetriPos(action.user.grid, state, pieceAction) : state
 }
 
 export {
