@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { Box, Card, LoadingContainer, Toaster } from '../../components/block'
 import HomeForm from '../form/HomeForm'
@@ -100,7 +100,7 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(Home));

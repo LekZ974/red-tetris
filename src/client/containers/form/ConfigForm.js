@@ -1,5 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import { withRouter } from 'react-router-dom';
+
 import {Input, Button, SelectField} from "../../components/block";
 import { connect } from 'react-redux';
 
@@ -34,10 +36,10 @@ const mapStateToProps = (state) => {
   }
 };
 
-ConfigForm = connect(
+ConfigForm = withRouter(connect(
   mapStateToProps,
   null
-)(ConfigForm);
+)(ConfigForm));
 
 export default reduxForm({
     form: 'ConfigForm'

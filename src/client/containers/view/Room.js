@@ -1,6 +1,6 @@
 import React from 'react'
 import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
-import { Route } from 'react-router-dom';
+import { Route, withRouter, Redirect } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
 
@@ -50,7 +50,7 @@ const Room = (props) => {
           <Card flex={1} width={'40em'}>
             <GameInfo game={game} user={user}/>
           </Card>
-          <Route path={`${match.path}/:user`} render={({match}) => (<div><h3> {match.params.userName} </h3></div>)}/>
+          {/*<Route path={`${match.path}/:user`} render={({match}) => (<div><h3> {match.params.userName} </h3></div>)}/>*/}
         </Box>
       </Fade>
     </LoadingContainer>
@@ -80,8 +80,8 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Room);
+)(Room));
 
