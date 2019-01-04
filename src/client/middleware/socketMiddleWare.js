@@ -78,12 +78,16 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_USER_JOIN_GAME : {
-          if (action.data) {
-            store.dispatch(updateUser({
-              gameName: store.getState().game.name,
-              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-            }))
+          if ('KO' === action.data) {
+            notify('The game is already started, try later', 'info')
+            return next(action)
           }
+          store.dispatch(updateUser({
+            gameName: store.getState().game.name,
+            grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+            role: 'challenger'
+          }))
+          notify('You are a challenger', 'info')
           break;
         }
         case EMIT_GET_GAMES: {
@@ -98,17 +102,23 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_CREATE_GAME : {
-          if (!store.getState().user.gameName) {
+          if ('KO' === action.data) {
             store.dispatch(emitJoinGame(store.getState().user.name, store.getState().game.name))
+          }
+          else {
+            store.dispatch(updateUser({
+              gameName: store.getState().game.name,
+              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+            }))
+            notify('You are the master!', 'info')
           }
           break;
         }
         case RCV_USER_CAN_START : {
           if ('KO' === action.data) {
-            store.dispatch(updateUser({role: 'challenger'}))
-            notify('You are a challenger', 'info')
-          } else {
-            notify('You are the master!', 'info')
+            store.dispatch(updateUser({
+              role: 'challenger'
+            }))
           }
           break;
         }
