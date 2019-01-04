@@ -16,7 +16,9 @@ const LoadingContainer = ({
         <Box>
           {spinner}
         </Box>
-        <Box>If it's too long click <Link to='/'>HERE</Link></Box>
+        <Box>
+          If it's too long click <Link to='/'>HERE</Link>
+        </Box>
       </Box>
     )
   }
