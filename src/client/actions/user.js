@@ -54,8 +54,9 @@ export const emitLeaveGame = () => ({
   type: EMIT_USER_LEAVE_GAME,
 })
 
-export const rcvUserLeaveGame = () => ({
+export const rcvUserLeaveGame = data => ({
   type: RCV_USER_LEAVE_GAME,
+  data,
 })
 
 export const emitUserLost = () => ({

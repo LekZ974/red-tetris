@@ -58,8 +58,7 @@ const rcvNewShape = data => {
 }
 
 const rcvLeftGame = data => {
-  console.log("LEFT GAME", data)
-  store.dispatch(rcvUserLeaveGame())
+  store.dispatch(rcvUserLeaveGame(data))
 }
 
 const rcvGames = data => {

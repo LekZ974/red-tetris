@@ -35,7 +35,7 @@ import {notify} from "../utils/notificationHandler";
 import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
-import { push } from "connected-react-router";
+import { push, replace } from "connected-react-router";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
 import {shapeHandler} from "../utils/shapeHandler";
@@ -67,10 +67,6 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_USER_LEAVE_GAME : {
           SocketService.emitLeaveGame()
-          return next(action)
-        }
-        case RCV_USER_LEAVE_GAME : {
-          store.dispatch(push('/'))
           return next(action)
         }
         case EMIT_USER_JOIN_GAME : {
