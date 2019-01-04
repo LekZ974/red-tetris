@@ -10,7 +10,7 @@ import {Button, Box, Input} from "../block";
 
 const RoomInfo = (props) =>{
 
-  const {game, user, updateGameStatus, leaveGame} = props
+  const {game, user, updateGameStatus, leaveGame, history} = props
 
   function changeGameFlow(e) {
     const status = e.target.innerHTML
@@ -19,6 +19,7 @@ const RoomInfo = (props) =>{
 
   function leaveRoom() {
     leaveGame()
+    history.push('/')
   }
 
   const buttonValue = !game.start && game.round > 1 ? 'Restart' : 'Start'
@@ -54,7 +55,7 @@ const RoomInfo = (props) =>{
         {/*}*/}
       </Box>
       {user.role === 'master' && <Box><Button style={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>{buttonValue}</Button></Box>}
-      <Box><Button onClick={leaveRoom}><Link style={styles.link} to={'/'}>Leave Game</Link></Button></Box>
+      <Box><Button onClick={leaveRoom}><div style={styles.link}>Leave Game</div></Button></Box>
     </Box>
   )
 }
