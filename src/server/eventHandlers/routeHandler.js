@@ -56,7 +56,7 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
     let game = gameHandler.findGame(gameId, activeGames)
     let res
 
-    if (game === undefined || challenger === undefined || game.master.socketID === client.id) {
+    if (game === undefined || challenger === undefined || game.master.socketID === client.id || game.gameStarted === true) {
         res = 'KO'
     } else {
          game.setChallenger(challenger)
