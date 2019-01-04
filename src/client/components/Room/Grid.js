@@ -1,4 +1,6 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom';
+
 import Fade from 'react-reveal/Fade';
 import * as TetriService from "../../services/TetriService"
 import {connect} from "react-redux";
@@ -46,8 +48,8 @@ const mapStateToProps = state => {
   }
 };
 
-const Grid = connect(
+const Grid = withRouter(connect(
   mapStateToProps,
-)(GridUserComponent);
+)(GridUserComponent));
 
 export {Grid};
