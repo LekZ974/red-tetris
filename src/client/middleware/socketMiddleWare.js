@@ -78,11 +78,17 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_USER_JOIN_GAME : {
-          if (action.data) {
-            store.dispatch(updateUser({
-              gameName: store.getState().game.name,
-              grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-            }))
+          // if ('OK' === action.data) {
+          //   store.dispatch(updateUser({
+          //     gameName: store.getState().game.name,
+          //     grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+          //   }))
+          // }
+          console.log('JOINGAME', action.data)
+          if ('KO' === action.data) {
+            console.log('JOINGAME', action.data)
+            store.dispatch(push('/'))
+            notify('The game is already started, try later', 'info')
           }
           break;
         }
@@ -98,9 +104,14 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case RCV_CREATE_GAME : {
-          if (!store.getState().user.gameName) {
+          console.log('CREATE GAME', action.data)
+          if ('KO' === action.data) {
             store.dispatch(emitJoinGame(store.getState().user.name, store.getState().game.name))
           }
+          store.dispatch(updateUser({
+            gameName: store.getState().game.name,
+            grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
+          }))
           break;
         }
         case RCV_USER_CAN_START : {
