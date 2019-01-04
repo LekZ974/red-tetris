@@ -55,7 +55,7 @@ const RoomInfo = (props) =>{
         {/*}*/}
       </Box>
       {user.role === 'master' && <Box><Button style={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>{buttonValue}</Button></Box>}
-      <Box><Button onClick={leaveRoom}><div style={styles.link} to='/'>Leave Game</div></Button></Box>
+      <Box><Button onClick={leaveRoom}><div style={styles.link}>Leave Game</div></Button></Box>
     </Box>
   )
 }
