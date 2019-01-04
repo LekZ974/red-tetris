@@ -4,7 +4,7 @@ import {tetriStep} from "../actions/tetrimino";
 const ticking = () => {
   const game = store.getState().game
   const user = store.getState().user
-  if (game.start) {
+  if (game.start && game.gameIsStarted) {
     store.dispatch(tetriStep(game, user));
   }
   window.setTimeout(() => ticking(), 500);

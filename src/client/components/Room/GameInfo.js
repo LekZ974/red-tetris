@@ -7,7 +7,7 @@ const GameInfo = (props) => {
   let players = game.players
   return(
     <Box center>
-      {players && players.length >= 1 ?
+      {players && players.length >= 1 &&
         <Fade right big>
           <Box style={{height: '20vh'}}>
             <h1>Challengers</h1>
@@ -24,7 +24,7 @@ const GameInfo = (props) => {
               </Box>)}
           </Box>
         </Fade>
-        : <Box>No challengers</Box>}
+      }
     </Box>
   )
 }

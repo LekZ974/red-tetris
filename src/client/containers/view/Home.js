@@ -4,16 +4,20 @@ import { Link } from 'react-router-dom';
 import { Box, Card, LoadingContainer, Toaster } from '../../components/block'
 import HomeForm from '../form/HomeForm'
 import { connect } from 'react-redux'
-import {init} from "../../actions/user";
+import {userInitState} from "../../actions/user";
 import {emitGetGames} from "../../actions/games";
 import {notify} from "../../utils/notificationHandler";
+import {tetriInitState} from "../../actions/tetrimino";
+import {gameInitState} from "../../actions/game";
 
 class Home extends React.Component {
 
   componentWillMount() {
-    const {init} = this.props
+    const {initUser, initTetri, initGame} = this.props
 
-    init()
+    initUser()
+    initGame()
+    initTetri()
   }
 
   componentDidMount() {
@@ -33,7 +37,7 @@ class Home extends React.Component {
   }
 
   render () {
-    const { userName, gamesList, isLoading, homeForm } = this.props
+    const { userName, gamesList, isLoading, homeForm, getGames } = this.props
 
     const renderList = gamesList && gamesList.map((game, i) => {
       const {gameName} = game
@@ -55,7 +59,7 @@ class Home extends React.Component {
         </Box>
         <Card flex={1} width={'40em'} center>
           <LoadingContainer
-            isLoading={isLoading && (!gamesList) }
+            isLoading={isLoading && !gamesList}
             isEmpty={!gamesList}
             emptyLabel='Pas de parties en cours'
           >
@@ -70,7 +74,9 @@ class Home extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  init: () => dispatch(init()),
+  initUser: () => dispatch(userInitState()),
+  initTetri: () => dispatch(tetriInitState()),
+  initGame: () => dispatch(gameInitState()),
   getGames: () => dispatch(emitGetGames()),
 })
 

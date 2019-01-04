@@ -67,7 +67,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case EMIT_USER_LEAVE_GAME : {
           SocketService.emitLeaveGame()
-          break;
+          return next(action)
         }
         case RCV_USER_LEAVE_GAME : {
           store.dispatch(push('/'))
