@@ -21,6 +21,8 @@ export const GAME_UPDATE = 'game/GAME_UPDATE'
 
 export const GAME_SOMEONE_JOINED = 'game/GAME_SOMEONE_JOINED'
 
+export const GAME_SOMEONE_LEFT = 'game/GAME_SOMEONE_LEFT'
+
 export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
   game: game,
@@ -81,5 +83,10 @@ export const updateGame = data => ({
 
 export const someoneIsJoined = data => ({
   type: GAME_SOMEONE_JOINED,
+  data,
+})
+
+export const someoneIsLeft = data => ({
+  type: GAME_SOMEONE_LEFT,
   data,
 })

@@ -28,11 +28,11 @@ import {
   emitNewPieces,
   updateGame,
   someoneIsJoined,
+  someoneIsLeft,
 } from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
-import * as TetriService from "./TetriService";
 
 const socket = io.connect(params.server.url)
 
@@ -113,7 +113,13 @@ const rcvMalus = data => {
 }
 
 const rcvSomeoneJoined = data => {
+  console.log('IS JOINED', data)
   store.dispatch(someoneIsJoined(data))
+}
+
+const rcvSomeoneLeft = data => {
+  console.log('IS LEFT', data)
+  store.dispatch(someoneIsLeft(data))
 }
 
 socket.on('logged', rcvPlayerLogged)
@@ -132,6 +138,7 @@ socket.on('gameFinished', rcvGameFinished)
 socket.on('canRestart', rcvCanRestartGame)
 socket.on('malusUpdated', rcvMalus)
 socket.on('someoneJoined', rcvSomeoneJoined)
+socket.on('someoneLeft', rcvSomeoneLeft)
 
 //EMIT
 

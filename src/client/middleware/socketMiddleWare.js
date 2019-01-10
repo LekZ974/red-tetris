@@ -10,7 +10,7 @@ import {
   emitNewPieces,
   RCV_GAME_IS_FINISHED,
   GAME_INIT_STATE,
-  GAME_INIT, GAME_UPDATE, GAME_SOMEONE_JOINED,
+  GAME_INIT, GAME_UPDATE, GAME_SOMEONE_JOINED, GAME_SOMEONE_LEFT,
 } from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
@@ -198,9 +198,16 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case GAME_SOMEONE_JOINED: {
-          if (action.data) {
+          if (!!action.data && 'master' === store.getState().user.role) {
             notify('a player join the game', 'info')
           }
+          break;
+        }
+        case GAME_SOMEONE_LEFT: {
+          if (!!action.data && 'master' === store.getState().user.role) {
+            notify('a player left the game', 'info')
+          }
+          break;
         }
         default: {
           break;

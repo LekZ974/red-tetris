@@ -49,7 +49,8 @@ io.on('connection', (client) => {
 
 		if (res === 'OK') {
 			client.join(gameName)
-			io.to(gameName).emit(routes.SOMEONE_JOINED, true)
+      console.log("SOMEONE JOINED")
+      io.to(gameName).emit(routes.SOMEONE_JOINED, true)
 		}
         io.to(client.id).emit(routes.GAME_JOINED, res)
     })
@@ -69,6 +70,7 @@ io.on('connection', (client) => {
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             } else if (res.challengerStat) {
                 client.leave(res.challengerStat.gameName)
+              console.log("SOMEONE LEFT")
                 io.to(res.challengerStat.gameName).emit(routes.SOMEONE_LEFT, true)
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             }
