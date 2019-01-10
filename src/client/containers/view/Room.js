@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom'
 import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
 import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
+import Sound from 'react-sound';
+import musicFile from '../../assets/sounds/music.mp3';
 
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
@@ -22,6 +24,8 @@ const Room = (props) => {
   if (!game.name && !game.isLoading) {
     createGame(match.params.room)
   }
+
+  console.log(musicFile)
 
   return (
   <Box height={'100vh'} flex flexDirection='column' align='stretch' container>
@@ -53,6 +57,10 @@ const Room = (props) => {
         </Box>
       </Fade>
     </LoadingContainer>
+    <Sound
+      url={musicFile}
+      playStatus={!!game.start ? 'PLAYING' : 'STOPPED'}
+    />
   </Box>
   )
 }
