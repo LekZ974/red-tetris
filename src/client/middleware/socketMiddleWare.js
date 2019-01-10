@@ -10,7 +10,7 @@ import {
   emitNewPieces,
   RCV_GAME_IS_FINISHED,
   GAME_INIT_STATE,
-  GAME_INIT, GAME_UPDATE,
+  GAME_INIT, GAME_UPDATE, GAME_SOMEONE_JOINED,
 } from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
@@ -196,6 +196,11 @@ const socketMiddleware = socket => ({dispatch}) => {
             SocketService.emitUpdateGrid(newGrid)
           }
           return next(action)
+        }
+        case GAME_SOMEONE_JOINED: {
+          if (action.data) {
+            notify('a player join the game', 'info')
+          }
         }
         default: {
           break;

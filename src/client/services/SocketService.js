@@ -27,6 +27,7 @@ import {
   rcvGameCanRestart,
   emitNewPieces,
   updateGame,
+  someoneIsJoined,
 } from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
@@ -111,6 +112,10 @@ const rcvMalus = data => {
   store.dispatch(addMalusToUser(data))
 }
 
+const rcvSomeoneJoined = data => {
+  store.dispatch(someoneIsJoined(data))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -126,6 +131,7 @@ socket.on('allPlayers', rcvAllPlayers)
 socket.on('gameFinished', rcvGameFinished)
 socket.on('canRestart', rcvCanRestartGame)
 socket.on('malusUpdated', rcvMalus)
+socket.on('someoneJoined', rcvSomeoneJoined)
 
 //EMIT
 
