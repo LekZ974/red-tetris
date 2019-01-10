@@ -1,0 +1,14 @@
+*~
+*.swp
+*.swo
+log
+tmp
+node_modules
+.idea
+yarn-error.log
+yarn.lock
+coverage/**
+**/__snapshots__/*
+src/server/mock
+params.js
+package-lock.json
