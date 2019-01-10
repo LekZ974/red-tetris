@@ -113,12 +113,10 @@ const rcvMalus = data => {
 }
 
 const rcvSomeoneJoined = data => {
-  console.log('IS JOINED', data)
   store.dispatch(someoneIsJoined(data))
 }
 
 const rcvSomeoneLeft = data => {
-  console.log('IS LEFT', data)
   store.dispatch(someoneIsLeft(data))
 }
 
