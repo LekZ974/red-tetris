@@ -5,6 +5,7 @@ import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
 import Sound from 'react-sound';
 import musicFile from '../../assets/sounds/music.mp3';
+import musicGOFile from '../../assets/sounds/gameover.mp3';
 
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
@@ -25,7 +26,7 @@ const Room = (props) => {
     createGame(match.params.room)
   }
 
-  console.log(musicFile)
+  console.log(user.lost)
 
   return (
   <Box height={'100vh'} flex flexDirection='column' align='stretch' container>
@@ -60,6 +61,7 @@ const Room = (props) => {
     <Sound
       url={musicFile}
       playStatus={!!game.start ? 'PLAYING' : 'STOPPED'}
+      loop={true}
     />
   </Box>
   )
