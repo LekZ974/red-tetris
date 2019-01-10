@@ -22,7 +22,9 @@ const routing = {
     GAME_FINISHED: 'gameFinished',
     RESTART_GAME: 'restartGame',
     CAN_RESTART: 'canRestart',
-    MALUS_UPDATED: 'malusUpdated'
+    MALUS_UPDATED: 'malusUpdated',
+    SOMEONE_JOINED: 'someoneJoined',
+    SOMEONE_LEFT: 'someoneLeft'
 }
 
 export default routing
