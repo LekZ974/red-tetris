@@ -47,8 +47,10 @@ io.on('connection', (client) => {
     client.on(routes.JOIN_GAME, (gameName) => {
         let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
 
-		if (res === 'OK')
+		if (res === 'OK') {
 			client.join(gameName)
+			io.to(gameName).emit(routes.SOMEONE_JOINED, true)
+		}
         io.to(client.id).emit(routes.GAME_JOINED, res)
     })
 
@@ -62,10 +64,12 @@ io.on('connection', (client) => {
                 }
 
                 client.leave(res.masterStat.gameName);
+                io.to(res.masterStat.gameName).emit(routes.SOMEONE_LEFT, true)
                 io.to(res.masterStat.newMaster.socketID).emit(routes.UPDATE_STATUS, stat)
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             } else if (res.challengerStat) {
                 client.leave(res.challengerStat.gameName)
+                io.to(res.challengerStat.gameName).emit(routes.SOMEONE_LEFT, true)
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             }
         } else {
