@@ -30,8 +30,8 @@ let ConfigForm = ({ createGame, handleSubmit, error, submitting, game, match }) 
           name='gameMode'
           component={SelectField}
         >
-          <option value={'SOLO'}>Solo</option>
           <option value={'MULTI'}>Multiplayer</option>
+          <option value={'SOLO'}>Solo</option>
         </Field>
       </fieldset>
       <Button onClick={() => handleClick()} disabled={submitting} size={'large'} fullWidth>Create</Button>
