@@ -29,7 +29,7 @@ const getGames = function(activeGames) {
 
         entry.gameName = activeGames[i].roomName
         entry.started = activeGames[i].gameStarted
-        entry.mode = activeGames[i].solo
+        entry.solo = activeGames[i].solo.solo_mode
         gameList.push(entry)
     }
     return gameList
@@ -46,7 +46,7 @@ const createGame = function(client, activeGames, onlineUsers, gameName, solo) {
         let newGame = gameHandler.createGame(client.id, onlineUsers)
 
         if (solo && solo === true)
-            newGame.solo = true
+            newGame.solo.solo_mode = true
         newGame.setRoomInfo(gameId, gameName)
         activeGames.push(newGame)
         res = 'OK'
@@ -64,7 +64,7 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
         || challenger === undefined
         || game.master.socketID === client.id
         || game.gameStarted === true
-        || game.solo === true) {
+        || game.solo.solo_mode === true) {
         res = 'KO'
     } else {
          game.setChallenger(challenger)
