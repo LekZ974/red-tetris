@@ -33,7 +33,7 @@ const Room = (props) => {
   if (!gameExist(match.params.room, gamesList)) {
     if (!game.name && !game.isLoading) {
       return (
-        <Modal open={showConfigForm} onClose={displayConfigForm}>
+        <Modal open={showConfigForm} onClose={displayConfigForm} closeOnOverlayClick={false}>
           <ConfigForm {...props} />
         </Modal>
       )
