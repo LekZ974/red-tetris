@@ -3,16 +3,13 @@ import { withRouter } from 'react-router-dom'
 import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
 import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
-import Sound from 'react-sound';
-
-import musicFile from '../../assets/sounds/tetris-gameboy-02.mp3';
 
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
-import {emitCreateGame, emitGameStatus, gameSound} from "../../actions/game";
-import {emitLogin, emitLeaveGame} from "../../actions/user";
+import {emitCreateGame, emitGameStatus} from "../../actions/game";
+import {emitLogin, emitLeaveGame, emitJoinGame} from "../../actions/user";
 import {displayCommand, displayConfigForm} from "../../actions/alert";
 import Modal from "../../components/block/Modal";
 import ConfigForm from "../form/ConfigForm";
@@ -33,7 +30,7 @@ const Room = (props) => {
   if (!gameExist(match.params.room, gamesList)) {
     if (!game.name && !game.isLoading) {
       return (
-        <Modal open={showConfigForm} onClose={displayConfigForm} closeOnOverlayClick={false}>
+        <Modal open={showConfigForm} onClose={displayConfigForm}>
           <ConfigForm {...props} />
         </Modal>
       )
@@ -72,11 +69,6 @@ const Room = (props) => {
         </Box>
       </Fade>
     </LoadingContainer>
-    <Sound
-      url={musicFile}
-      playStatus={game.start && game.params.sound ? 'PLAYING' : 'STOPPED'}
-      loop={true}
-    />
   </Box>
   )
 }
@@ -84,13 +76,13 @@ const Room = (props) => {
 const mapDispatchToProps = dispatch => ({
   login: userName => dispatch(emitLogin(userName)),
   createGame: gameName => dispatch(emitCreateGame(gameName)),
+  joinGame: (userName, gameName) => dispatch(emitJoinGame(userName, gameName)),
   updateGameStatus: (status, game) => dispatch(emitGameStatus(status, game)),
   updateGame: data => dispatch(updateGame(data)),
   leaveGame: () => dispatch(emitLeaveGame()),
   displayCommand: () => dispatch(displayCommand()),
   displayConfigForm: () => dispatch(displayConfigForm()),
   getGames: () => dispatch(emitGetGames()),
-  gameSound: (status) => dispatch(gameSound(status)),
 })
 
 const mapStateToProps = state => {
