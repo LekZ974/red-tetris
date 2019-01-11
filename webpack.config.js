@@ -1,6 +1,9 @@
 const path = require('path');
 
 module.exports = {
+  resolve: {
+    alias: { soundmanager2: 'soundmanager2/script/soundmanager2-nodebug-jsmin.js' }
+  },
   mode: 'development',
 
   entry: './src/client/index.js',

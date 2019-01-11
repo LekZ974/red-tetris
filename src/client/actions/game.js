@@ -19,6 +19,8 @@ export const GAME_INIT = 'game/GAME_INIT'
 
 export const GAME_UPDATE = 'game/GAME_UPDATE'
 
+export const GAME_SOUND = 'game/GAME_SOUND'
+
 export const GAME_SOMEONE_JOINED = 'game/GAME_SOMEONE_JOINED'
 
 export const GAME_SOMEONE_LEFT = 'game/GAME_SOMEONE_LEFT'
@@ -78,6 +80,11 @@ export const gameInit = () => ({
 
 export const updateGame = data => ({
   type: GAME_UPDATE,
+  data,
+})
+
+export const gameSound = data => ({
+  type: GAME_SOUND,
   data,
 })
 
