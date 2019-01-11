@@ -43,6 +43,7 @@ const rcvPlayerLogged = data => {
 }
 
 const rcvGameJoined = data => {
+  console.log(data)
   store.dispatch(rcvJoinGame(data))
 }
 

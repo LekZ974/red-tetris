@@ -74,7 +74,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case RCV_USER_JOIN_GAME : {
           if ('KO' === action.data) {
-            notify('The game is already started, try later', 'info')
+            notify('You can\'t join this game', 'info')
             return next(action)
           }
           store.dispatch(updateUser({
