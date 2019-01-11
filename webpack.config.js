@@ -1,6 +1,9 @@
 const path = require('path');
 
 module.exports = {
+  resolve: {
+    alias: { soundmanager2: 'soundmanager2/script/soundmanager2-nodebug-jsmin.js' }
+  },
   mode: 'development',
 
   entry: './src/client/index.js',
@@ -39,6 +42,18 @@ module.exports = {
     }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
-    },],
+    },
+      {
+        test: /\.(png|jpg|gif|mp3)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name][hash].[ext]',
+            },
+          },
+        ],
+      },
+    ],
   },
 };

@@ -57,7 +57,7 @@ const placePiece = (grid, tetrimino) => {
           newGrid[gy][gx] = number;
         }
         else {
-          console.log('invalid position')
+          // console.log('invalid position')
         }
       }
     })
@@ -81,7 +81,7 @@ const placePiecePreview = (grid, tetrimino) => {
           gy < newGrid.length && gx < newGrid[gy].length) {
           newGrid[gy][gx] = PIECES_NUM.preview;
         } else {
-          console.log('invalid position')
+          // console.log('invalid position')
         }
       }
     })

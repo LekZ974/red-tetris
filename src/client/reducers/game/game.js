@@ -6,7 +6,7 @@ import {
   RCV_GAME_IS_FINISHED,
   RCV_GAME_CAN_RESTART,
   GAME_INIT_STATE,
-  GAME_INIT, GAME_UPDATE,
+  GAME_INIT, GAME_UPDATE, GAME_SOUND
 } from '../../actions/game'
 import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions'
 import {USER_UPDATE} from "../../actions/user";
@@ -23,6 +23,7 @@ export const initialState = {
   round: 0,
   params: {
     addMalus: true,
+    sound: true,
   },
   isLoading: false,
 }
@@ -89,6 +90,15 @@ export default function GameReducer (state = initialState, action = {}) {
       return {
         ...state,
         ...action.data,
+      }
+    }
+    case GAME_SOUND : {
+      return {
+        ...state,
+        params: {
+          ...state.params,
+          sound: !state.params.sound,
+        }
       }
     }
     default:

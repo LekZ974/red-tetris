@@ -1,6 +1,6 @@
 import {toast} from "react-toastify";
 
-export function notify(message, type) {
+export function notify(message, type, params = null) {
 
   switch (type) {
     case 'success': {
