@@ -23,6 +23,7 @@ export const initialState = {
   round: 0,
   params: {
     addMalus: true,
+    speed: 1,
   },
   isLoading: false,
 }

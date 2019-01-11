@@ -8,7 +8,7 @@ import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
-import {emitCreateGame, emitGameStatus} from "../../actions/game";
+import {emitCreateGame, emitGameStatus, updateGame} from "../../actions/game";
 import {emitLogin, emitLeaveGame} from "../../actions/user";
 import {displayCommand} from "../../actions/alert";
 
