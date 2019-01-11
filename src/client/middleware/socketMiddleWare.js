@@ -171,6 +171,7 @@ const socketMiddleware = socket => ({dispatch}) => {
                 break;
             }
           }
+          break;
         }
         case GAME_INIT_STATE: {
           return next(action)
