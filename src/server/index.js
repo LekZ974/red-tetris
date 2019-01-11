@@ -35,8 +35,8 @@ io.on('connection', (client) => {
         io.to(client.id).emit(routes.GAMES_SENT, gameList)
     })
 
-    client.on(routes.CREATE_GAME, (gameName) => {
-        let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
+    client.on(routes.CREATE_GAME, (gameName, solo) => {
+        let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName, solo)
 
 		if (res === 'OK')
 			client.join(gameName)
