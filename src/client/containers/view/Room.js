@@ -39,7 +39,7 @@ const Room = (props) => {
       )
     }
   } else if (!game.name && !game.isLoading) {
-    createGame(match.params.room)
+    createGame(match.params.room, false)
   }
 
   return (
