@@ -31,7 +31,6 @@ import {
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
-import * as TetriService from "./TetriService";
 
 const socket = io.connect(params.server.url)
 

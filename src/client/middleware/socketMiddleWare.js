@@ -35,7 +35,6 @@ import {notify} from "../utils/notificationHandler";
 import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInit, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
-import { push, replace } from "connected-react-router";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
 import {shapeHandler} from "../utils/shapeHandler";

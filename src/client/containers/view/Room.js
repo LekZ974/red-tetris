@@ -4,14 +4,14 @@ import {Box, Card, LoadingContainer, Toaster} from '../../components/block'
 import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
 import Sound from 'react-sound';
-import musicFile from '../../assets/sounds/music.mp3';
-import musicGOFile from '../../assets/sounds/gameover.mp3';
+
+import musicFile from '../../assets/sounds/tetris-gameboy-02.mp3';
 
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
-import {emitCreateGame, emitGameStatus} from "../../actions/game";
+import {emitCreateGame, emitGameStatus, gameSound} from "../../actions/game";
 import {emitLogin, emitLeaveGame} from "../../actions/user";
 import {displayCommand} from "../../actions/alert";
 
@@ -25,8 +25,6 @@ const Room = (props) => {
   if (!game.name && !game.isLoading) {
     createGame(match.params.room)
   }
-
-  console.log(user.lost)
 
   return (
   <Box height={'100vh'} flex flexDirection='column' align='stretch' container>
@@ -60,7 +58,7 @@ const Room = (props) => {
     </LoadingContainer>
     <Sound
       url={musicFile}
-      playStatus={!!game.start ? 'PLAYING' : 'STOPPED'}
+      playStatus={game.start && game.params.sound ? 'PLAYING' : 'STOPPED'}
       loop={true}
     />
   </Box>
@@ -73,7 +71,8 @@ const mapDispatchToProps = dispatch => ({
   updateGameStatus: (status, game) => dispatch(emitGameStatus(status, game)),
   updateGame: data => dispatch(updateGame(data)),
   leaveGame: () => dispatch(emitLeaveGame()),
-  displayCommand: () => dispatch(displayCommand())
+  displayCommand: () => dispatch(displayCommand()),
+  gameSound: (status) => dispatch(gameSound(status)),
 })
 
 const mapStateToProps = state => {

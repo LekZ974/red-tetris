@@ -19,6 +19,8 @@ export const GAME_INIT = 'game/GAME_INIT'
 
 export const GAME_UPDATE = 'game/GAME_UPDATE'
 
+export const GAME_SOUND = 'game/GAME_SOUND'
+
 export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
   game: game,
@@ -74,5 +76,10 @@ export const gameInit = () => ({
 
 export const updateGame = data => ({
   type: GAME_UPDATE,
+  data,
+})
+
+export const gameSound = data => ({
+  type: GAME_SOUND,
   data,
 })

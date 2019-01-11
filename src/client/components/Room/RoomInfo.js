@@ -1,7 +1,7 @@
 import React  from 'react'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChessRook } from '@fortawesome/free-solid-svg-icons'
+import { faChessRook, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 import Jump from 'react-reveal/Jump';
 import ConfigForm from '../../containers/form/ConfigForm'
 
@@ -10,7 +10,7 @@ import {Button, Box, Input} from "../block";
 
 const RoomInfo = (props) =>{
 
-  const {game, user, updateGameStatus, leaveGame, history} = props
+  const {game, user, updateGameStatus, leaveGame, history, gameSound} = props
 
   function changeGameFlow(e) {
     const status = e.target.innerHTML
@@ -56,6 +56,12 @@ const RoomInfo = (props) =>{
       </Box>
       {user.role === 'master' && <Box><Button style={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>{buttonValue}</Button></Box>}
       <Box><Button onClick={leaveRoom}><div style={styles.link}>Leave Game</div></Button></Box>
+      <Box onClick={() => gameSound()}>
+        {game.params.sound ?
+          <FontAwesomeIcon icon={faVolumeUp}/> :
+          <FontAwesomeIcon icon={faVolumeMute}/>
+        }
+      </Box>
     </Box>
   )
 }
