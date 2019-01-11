@@ -23,11 +23,13 @@ const getGames = function(activeGames) {
     for(let i = 0; i < activeGames.length; i++) {
         let entry = {
             gameName: '',
-            started: ''
+            started: '',
+            solo: false
         }
 
         entry.gameName = activeGames[i].roomName
         entry.started = activeGames[i].gameStarted
+        entry.mode = activeGames[i].solo
         gameList.push(entry)
     }
     return gameList
