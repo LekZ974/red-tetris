@@ -34,7 +34,7 @@ let ConfigForm = ({ createGame, handleSubmit, error, submitting, game, match }) 
           <option value={'SOLO'}>Solo</option>
         </Field>
       </fieldset>
-      <Button onClick={() => handleClick()} disabled={submitting} size={'large'} fullWidth>Create</Button>
+      <Button onClick={() => handleClick()} size={'large'} fullWidth>Create</Button>
     </form>
   )
 }
