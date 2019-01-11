@@ -11,7 +11,9 @@ export default class Game {
             requestId: null
         }
 		this.numLosers = 0
-        this.solo = false
+        this.solo = {
+            solo_mode: false
+        }
     }
 
     setRoomInfo(id, name) {
