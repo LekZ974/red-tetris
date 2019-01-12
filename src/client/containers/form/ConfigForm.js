@@ -5,41 +5,39 @@ import { withRouter } from 'react-router-dom';
 import {Input, Button, SelectField} from "../../components/block";
 import { connect } from 'react-redux';
 
-let ConfigForm = (props) => {
+let ConfigForm = ({ createGame, handleSubmit, error, submitting, game, match }) => {
+
+  const handleClick = () => {
+    switch (game.params.gameMode) {
+      case 'MULTI': default: {
+        createGame(match.params.room, false)
+        break;
+      }
+      case 'SOLO': {
+        createGame(match.params.room, true)
+        break;
+      }
+    }
+  }
 
   return (
     <form id={'configForm'}>
-      <fieldset style={{border: 0}} disabled={props.game.gameIsStarted}>
+      <fieldset style={{border: 0}}>
         <h1>Config :</h1>
-        <label>Malus :</label>
+        <label>Game Mode:</label>
         <Field
-          placeholder='Malus'
-          name='addMalus'
+          placeholder='Game Mode'
+          name='gameMode'
           component={SelectField}
         >
-          <option value={true}>Enable</option>
-          <option value={false}>Disable</option>
+          <option value={'MULTI'}>Multiplayer</option>
+          <option value={'SOLO'}>Solo</option>
         </Field>
       </fieldset>
+      <Button onClick={() => handleClick()} size={'large'} fullWidth>Create</Button>
     </form>
   )
 }
-
-const mapStateToProps = (state) => {
-  if (state.form.ConfigForm && state.form.ConfigForm.hasOwnProperty('values')) {
-    return {
-      configValues: state.form.ConfigForm.values
-    }
-  }
-  return {
-    configValues: null,
-  }
-};
-
-ConfigForm = withRouter(connect(
-  mapStateToProps,
-  null
-)(ConfigForm));
 
 export default reduxForm({
     form: 'ConfigForm'

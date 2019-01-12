@@ -23,17 +23,19 @@ const getGames = function(activeGames) {
     for(let i = 0; i < activeGames.length; i++) {
         let entry = {
             gameName: '',
-            started: ''
+            started: '',
+            solo: false
         }
 
         entry.gameName = activeGames[i].roomName
         entry.started = activeGames[i].gameStarted
+        entry.solo = activeGames[i].solo.solo_mode
         gameList.push(entry)
     }
     return gameList
 }
 
-const createGame = function(client, activeGames, onlineUsers, gameName) {
+const createGame = function(client, activeGames, onlineUsers, gameName, solo) {
     const gameId = idHandler.getGameId(gameName)
     const game = gameHandler.findGame(gameId, activeGames)
     let res
@@ -43,6 +45,8 @@ const createGame = function(client, activeGames, onlineUsers, gameName) {
     } else {
         let newGame = gameHandler.createGame(client.id, onlineUsers)
 
+        if (solo && solo === true)
+            newGame.solo.solo_mode = true
         newGame.setRoomInfo(gameId, gameName)
         activeGames.push(newGame)
         res = 'OK'
@@ -56,7 +60,11 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
     let game = gameHandler.findGame(gameId, activeGames)
     let res
 
-    if (game === undefined || challenger === undefined || game.master.socketID === client.id || game.gameStarted === true) {
+    if (game === undefined
+        || challenger === undefined
+        || game.master.socketID === client.id
+        || game.gameStarted === true
+        || game.solo.solo_mode === true) {
         res = 'KO'
     } else {
          game.setChallenger(challenger)

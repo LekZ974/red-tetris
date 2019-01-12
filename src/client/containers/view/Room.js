@@ -13,17 +13,33 @@ import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
 import {emitCreateGame, emitGameStatus, gameSound} from "../../actions/game";
 import {emitLogin, emitLeaveGame} from "../../actions/user";
-import {displayCommand} from "../../actions/alert";
+import {displayCommand, displayConfigForm} from "../../actions/alert";
+import Modal from "../../components/block/Modal";
+import ConfigForm from "../form/ConfigForm";
+import { emitGetGames } from '../../actions/games';
+import * as Services from "../../services/TetriService";
 
 const Room = (props) => {
-  const {user, game, match, createGame, login} = props
+  const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame} = props
+
+  if (!gamesList && !user.name && !user.isLoading) {
+    getGames()
+  }
 
   if (!user.name && !user.isLoading) {
     login(match.params.user)
   }
 
-  if (!game.name && !game.isLoading) {
-    createGame(match.params.room)
+  if (!Services.gameExist(match.params.room, gamesList)) {
+    if (!game.name && !game.isLoading) {
+      return (
+        <Modal open={showConfigForm} onClose={displayConfigForm} closeOnOverlayClick={false}>
+          <ConfigForm {...props} />
+        </Modal>
+      )
+    }
+  } else if (!game.name && !game.isLoading) {
+    createGame(match.params.room, false)
   }
 
   return (
@@ -67,11 +83,13 @@ const Room = (props) => {
 
 const mapDispatchToProps = dispatch => ({
   login: userName => dispatch(emitLogin(userName)),
-  createGame: gameName => dispatch(emitCreateGame(gameName)),
+  createGame: (gameName, isSolo) => dispatch(emitCreateGame(gameName, isSolo)),
   updateGameStatus: (status, game) => dispatch(emitGameStatus(status, game)),
   updateGame: data => dispatch(updateGame(data)),
   leaveGame: () => dispatch(emitLeaveGame()),
   displayCommand: () => dispatch(displayCommand()),
+  displayConfigForm: () => dispatch(displayConfigForm()),
+  getGames: () => dispatch(emitGetGames()),
   gameSound: (status) => dispatch(gameSound(status)),
 })
 
@@ -83,13 +101,15 @@ const mapStateToProps = state => {
 
   return {
     user: state.user,
+    gamesList: state.games.items,
     game: Object.assign({}, state.game),
-    showCommand: state.alert.showCommand
+    showCommand: state.alert.showCommand,
+    showConfigForm: state.alert.showConfigForm
   }
 };
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Room));
+)(Room);
 

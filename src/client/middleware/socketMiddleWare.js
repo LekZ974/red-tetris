@@ -74,7 +74,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case RCV_USER_JOIN_GAME : {
           if ('KO' === action.data) {
-            notify('The game is already started, try later', 'info')
+            notify('You can\'t join this game', 'info')
             return next(action)
           }
           store.dispatch(updateUser({
@@ -93,7 +93,7 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case EMIT_CREATE_GAME : {
-          SocketService.emitCreateGame(action.gameName)
+          SocketService.emitCreateGame(action.gameName, action.isSolo)
           break;
         }
         case RCV_CREATE_GAME : {
@@ -170,6 +170,7 @@ const socketMiddleware = socket => ({dispatch}) => {
                 break;
             }
           }
+          break;
         }
         case GAME_INIT_STATE: {
           return next(action)
@@ -223,7 +224,7 @@ const socketMiddleware = socket => ({dispatch}) => {
       store.dispatch(tetriInit())
     }
     if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
-      SocketService.emitUpdateGame(store.getState().form.ConfigForm.values)
+      SocketService.emitUpdateParamsGame(store.getState().form.ConfigForm.values)
     }
     return next(action)
   }

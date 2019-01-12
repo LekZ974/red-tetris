@@ -34,7 +34,11 @@ describe('game test all actions', () => {
           name: "",
           owner: "",
           round: 0,
-          params: {addMalus: true},
+          params: {
+            gameMode: "MULTI",
+            sound: true,
+            addMalus: true,
+          },
           isLoading: false,
           players: null,
         }

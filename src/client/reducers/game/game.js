@@ -22,8 +22,9 @@ export const initialState = {
   players: null,
   round: 0,
   params: {
-    addMalus: true,
+    gameMode: 'MULTI',
     sound: true,
+    addMalus: true,
   },
   isLoading: false,
 }
@@ -58,7 +59,7 @@ export default function GameReducer (state = initialState, action = {}) {
         gameIsStarted: false,
         start: false,
         params: {
-          addMalus: true,
+          ...state.params,
         },
         isLoading: false,
       }
@@ -81,7 +82,7 @@ export default function GameReducer (state = initialState, action = {}) {
         start: false,
         pause: false,
         params: {
-          addMalus: true,
+          ...state.params,
         },
         isLoading: false,
       }

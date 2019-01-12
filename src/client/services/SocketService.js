@@ -148,8 +148,8 @@ const emitJoinGame = (userName, gameName) => {
   socket.emit('joinGame', gameName)
 }
 
-const emitCreateGame = (gameName) => {
-  socket.emit('createGame', gameName)
+const emitCreateGame = (gameName, isSolo) => {
+  socket.emit('createGame', gameName, isSolo)
 }
 
 const emitNeedPieces = () => {
@@ -194,8 +194,11 @@ const emitUserWin = () => {
   emitGameStatus('Stop')
 }
 
-const emitUpdateGame = data => {
-  store.dispatch(updateGame({params: data}))
+const emitUpdateParamsGame = data => {
+  store.dispatch(updateGame({params: {
+      ...store.getState().game.params,
+      ...data,
+    }}))
 }
 
 export {
@@ -216,5 +219,5 @@ export {
   emitGetGames,
   emitUserLose,
   emitUserWin,
-  emitUpdateGame,
+  emitUpdateParamsGame,
 }
