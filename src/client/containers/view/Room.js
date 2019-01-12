@@ -20,7 +20,7 @@ import { emitGetGames } from '../../actions/games';
 import * as Services from "../../services/TetriService";
 
 const Room = (props) => {
-  const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame} = props
+  const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame, history} = props
 
   if (!gamesList && !user.name && !user.isLoading) {
     getGames()
@@ -32,6 +32,9 @@ const Room = (props) => {
 
   if (!Services.gameExist(match.params.room, gamesList)) {
     if (!game.name && !game.isLoading) {
+      if (!showConfigForm) {
+        history.push('/')
+      }
       return (
         <Modal open={showConfigForm} onClose={displayConfigForm} closeOnOverlayClick={false}>
           <ConfigForm {...props} />
