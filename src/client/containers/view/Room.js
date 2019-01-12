@@ -17,7 +17,7 @@ import {displayCommand, displayConfigForm} from "../../actions/alert";
 import Modal from "../../components/block/Modal";
 import ConfigForm from "../form/ConfigForm";
 import { emitGetGames } from '../../actions/games';
-import {gameExist} from '../../utils/eventHandler';
+import * as Services from "../../services/TetriService";
 
 const Room = (props) => {
   const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame} = props
@@ -30,7 +30,7 @@ const Room = (props) => {
     login(match.params.user)
   }
 
-  if (!gameExist(match.params.room, gamesList)) {
+  if (!Services.gameExist(match.params.room, gamesList)) {
     if (!game.name && !game.isLoading) {
       return (
         <Modal open={showConfigForm} onClose={displayConfigForm} closeOnOverlayClick={false}>
@@ -108,8 +108,8 @@ const mapStateToProps = state => {
   }
 };
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Room));
+)(Room);
 

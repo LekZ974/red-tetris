@@ -263,6 +263,15 @@ const malusResizeGrid = (grid, amount) => {
   }
 };
 
+const gameExist = (gameName, listGames) => {
+  if (Array.isArray(listGames) && listGames.length >= 1) {
+    return listGames.map(game => {
+      return gameName === game;
+    })
+  }
+  return false
+}
+
 export {
   updateTetriPos,
   finalPos,
@@ -278,4 +287,5 @@ export {
   newRot,
   newCoords,
   updatePieceRot,
+  gameExist,
 }

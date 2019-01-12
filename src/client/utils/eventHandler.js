@@ -9,12 +9,3 @@ export function eventHandler(event) {
     store.dispatch(tetriAction(event.code, game, user))
   }
 };
-
-export function gameExist(gameName, listGames) {
-  if (Array.isArray(listGames) && listGames.length >= 1) {
-    return listGames.map(game => {
-      return gameName === game;
-    })
-  }
-  return false
-}

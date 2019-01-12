@@ -5,6 +5,8 @@ import ConnectedRoom, {Room} from '../../../../src/client/containers/view/Room'
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+jest.mock('react-dom')
+
 const mockStore = configureStore([
   thunk,
 ]);
@@ -17,7 +19,14 @@ const user = {
 }
 
 const game = {
-  start: true
+  start: true,
+  params: {
+    sound: true,
+  }
+}
+
+const games = {
+  items: ["ITEMS"]
 }
 
 const alert = {
@@ -27,6 +36,7 @@ const alert = {
 const initialState = {
   user,
   game,
+  games,
   alert,
 }
 
