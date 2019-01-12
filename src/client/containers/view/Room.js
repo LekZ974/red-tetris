@@ -30,12 +30,11 @@ const Room = (props) => {
     login(match.params.user)
   }
 
-  if (!showConfigForm) {
-    history.push('/')
-  }
-
   if (!Services.gameExist(match.params.room, gamesList)) {
     if (!game.name && !game.isLoading) {
+      if (!showConfigForm) {
+        history.push('/')
+      }
       return (
         <Modal open={showConfigForm} onClose={displayConfigForm} closeOnOverlayClick={false}>
           <ConfigForm {...props} />

@@ -9,6 +9,7 @@ import {emitGetGames} from "../../actions/games";
 import {notify} from "../../utils/notificationHandler";
 import {tetriInitState} from "../../actions/tetrimino";
 import {gameInitState} from "../../actions/game";
+import {displayConfigForm} from "../../actions/alert";
 
 class Home extends React.Component {
 
