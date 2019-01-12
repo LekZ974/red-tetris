@@ -42,7 +42,7 @@ const RoomInfo = (props) =>{
 
   return(
     <Box flex flexDirection={'column'} container center>
-      <Box>RoomInfo</Box>
+      <Box>Game mode : {game.params.gameMode}</Box>
       <Box flex flexDirection={'column'}>
         <h1><Jump><FontAwesomeIcon icon={faChessRook} /> Room :</Jump></h1>
         <Box style={{marginTop: '-45px'}}>

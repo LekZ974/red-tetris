@@ -83,7 +83,7 @@ const Room = (props) => {
 
 const mapDispatchToProps = dispatch => ({
   login: userName => dispatch(emitLogin(userName)),
-  createGame: gameName => dispatch(emitCreateGame(gameName)),
+  createGame: (gameName, isSolo) => dispatch(emitCreateGame(gameName, isSolo)),
   updateGameStatus: (status, game) => dispatch(emitGameStatus(status, game)),
   updateGame: data => dispatch(updateGame(data)),
   leaveGame: () => dispatch(emitLeaveGame()),

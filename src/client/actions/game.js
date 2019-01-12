@@ -36,9 +36,10 @@ export const rcvGameStatus = (status) => ({
   gameStatus: status,
 })
 
-export const emitCreateGame = gameName => ({
+export const emitCreateGame = (gameName, isSolo) => ({
   type: EMIT_CREATE_GAME,
   gameName,
+  isSolo,
 })
 
 export const rcvCreateGame = (data) => ({

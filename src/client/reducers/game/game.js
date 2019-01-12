@@ -58,8 +58,7 @@ export default function GameReducer (state = initialState, action = {}) {
         gameIsStarted: false,
         start: false,
         params: {
-          gameMode: 'MULTI',
-          sound: true,
+          ...state.params,
         },
         isLoading: false,
       }
@@ -82,8 +81,7 @@ export default function GameReducer (state = initialState, action = {}) {
         start: false,
         pause: false,
         params: {
-          gameMode: 'MULTI',
-          sound: true,
+          ...state.params,
         },
         isLoading: false,
       }

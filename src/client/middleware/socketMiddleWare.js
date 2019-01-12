@@ -93,7 +93,7 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case EMIT_CREATE_GAME : {
-          SocketService.emitCreateGame(action.gameName)
+          SocketService.emitCreateGame(action.gameName, action.isSolo)
           break;
         }
         case RCV_CREATE_GAME : {
@@ -224,7 +224,7 @@ const socketMiddleware = socket => ({dispatch}) => {
       store.dispatch(tetriInit())
     }
     if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
-      SocketService.emitUpdateGame(store.getState().form.ConfigForm.values)
+      SocketService.emitUpdateParamsGame(store.getState().form.ConfigForm.values)
     }
     return next(action)
   }
