@@ -192,7 +192,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case USER_ADD_MALUS: {
           if (action.data !== store.getState().user.malus && store.getState().game.params.addMalus) {
-            const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data)
+            const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data - store.getState().user.malus)
             SocketService.emitUpdateGrid(newGrid)
           }
           return next(action)
