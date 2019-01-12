@@ -254,13 +254,10 @@ const malusResizeGrid = (grid, amount) => {
   if (grid.length > 0) {
     const newGrid = grid.map(l => l.map(e => e));
 
-    console.log("GRID", grid)
     for (let i = 0; i < amount; i++) {
       newGrid.push(Array(grid[0].length).fill(PIECES_NUM.malus));
       newGrid.shift();
     }
-
-    console.log("NEWGRID", newGrid)
 
     return newGrid;
   }
