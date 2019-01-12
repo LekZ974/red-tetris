@@ -38,7 +38,6 @@ io.on('connection', (client) => {
     client.on(routes.CREATE_GAME, (gameName, solo) => {
         let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName, solo)
 
-      console.log('GAME IS SOLO', solo)
 		if (res === 'OK')
 			client.join(gameName)
         io.to(client.id).emit(routes.GAME_EXISTS, res)
@@ -48,7 +47,6 @@ io.on('connection', (client) => {
     client.on(routes.JOIN_GAME, (gameName) => {
         let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
 
-      console.log('GAME CAN JOIN', res)
 		if (res === 'OK') {
 			client.join(gameName)
       io.to(gameName).emit(routes.SOMEONE_JOINED, true)
