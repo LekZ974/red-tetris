@@ -20,7 +20,7 @@ import { emitGetGames } from '../../actions/games';
 import * as Services from "../../services/TetriService";
 
 const Room = (props) => {
-  const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame} = props
+  const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame, history} = props
 
   if (!gamesList && !user.name && !user.isLoading) {
     getGames()
@@ -28,6 +28,10 @@ const Room = (props) => {
 
   if (!user.name && !user.isLoading) {
     login(match.params.user)
+  }
+
+  if (!showConfigForm) {
+    history.push('/')
   }
 
   if (!Services.gameExist(match.params.room, gamesList)) {
