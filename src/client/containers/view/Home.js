@@ -9,8 +9,7 @@ import {emitGetGames} from "../../actions/games";
 import {notify} from "../../utils/notificationHandler";
 import {tetriInitState} from "../../actions/tetrimino";
 import {gameInitState} from "../../actions/game";
-import {displayConfigForm} from "../../actions/alert";
-import {fontWeights} from "../../theme";
+import theme from "../../theme"
 
 class Home extends React.Component {
 
@@ -56,7 +55,7 @@ class Home extends React.Component {
     return (
       <Box width={'100%'} flex flexDirection='column' justifyContent='center'>
         <Toaster/>
-        <Box center marginBottom='5em' style={{color: '#c00', fontWeights: 600, fontSize: '30px', marginBottom: '3em' }}>
+        <Box center marginBottom='5em' style={{color: theme.colors.red, fontWeights: 600, fontSize: '30px', marginBottom: '3em' }}>
           Red Tetris 42
         </Box>
         <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
