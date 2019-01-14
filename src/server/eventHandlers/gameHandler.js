@@ -75,7 +75,11 @@ const initGame = function(game) {
     game.master.piece = -1
     game.master.malus = 0
 
-    if (game.challenger.length > 0) {
+	if (game.solo.solo_mode === true) {
+		game.solo.count = 0
+		game.solo.level = gameplay.MIN_LVL
+		game.solo.speed = gameplay.MIN_SPEED
+	} else if (game.challenger.length > 0) {
         game.challenger.forEach((player) => {
             player.inGameLoser = false
             player.piece = -1
