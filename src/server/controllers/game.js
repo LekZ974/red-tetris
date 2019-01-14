@@ -1,3 +1,5 @@
+import gameplay from '../constants/gameplay'
+
 export default class Game {
     constructor(shapes) {
         this.shapes = shapes
@@ -11,8 +13,12 @@ export default class Game {
             requestId: null
         }
 		this.numLosers = 0
+        this.speed = gameplay.MIN_SPEED
         this.solo = {
-            solo_mode: false
+            solo_mode: false,
+            count: 0,
+            level: gameplay.MIN_LVL,
+            speed: gameplay.MIN_SPEED
         }
     }
 
