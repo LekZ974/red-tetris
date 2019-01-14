@@ -141,8 +141,8 @@ const getShape = function(game, clientId) {
 const incrementLevel = function(game) {
     if (game.solo.count >= gameplay.MAX_COUNT) {
         game.solo.count = 0
-        if (game.solo.speed + gameplay.INC_SPEED <= gameplay.MAX_SPEED) {
-            game.solo.speed += gameplay.INC_SPEED
+        if (game.solo.speed - gameplay.INC_SPEED >= gameplay.MAX_SPEED) {
+            game.solo.speed -= gameplay.INC_SPEED
         }
         if (game.solo.level + 1 <= gameplay.MAX_LVL) {
             game.solo.level += 1
