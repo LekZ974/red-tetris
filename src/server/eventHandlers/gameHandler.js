@@ -74,6 +74,7 @@ const initGame = function(game) {
     game.master.inGameLoser = false
     game.master.piece = -1
     game.master.malus = 0
+    game.master.score = 0
 
 	if (game.solo.solo_mode === true) {
 		game.solo.count = 0
@@ -84,6 +85,7 @@ const initGame = function(game) {
             player.inGameLoser = false
             player.piece = -1
             player.malus = 0
+            player.score = 0
         })
     }
 }
