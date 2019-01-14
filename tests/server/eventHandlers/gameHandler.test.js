@@ -270,7 +270,6 @@ test('incrementLevel', () => {
     let tetriminos = Array(new Piece(shapes[0]))
     let game = new Game(tetriminos)
 
-	console.log(game)
 	game.solo.solo_mode = true
 	expect(gameHandler.incrementLevel(game)).toMatchSnapshot()
 	game.solo.count = gameplay.MAX_COUNT
