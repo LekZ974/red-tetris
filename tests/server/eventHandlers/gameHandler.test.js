@@ -242,12 +242,12 @@ test('initGame', () => {
     let player2 = new Player(clientId2, clientId2)
 
     game.master = player1
-    game.numLosers = 1;
+    game.numLosers = 1
     game.master.inGameLoser = true;
     expect(gameHandler.initGame(game)).toMatchSnapshot()
 
-    game.challenger.push(player2);
-    game.challenger[0].inGameLoser = true;
+    game.challenger.push(player2)
+    game.challenger[0].inGameLoser = true
     expect(gameHandler.initGame(game)).toMatchSnapshot()
 })
 
