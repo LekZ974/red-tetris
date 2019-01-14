@@ -23,6 +23,9 @@ export const initialState = {
   grid: [],
   completeLine: 0,
   malus: 0,
+  count: 0,
+  speedDelay: 500,
+  level: 0,
   payload: {},
   lost: false,
   winner: false,
@@ -90,6 +93,9 @@ export default function UserReducer (state = initialState, action = {}) {
         lost: false,
         winner: false,
         isLoading: false,
+        count: 0,
+        speedDelay: 500,
+        level: 0,
       }
     }
     case USER_UPDATE_GRID: {
