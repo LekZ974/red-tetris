@@ -190,9 +190,8 @@ const updateBoard = function(client, activeGames, newBoard) {
     }
 
     if (game !== undefined && validator.checkBoardSize(newBoard)) {
-        if (game.challenger.length > 0)
-            if (!gameHandler.updateMalus(game, client.id, newBoard))
-                return ret
+		if (!gameHandler.updateMalus(game, client.id, newBoard))
+			return ret
         ret.game = game
         if (client.id == game.master.socketID) {
             game.master.board = newBoard
