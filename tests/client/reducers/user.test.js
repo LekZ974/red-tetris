@@ -47,6 +47,7 @@ describe('user reducer test',()=>{
         speedDelay: 500,
         count: 0,
         levels: 0,
+        score: 0,
       })
   })
   it('should test EMIT_USER_LOGIN', () =>{
@@ -70,6 +71,7 @@ describe('user reducer test',()=>{
         speedDelay: 500,
         count: 0,
         level: 0,
+        score: 0,
       })
   })
   it('should test RCV_USER_LOGIN', () =>{
@@ -93,6 +95,7 @@ describe('user reducer test',()=>{
         speedDelay: 500,
         count: 0,
         level: 0,
+        score: 0,
       })
   })
   it('should test USER_LOGIN when status is wrong', () =>{

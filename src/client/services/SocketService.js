@@ -10,14 +10,13 @@ import {
   rcvUserCanStart,
   updateUser,
   emitUserIsWinner,
-  userInitState,
   init,
   addMalusToUser,
+  updateScore,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
 import {
-  gameInitState,
   gameInit,
   rcvCreateGame,
   rcvGameStatus,
@@ -132,6 +131,10 @@ const rcvSomeoneLeft = data => {
   store.dispatch(someoneIsLeft(data))
 }
 
+const rcvScoreUpdated = data => {
+  store.dispatch(updateUser({score: data}))
+}
+
 socket.on('logged', rcvPlayerLogged)
 socket.on('gameJoined', rcvGameJoined)
 socket.on('gameExists', rcvGameExists)
@@ -149,6 +152,7 @@ socket.on('canRestart', rcvCanRestartGame)
 socket.on('malusUpdated', rcvMalus)
 socket.on('someoneJoined', rcvSomeoneJoined)
 socket.on('someoneLeft', rcvSomeoneLeft)
+socket.on('scoreUpdated', rcvScoreUpdated)
 
 //EMIT
 
