@@ -148,10 +148,7 @@ const incrementLevel = function(game) {
             game.solo.level += 1
         }
     }
-    return {
-        level: game.solo.level,
-        speed: game.solo.speed
-    }
+    return game.solo
 }
 
 const changeMaster = function(game) {
