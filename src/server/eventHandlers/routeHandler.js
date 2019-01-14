@@ -150,12 +150,20 @@ const restartGame = function(io, client, activeGames) {
 
 const requestShape = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
-    let shape = null
+    let ret = null
 
     if (game !== undefined) {
-        shape = gameHandler.getShape(game, client.id)
+        let shape = gameHandler.getShape(game, client.id)
+        ret = {
+            shape: shape,
+            soloplay: null
+        }
+        if (game.solo.solo_mode === true) {
+            game.solo.count += 1
+            ret.soloplay = gameHandler.incrementLevel(game)
+        }
     }
-    return shape
+    return ret
 }
 
 const updateBoard = function(client, activeGames, newBoard) {
