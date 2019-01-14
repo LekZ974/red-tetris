@@ -46,7 +46,7 @@ describe('user reducer test',()=>{
         isLoading: false,
         speedDelay: 500,
         count: 0,
-        levels: 0,
+        level: 0,
         score: 0,
       })
   })
@@ -109,7 +109,7 @@ describe('user reducer test',()=>{
         connected: true,
         completeLine: 0,
         grid:[0,0,0],
-        loosed: false,
+        lost: false,
       }
     }))
       .toEqual(initialState)

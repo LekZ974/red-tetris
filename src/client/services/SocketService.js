@@ -71,7 +71,7 @@ const rcvGames = data => {
 }
 
 const rcvGridUpdated = data => {
-  if ('OK' === data.stat) {
+  if ('OK' === data.stat && store.getState().game.gameIsStarted) {
     store.dispatch(updateGrid(data.board))
   }
 }
@@ -127,10 +127,13 @@ const rcvAllPlayers = data => {
 }
 
 const rcvGameFinished = data => {
-  store.dispatch(rcvGameIsFinished(data))
-  store.dispatch(tetriInitState())
-  store.dispatch(gameInit())
-  store.dispatch(init())
+  if (!!store.getState().game.gameIsStarted) {
+    store.dispatch(rcvGameIsFinished(data))
+    store.dispatch(updateUser({prevScore: store.getState().user.score}))
+    store.dispatch(tetriInitState())
+    store.dispatch(gameInit())
+    store.dispatch(init())
+  }
 }
 
 const rcvCanRestartGame = data => {
@@ -150,7 +153,9 @@ const rcvSomeoneLeft = data => {
 }
 
 const rcvScoreUpdated = data => {
-  store.dispatch(updateUser({score: data}))
+  if (store.getState().game.gameIsStarted) {
+    store.dispatch(updateUser({score: data}))
+  }
 }
 
 socket.on('logged', rcvPlayerLogged)
