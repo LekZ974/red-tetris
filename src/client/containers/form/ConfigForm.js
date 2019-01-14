@@ -1,9 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { withRouter } from 'react-router-dom';
 
-import {Input, Button, SelectField} from "../../components/block";
-import { connect } from 'react-redux';
+import {Button, SelectField} from "../../components/block";
 
 let ConfigForm = ({ createGame, handleSubmit, error, submitting, game, match }) => {
 
