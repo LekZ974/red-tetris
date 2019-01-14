@@ -10,7 +10,7 @@ describe('<Modal />', () => {
   })
   it('Modal display', () => {
     const component = renderer.create(
-      <Modal>Hello</Modal>,
+      <Modal open={() => true} onClose={() => false}>Hello</Modal>,
     );
     let tree = component.toJSON();
     expect(tree).to.matchSnapshot();

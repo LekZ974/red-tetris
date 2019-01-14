@@ -25,6 +25,7 @@ export const initialState = {
     gameMode: 'MULTI',
     sound: true,
     addMalus: true,
+    speed: true,
   },
   isLoading: false,
 }

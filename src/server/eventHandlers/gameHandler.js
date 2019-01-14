@@ -1,5 +1,6 @@
 import shapes from '../constants/shapes'
 import board from '../constants/board'
+import gameplay from '../constants/gameplay'
 
 import Piece from '../controllers/piece'
 import Game from '../controllers/game'
@@ -74,7 +75,11 @@ const initGame = function(game) {
     game.master.piece = -1
     game.master.malus = 0
 
-    if (game.challenger.length > 0) {
+	if (game.solo.solo_mode === true) {
+		game.solo.count = 0
+		game.solo.level = gameplay.MIN_LVL
+		game.solo.speed = gameplay.MIN_SPEED
+	} else if (game.challenger.length > 0) {
         game.challenger.forEach((player) => {
             player.inGameLoser = false
             player.piece = -1
@@ -131,6 +136,19 @@ const getShape = function(game, clientId) {
 		}
 		return shape
 	}
+}
+
+const incrementLevel = function(game) {
+    if (game.solo.count >= gameplay.MAX_COUNT) {
+        game.solo.count = 0
+        if (game.solo.speed - gameplay.INC_SPEED >= gameplay.MAX_SPEED) {
+            game.solo.speed -= gameplay.INC_SPEED
+        }
+        if (game.solo.level + 1 <= gameplay.MAX_LVL) {
+            game.solo.level += 1
+        }
+    }
+    return game.solo
 }
 
 const changeMaster = function(game) {
@@ -264,6 +282,7 @@ export {
 	randNumber,
 	initBoard,
 	getShape,
+    incrementLevel,
 	changeMaster,
 	destroyGame,
 	isGameFinished,

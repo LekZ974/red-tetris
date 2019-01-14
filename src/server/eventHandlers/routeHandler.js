@@ -133,8 +133,21 @@ const restartGame = function(io, client, activeGames) {
     let game = startGame(client, activeGames)
 
     if (game) {
+		let ret = {
+			board: null,
+			solo: null,
+			multi: null
+		}
         gameHandler.initGame(game)
-        io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+		ret.board = game.master.board
+		if (game.solo.solo_mode === true) {
+			ret.solo = game.solo
+		} else {
+			ret.multi = {
+				speed : game.speed
+			}
+		}
+        io.to(game.roomName).emit(routes.GAME_STARTED, ret)
 
         if (game.challenger.length > 0) {
             let players = allPlayers(game, game.master.socketID)
@@ -150,12 +163,20 @@ const restartGame = function(io, client, activeGames) {
 
 const requestShape = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
-    let shape = null
+    let ret = null
 
     if (game !== undefined) {
-        shape = gameHandler.getShape(game, client.id)
+        let shape = gameHandler.getShape(game, client.id)
+        ret = {
+            shape: shape,
+            soloplay: null
+        }
+        if (game.solo.solo_mode === true) {
+            game.solo.count += 1
+            ret.soloplay = gameHandler.incrementLevel(game)
+        }
     }
-    return shape
+    return ret
 }
 
 const updateBoard = function(client, activeGames, newBoard) {
