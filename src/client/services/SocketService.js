@@ -55,7 +55,11 @@ const rcvGameCanStart = data => {
 }
 
 const rcvNewShape = data => {
-  store.dispatch(rcvNewPieces(data))
+  console.log("EMMITED SHAPE", data)
+  store.dispatch(rcvNewPieces(data.shape))
+  if (data.soloplay && data.soloplay.hasOwnProperty('solo_mode') && !!data.soloplay.solo_mode && store.getState().game.gameIsStarted) {
+    store.dispatch(updateUser({count: data.soloplay.count, speedDelay: data.soloplay.speed, level: data.soloplay.level}))
+  }
 }
 
 const rcvLeftGame = data => {
@@ -73,8 +77,16 @@ const rcvGridUpdated = data => {
 }
 
 const rcvGameIsStarted = data => {
+  console.log("GAME IS STARTED", data)
   store.dispatch(tetriInitState())
-  store.dispatch(updateUser({grid: data}))
+  if (data.multi) {
+    store.dispatch(updateGame({params: {gameMode: 'MULTI'}}))
+    store.dispatch(updateUser({grid: data.board, count: data.multi.count, speedDelay: data.multi.speed, level: data.multi.level}))
+  }
+  else if (data.solo) {
+    store.dispatch(updateGame({params: {gameMode: 'SOLO'}}))
+    store.dispatch(updateUser({grid: data.board, count: data.solo.count, speedDelay: data.solo.speed, level: data.solo.level}))
+  }
   store.dispatch(rcvGameStatus('Start'))
   store.dispatch(emitNewPieces())
 }
