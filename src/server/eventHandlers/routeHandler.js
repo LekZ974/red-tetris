@@ -133,8 +133,21 @@ const restartGame = function(io, client, activeGames) {
     let game = startGame(client, activeGames)
 
     if (game) {
+		let ret = {
+			board: null,
+			solo: null,
+			multi: null
+		}
         gameHandler.initGame(game)
-        io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+		ret.board = game.master.board
+		if (game.solo.solo_mode === true) {
+			ret.solo = game.solo
+		} else {
+			ret.multi = {
+				speed : game.speed
+			}
+		}
+        io.to(game.roomName).emit(routes.GAME_STARTED, ret)
 
         if (game.challenger.length > 0) {
             let players = allPlayers(game, game.master.socketID)
