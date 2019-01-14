@@ -80,7 +80,21 @@ io.on('connection', (client) => {
     client.on(routes.START_GAME, () => {
         let game = routeHandler.startGame(client, activeGames)
         if (game !== null) {
-            io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+			let ret = {
+				board: null,
+				solo: null,
+				multi: null
+			}
+			if (game.solo.solo_mode === true) {
+				ret.board = game.master.board
+				ret.solo = game.solo
+			} else {
+				ret.board = game.master.board
+				ret.multi = {
+					speed: game.speed
+				}
+			}
+            io.to(game.roomName).emit(routes.GAME_STARTED, ret)
 
             if (game.challenger.length > 0) {
                 let allPlayers = routeHandler.allPlayers(game, game.master.socketID)
