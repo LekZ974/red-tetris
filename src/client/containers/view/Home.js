@@ -9,7 +9,7 @@ import {emitGetGames} from "../../actions/games";
 import {notify} from "../../utils/notificationHandler";
 import {tetriInitState} from "../../actions/tetrimino";
 import {gameInitState} from "../../actions/game";
-import {displayConfigForm} from "../../actions/alert";
+import theme from "../../theme"
 
 class Home extends React.Component {
 
@@ -53,22 +53,27 @@ class Home extends React.Component {
     })
 
     return (
-      <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
+      <Box width={'100%'} flex flexDirection='column' justifyContent='center'>
         <Toaster/>
-        <Box flex={1}>
-          <HomeForm props={{...this.props}}/>
+        <Box center marginBottom='5em' style={{color: theme.colors.red, fontWeights: 600, fontSize: '30px', marginBottom: '3em' }}>
+          Red Tetris 42
         </Box>
-        <Card flex={1} width={'40em'} center>
-          <LoadingContainer
-            isLoading={isLoading && !gamesList}
-            isEmpty={!gamesList}
-            emptyLabel='Pas de parties en cours'
-          >
-          <Box fontSize={30}>
-            {userName && userName.length > 0 ? <ul>{renderList}</ul> : <div>Choose a login first</div>}
+        <Box width={'100%'} flex flexDirection='row' justifyContent='center'>
+          <Box flex={1}>
+            <HomeForm props={{...this.props}}/>
           </Box>
-          </LoadingContainer>
-        </Card>
+          <Card flex={1} width={'40em'} center>
+            <LoadingContainer
+              isLoading={isLoading && !gamesList}
+              isEmpty={!gamesList}
+              emptyLabel='Pas de parties en cours'
+            >
+            <Box fontSize={30}>
+              {userName && userName.length > 0 ? <ul>{renderList}</ul> : <div>Choose a login first</div>}
+            </Box>
+            </LoadingContainer>
+          </Card>
+        </Box>
       </Box>
     )
   }
