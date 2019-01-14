@@ -1,5 +1,6 @@
 import shapes from '../constants/shapes'
 import board from '../constants/board'
+import gameplay from '../constants/gameplay'
 
 import Piece from '../controllers/piece'
 import Game from '../controllers/game'
@@ -133,6 +134,22 @@ const getShape = function(game, clientId) {
 	}
 }
 
+const incrementLevel = function(game) {
+    if (game.solo.count >= gameplay.MAX_COUNT) {
+        game.solo.count = 0
+        if (game.solo.speed + gameplay.INC_SPEED <= gameplay.MAX_SPEED) {
+            game.solo.speed += gameplay.INC_SPEED
+        }
+        if (game.solo.level + 1 <= gameplay.MAX_LVL) {
+            game.solo.level += 1
+        }
+    }
+    return {
+        level: game.solo.level,
+        speed: game.solo.speed
+    }
+}
+
 const changeMaster = function(game) {
 	let ret = null
 
@@ -264,6 +281,7 @@ export {
 	randNumber,
 	initBoard,
 	getShape,
+    incrementLevel,
 	changeMaster,
 	destroyGame,
 	isGameFinished,
