@@ -46,7 +46,7 @@ describe('user reducer test',()=>{
         isLoading: false,
         speedDelay: 500,
         count: 0,
-        levels: 0,
+        level: 0,
       })
   })
   it('should test EMIT_USER_LOGIN', () =>{

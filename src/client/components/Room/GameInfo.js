@@ -3,13 +3,27 @@ import {Box, GridBlock} from "../block";
 import Fade from 'react-reveal/Fade';
 
 const GameInfo = (props) => {
-  const {game} = props;
+  const {game, user} = props;
   let players = game.players
   return(
     <Box center>
+      {"SOLO" === game.params.gameMode &&
+      <Fade right big>
+        <Box style={{height: '20vh', marginTop: '2em'}}>
+          Level: {user.level}
+        </Box>
+      </Fade>
+      }
+      {"SOLO" === game.params.gameMode && user.score &&
+      <Fade right big>
+        <Box style={{height: '20vh', marginTop: '2em'}}>
+          Score: {user.score}
+        </Box>
+      </Fade>
+      }
       {players && players.length >= 1 &&
         <Fade right big>
-          <Box style={{height: '20vh'}}>
+          <Box style={{height: '20vh', marginTop: '2em'}}>
             <h1>Challengers</h1>
             {players.map((player, index) =>
               <Box key={index}>

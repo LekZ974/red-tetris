@@ -10,6 +10,7 @@ const user = {
 
 const game = {
   players: null,
+  params: {gameMode: 'A GAME MODE'}
 }
 
 describe('>>>>GAMEINFO', () => {
