@@ -24,7 +24,6 @@ export const USER_UPDATE = 'user/USER_UPDATE'
 export const USER_UPDATE_GRID = 'user/USER_UPDATE_GRID'
 export const USER_ADD_MALUS = 'user/USER_ADD_MALUS'
 export const USER_INIT_STATE = 'user/USER_INIT_STATE'
-export const USER_UPDATE_SCORE = 'user/USER_UPDATE_SCORE'
 
 export const connect = user => ({
   type: USER_CONNECT,
