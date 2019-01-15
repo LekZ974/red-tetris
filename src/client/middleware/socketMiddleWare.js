@@ -32,7 +32,7 @@ import {
 } from "../actions/user";
 import {store} from "../index";
 import {notify} from "../utils/notificationHandler";
-import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInit, tetriNew} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInitState, tetriNew} from "../actions/tetrimino";
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
@@ -160,11 +160,9 @@ const socketMiddleware = socket => ({dispatch}) => {
             switch (action.data) {
               case 'winner':
                 SocketService.emitUserWin()
-                SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
                 return next(action)
               case 'loser':
                 SocketService.emitUserLose()
-                SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
                 return next(action)
               default:
                 break;
@@ -218,12 +216,12 @@ const socketMiddleware = socket => ({dispatch}) => {
     if (TetriService.asLose(store.getState().user.grid) && store.getState().game.gameIsStarted) {
       SocketService.emitUserLose()
     }
-    if (store.getState().tetrimino.needNext) {
+    else if (store.getState().tetrimino.needNext) {
       SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+      store.dispatch(tetriInitState())
       SocketService.emitNeedPieces()
-      store.dispatch(tetriInit())
     }
-    if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
+    else if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
       SocketService.emitUpdateParamsGame(store.getState().form.ConfigForm.values)
     }
     return next(action)
