@@ -94,3 +94,4 @@ export const addMalusToUser = data => ({
 export const userInitState = () => ({
   type: USER_INIT_STATE,
 })
+
