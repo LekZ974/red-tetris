@@ -164,7 +164,6 @@ const socketMiddleware = socket => ({dispatch}) => {
                 return next(action)
               case 'loser':
                 SocketService.emitUserLose()
-                console.log("Lose 2")
                 SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
                 return next(action)
               default:
@@ -218,7 +217,6 @@ const socketMiddleware = socket => ({dispatch}) => {
     }
     if (TetriService.asLose(store.getState().user.grid) && store.getState().game.gameIsStarted) {
       SocketService.emitUserLose()
-      console.log("Lose 1")
     }
     if (store.getState().tetrimino.needNext) {
       SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
