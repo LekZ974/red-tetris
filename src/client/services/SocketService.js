@@ -13,7 +13,6 @@ import {
   userInitState,
   init,
   addMalusToUser,
-  updateScore,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
