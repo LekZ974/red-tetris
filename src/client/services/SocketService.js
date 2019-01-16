@@ -99,7 +99,7 @@ const rcvGameIsStarted = data => {
     store.dispatch(updateUser({
       grid: data.board,
       count: data.solo.count,
-      peedDelay: data.solo.speed,
+      speedDelay: data.solo.speed,
       level: data.solo.level
     }))
   }
