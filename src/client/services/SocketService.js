@@ -30,6 +30,7 @@ import {
   someoneIsJoined,
   someoneIsLeft,
 } from "../actions/game"
+import {alertInit} from "../actions/alert";
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
@@ -77,6 +78,7 @@ const rcvGridUpdated = data => {
 
 const rcvGameIsStarted = data => {
   store.dispatch(tetriInitState())
+  store.dispatch(alertInit())
   if (data.multi) {
     store.dispatch(updateGame({
       params: {

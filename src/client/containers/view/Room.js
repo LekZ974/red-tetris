@@ -13,7 +13,7 @@ import PlayGround from '../../components/Room/PlayGround'
 import {connect} from "react-redux";
 import {emitCreateGame, emitGameStatus, gameSound} from "../../actions/game";
 import {emitLogin, emitLeaveGame} from "../../actions/user";
-import {displayCommand, displayConfigForm} from "../../actions/alert";
+import {displayCommand, displayConfigForm, displayResult} from "../../actions/alert";
 import Modal from "../../components/block/Modal";
 import ConfigForm from "../form/ConfigForm";
 import { emitGetGames } from '../../actions/games';
@@ -92,6 +92,7 @@ const mapDispatchToProps = dispatch => ({
   leaveGame: () => dispatch(emitLeaveGame()),
   displayCommand: () => dispatch(displayCommand()),
   displayConfigForm: () => dispatch(displayConfigForm()),
+  displayResult: () => dispatch(displayResult()),
   getGames: () => dispatch(emitGetGames()),
   gameSound: (status) => dispatch(gameSound(status)),
 })
@@ -107,7 +108,8 @@ const mapStateToProps = state => {
     gamesList: state.games.items,
     game: Object.assign({}, state.game),
     showCommand: state.alert.showCommand,
-    showConfigForm: state.alert.showConfigForm
+    showConfigForm: state.alert.showConfigForm,
+    showResult: state.alert.showResult
   }
 };
 

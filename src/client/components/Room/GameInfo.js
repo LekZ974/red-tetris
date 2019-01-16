@@ -10,17 +10,18 @@ const GameInfo = (props) => {
     <Box center flex flexDirection='column'>
       {"SOLO" === game.params.gameMode &&
       <Fade right big>
-        <Box style={{padding: '3em', border: `2px solid ${theme.colors.red}`}}>
+        <Box style={{fontWeight: 800, color: theme.colors.white, backgroundColor: theme.colors.red, padding: '3em', border: 'solid 5px', borderColor: `${theme.colors.gray} ${theme.colors.darkGray} ${theme.colors.darkGray} ${theme.colors.gray}`}}>
+          <Box style={{fontSize: '1.5em', marginBottom: '2em'}}>Game mode : {game.params.gameMode}</Box>
           <Box>
             Level: {user.level}
           </Box>
-          <Box style={{marginTop: '2em'}}>
+          <Box style={{marginTop: '1.5em'}}>
             Score: {user.score}
           </Box>
-          <Box style={{marginTop: '2em'}}>
+          <Box style={{marginTop: '1.5em'}}>
             Speed : {game.params.speed}
           </Box>
-          <Box style={{marginTop: '2em'}}>
+          <Box style={{marginTop: '1.5em'}}>
             Malus : {'MALUS' === game.params.addMalus ? 'Enable' : 'Disable'}
           </Box>
         </Box>
