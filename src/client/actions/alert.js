@@ -12,4 +12,3 @@ export const displayConfigForm = () => {
     type: DISPLAY_CONFIG_FORM,
   }
 }
-

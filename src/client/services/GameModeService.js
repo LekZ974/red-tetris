@@ -13,7 +13,7 @@ function speedManage(action, params) {
         break;
       }
       case 'HARD_MODE' : {
-        if (action.data.level < 5) {
+        if (action.data.level <= 5) {
           action.data.speedDelay = (action.data.speedDelay / (action.data.level));
         }
         break;

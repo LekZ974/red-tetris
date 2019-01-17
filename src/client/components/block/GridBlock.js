@@ -1,7 +1,7 @@
 import React from 'react'
 
 const GridBlock = (props) => {
-  const { blockId } = props
+  const { blockId, width, height } = props
 
   let propsBlock;
 
@@ -90,8 +90,8 @@ const GridBlock = (props) => {
   }
   return (
     <div style={{
-      height:'100%',
-      width:'10%',
+      width: width,
+      height: height,
       marginTop: props.pos +'px',
       ...propsBlock,
     }} />

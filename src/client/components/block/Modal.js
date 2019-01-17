@@ -6,7 +6,7 @@ const ModalContainer = (props) => {
   const {open, onClose, children, closeOnOverlayClick} = props
 
   return (
-    <Modal classNames={{modal: {customModal: {'border-radius': '5px'}}}} open={open} onClose={onClose} closeOnOverlayClick={closeOnOverlayClick} center>
+    <Modal open={open} onClose={onClose} closeOnOverlayClick={closeOnOverlayClick} center>
       <Zoom>
         {children}
       </Zoom>
