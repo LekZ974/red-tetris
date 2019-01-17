@@ -108,7 +108,9 @@ const socketMiddleware = socket => ({dispatch}) => {
               gameName: store.getState().game.name,
               grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
             }))
-            notify('You are the master!', 'info')
+            if ('SOLO' !== store.getState().game.params.gameMode) {
+              notify('You are the master!', 'info')
+            }
           }
           break;
         }

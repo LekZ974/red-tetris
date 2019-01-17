@@ -10,14 +10,12 @@ import {
   rcvUserCanStart,
   updateUser,
   emitUserIsWinner,
-  userInitState,
   init,
   addMalusToUser,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
 import {
-  gameInitState,
   gameInit,
   rcvCreateGame,
   rcvGameStatus,

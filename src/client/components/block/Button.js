@@ -81,7 +81,6 @@ const StyledButton = styled('button')`
   return props.disabled
     ? null
     : Color(props.theme.colors.red)
-      .darken(0.15)
       .string()
     }};
   }

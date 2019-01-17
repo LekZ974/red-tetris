@@ -3,6 +3,7 @@ import Color from 'color'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChessRook, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 import Jump from 'react-reveal/Jump';
+import Fade from 'react-reveal/Fade';
 import theme from '../../theme';
 
 import {Button, Box, Modal} from "../block";
@@ -79,18 +80,30 @@ const RoomInfo = (props) =>{
 
   return(
     <Box flex flexDirection={'column'} container center>
-      <Box flex flexDirection={'column'}>
-        <h1><Jump><FontAwesomeIcon icon={faChessRook} /> Room :</Jump></h1>
-        <Box style={{marginTop: '-45px'}}>
-          <h1>{game.name}</h1>
+      <Fade left big>
+        <Box style={{marginBottom: '2em', fontWeight: 800, color: theme.colors.white, backgroundColor: theme.colors.red, padding: '0 3em', border: 'solid 5px', borderColor: `${theme.colors.gray} ${theme.colors.darkGray} ${theme.colors.darkGray} ${theme.colors.gray}`}}>
+          <Box flex flexDirection={'row'}>
+            <h1 style={{display: 'inherit'}}>
+              <Jump>
+                <Box style={{marginRight: '0.5em'}}>
+                  <FontAwesomeIcon icon={faChessRook}  />
+                </Box>
+              </Jump>
+                Room :
+            </h1>
+            <Box>
+              <h1>{game.name}</h1>
+            </Box>
+          </Box>
         </Box>
-      </Box>
+      </Fade>
       {user.role === 'master' &&
       <Box>
         <Button customClass={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>
         {buttonValue}
         </Button>
-      </Box>}
+      </Box>
+      }
       <Box>
         <Button onClick={leaveRoom}>
           <div style={styles.link}>Leave Game</div>
