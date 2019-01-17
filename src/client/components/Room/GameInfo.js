@@ -6,6 +6,7 @@ import theme from '../../theme';
 const GameInfo = (props) => {
   const {game, user} = props;
   let players = game.players
+
   return(
     <Box center flex flexDirection='column'>
       <Fade right big>

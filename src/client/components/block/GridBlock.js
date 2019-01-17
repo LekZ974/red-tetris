@@ -1,4 +1,6 @@
 import React from 'react'
+import theme from '../../theme'
+import Colors from 'color'
 
 const GridBlock = (props) => {
   const { blockId, width, height } = props
@@ -8,82 +10,82 @@ const GridBlock = (props) => {
   switch (blockId) {
     case 0 : default: {
       propsBlock = {
-        backgroundColor: '#c9c4ce',
+        backgroundColor: theme.colors.realLightGray,
         border: 'solid',
-        borderColor: '#FAF1FF #918C96 #918C96 #FAF1FF'
+        borderColor: `${theme.colors.lightGray} ${theme.colors.darkGray} ${theme.colors.darkGray} ${theme.colors.lightGray}`,
       }
       break;
     }
     case 1: {
       propsBlock = {
-        backgroundColor: '#66b847',
+        backgroundColor: Colors(theme.colors.green).lighten(0.1),
         border: 'solid',
-        borderColor: '#79D652 #396A2C #396A2C #79D652'
+        borderColor: `${theme.colors.lightGreen} ${theme.colors.darkGreen} ${theme.colors.darkGreen} ${theme.colors.lightGreen}`,
 
       }
       break;
     }
     case 2: {
       propsBlock = {
-        backgroundColor: '#4951be',
+        backgroundColor: Colors(theme.colors.blue).lighten(0.1),
         border: 'solid',
-        borderColor: '#515ADE #2E336A #2E336A #515ADE'
+        borderColor: `${theme.colors.lightBlue} ${theme.colors.darkBlue} ${theme.colors.darkBlue} ${theme.colors.lightBlue}`,
       }
       break;
     }
     case 3: {
       propsBlock = {
-        backgroundColor: '#a445bd',
+        backgroundColor: Colors(theme.colors.purple).lighten(0.1),
         border: 'solid',
-        borderColor: '#C44FE0 #933FAC #933FAC #C44FE0'
+        borderColor: `${theme.colors.lightPurple} ${theme.colors.darkPurple} ${theme.colors.darkPurple} ${theme.colors.lightPurple}`,
       }
       break;
     }
     case 4: {
       propsBlock = {
-        backgroundColor: '#cb6d1e',
+        backgroundColor: Colors(theme.colors.orange).lighten(0.1),
         border: 'solid',
-        borderColor: '#EE8221 #8C7518 #8C7518 #EE8221'
+        borderColor: `${theme.colors.lightOrange} ${theme.colors.darkOrange} ${theme.colors.darkOrange} ${theme.colors.lightOrange}`,
       }
       break;
     }
     case 5: {
       propsBlock = {
-        backgroundColor: '#ba2f1c',
+        backgroundColor: Colors(theme.colors.red).lighten(0.1),
         border: 'solid',
-        borderColor: '#E83722 #7C3B20 #7C3B20 #E83722'
+        borderColor: `${theme.colors.lightRed} ${theme.colors.darkRed} ${theme.colors.darkRed} ${theme.colors.lightRed}`,
       }
       break;
     }
     case 6: {
       propsBlock = {
-        backgroundColor: '#4ebdb2',
+        backgroundColor: Colors(theme.colors.cyan).lighten(0.1),
         border: 'solid',
-        borderColor: '#59DFD4 #337A70 #337A70 #59DFD4'
+        borderColor: `${theme.colors.lightCyan} ${theme.colors.darkCyan} ${theme.colors.darkCyan} ${theme.colors.lightCyan}`,
       }
       break;
     }
     case 7: {
       propsBlock = {
-        backgroundColor: '#d4d519',
+        backgroundColor: Colors(theme.colors.yellow).lighten(0.1),
         border: 'solid',
-        borderColor: '#FEFF1E #9C9D14 #9C9D14 #FEFF1E'
+        borderColor: `${theme.colors.lightYellow} ${theme.colors.darkYellow} ${theme.colors.darkYellow} ${theme.colors.lightYellow}`,
       }
       break;
     }
     case 8: {
       propsBlock = {
-        backgroundColor: '#86aec7',
+        backgroundColor: Colors(theme.colors.lightGray).darken(0.1),
         border: 'solid',
-        borderColor: '#A3D7F5 #546f85 #546f85 #A3D7F5'
+        borderColor: `${theme.colors.white} ${theme.colors.gray} ${theme.colors.gray} ${theme.colors.white}`,
       }
       break;
     }
     case -1: {
       propsBlock = {
-        backgroundColor: '#777777',
+        backgroundColor: Colors(theme.colors.gray).darken(0.2),
         border: 'solid',
-        borderColor: '#ababab #666666 #666666 #ababab'
+        borderColor: `${Colors(theme.colors.gray).lighten(0.2)} ${theme.colors.darkGray} ${theme.colors.darkGray} ${Colors(theme.colors.gray).lighten(0.2)}`,
       }
       break;
     }

@@ -232,9 +232,8 @@ const gridDelLine = grid => {
 };
 
 const asLose = grid => {
-  return grid && grid.length >= 1 && ((grid[0].some(e => e !== PIECES_NUM.empty) ||
-    grid[1].some(e => e !== PIECES_NUM.empty) ||
-    grid[2].some(e => e !== PIECES_NUM.empty)))
+  return grid && grid.length >= 1 && ((grid[0].some(e => e !== PIECES_NUM.empty && e !== PIECES_NUM.preview) ||
+    grid[1].some(e => e !== PIECES_NUM.empty && e !== PIECES_NUM.preview)))
 };
 
 const addMalusBlocks = (grid, amount) => {
