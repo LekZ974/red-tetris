@@ -1,37 +1,38 @@
 import {store} from '../index';
-import { addMalusToUser, updateGrid } from '../actions/user';
+import { addMalusToUser } from '../actions/user';
+import {SPEED_MODE} from '../../common/const';
 
-function speedManage(action, params) {
+const speedManage = (action, params) => {
   if (action.data.speedDelay && action.data.level > 0) {
     switch (params.speed) {
-      case 'NO_SPEED' : {
+      case SPEED_MODE.noSpeed : {
         action.data.speedDelay = 500;
         break;
       }
-      case 'MEDIUM_MODE' : {
+      case SPEED_MODE.medium : {
         action.data.speedDelay = (action.data.speedDelay * 0.7);
         break;
       }
-      case 'HARD_MODE' : {
-        if (action.data.level <= 5) {
+      case SPEED_MODE.hard : {
+        if (action.data.level <= 5 || 1 === action.data.level % 2) {
           action.data.speedDelay = (action.data.speedDelay / (action.data.level));
         }
         break;
       }
-      case 'EASY_MODE':
+      case SPEED_MODE.easy:
       default:
         break;
     }
   }
 }
 
-function malusManage(action, params, user) {
+const malusManage = (action, params, user) => {
   if (store.getState().user.level !== action.data.level && action.data.level > 0 && 0 === action.data.level % 2) {
     store.dispatch(addMalusToUser(user.malus + 1))
   }
 }
 
-function soloManageMode(action, params, user) {
+const soloManageMode = (action, params, user) => {
   speedManage(action, params);
   malusManage(action, params, user)
 }

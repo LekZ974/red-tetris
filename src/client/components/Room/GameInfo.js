@@ -2,6 +2,7 @@ import React from 'react'
 import {Box, GridBlock} from "../block";
 import Fade from 'react-reveal/Fade';
 import theme from '../../theme';
+import {GAME_MODE, MALUS_MODE} from '../../../common/const';
 
 const GameInfo = (props) => {
   const {game, user} = props;
@@ -12,7 +13,7 @@ const GameInfo = (props) => {
       <Fade right big>
         <Box style={{fontWeight: 800, color: theme.colors.white, backgroundColor: theme.colors.red, padding: '1em 3em', border: 'solid 5px', borderColor: `${theme.colors.gray} ${theme.colors.darkGray} ${theme.colors.darkGray} ${theme.colors.gray}`}}>
           <Box style={{fontSize: '1.5em'}}>Game mode : {game.params.gameMode}</Box>
-          {"SOLO" === game.params.gameMode &&
+          {GAME_MODE.solo === game.params.gameMode &&
           <Box>
             <Box>
               Level: {user.level}
@@ -24,7 +25,7 @@ const GameInfo = (props) => {
               Speed : {game.params.speed}
             </Box>
             <Box style={{marginTop: '1.5em'}}>
-              Malus : {'MALUS' === game.params.addMalus ? 'Enable' : 'Disable'}
+              Malus : {MALUS_MODE.malus === game.params.addMalus ? 'Enable' : 'Disable'}
             </Box>
           </Box>
           }

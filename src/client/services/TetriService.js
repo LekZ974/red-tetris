@@ -8,9 +8,6 @@ const hasCollision = (grid, piece, coords) => {
     const gx = x + posX;
     const gy = y + posY;
 
-    // console.log("piece", piece, "gx:", gx, "gy:", gy, "number:", number, "x:", x, "y:", y, posX, posY)
-
-
     if (gy < 0 && number !== 0) {
       if (PRIO_COLLISION.indexOf(collisionType) < PRIO_COLLISION.indexOf(COLLISION_TYPE.LIMIT_TOP)) {
         collisionType = COLLISION_TYPE.LIMIT_TOP;
@@ -37,7 +34,6 @@ const hasCollision = (grid, piece, coords) => {
       }
     }
   }));
-  // console.log("COLLISION", collisionType)
   return collisionType;
 };
 
@@ -55,9 +51,6 @@ const placePiece = (grid, tetrimino) => {
         if (gx >= 0 && gy >= 0 &&
           gy < newGrid.length && gx < newGrid[gy].length) {
           newGrid[gy][gx] = number;
-        }
-        else {
-          // console.log('invalid position')
         }
       }
     })
@@ -80,8 +73,6 @@ const placePiecePreview = (grid, tetrimino) => {
         if (gx >= 0 && gy >= 0 &&
           gy < newGrid.length && gx < newGrid[gy].length) {
           newGrid[gy][gx] = PIECES_NUM.preview;
-        } else {
-          // console.log('invalid position')
         }
       }
     })
@@ -233,7 +224,8 @@ const gridDelLine = grid => {
 
 const asLose = grid => {
   return grid && grid.length >= 1 && ((grid[0].some(e => e !== PIECES_NUM.empty && e !== PIECES_NUM.preview) ||
-    grid[1].some(e => e !== PIECES_NUM.empty && e !== PIECES_NUM.preview)))
+    grid[1].some(e => e !== PIECES_NUM.empty && e !== PIECES_NUM.preview) ||
+      grid[2].some(e => e !== PIECES_NUM.empty && e !== PIECES_NUM.preview)))
 };
 
 const addMalusBlocks = (grid, amount) => {

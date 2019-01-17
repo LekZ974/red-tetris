@@ -7,7 +7,6 @@ import {
   EMIT_NEW_PIECES,
   RCV_NEW_PIECES,
   UPDATE_PLAYERS,
-  emitNewPieces,
   RCV_GAME_IS_FINISHED,
   GAME_INIT_STATE,
   GAME_INIT, GAME_UPDATE, GAME_SOMEONE_JOINED, GAME_SOMEONE_LEFT,
@@ -22,7 +21,6 @@ import {
   emitJoinGame,
   RCV_USER_LOGIN,
   EMIT_USER_LEAVE_GAME,
-  RCV_USER_LEAVE_GAME,
   EMIT_USER_LOST,
   EMIT_USER_WIN,
   RCV_USER_CAN_START,
@@ -41,6 +39,7 @@ import * as GameModeService from "../services/GameModeService";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
 import {shapeHandler} from "../utils/shapeHandler";
+import { GAME_MODE, MALUS_MODE, USER_ROLE, TYPE_MESSAGE } from '../../common/const';
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -77,15 +76,15 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case RCV_USER_JOIN_GAME : {
           if ('KO' === action.data) {
-            notify('You can\'t join this game', 'info')
+            notify('You can\'t join this game', TYPE_MESSAGE.error)
             return next(action)
           }
           store.dispatch(updateUser({
             gameName: store.getState().game.name,
             grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-            role: 'challenger'
+            role: USER_ROLE.challenger
           }))
-          notify('You are a challenger', 'info')
+          notify('You are a challenger', TYPE_MESSAGE.info)
           break;
         }
         case EMIT_GET_GAMES: {
@@ -108,8 +107,8 @@ const socketMiddleware = socket => ({dispatch}) => {
               gameName: store.getState().game.name,
               grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
             }))
-            if ('SOLO' !== store.getState().game.params.gameMode) {
-              notify('You are the master!', 'info')
+            if (GAME_MODE.solo !== store.getState().game.params.gameMode) {
+              notify('You are the master!', TYPE_MESSAGE.info)
             }
           }
           break;
@@ -117,7 +116,7 @@ const socketMiddleware = socket => ({dispatch}) => {
         case RCV_USER_CAN_START : {
           if ('KO' === action.data) {
             store.dispatch(updateUser({
-              role: 'challenger'
+              role: USER_ROLE.challenger
             }))
           }
           break;
@@ -150,11 +149,11 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case EMIT_USER_LOST : {
-          notify('You lose!!', 'error')
+          notify('You lose!!', TYPE_MESSAGE.error)
           return next(action)
         }
         case EMIT_USER_WIN : {
-          notify('You win!!', 'success')
+          notify('You win!!', TYPE_MESSAGE.success)
           return next(action)
         }
         case UPDATE_PLAYERS : {
@@ -194,26 +193,26 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case USER_ADD_MALUS: {
-          if (action.data !== store.getState().user.malus && 'MALUS' === store.getState().game.params.addMalus) {
+          if (action.data !== store.getState().user.malus && MALUS_MODE.malus === store.getState().game.params.addMalus) {
             const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data - store.getState().user.malus)
             SocketService.emitUpdateGrid(newGrid)
           }
           return next(action)
         }
         case GAME_SOMEONE_JOINED: {
-          if (!!action.data && 'master' === store.getState().user.role) {
-            notify('a player join the game', 'info')
+          if (!!action.data && USER_ROLE.master === store.getState().user.role) {
+            notify('a player join the game', TYPE_MESSAGE.info)
           }
           break;
         }
         case GAME_SOMEONE_LEFT: {
-          if (!!action.data && 'master' === store.getState().user.role) {
-            notify('a player left the game', 'info')
+          if (!!action.data && USER_ROLE.master === store.getState().user.role) {
+            notify('a player left the game', TYPE_MESSAGE.info)
           }
           break;
         }
         case USER_UPDATE: {
-          if ('SOLO' === store.getState().game.params.gameMode) {
+          if (GAME_MODE.solo === store.getState().game.params.gameMode) {
             GameModeService.soloManageMode(action, store.getState().game.params, store.getState().user);
           }
           break;

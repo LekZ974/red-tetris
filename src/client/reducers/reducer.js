@@ -6,6 +6,7 @@ import games from './games/games'
 import game from './game/game'
 import tetrimino from './tetrimino/tetrimino'
 import {EMIT_GAME_STATUS} from "../actions/game";
+import { GAME_STATUS } from '../../common/const';
 
 const appReducer = combineReducers({
   alert,
@@ -19,7 +20,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   switch (action.type) {
     case EMIT_GAME_STATUS: {
-      if ('Stop' === action.gameStatus) {
+      if (GAME_STATUS.stop === action.gameStatus) {
         return appReducer(undefined, action)
       }
     }

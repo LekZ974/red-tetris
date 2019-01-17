@@ -1,5 +1,5 @@
 
-const reducerGetGames = (state, action) => {
+const reducerRcvGetGames = (state, action) => {
   return {
       ...state,
       items: action.data,
@@ -7,6 +7,14 @@ const reducerGetGames = (state, action) => {
   }
 }
 
+const reducerEmitGetGames = (state) => {
+  return {
+    ...state,
+    isLoading: true,
+  }
+}
+
 export {
-  reducerGetGames,
+  reducerRcvGetGames,
+  reducerEmitGetGames,
 }

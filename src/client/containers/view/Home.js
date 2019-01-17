@@ -10,6 +10,7 @@ import {notify} from "../../utils/notificationHandler";
 import {tetriInitState} from "../../actions/tetrimino";
 import {gameInitState} from "../../actions/game";
 import theme from "../../theme"
+import {TYPE_MESSAGE} from '../../../common/const';
 
 class Home extends React.Component {
 
@@ -32,7 +33,7 @@ class Home extends React.Component {
     if (form && form.hasOwnProperty('syncErrors')) {
       if (form.syncErrors.userName) {
         e.preventDefault()
-        notify('login: '+form.syncErrors.userName, 'error')
+        notify('login: '+form.syncErrors.userName, TYPE_MESSAGE.error)
       }
     }
   }

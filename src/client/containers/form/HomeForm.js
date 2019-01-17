@@ -5,17 +5,18 @@ import {maxLength15, minLength3, required} from "../../utils/formValidation"
 import {connect} from "../../actions/user"
 import { push } from 'connected-react-router'
 import {notify} from "../../utils/notificationHandler";
+import {TYPE_MESSAGE} from '../../../common/const';
 
 const handleClick = (form, e) => {
 
   if (form && form.hasOwnProperty('syncErrors')) {
     if (form.syncErrors.userName) {
       e.preventDefault()
-      notify('login: '+form.syncErrors.userName, 'error')
+      notify('login: '+form.syncErrors.userName, TYPE_MESSAGE.error)
     }
     if (form.syncErrors.gameName) {
       e.preventDefault()
-      notify('room: '+form.syncErrors.gameName, 'error')
+      notify('room: '+form.syncErrors.gameName, TYPE_MESSAGE.error)
     }
   }
 }
