@@ -5,6 +5,7 @@ import { faChessRook, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-s
 import Jump from 'react-reveal/Jump';
 import Fade from 'react-reveal/Fade';
 import theme from '../../theme';
+import {USER_ROLE, GAME_STATUS} from '../../../common/const';
 
 import {Button, Box, Modal} from "../block";
 
@@ -54,7 +55,7 @@ const RoomInfo = (props) =>{
     history.push('/')
   }
 
-  const buttonValue = !game.start && game.round > 1 ? 'Restart' : 'Start'
+  const buttonValue = !game.start && game.round > 1 ? GAME_STATUS.restart : GAME_STATUS.start
 
   const styles = {
     buttonStart: {
@@ -97,7 +98,7 @@ const RoomInfo = (props) =>{
           </Box>
         </Box>
       </Fade>
-      {user.role === 'master' &&
+      {user.role === USER_ROLE.master &&
       <Box>
         <Button customClass={!game.start && !game.gameIsStarted ? styles.buttonStart : styles.buttonDisabled} onClick={changeGameFlow} disabled={game.start || game.gameIsStarted}>
         {buttonValue}

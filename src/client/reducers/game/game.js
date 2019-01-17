@@ -6,10 +6,22 @@ import {
   RCV_GAME_IS_FINISHED,
   RCV_GAME_CAN_RESTART,
   GAME_INIT_STATE,
-  GAME_INIT, GAME_UPDATE, GAME_SOUND
+  GAME_INIT,
+  GAME_UPDATE,
+  GAME_SOUND
 } from '../../actions/game'
-import {reducerEmitGameStatus, reducerRcvCreateGame} from './functions'
-import {USER_UPDATE} from "../../actions/user";
+import {
+  reducerEmitGameStatus,
+  reducerRcvCreateGame,
+  reducerGameUpdate,
+  reducerRcvGameCanRestart,
+  reducerGameSound,
+  reducerGameInit,
+  reducerEmitCreateGame,
+  reducerGameIsFinished,
+} from './functions'
+
+import { GAME_MODE, SPEED_MODE, MALUS_MODE } from '../../../common/const';
 
 export const initialState = {
   items: [],
@@ -22,10 +34,10 @@ export const initialState = {
   players: null,
   round: 0,
   params: {
-    gameMode: 'MULTI',
+    gameMode: GAME_MODE.multi,
     sound: true,
-    addMalus: 'MALUS',
-    speed: 'EASY_MODE',
+    addMalus: MALUS_MODE.malus,
+    speed: SPEED_MODE.easy,
   },
   isLoading: false,
 }
@@ -45,63 +57,28 @@ export default function GameReducer (state = initialState, action = {}) {
       return reducerEmitGameStatus(state, action, initialState)
     }
     case EMIT_CREATE_GAME: {
-      return {
-        ...state,
-        name: action.gameName,
-        isLoading: true,
-      }
+      return reducerEmitCreateGame(state, action);
     }
     case RCV_CREATE_GAME: {
       return reducerRcvCreateGame(state, action, initialState)
     }
     case RCV_GAME_IS_FINISHED: {
-      return {
-        ...state,
-        gameIsStarted: false,
-        start: false,
-        params: {
-          ...state.params,
-        },
-        isLoading: false,
-      }
+      return reducerGameIsFinished(state);
     }
     case RCV_GAME_CAN_RESTART: {
-      return {
-        ...state,
-        gameIsStarted: false,
-        round: state.round + 1,
-      }
+      return reducerRcvGameCanRestart(state);
     }
     case GAME_INIT_STATE: {
       return initialState
     }
     case GAME_INIT: {
-      return {
-        ...state,
-        owner: '',
-        gameIsStarted: false,
-        start: false,
-        pause: false,
-        params: {
-          ...state.params,
-        },
-        isLoading: false,
-      }
+      return reducerGameInit(state);
     }
     case GAME_UPDATE : {
-      return {
-        ...state,
-        ...action.data,
-      }
+      return reducerGameUpdate(state, action);
     }
     case GAME_SOUND : {
-      return {
-        ...state,
-        params: {
-          ...state.params,
-          sound: !state.params.sound,
-        }
-      }
+      return reducerGameSound(state);
     }
     default:
       return state

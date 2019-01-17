@@ -1,4 +1,4 @@
-import {ALERT_INIT, DISPLAY_COMMAND, DISPLAY_CONFIG_FORM, DISPLAY_RESULT} from '../actions/alert'
+import {DISPLAY_COMMAND, DISPLAY_CONFIG_FORM} from '../actions/alert'
 
 export const initialState = {
   showCommand: false,

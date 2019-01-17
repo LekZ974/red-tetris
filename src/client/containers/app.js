@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import Home from './view/Home'
 import Room from './view/Room'
-import Footer from '../components/block/Footer'
+import {Footer} from '../components/block'
 import './app.css'
 
 const App = () => (

@@ -10,15 +10,30 @@ import {
   EMIT_USER_LEAVE_GAME,
   USER_INIT_STATE,
   EMIT_USER_LOST,
-  EMIT_USER_WIN, USER_ADD_MALUS,
+  EMIT_USER_WIN,
+  USER_ADD_MALUS,
 } from '../../actions/user'
-import * as TetriService from '../../services/TetriService';
+import {
+  reducerEmitUserJoinGame,
+  reducerEmitUserLeaveGame,
+  reducerEmitUserLogin,
+  reducerEmitUserLost,
+  reducerEmitUserWin,
+  reducerRcvUserJoinGame,
+  reducerRcvUserLogin,
+  reducerUserAddMalus,
+  reducerUserConnect,
+  reducerUserInit,
+  reducerUserUpdate,
+  reducerUserUpdateGrid,
+} from "./functions";
+import {USER_ROLE} from '../../../common/const';
 
 export const initialState = {
   id: '',
   name: '',
   gameName: '',
-  role: 'master',
+  role: USER_ROLE.master,
   connected: false,
   grid: [],
   completeLine: 0,
@@ -37,101 +52,43 @@ export default function UserReducer (state = initialState, action = {}) {
 
   switch (action.type) {
     case USER_CONNECT : {
-      return {
-        ...state,
-        connected: true
-      }
+      return reducerUserConnect(state);
     }
     case EMIT_USER_LOGIN: {
-      return {
-        ...state,
-        isLoading: true,
-      }
+      return reducerEmitUserLogin(state);
     }
     case RCV_USER_LOGIN: {
-      return {
-        ...state,
-        isLoading: false,
-      }
+      return reducerRcvUserLogin(state);
     }
     case EMIT_USER_JOIN_GAME: {
-      return {
-        ...state,
-        name: action.userName,
-        gameName: action.gameName,
-        isLoading: true,
-      }
+      return reducerEmitUserJoinGame(state, action);
     }
     case RCV_USER_JOIN_GAME: {
-      return {
-        ...state,
-        isLoading: false,
-      }
+      return reducerRcvUserJoinGame(state);
     }
     case EMIT_USER_LEAVE_GAME: {
-      return {
-        ...state,
-        isLoading: true,
-      }
+      return reducerEmitUserLeaveGame(state);
     }
     case USER_INIT_STATE: {
       return initialState
     }
     case USER_UPDATE : {
-      return {
-        ...state,
-        ...action.data,
-      }
+      return reducerUserUpdate(state, action);
     }
     case USER_INIT: {
-      return {
-        ...state,
-        connected: false,
-        grid: [],
-        completeLine: 0,
-        payload: {},
-        malus: 0,
-        lost: false,
-        winner: false,
-        isLoading: false,
-        count: 0,
-        speedDelay: 500,
-        level: 0,
-        score: 0,
-      }
+      return reducerUserInit(state);
     }
     case USER_UPDATE_GRID: {
-      let newGrid = action.grid
-      let nbLineDel;
-      [newGrid, nbLineDel] = TetriService.gridDelLine(newGrid);
-
-        return {
-        ...state,
-        completeLine: nbLineDel,
-        grid: newGrid,
-      }
+      return reducerUserUpdateGrid(action, state);
     }
     case EMIT_USER_LOST: {
-      return {
-        ...state,
-        connected: false,
-        lost: true,
-        grid: []
-      }
+      return reducerEmitUserLost(state);
     }
     case EMIT_USER_WIN: {
-      return {
-        ...state,
-        connected: false,
-        winner: true,
-        grid: []
-      }
+      return reducerEmitUserWin(state);
     }
     case USER_ADD_MALUS: {
-      return {
-        ...state,
-        malus: action.data
-      }
+      return reducerUserAddMalus(state, action);
     }
     default:
       return state
