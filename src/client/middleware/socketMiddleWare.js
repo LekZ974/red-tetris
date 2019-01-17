@@ -28,13 +28,16 @@ import {
   RCV_USER_CAN_START,
   USER_INIT_STATE,
   USER_INIT,
-  USER_ADD_MALUS,
-} from "../actions/user";
+  USER_ADD_MALUS, USER_UPDATE,
+} from '../actions/user';
 import {store} from "../index";
 import {notify} from "../utils/notificationHandler";
 import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInitState, tetriNew} from "../actions/tetrimino";
+
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
+import * as GameModeService from "../services/GameModeService";
+
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
 import {shapeHandler} from "../utils/shapeHandler";
@@ -189,7 +192,7 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case USER_ADD_MALUS: {
-          if (action.data !== store.getState().user.malus && store.getState().game.params.addMalus) {
+          if (action.data !== store.getState().user.malus && 'MALUS' === store.getState().game.params.addMalus) {
             const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data - store.getState().user.malus)
             SocketService.emitUpdateGrid(newGrid)
           }
@@ -204,6 +207,12 @@ const socketMiddleware = socket => ({dispatch}) => {
         case GAME_SOMEONE_LEFT: {
           if (!!action.data && 'master' === store.getState().user.role) {
             notify('a player left the game', 'info')
+          }
+          break;
+        }
+        case USER_UPDATE: {
+          if ('SOLO' === store.getState().game.params.gameMode) {
+            GameModeService.soloManageMode(action, store.getState().game.params, store.getState().user);
           }
           break;
         }

@@ -37,8 +37,8 @@ describe('game test all actions', () => {
           params: {
             gameMode: "MULTI",
             sound: true,
-            addMalus: true,
-            speed: true,
+            addMalus: "MALUS",
+            speed: "EASY_MODE",
           },
           isLoading: false,
           players: null,

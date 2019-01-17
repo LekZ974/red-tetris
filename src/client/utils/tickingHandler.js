@@ -8,8 +8,7 @@ const ticking = () => {
   if (game.start && game.gameIsStarted) {
     store.dispatch(tetriStep(game, user));
   }
-  // window.setTimeout(() => ticking(), user.speedDelay);
-  window.setTimeout(() => ticking(), 500);
+  window.setTimeout(() => ticking(), user.speedDelay);
 };
 
 export {ticking};

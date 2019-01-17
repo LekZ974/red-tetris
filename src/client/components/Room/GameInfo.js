@@ -1,6 +1,7 @@
 import React from 'react'
 import {Box, GridBlock} from "../block";
 import Fade from 'react-reveal/Fade';
+import theme from '../../theme';
 
 const GameInfo = (props) => {
   const {game, user} = props;
@@ -9,15 +10,19 @@ const GameInfo = (props) => {
     <Box center flex flexDirection='column'>
       {"SOLO" === game.params.gameMode &&
       <Fade right big>
-        <Box style={{height: '20vh', marginTop: '2em'}}>
-          Level: {user.level}
-        </Box>
-      </Fade>
-      }
-      {"SOLO" === game.params.gameMode &&
-      <Fade right big>
-        <Box style={{height: '20vh', marginTop: '2em'}}>
-          Score: {user.score}
+        <Box style={{padding: '3em', border: `2px solid ${theme.colors.red}`}}>
+          <Box>
+            Level: {user.level}
+          </Box>
+          <Box style={{marginTop: '2em'}}>
+            Score: {user.score}
+          </Box>
+          <Box style={{marginTop: '2em'}}>
+            Speed : {game.params.speed}
+          </Box>
+          <Box style={{marginTop: '2em'}}>
+            Malus : {'MALUS' === game.params.addMalus ? 'Enable' : 'Disable'}
+          </Box>
         </Box>
       </Fade>
       }
