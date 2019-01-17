@@ -2,7 +2,6 @@ import React from 'react'
 import {Box, GridBlock} from "../block";
 import Fade from 'react-reveal/Fade';
 import theme from '../../theme';
-import {GridUserComponent} from "./Grid";
 
 const GameInfo = (props) => {
   const {game, user} = props;
