@@ -26,6 +26,7 @@ export const initialState = {
   count: 0,
   speedDelay: 500,
   level: 0,
+  score: 0,
   payload: {},
   lost: false,
   winner: false,
@@ -96,6 +97,7 @@ export default function UserReducer (state = initialState, action = {}) {
         count: 0,
         speedDelay: 500,
         level: 0,
+        score: 0,
       }
     }
     case USER_UPDATE_GRID: {

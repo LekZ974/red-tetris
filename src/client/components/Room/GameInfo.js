@@ -6,7 +6,7 @@ const GameInfo = (props) => {
   const {game, user} = props;
   let players = game.players
   return(
-    <Box center>
+    <Box center flex flexDirection='column'>
       {"SOLO" === game.params.gameMode &&
       <Fade right big>
         <Box style={{height: '20vh', marginTop: '2em'}}>
@@ -14,7 +14,7 @@ const GameInfo = (props) => {
         </Box>
       </Fade>
       }
-      {"SOLO" === game.params.gameMode && user.score &&
+      {"SOLO" === game.params.gameMode &&
       <Fade right big>
         <Box style={{height: '20vh', marginTop: '2em'}}>
           Score: {user.score}

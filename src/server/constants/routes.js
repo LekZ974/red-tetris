@@ -24,7 +24,8 @@ const routing = {
     CAN_RESTART: 'canRestart',
     MALUS_UPDATED: 'malusUpdated',
     SOMEONE_JOINED: 'someoneJoined',
-    SOMEONE_LEFT: 'someoneLeft'
+    SOMEONE_LEFT: 'someoneLeft',
+    SCORE_UPDATED: 'scoreUpdated'
 }
 
 export default routing

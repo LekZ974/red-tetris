@@ -74,6 +74,7 @@ const initGame = function(game) {
     game.master.inGameLoser = false
     game.master.piece = -1
     game.master.malus = 0
+    game.master.score = 0
 
 	if (game.solo.solo_mode === true) {
 		game.solo.count = 0
@@ -84,6 +85,7 @@ const initGame = function(game) {
             player.inGameLoser = false
             player.piece = -1
             player.malus = 0
+            player.score = 0
         })
     }
 }
@@ -242,6 +244,21 @@ const getGameStats = function(game) {
 	return stat
 }
 
+const updateScore = function(game, clientId, malus) {
+	if (malus && malus > 0) {
+		if (game.master.socketID === clientId) {
+			game.master.score += malus * gameplay.INC_SCORE
+		} else if (game.challenger.length > 0) {
+			for (let i = 0; i < game.challenger.length; i++) {
+				if (game.challenger[i].socketID === clientId) {
+					game.challenger[i].score += malus * gameplay.INC_SCORE
+					break
+				}
+			}
+		}
+	}
+}
+
 const addMalusToAllChallenger = function(challengers, malus) {
     challengers.forEach((player) => {
         player.malus += malus
@@ -255,6 +272,7 @@ const updateMalus = function(game, clientId, newBoard) {
     let malus = checkMalus(newBoard)
     if (malus === -1)
         return false
+    updateScore(game, clientId, malus)
     if (game.master.socketID === clientId) {
         if (game.challenger.length > 0)
             addMalusToAllChallenger(game.challenger, malus)
