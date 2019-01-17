@@ -3,19 +3,39 @@ import Color from 'color'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChessRook, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 import Jump from 'react-reveal/Jump';
-
+import theme from '../../theme';
 
 import {Button, Box, Modal} from "../block";
 
 
 const commandes = () => (
-  <Box style={{ borderRadius: '5px, solid blue' }}>
-    <h2 style={{ textAlign: 'center' }}>Commandes</h2>
-    <span style={{ marginRight: '60px' }}>&rarr; ou &larr;</span> Déplacement horizontal à gauche ou à droite<br/>
-    <span style={{ marginRight: '110px' }}>&uarr;</span>Rotation<br/>
-    <span style={{ marginRight: '110px' }}>&darr;</span>Chute en direction du tas<br/>
-    <span style={{ marginRight: '55px', height: '16px', width: '100px', border: '1px solid black', textAlign: 'center', paddingLeft: '20px', paddingRight: '20px', fontSize: '10px' }}>Space</span>
-    Déplacement vertical afin de positionner une pièce dans un trou du tas<br/>
+  <Box style={{ borderRadius: '5px, solid blue' }} flex flexDirection='column'>
+    <Box center flex={1} style={{fontSize: '2em', color: theme.colors.red}}>Commandes</Box>
+    <Box flex flexDirection='row' justifyCotent={'space-between'}>
+      <Box style={{width: '6em'}}>
+        <span style={{ width: '50px' }}>&rarr; ou &larr;</span>
+      </Box>
+      <Box>Déplacement horizontal à gauche ou à droite</Box>
+    </Box>
+    <Box flex flexDirection='row' justifyCotent={'space-between'}>
+      <Box style={{width: '6em'}}>
+        <span style={{ width: '50px' }}>&uarr;</span>
+      </Box>
+      <Box>Rotation</Box>
+    </Box>
+    <Box flex flexDirection='row' justifyCotent={'space-between'}>
+      <Box style={{width: '6em'}}>
+        <span style={{ width: '50px' }}>&darr;</span>
+      </Box>
+      <Box>Déplacement vers le tas</Box>
+    </Box>
+    <Box flex flexDirection='row' justifyCotent={'space-between'}>
+      <Box style={{width: '6em'}}>
+        <span style={{ height: '16px', width: '100px', border: '1px solid black', textAlign: 'center', paddingLeft: '20px', paddingRight: '20px', fontSize: '10px' }}>Space
+        </span>
+      </Box>
+      <Box>Chute dans le tas</Box>
+    </Box>
   </Box>
 )
 

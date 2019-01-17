@@ -14,16 +14,3 @@ export const displayConfigForm = () => {
     type: DISPLAY_CONFIG_FORM,
   }
 }
-
-export const displayResult = () => {
-  return {
-    type: DISPLAY_RESULT,
-  }
-}
-
-export const alertInit = () => {
-  return {
-    type: ALERT_INIT,
-  }
-}
-

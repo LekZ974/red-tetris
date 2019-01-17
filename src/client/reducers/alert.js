@@ -21,15 +21,6 @@ export default function UserReducer (state = initialState, action = {}) {
         showConfigForm: !state.showConfigForm,
       }
     }
-    case DISPLAY_RESULT : {
-      return {
-        ...state,
-        showResult: !state.showResult,
-      }
-    }
-    case ALERT_INIT : {
-      return initialState
-    }
     default:
       return state
   }
