@@ -14,7 +14,7 @@ export const GridUserComponent = (state) => {
       <Box style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         {gridRender.map((row, key) =>
         key > 2 && (<Box key={key} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-          {row.map((block, i) => <GridBlock blockId={block} key={i} width={'1em'} height={'1em'}/>)}
+          {row.map((block, i) => <GridBlock blockId={block} key={i} width={'3vh'} height={'3vh'}/>)}
           </Box>)
         )}
       </Box>

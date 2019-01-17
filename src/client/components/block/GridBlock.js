@@ -90,8 +90,8 @@ const GridBlock = (props) => {
   }
   return (
     <div style={{
-      width: width,
-      height: height,
+      minWidth: width,
+      minHeight: height,
       marginTop: props.pos +'px',
       ...propsBlock,
     }} />
