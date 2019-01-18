@@ -19,6 +19,12 @@ export const GAME_INIT = 'game/GAME_INIT'
 
 export const GAME_UPDATE = 'game/GAME_UPDATE'
 
+export const GAME_SOUND = 'game/GAME_SOUND'
+
+export const GAME_SOMEONE_JOINED = 'game/GAME_SOMEONE_JOINED'
+
+export const GAME_SOMEONE_LEFT = 'game/GAME_SOMEONE_LEFT'
+
 export const emitGameStatus = (status, game) => ({
   type: EMIT_GAME_STATUS,
   game: game,
@@ -30,9 +36,10 @@ export const rcvGameStatus = (status) => ({
   gameStatus: status,
 })
 
-export const emitCreateGame = gameName => ({
+export const emitCreateGame = (gameName, isSolo) => ({
   type: EMIT_CREATE_GAME,
   gameName,
+  isSolo,
 })
 
 export const rcvCreateGame = (data) => ({
@@ -74,5 +81,20 @@ export const gameInit = () => ({
 
 export const updateGame = data => ({
   type: GAME_UPDATE,
+  data,
+})
+
+export const gameSound = data => ({
+  type: GAME_SOUND,
+  data,
+})
+
+export const someoneIsJoined = data => ({
+  type: GAME_SOMEONE_JOINED,
+  data,
+})
+
+export const someoneIsLeft = data => ({
+  type: GAME_SOMEONE_LEFT,
   data,
 })

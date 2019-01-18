@@ -63,6 +63,12 @@ const darkOrange = '#a50'
 const lightPurple = '#ecf'
 const purple = '#70b' // secondary
 const darkPurple = '#407'
+const lightYellow = '#ffffe7'
+const yellow = '#fffb00' // secondary
+const darkYellow = '#777400'
+const lightCyan = '#ddfaff'
+const cyan = '#00ffff' // secondary
+const darkCyan = '#008989'
 
 // tints
 const flatten = (name, colors) =>
@@ -122,7 +128,13 @@ const colors = {
   reds,
   oranges,
   purples,
-  realLightGray
+  realLightGray,
+  yellow,
+  darkYellow,
+  lightYellow,
+  cyan,
+  lightCyan,
+  darkCyan,
 }
 
 Object.defineProperties(colors, {

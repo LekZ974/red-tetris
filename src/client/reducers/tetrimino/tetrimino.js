@@ -1,6 +1,5 @@
 import {TETRI_POS, TETRI_ACTION, TETRI_STEP, TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE} from '../../actions/tetrimino'
-import {reducerTetriAction, reducerTetriStep} from "./functions";
-import {PIECES_INFO} from "../../../common/pieces";
+import {reducerTetriAction, reducerTetriStep, reducerTetriInit, reducerTetriNew} from "./functions";
 
 export const initialState = {
   items: [],
@@ -24,22 +23,10 @@ export default function TetriminoReducer (state = initialState, action = {}) {
       return reducerTetriAction(state, action)
     }
     case TETRI_INIT: {
-      return {
-        ...state,
-        needNext: false,
-      }
+      return reducerTetriInit(state);
     }
     case TETRI_NEW: {
-      return {
-        ...initialState,
-        id: action.tetrimino.id,
-        rotate: action.tetrimino.rotate,
-        pieceInfo: PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate],
-        coords: {
-          posX: initialState.coords.posX + PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate].info.posX,
-          posY: initialState.coords.posY + PIECES_INFO[action.tetrimino.id - 1][action.tetrimino.rotate].info.posY,
-        }
-      }
+      return reducerTetriNew(action);
     }
     case TETRI_INIT_STATE: {
       return initialState

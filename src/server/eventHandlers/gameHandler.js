@@ -1,5 +1,6 @@
 import shapes from '../constants/shapes'
 import board from '../constants/board'
+import gameplay from '../constants/gameplay'
 
 import Piece from '../controllers/piece'
 import Game from '../controllers/game'
@@ -73,12 +74,18 @@ const initGame = function(game) {
     game.master.inGameLoser = false
     game.master.piece = -1
     game.master.malus = 0
+    game.master.score = 0
 
-    if (game.challenger.length > 0) {
+	if (game.solo.solo_mode === true) {
+		game.solo.count = 0
+		game.solo.level = gameplay.MIN_LVL
+		game.solo.speed = gameplay.MIN_SPEED
+	} else if (game.challenger.length > 0) {
         game.challenger.forEach((player) => {
             player.inGameLoser = false
             player.piece = -1
             player.malus = 0
+            player.score = 0
         })
     }
 }
@@ -133,6 +140,19 @@ const getShape = function(game, clientId) {
 	}
 }
 
+const incrementLevel = function(game) {
+    if (game.solo.count >= gameplay.MAX_COUNT) {
+        game.solo.count = 0
+        if (game.solo.speed - gameplay.INC_SPEED >= gameplay.MAX_SPEED) {
+            game.solo.speed -= gameplay.INC_SPEED
+        }
+        if (game.solo.level + 1 <= gameplay.MAX_LVL) {
+            game.solo.level += 1
+        }
+    }
+    return game.solo
+}
+
 const changeMaster = function(game) {
 	let ret = null
 
@@ -167,8 +187,8 @@ const destroyGame = function(game, activeGames) {
 }
 
 const isBoardFilled = function(board) {
-	for (let i = 0; i < board[3].length; i++) {
-		if (board[3][i] > 0)
+	for (let i = 0; i < board[2].length; i++) {
+		if (board[2][i] > 0)
 			return true
 	}
 	return false
@@ -224,6 +244,21 @@ const getGameStats = function(game) {
 	return stat
 }
 
+const updateScore = function(game, clientId, malus) {
+	if (malus && malus > 0) {
+		if (game.master.socketID === clientId) {
+			game.master.score += malus * gameplay.INC_SCORE
+		} else if (game.challenger.length > 0) {
+			for (let i = 0; i < game.challenger.length; i++) {
+				if (game.challenger[i].socketID === clientId) {
+					game.challenger[i].score += malus * gameplay.INC_SCORE
+					break
+				}
+			}
+		}
+	}
+}
+
 const addMalusToAllChallenger = function(challengers, malus) {
     challengers.forEach((player) => {
         player.malus += malus
@@ -237,6 +272,7 @@ const updateMalus = function(game, clientId, newBoard) {
     let malus = checkMalus(newBoard)
     if (malus === -1)
         return false
+    updateScore(game, clientId, malus)
     if (game.master.socketID === clientId) {
         if (game.challenger.length > 0)
             addMalusToAllChallenger(game.challenger, malus)
@@ -264,6 +300,7 @@ export {
 	randNumber,
 	initBoard,
 	getShape,
+    incrementLevel,
 	changeMaster,
 	destroyGame,
 	isGameFinished,

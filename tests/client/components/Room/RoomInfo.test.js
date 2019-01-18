@@ -11,7 +11,10 @@ const mockStore = configureStore([
 
 const game = {
   items: ['something', "an other thing"],
-  start: true
+  start: true,
+  params: {
+    gameMode: "A GAME MODE"
+  }
 }
 
 const user = {

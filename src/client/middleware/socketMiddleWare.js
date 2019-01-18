@@ -7,10 +7,9 @@ import {
   EMIT_NEW_PIECES,
   RCV_NEW_PIECES,
   UPDATE_PLAYERS,
-  emitNewPieces,
   RCV_GAME_IS_FINISHED,
   GAME_INIT_STATE,
-  GAME_INIT, GAME_UPDATE,
+  GAME_INIT, GAME_UPDATE, GAME_SOMEONE_JOINED, GAME_SOMEONE_LEFT,
 } from '../actions/game';
 import {
   EMIT_USER_JOIN_GAME,
@@ -22,23 +21,25 @@ import {
   emitJoinGame,
   RCV_USER_LOGIN,
   EMIT_USER_LEAVE_GAME,
-  RCV_USER_LEAVE_GAME,
   EMIT_USER_LOST,
   EMIT_USER_WIN,
   RCV_USER_CAN_START,
   USER_INIT_STATE,
   USER_INIT,
-  USER_ADD_MALUS,
-} from "../actions/user";
+  USER_ADD_MALUS, USER_UPDATE,
+} from '../actions/user';
 import {store} from "../index";
 import {notify} from "../utils/notificationHandler";
-import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInit, tetriNew} from "../actions/tetrimino";
+import {TETRI_INIT, TETRI_NEW, TETRI_INIT_STATE, tetriInitState, tetriNew} from "../actions/tetrimino";
+
 import * as SocketService from "../services/SocketService";
 import * as TetriService from "../services/TetriService";
-import { push, replace } from "connected-react-router";
+import * as GameModeService from "../services/GameModeService";
+
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import {PIECES_NUM} from "../../common/pieces";
 import {shapeHandler} from "../utils/shapeHandler";
+import { GAME_MODE, MALUS_MODE, USER_ROLE, TYPE_MESSAGE } from '../../common/const';
 
 const socketMiddleware = socket => ({dispatch}) => {
   if(socket) {
@@ -75,15 +76,15 @@ const socketMiddleware = socket => ({dispatch}) => {
         }
         case RCV_USER_JOIN_GAME : {
           if ('KO' === action.data) {
-            notify('The game is already started, try later', 'info')
+            notify('You can\'t join this game', TYPE_MESSAGE.error)
             return next(action)
           }
           store.dispatch(updateUser({
             gameName: store.getState().game.name,
             grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
-            role: 'challenger'
+            role: USER_ROLE.challenger
           }))
-          notify('You are a challenger', 'info')
+          notify('You are a challenger', TYPE_MESSAGE.info)
           break;
         }
         case EMIT_GET_GAMES: {
@@ -94,7 +95,7 @@ const socketMiddleware = socket => ({dispatch}) => {
           break;
         }
         case EMIT_CREATE_GAME : {
-          SocketService.emitCreateGame(action.gameName)
+          SocketService.emitCreateGame(action.gameName, action.isSolo)
           break;
         }
         case RCV_CREATE_GAME : {
@@ -106,14 +107,16 @@ const socketMiddleware = socket => ({dispatch}) => {
               gameName: store.getState().game.name,
               grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(PIECES_NUM.empty)),
             }))
-            notify('You are the master!', 'info')
+            if (GAME_MODE.solo !== store.getState().game.params.gameMode) {
+              notify('You are the master!', TYPE_MESSAGE.info)
+            }
           }
           break;
         }
         case RCV_USER_CAN_START : {
           if ('KO' === action.data) {
             store.dispatch(updateUser({
-              role: 'challenger'
+              role: USER_ROLE.challenger
             }))
           }
           break;
@@ -146,31 +149,30 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case EMIT_USER_LOST : {
-          notify('You loose!!', 'error')
+          notify('You lose!!', TYPE_MESSAGE.error)
           return next(action)
         }
         case EMIT_USER_WIN : {
-          notify('You win!!', 'success')
+          notify('You win!!', TYPE_MESSAGE.success)
           return next(action)
         }
         case UPDATE_PLAYERS : {
           return next(action)
         }
         case RCV_GAME_IS_FINISHED : {
-          if (store.getState().game.gameIsStarted) {
+          if (store.getState().game.gameIsStarted && !store.getState().user.lost && !store.getState().user.winner) {
             switch (action.data) {
               case 'winner':
                 SocketService.emitUserWin()
-                SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
                 return next(action)
               case 'loser':
                 SocketService.emitUserLose()
-                SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
                 return next(action)
               default:
                 break;
             }
           }
+          break;
         }
         case GAME_INIT_STATE: {
           return next(action)
@@ -191,11 +193,29 @@ const socketMiddleware = socket => ({dispatch}) => {
           return next(action)
         }
         case USER_ADD_MALUS: {
-          if (action.data !== store.getState().user.malus && store.getState().game.params.addMalus) {
-            const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data)
+          if (action.data !== store.getState().user.malus && MALUS_MODE.malus === store.getState().game.params.addMalus) {
+            const newGrid = TetriService.malusResizeGrid(store.getState().user.grid, action.data - store.getState().user.malus)
             SocketService.emitUpdateGrid(newGrid)
           }
           return next(action)
+        }
+        case GAME_SOMEONE_JOINED: {
+          if (!!action.data && USER_ROLE.master === store.getState().user.role) {
+            notify('a player join the game', TYPE_MESSAGE.info)
+          }
+          break;
+        }
+        case GAME_SOMEONE_LEFT: {
+          if (!!action.data && USER_ROLE.master === store.getState().user.role) {
+            notify('a player left the game', TYPE_MESSAGE.info)
+          }
+          break;
+        }
+        case USER_UPDATE: {
+          if (GAME_MODE.solo === store.getState().game.params.gameMode) {
+            GameModeService.soloManageMode(action, store.getState().game.params, store.getState().user);
+          }
+          break;
         }
         default: {
           break;
@@ -203,16 +223,16 @@ const socketMiddleware = socket => ({dispatch}) => {
       }
       if (thenFn) thenFn(dispatch)
     }
-    if (TetriService.asLose(store.getState().user.grid)) {
+    if (TetriService.asLose(store.getState().user.grid) && store.getState().game.gameIsStarted) {
       SocketService.emitUserLose()
     }
-    if (store.getState().tetrimino.needNext) {
+    else if (store.getState().tetrimino.needNext) {
       SocketService.emitUpdateGrid(TetriService.placePiece(store.getState().user.grid, store.getState().tetrimino))
+      store.dispatch(tetriInitState())
       SocketService.emitNeedPieces()
-      store.dispatch(tetriInit())
     }
-    if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
-      SocketService.emitUpdateGame(store.getState().form.ConfigForm.values)
+    else if (!store.getState().game.gameIsStarted && store.getState().form.ConfigForm && store.getState().form.ConfigForm.hasOwnProperty('values')) {
+      SocketService.emitUpdateParamsGame(store.getState().form.ConfigForm.values)
     }
     return next(action)
   }

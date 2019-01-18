@@ -17,6 +17,7 @@ const game = {
 const user = {
   role: 'a role',
   name: 'A name',
+  grid: [],
 }
 
 const initialState = {

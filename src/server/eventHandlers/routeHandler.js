@@ -23,17 +23,19 @@ const getGames = function(activeGames) {
     for(let i = 0; i < activeGames.length; i++) {
         let entry = {
             gameName: '',
-            started: ''
+            started: '',
+            solo: false
         }
 
         entry.gameName = activeGames[i].roomName
         entry.started = activeGames[i].gameStarted
+        entry.solo = activeGames[i].solo.solo_mode
         gameList.push(entry)
     }
     return gameList
 }
 
-const createGame = function(client, activeGames, onlineUsers, gameName) {
+const createGame = function(client, activeGames, onlineUsers, gameName, solo) {
     const gameId = idHandler.getGameId(gameName)
     const game = gameHandler.findGame(gameId, activeGames)
     let res
@@ -43,6 +45,8 @@ const createGame = function(client, activeGames, onlineUsers, gameName) {
     } else {
         let newGame = gameHandler.createGame(client.id, onlineUsers)
 
+        if (solo && solo === true)
+            newGame.solo.solo_mode = true
         newGame.setRoomInfo(gameId, gameName)
         activeGames.push(newGame)
         res = 'OK'
@@ -56,7 +60,11 @@ const joinGame = function(client, onlineUsers, gameName, activeGames) {
     let game = gameHandler.findGame(gameId, activeGames)
     let res
 
-    if (game === undefined || challenger === undefined || game.master.socketID === client.id || game.gameStarted === true) {
+    if (game === undefined
+        || challenger === undefined
+        || game.master.socketID === client.id
+        || game.gameStarted === true
+        || game.solo.solo_mode === true) {
         res = 'KO'
     } else {
          game.setChallenger(challenger)
@@ -125,8 +133,21 @@ const restartGame = function(io, client, activeGames) {
     let game = startGame(client, activeGames)
 
     if (game) {
+		let ret = {
+			board: null,
+			solo: null,
+			multi: null
+		}
         gameHandler.initGame(game)
-        io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+		ret.board = game.master.board
+		if (game.solo.solo_mode === true) {
+			ret.solo = game.solo
+		} else {
+			ret.multi = {
+				speed : game.speed
+			}
+		}
+        io.to(game.roomName).emit(routes.GAME_STARTED, ret)
 
         if (game.challenger.length > 0) {
             let players = allPlayers(game, game.master.socketID)
@@ -142,12 +163,20 @@ const restartGame = function(io, client, activeGames) {
 
 const requestShape = function(client, activeGames) {
     let game = gameHandler.findGameBySocketId(client.id, activeGames)
-    let shape = null
+    let ret = null
 
     if (game !== undefined) {
-        shape = gameHandler.getShape(game, client.id)
+        let shape = gameHandler.getShape(game, client.id)
+        ret = {
+            shape: shape,
+            soloplay: null
+        }
+        if (game.solo.solo_mode === true) {
+            game.solo.count += 1
+            ret.soloplay = gameHandler.incrementLevel(game)
+        }
     }
-    return shape
+    return ret
 }
 
 const updateBoard = function(client, activeGames, newBoard) {
@@ -161,9 +190,8 @@ const updateBoard = function(client, activeGames, newBoard) {
     }
 
     if (game !== undefined && validator.checkBoardSize(newBoard)) {
-        if (game.challenger.length > 0)
-            if (!gameHandler.updateMalus(game, client.id, newBoard))
-                return ret
+		if (!gameHandler.updateMalus(game, client.id, newBoard))
+			return ret
         ret.game = game
         if (client.id == game.master.socketID) {
             game.master.board = newBoard

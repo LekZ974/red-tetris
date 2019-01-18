@@ -10,14 +10,12 @@ import {
   rcvUserCanStart,
   updateUser,
   emitUserIsWinner,
-  userInitState,
   init,
   addMalusToUser,
 } from '../actions/user'
 import {tetriInitState} from '../actions/tetrimino'
 import {rcvGetGames} from "../actions/games"
 import {
-  gameInitState,
   gameInit,
   rcvCreateGame,
   rcvGameStatus,
@@ -27,11 +25,13 @@ import {
   rcvGameCanRestart,
   emitNewPieces,
   updateGame,
+  someoneIsJoined,
+  someoneIsLeft,
 } from "../actions/game"
 import {notify} from '../utils/notificationHandler'
 import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
-import * as TetriService from "./TetriService";
+import { GAME_MODE, USER_ROLE, SOCKET, GAME_STATUS, TYPE_MESSAGE } from '../../common/const';
 
 const socket = io.connect(params.server.url)
 
@@ -54,7 +54,10 @@ const rcvGameCanStart = data => {
 }
 
 const rcvNewShape = data => {
-  store.dispatch(rcvNewPieces(data))
+  store.dispatch(rcvNewPieces(data.shape))
+  if (data.soloplay && data.soloplay.hasOwnProperty('solo_mode') && !!data.soloplay.solo_mode && store.getState().game.gameIsStarted) {
+    store.dispatch(updateUser({count: data.soloplay.count, speedDelay: data.soloplay.speed, level: data.soloplay.level}))
+  }
 }
 
 const rcvLeftGame = data => {
@@ -66,22 +69,47 @@ const rcvGames = data => {
 }
 
 const rcvGridUpdated = data => {
-  if ('OK' === data.stat) {
+  if ('OK' === data.stat && store.getState().game.gameIsStarted) {
     store.dispatch(updateGrid(data.board))
   }
 }
 
 const rcvGameIsStarted = data => {
   store.dispatch(tetriInitState())
-  store.dispatch(updateUser({grid: data}))
-  store.dispatch(rcvGameStatus('Start'))
+  if (data.multi) {
+    store.dispatch(updateGame({
+      params: {
+        ...store.getState().game.params,
+        gameMode: GAME_MODE.multi,
+      }}))
+    store.dispatch(updateUser({
+      grid: data.board,
+      count: data.multi.count,
+      speedDelay: data.multi.speed,
+      level: data.multi.level
+    }))
+  }
+  else if (data.solo) {
+    store.dispatch(updateGame({
+      params: {
+        ...store.getState().game.params,
+        gameMode: GAME_MODE.solo
+      }}))
+    store.dispatch(updateUser({
+      grid: data.board,
+      count: data.solo.count,
+      speedDelay: data.solo.speed,
+      level: data.solo.level
+    }))
+  }
+  store.dispatch(rcvGameStatus(GAME_STATUS.start))
   store.dispatch(emitNewPieces())
 }
 
 const rcvUserStatus = data => {
   if (data.isMaster) {
-    store.dispatch(updateUser({role: 'master'}))
-    notify('You are the new master', 'info')
+    store.dispatch(updateUser({role: USER_ROLE.master}))
+    notify('You are the new master', TYPE_MESSAGE.info)
   }
 }
 
@@ -97,10 +125,13 @@ const rcvAllPlayers = data => {
 }
 
 const rcvGameFinished = data => {
-  store.dispatch(rcvGameIsFinished(data))
-  store.dispatch(tetriInitState())
-  store.dispatch(gameInit())
-  store.dispatch(init())
+  if (!!store.getState().game.gameIsStarted) {
+    store.dispatch(rcvGameIsFinished(data))
+    store.dispatch(updateUser({prevScore: store.getState().user.score}))
+    store.dispatch(tetriInitState())
+    store.dispatch(gameInit())
+    store.dispatch(init())
+  }
 }
 
 const rcvCanRestartGame = data => {
@@ -111,52 +142,69 @@ const rcvMalus = data => {
   store.dispatch(addMalusToUser(data))
 }
 
-socket.on('logged', rcvPlayerLogged)
-socket.on('gameJoined', rcvGameJoined)
-socket.on('gameExists', rcvGameExists)
-socket.on('canStart', rcvGameCanStart)
-socket.on('emittedShape', rcvNewShape)
-socket.on('leftGame', rcvLeftGame)
-socket.on('gamesSent', rcvGames)
-socket.on('boardUpdated', rcvGridUpdated)
-socket.on('gameStarted', rcvGameIsStarted)
-socket.on('updateStatus', rcvUserStatus)
-socket.on('spectresUpdated', rcvSpectres)
-socket.on('allPlayers', rcvAllPlayers)
-socket.on('gameFinished', rcvGameFinished)
-socket.on('canRestart', rcvCanRestartGame)
-socket.on('malusUpdated', rcvMalus)
+const rcvSomeoneJoined = data => {
+  store.dispatch(someoneIsJoined(data))
+}
+
+const rcvSomeoneLeft = data => {
+  store.dispatch(someoneIsLeft(data))
+}
+
+const rcvScoreUpdated = data => {
+  if (store.getState().game.gameIsStarted) {
+    store.dispatch(updateUser({score: data}))
+  }
+}
+
+socket.on(SOCKET.LOGGED, rcvPlayerLogged)
+socket.on(SOCKET.GAME_JOINED, rcvGameJoined)
+socket.on(SOCKET.GAME_EXISTS, rcvGameExists)
+socket.on(SOCKET.CAN_START, rcvGameCanStart)
+socket.on(SOCKET.EMITTED_SHAPE, rcvNewShape)
+socket.on(SOCKET.LEFT_GAME, rcvLeftGame)
+socket.on(SOCKET.GAMES_SENT, rcvGames)
+socket.on(SOCKET.BOARD_UPDATED, rcvGridUpdated)
+socket.on(SOCKET.GAME_STARTED, rcvGameIsStarted)
+socket.on(SOCKET.UPDATE_STATUS, rcvUserStatus)
+socket.on(SOCKET.SPECTRES_UPDATED, rcvSpectres)
+socket.on(SOCKET.ALL_PLAYERS, rcvAllPlayers)
+socket.on(SOCKET.GAME_FINISHED, rcvGameFinished)
+socket.on(SOCKET.CAN_RESTART, rcvCanRestartGame)
+socket.on(SOCKET.MALUS_UPDATED, rcvMalus)
+socket.on(SOCKET.SOMEONE_JOINED, rcvSomeoneJoined)
+socket.on(SOCKET.SOMEONE_LEFT, rcvSomeoneLeft)
+socket.on(SOCKET.SCORE_UPDATED, rcvScoreUpdated)
 
 //EMIT
 
 const emitLogin = userName => {
-  socket.emit('login', {id: userName, name: userName})
+  socket.emit(SOCKET.LOGIN, {id: userName, name: userName})
 }
 
 const emitJoinGame = (userName, gameName) => {
-  socket.emit('joinGame', gameName)
+  socket.emit(SOCKET.JOIN_GAME, gameName)
 }
 
-const emitCreateGame = (gameName) => {
-  socket.emit('createGame', gameName)
+const emitCreateGame = (gameName, isSolo) => {
+  socket.emit(SOCKET.CREATE_GAME, gameName, isSolo)
 }
 
 const emitNeedPieces = () => {
-  socket.emit('requestShape')
+  socket.emit(SOCKET.REQUEST_SHAPE)
 }
 
 const emitUpdateGrid = grid => {
-  socket.emit('updateBoard', grid)
+  socket.emit(SOCKET.UPDATE_BOARD, grid)
 }
 
 const emitGameStatus = (status) => {
   switch (status) {
-    case 'Start' : {
-      socket.emit('startGame')
+    case GAME_STATUS.start : {
+      socket.emit(SOCKET.START_GAME)
       break;
     }
-    case 'Restart' : {
-      socket.emit('restartGame')
+    case GAME_STATUS.restart : {
+      socket.emit(SOCKET.RESTART_GAME)
       break;
     }
     default : {
@@ -166,25 +214,28 @@ const emitGameStatus = (status) => {
 }
 
 const emitLeaveGame = () => {
-  socket.emit('leaveGame')
+  socket.emit(SOCKET.LEAVE_GAME)
 }
 
 const emitGetGames = () => {
-  socket.emit('getGames')
+  socket.emit(SOCKET.GET_GAMES)
 }
 
 const emitUserLose = () => {
   store.dispatch(emitUserLost())
-  emitGameStatus('Stop')
+  emitGameStatus(GAME_STATUS.stop)
 }
 
 const emitUserWin = () => {
   store.dispatch(emitUserIsWinner())
-  emitGameStatus('Stop')
+  emitGameStatus(GAME_STATUS.stop)
 }
 
-const emitUpdateGame = data => {
-  store.dispatch(updateGame({params: data}))
+const emitUpdateParamsGame = data => {
+  store.dispatch(updateGame({params: {
+      ...store.getState().game.params,
+      ...data,
+    }}))
 }
 
 export {
@@ -205,5 +256,5 @@ export {
   emitGetGames,
   emitUserLose,
   emitUserWin,
-  emitUpdateGame,
+  emitUpdateParamsGame,
 }

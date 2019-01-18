@@ -1,7 +1,9 @@
-import {DISPLAY_COMMAND} from '../actions/alert'
+import {DISPLAY_COMMAND, DISPLAY_CONFIG_FORM} from '../actions/alert'
 
 export const initialState = {
   showCommand: false,
+  showConfigForm: true,
+  showResult: true,
 }
 
 export default function UserReducer (state = initialState, action = {}) {
@@ -11,6 +13,12 @@ export default function UserReducer (state = initialState, action = {}) {
       return {
         ...state,
         showCommand: !state.showCommand
+      }
+    }
+    case DISPLAY_CONFIG_FORM : {
+      return {
+        ...state,
+        showConfigForm: !state.showConfigForm,
       }
     }
     default:

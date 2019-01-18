@@ -35,8 +35,8 @@ io.on('connection', (client) => {
         io.to(client.id).emit(routes.GAMES_SENT, gameList)
     })
 
-    client.on(routes.CREATE_GAME, (gameName) => {
-        let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName)
+    client.on(routes.CREATE_GAME, (gameName, solo) => {
+        let res = routeHandler.createGame(client, activeGames, onlineUsers, gameName, solo)
 
 		if (res === 'OK')
 			client.join(gameName)
@@ -47,8 +47,10 @@ io.on('connection', (client) => {
     client.on(routes.JOIN_GAME, (gameName) => {
         let res = routeHandler.joinGame(client, onlineUsers, gameName, activeGames)
 
-		if (res === 'OK')
+		if (res === 'OK') {
 			client.join(gameName)
+      io.to(gameName).emit(routes.SOMEONE_JOINED, true)
+		}
         io.to(client.id).emit(routes.GAME_JOINED, res)
     })
 
@@ -62,10 +64,12 @@ io.on('connection', (client) => {
                 }
 
                 client.leave(res.masterStat.gameName);
+                io.to(res.masterStat.gameName).emit(routes.SOMEONE_LEFT, true)
                 io.to(res.masterStat.newMaster.socketID).emit(routes.UPDATE_STATUS, stat)
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             } else if (res.challengerStat) {
                 client.leave(res.challengerStat.gameName)
+                io.to(res.challengerStat.gameName).emit(routes.SOMEONE_LEFT, true)
                 io.to(client.id).emit(routes.LEFT_GAME, 'OK')
             }
         } else {
@@ -76,7 +80,21 @@ io.on('connection', (client) => {
     client.on(routes.START_GAME, () => {
         let game = routeHandler.startGame(client, activeGames)
         if (game !== null) {
-            io.to(game.roomName).emit(routes.GAME_STARTED, game.master.board)
+			let ret = {
+				board: null,
+				solo: null,
+				multi: null
+			}
+			if (game.solo.solo_mode === true) {
+				ret.board = game.master.board
+				ret.solo = game.solo
+			} else {
+				ret.board = game.master.board
+				ret.multi = {
+					speed: game.speed
+				}
+			}
+            io.to(game.roomName).emit(routes.GAME_STARTED, ret)
 
             if (game.challenger.length > 0) {
                 let allPlayers = routeHandler.allPlayers(game, game.master.socketID)
@@ -104,6 +122,7 @@ io.on('connection', (client) => {
         let res = routeHandler.updateBoard(client, activeGames, newBoard)
         io.to(client.id).emit(routes.BOARD_UPDATED, res.stat)
         if (res.game) {
+            io.to(res.game.master.socketID).emit(routes.SCORE_UPDATED, res.game.master.score)
             if (res.game.challenger.length > 0) {
                 let spectre = routeHandler.generateSpectre(res.game, res.game.master.socketID)
                 io.to(res.game.master.socketID).emit(routes.SPECTRES_UPDATED, spectre)
@@ -113,6 +132,7 @@ io.on('connection', (client) => {
                     let spectre = routeHandler.generateSpectre(res.game, res.game.challenger[i].socketID)
                     io.to(res.game.challenger[i].socketID).emit(routes.SPECTRES_UPDATED, spectre)
                     io.to(res.game.challenger[i].socketID).emit(routes.MALUS_UPDATED, res.game.challenger[i].malus)
+                    io.to(res.game.challenger[i].socketID).emit(routes.SCORE_UPDATED, res.game.challenger[i].score)
                 }
 
                 if (isGameFinished(res.game)) {

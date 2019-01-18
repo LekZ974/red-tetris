@@ -4,7 +4,6 @@ import theme from '../../theme'
 import PropTypes from 'prop-types'
 import Color from 'color'
 import { propTypes, space } from 'styled-system'
-import { Link } from 'react-router-dom'
 
 const size = props => {
   switch (props.size) {
@@ -50,7 +49,12 @@ const StyledButton = styled('button')`
   cursor: pointer;
   text-decoration: none
   border-radius: ${props => props.theme.radius};
-  background-color: ${props => props.theme.colors.blue};
+  background-color: ${props => {
+  if (props.customClass && props.customClass.hasOwnProperty('backgroundColor')) {
+    return props.customClass.backgroundColor
+  }
+    return props.theme.colors.blue
+  }};
   color: ${props => props.theme.colors.white};
   box-shadow: ${props =>
   `0 6px 20px 0 ${Color(props.theme.colors.blue).alpha(0.25)}`};
@@ -64,12 +68,21 @@ const StyledButton = styled('button')`
   }
 
   &:hover {
-    background-color: ${props =>
-  props.disabled
+    background-color: ${props => {
+
+  if (props.customClass && props.customClass.hasOwnProperty('backgroundColor')) {
+
+    return props.disabled
+      ? null
+      : Color(props.customClass.backgroundColor)
+        .darken(0.50)
+        .string()
+  }
+  return props.disabled
     ? null
-    : Color(props.theme.colors.blue)
-      .darken(0.15)
-      .string()};
+    : Color(props.theme.colors.red)
+      .string()
+    }};
   }
 
   ${fullwidth} ${size} ${space};

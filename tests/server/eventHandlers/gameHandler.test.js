@@ -4,6 +4,7 @@ import Game from '../../../src/server/controllers/game'
 import Piece from '../../../src/server/controllers/piece'
 import shapes from '../../../src/server/constants/shapes'
 import board from '../../../src/server/constants/board'
+import gameplay from '../../../src/server/constants/gameplay'
 
 test('createGame', () => {
     let onlinePlayers = []
@@ -147,7 +148,7 @@ describe('testsBoards', () => {
 
     test('isGameFinished_solo', () => {
         fillBoard(Board1, 4)
-        fillBoard(Board2, 3)
+        fillBoard(Board2, 2)
 
         player1.board = Board1
         game.master = player1
@@ -158,7 +159,7 @@ describe('testsBoards', () => {
 
     test('isGameFinished_multi', () => {
         fillBoard(Board1, 4)
-        fillBoard(Board2, 3)
+        fillBoard(Board2, 2)
 
         player1.board = Board1
         game.master = player1
@@ -241,11 +242,42 @@ test('initGame', () => {
     let player2 = new Player(clientId2, clientId2)
 
     game.master = player1
-    game.numLosers = 1;
+    game.numLosers = 1
     game.master.inGameLoser = true;
     expect(gameHandler.initGame(game)).toMatchSnapshot()
 
-    game.challenger.push(player2);
-    game.challenger[0].inGameLoser = true;
+    game.challenger.push(player2)
+    game.challenger[0].inGameLoser = true
     expect(gameHandler.initGame(game)).toMatchSnapshot()
+})
+
+test('initGameSolo', () => {
+    const clientId = 1
+
+	let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+    let player1 = new Player(clientId, clientId)
+
+	game.master = player1
+    game.numLosers = 1
+    game.master.inGameLoser = true
+	game.solo.solo_mode = true
+    expect(gameHandler.initGame(game)).toMatchSnapshot()
+
+})
+
+test('incrementLevel', () => {
+    let tetriminos = Array(new Piece(shapes[0]))
+    let game = new Game(tetriminos)
+
+	game.solo.solo_mode = true
+	expect(gameHandler.incrementLevel(game)).toMatchSnapshot()
+	game.solo.count = gameplay.MAX_COUNT
+	expect(gameHandler.incrementLevel(game)).toMatchSnapshot()
+	game.solo.count = gameplay.MAX_COUNT
+	game.solo.speed = gameplay.MAX_SPEED
+	expect(gameHandler.incrementLevel(game)).toMatchSnapshot()
+	game.solo.count = gameplay.MAX_COUNT
+	game.solo.level = gameplay.MAX_LVL
+	expect(gameHandler.incrementLevel(game)).toMatchSnapshot()
 })

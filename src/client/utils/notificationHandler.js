@@ -1,9 +1,10 @@
 import {toast} from "react-toastify";
+import {TYPE_MESSAGE} from '../../common/const';
 
 export function notify(message, type) {
 
   switch (type) {
-    case 'success': {
+    case TYPE_MESSAGE.success: {
       toast.success(message, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
@@ -14,7 +15,7 @@ export function notify(message, type) {
       });
       break;
     }
-    case 'error': {
+    case TYPE_MESSAGE.error: {
       toast.error(message, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
@@ -25,7 +26,7 @@ export function notify(message, type) {
       });
       break;
     }
-    case 'warning': {
+    case TYPE_MESSAGE.warning: {
       toast.warn(message, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
@@ -36,7 +37,7 @@ export function notify(message, type) {
       });
       break;
     }
-    case 'info': {
+    case TYPE_MESSAGE.info: {
       toast.info(message, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
