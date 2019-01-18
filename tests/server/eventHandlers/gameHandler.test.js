@@ -148,7 +148,7 @@ describe('testsBoards', () => {
 
     test('isGameFinished_solo', () => {
         fillBoard(Board1, 4)
-        fillBoard(Board2, 3)
+        fillBoard(Board2, 2)
 
         player1.board = Board1
         game.master = player1
@@ -159,7 +159,7 @@ describe('testsBoards', () => {
 
     test('isGameFinished_multi', () => {
         fillBoard(Board1, 4)
-        fillBoard(Board2, 3)
+        fillBoard(Board2, 2)
 
         player1.board = Board1
         game.master = player1
