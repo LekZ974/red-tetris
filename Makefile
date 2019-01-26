@@ -3,6 +3,7 @@ build:
 
 install:
 	@docker run --name red-tetris --rm -it -v ${PWD}:/app red-tetris-run yarn install
+	@docker run --name red-tetris --rm -it -v ${PWD}:/app red-tetris-run yarn build
 
 start:
 	@docker run --name red-tetris --init --rm -p 3004:3004 -p 8080:8080 -v ${PWD}:/app red-tetris-run

@@ -30,15 +30,6 @@ module.exports = {
       query:{
         presets: ["es2015", "react", "stage-0"]
       }
-    // }, {
-    //   test: /\.scss$/,
-    //   use: [
-    //     'css-hot-loader',
-    //     miniCssExtractPlugin.loader,
-    //     'css-loader',
-    //     'resolve-url-loader',
-    //     'sass-loader?sourceMap'
-    //   ]
     }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader']

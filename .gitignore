@@ -12,3 +12,4 @@ coverage/**
 src/server/mock
 params.js
 package-lock.json
+build/
