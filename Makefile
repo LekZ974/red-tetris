@@ -16,8 +16,10 @@ srv-dist:
 client-dist:
 	@docker run --name red-tetris --init --rm -p 3004:3004 -p 8080:8080 -v ${PWD}:/app red-tetris-run yarn client-dist
 
-start-prod: srv-dist client-dist
+start-prod:
 	@docker run --name red-tetris --init --rm -p 3004:3004 -p 8080:8080 -v ${PWD}:/app red-tetris-run node dist/server/main.js
+
+deploy: srv-dist client-dist start-prod
 
 test:
 	@docker exec -ti red-tetris yarn test
@@ -28,4 +30,4 @@ test-coverage:
 test-server:
 	@docker exec -ti red-tetris yarn test -- tests/server
 
-.PHONY: build install srv-dev client-dev srv-dist client-dist start-prod test test-coverage
+.PHONY: build install srv-dev client-dev srv-dist client-dist start-prod deploy test test-coverage

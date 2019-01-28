@@ -33,7 +33,7 @@ import {PIECES_NUM} from "../../common/pieces";
 import {GRID_HEIGHT, GRID_WIDTH} from "../../common/grid";
 import { GAME_MODE, USER_ROLE, SOCKET, GAME_STATUS, TYPE_MESSAGE } from '../../common/const';
 
-const socket = io.connect(params.server.url)
+const socket = io.connect(params.server.socketUrl)
 
 //RCV
 
