@@ -1,17 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  resolve: {
-    alias: { soundmanager2: 'soundmanager2/script/soundmanager2-nodebug-jsmin.js' }
-  },
-  mode: 'development',
-
   entry: './src/client/index.js',
-
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js'
   },
+  mode: 'production',
   devServer: {
     compress: true,
     disableHostCheck: true,
@@ -21,6 +16,8 @@ module.exports = {
     poll: 1000,
     aggregateTimeout:300,
   },
+
+  performance: { hints: false },
 
   module: {
     rules: [{

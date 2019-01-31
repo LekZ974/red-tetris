@@ -62,7 +62,7 @@ let ConfigForm = ({ createGame, handleSubmit, error, submitting, game, match }) 
         </fieldset>
         }
       </fieldset>
-      <Button onClick={() => handleClick()} size={'large'} fullWidth>Create</Button>
+      <Button type='button' onClick={() => handleClick()} size={'large'} fullWidth>Create</Button>
     </form>
   )
 }

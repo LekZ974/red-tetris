@@ -5,5 +5,3 @@ RUN mkdir /.npm /.config /.yarn  /.cache && chmod o+w -R /.npm /.config /.yarn  
 WORKDIR /app
 
 EXPOSE 3004 8080
-
-CMD ["yarn", "srv-dev"]
