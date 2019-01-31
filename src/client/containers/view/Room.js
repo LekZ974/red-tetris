@@ -18,6 +18,12 @@ import ConfigForm from "../form/ConfigForm";
 import { emitGetGames } from '../../actions/games';
 import * as Services from "../../services/TetriService";
 
+const songs = [
+  {
+    url: 'http://66.90.93.122/soundfiles/gameboy-gbs/tetris/19.mp3',
+  },
+];
+
 const Room = (props) => {
   const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame, history} = props
 
@@ -75,9 +81,10 @@ const Room = (props) => {
       </Fade>
     </LoadingContainer>
     <Sound
-      url={'http://gamethemesongs.com/song/download/31213'}
+      url={songs[0].url}
       playStatus={game.start && game.params.sound ? 'PLAYING' : 'STOPPED'}
       loop={true}
+      autoLoad={true}
     />
   </Box>
   )
