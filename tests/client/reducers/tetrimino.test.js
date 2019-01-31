@@ -5,7 +5,7 @@ import {
   TETRI_STEP,
   TETRI_ACTION,
   TETRI_INIT,
-  TETRI_NEW,
+  TETRI_NEW, TETRI_INIT_STATE,
 } from '../../../src/client/actions/tetrimino'
 import {PIECES_INFO} from "../../../src/common/pieces";
 
@@ -228,6 +228,40 @@ describe('Test tetrimino reducer', ()=> {
         rotate:1,
       })
   })
+  it('should test TETRI_ACTION with action keyboard is random', ()=>{
+    const action = 'TUTU'
+    const user = {
+      grid: [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
+    }
+    expect(reducer({
+      items: [],
+      id: 6,
+      pieceInfo: PIECES_INFO[5][0],
+      pieceStep: 0,
+      needNext:false,
+      coords: {
+        posX:0,
+        posY:0
+      },
+      rotate:0,
+    },{
+      type:TETRI_ACTION,
+      user,
+      action
+    }))
+      .toEqual({
+        items: [],
+        id: 6,
+        pieceInfo: PIECES_INFO[5][0],
+        pieceStep: 0,
+        needNext:false,
+        coords: {
+          posX:0,
+          posY:0
+        },
+        rotate:0,
+      })
+  })
 
   it('should test TETRI_INIT with need next', ()=>{
     expect(reducer({
@@ -273,5 +307,16 @@ describe('Test tetrimino reducer', ()=> {
         },
         rotate:3,
       })
+  })
+  it('should test TETRI_INIT_STATE', ()=>{
+    expect(reducer({
+      pieceStep: 0,
+      rotate:0,
+      tata: 'tutu',
+      popo: 'lolo',
+    },{
+      type:TETRI_INIT_STATE,
+    }))
+      .toEqual(initialState)
   })
 })
