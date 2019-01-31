@@ -4,8 +4,6 @@ import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
 import Sound from 'react-sound';
 
-import musicFile from '../../assets/sounds/tetris-gameboy-02.mp3';
-
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
