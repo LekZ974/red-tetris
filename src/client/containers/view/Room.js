@@ -4,8 +4,6 @@ import Fade from 'react-reveal/Fade';
 import GridLoader from 'react-spinners/GridLoader';
 import Sound from 'react-sound';
 
-import musicFile from '../../assets/sounds/tetris-gameboy-02.mp3';
-
 import RoomInfo from '../../components/Room/RoomInfo'
 import GameInfo from '../../components/Room/GameInfo'
 import PlayGround from '../../components/Room/PlayGround'
@@ -17,6 +15,12 @@ import Modal from "../../components/block/Modal";
 import ConfigForm from "../form/ConfigForm";
 import { emitGetGames } from '../../actions/games';
 import * as Services from "../../services/TetriService";
+
+const songs = [
+  {
+    url: 'http://66.90.93.122/soundfiles/gameboy-gbs/tetris/19.mp3',
+  },
+];
 
 const Room = (props) => {
   const {user, game, gamesList, match, login, showConfigForm, displayConfigForm, getGames, createGame, history} = props
@@ -75,9 +79,10 @@ const Room = (props) => {
       </Fade>
     </LoadingContainer>
     <Sound
-      url={musicFile}
+      url={songs[0].url}
       playStatus={game.start && game.params.sound ? 'PLAYING' : 'STOPPED'}
       loop={true}
+      autoLoad={true}
     />
   </Box>
   )
