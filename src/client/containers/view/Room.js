@@ -75,7 +75,7 @@ const Room = (props) => {
       </Fade>
     </LoadingContainer>
     <Sound
-      url={musicFile}
+      url={'http://gamethemesongs.com/song/download/31213'}
       playStatus={game.start && game.params.sound ? 'PLAYING' : 'STOPPED'}
       loop={true}
     />
