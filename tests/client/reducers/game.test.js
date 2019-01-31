@@ -4,6 +4,10 @@ import {
   EMIT_CREATE_GAME,
   RCV_GAME_STATUS,
   EMIT_NEW_PIECES,
+  RCV_GAME_CAN_RESTART,
+  GAME_INIT_STATE,
+  GAME_UPDATE,
+  GAME_SOUND, GAME_INIT, RCV_GAME_IS_FINISHED, RCV_CREATE_GAME, UPDATE_PLAYERS,
 } from '../../../src/client/actions/game'
 
 describe('Test game reducer', ()=> {
@@ -141,5 +145,135 @@ describe('Test game reducer', ()=> {
       start: false,
       pause: false,
     })
+  })
+  it('should handle RCV_GAME_CAN_RESTART', () => {expect(
+    reducer({
+      gameIsStarted: true,
+      round: 0,
+    },{
+      type: RCV_GAME_CAN_RESTART,
+    })).toEqual({
+    gameIsStarted: false,
+    round: 1
+    })
+    expect(reducer({
+        gameIsStarted: true,
+        round: 3,
+      }
+      ,{
+        type: RCV_GAME_CAN_RESTART,
+      })).toEqual({
+      gameIsStarted: false,
+      round: 4,
+    })
+  })
+  it('should handle GAME_INIT_STATE', () => {
+    expect(reducer(initialState,{
+        type: GAME_INIT_STATE,
+      })).toEqual(initialState)
+  })
+  it('should handle GAME_UPDATE', () => {
+    expect(reducer([]
+      ,{
+        type: GAME_UPDATE,
+        data: {toto: 'a value'}
+      })).toEqual({toto: 'a value'})
+  })
+  it('should handle GAME_SOUND', () => {
+    expect(reducer(
+      {
+        params: {
+          sound: true,
+        }
+      }
+      ,{
+        type: GAME_SOUND,
+      })).toEqual(
+        {
+          params: {
+            sound: false,
+          }
+        })
+    expect(reducer(
+      {
+        params: {
+          sound: false,
+        }
+      }
+      ,{
+        type: GAME_SOUND,
+      })).toEqual(
+      {
+        params: {
+          sound: true,
+        }
+      })
+  })
+  it('should handle GAME_INIT', () => {
+    expect(reducer({
+        gameIsStarted: true,
+        isLoading: true,
+        params: {
+          toto: 'tata',
+        },
+      }
+      ,{
+        type: GAME_INIT,
+      })).toEqual(
+      {
+        owner: '',
+        gameIsStarted: false,
+        start: false,
+        pause: false,
+        isLoading: false,
+        params: {
+          toto: 'tata',
+        },
+      })
+  })
+  it('should handle RCV_GAME_IS_FINISHED', () => {
+    expect(reducer({
+        gameIsStarted: true,
+        isLoading: true,
+        params: {
+          toto: 'tata',
+        },
+      }
+      ,{
+        type: RCV_GAME_IS_FINISHED,
+      })).toEqual(
+      {
+        gameIsStarted: false,
+        start: false,
+        isLoading: false,
+        params: {
+          toto: 'tata',
+        },
+      })
+  })
+  it('should handle RCV_CREATE_GAME', () => {
+    expect(reducer({
+        round: 0,
+        isLoading: true,
+      }
+      ,{
+        type: RCV_CREATE_GAME,
+      })).toEqual(
+      {
+        round: 1,
+        isLoading: false,
+      })
+  })
+  it('should handle UPDATE_PLAYERS', () => {
+    expect(reducer({
+      players: 'something'
+      }
+      ,{
+        type: UPDATE_PLAYERS,
+        data: {toto: 'tutu'}
+      })).toEqual(
+      {
+        players: {toto: 'tutu'}
+      })
   })
 })

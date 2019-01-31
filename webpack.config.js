@@ -7,10 +7,6 @@ module.exports = {
     filename: 'bundle.js'
   },
   mode: 'production',
-  devServer: {
-    compress: true,
-    disableHostCheck: true,
-  },
 
   watchOptions: {
     poll: 1000,
